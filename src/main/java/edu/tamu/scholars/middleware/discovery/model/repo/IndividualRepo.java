@@ -52,12 +52,14 @@ import edu.tamu.scholars.middleware.discovery.exception.SolrRequestException;
 import edu.tamu.scholars.middleware.discovery.model.Individual;
 import edu.tamu.scholars.middleware.discovery.response.DiscoveryFacetAndHighlightPage;
 import edu.tamu.scholars.middleware.discovery.response.DiscoveryNetwork;
+import edu.tamu.scholars.middleware.utility.DateFormatUtility;
+
 import reactor.core.publisher.Flux;
 
 @Service
 public class IndividualRepo implements IndexDocumentRepo<Individual> {
 
-  private static final Logger logger = LoggerFactory.getLogger(IndividualRepo.class);
+    private static final Logger logger = LoggerFactory.getLogger(IndividualRepo.class);
 
     private static final Pattern RANGE_PATTERN = Pattern.compile("^\\[(.*?) TO (.*?)\\]$");
 
@@ -212,11 +214,10 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
 
             for (SolrDocument document : documents) {
                 if (document.containsKey(dateField)) {
-                    Date publicationDate = ((Date) document.getFieldValue(dateField));
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(publicationDate);
-                    dataNetwork.countYear(String.valueOf(calendar.get(Calendar.YEAR)));
+                    Object dateFieldFromDocument = document.getFieldValue(dateField);
+                    validateAndCountDateField(dataNetwork, dateFieldFromDocument);
                 }
+
                 List<String> values = getValues(document, dataNetworkDescriptor.getDataFields());
 
                 String iid = (String) document.getFieldValue(ID);
@@ -244,12 +245,29 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
         return dataNetwork;
     }
 
-    // private long count(String q) {
-    //     SolrQuery query = new SolrQuery(q)
-    //         .setRows(0);
+    private boolean validateAndCountDateField(DiscoveryNetwork dataNetwork, Object dateFieldFromDocument) {
+        String year = null;
+        if (dateFieldFromDocument instanceof Date) {
+            Date publicationDate = (Date) dateFieldFromDocument;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(publicationDate);
+            year = String.valueOf(calendar.get(Calendar.YEAR));
+        } else if (dateFieldFromDocument instanceof String) {
+            try {
+                year = DateFormatUtility.parseOutYear((String) dateFieldFromDocument);
+            } catch (Exception e) {
+                // do nothing, not success return false
+            }
+        }
 
-    //     return count(query);
-    // }
+        boolean success = year != null;
+
+        if (success) {
+            dataNetwork.countYear(year);
+        }
+
+        return success;
+    }
 
     private long count(SolrQuery query) {
         try {
