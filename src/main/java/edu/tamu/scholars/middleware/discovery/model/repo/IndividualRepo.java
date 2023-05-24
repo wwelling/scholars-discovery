@@ -391,8 +391,10 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
         public SolrQueryBuilder withFilters(List<FilterArg> filters) {
             filters.stream().collect(Collectors.groupingBy(w -> w.getField())).forEach((field, filterList) -> {
                 FilterArg firstOne = filterList.get(0);
+
                 StringBuilder filterQuery = new StringBuilder()
                     .append(new FilterQueryBuilder(firstOne, false).build());
+
                 if (filterList.size() > 1) {
                     // NOTE: filters grouped by field are AND together
                     for (FilterArg arg : filterList.subList(1, filterList.size())) {
@@ -474,6 +476,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
         }
 
         public SolrQuery query() {
+            logger.debug(this.query.toString());
             return this.query;
         }
 
@@ -553,8 +556,11 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
                     break;
                 case STARTS_WITH:
                     filterQuery
-                        .append("{!")
-                        .append(value);
+                        .append("{!edismax qf=")
+                        .append(field)
+                        .append("}")
+                        .append(value)
+                        .append("*");
                     break;
                 case CONTAINS:
                 case EXPRESSION:
