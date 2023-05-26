@@ -6,10 +6,10 @@ import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
@@ -29,19 +29,18 @@ public class ExportView extends View {
     @Column(columnDefinition = "TEXT")
     private String headerTemplate;
 
-    @ElementCollection
-    private List<String> lazyReferences;
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
+    private ExportFieldView multipleReference;
 
     @OrderBy("order")
     @JoinColumn(name = "export_field_id")
     @OneToMany(cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<ExportFieldView> fieldViews;
+    private List<ExportFieldView> lazyReferences;
 
     public ExportView() {
         super();
-        lazyReferences = new ArrayList<String>();
-        fieldViews = new ArrayList<ExportFieldView>();
+        lazyReferences = new ArrayList<ExportFieldView>();
     }
 
     public String getContentTemplate() {
@@ -60,20 +59,20 @@ public class ExportView extends View {
         this.headerTemplate = headerTemplate;
     }
 
-    public List<String> getLazyReferences() {
+    public ExportFieldView getMultipleReference() {
+        return multipleReference;
+    }
+
+    public void setMultipleReference(ExportFieldView multipleReference) {
+        this.multipleReference = multipleReference;
+    }
+
+    public List<ExportFieldView> getLazyReferences() {
         return lazyReferences;
     }
 
-    public void setLazyReferences(List<String> lazyReferences) {
+    public void setLazyReferences(List<ExportFieldView> lazyReferences) {
         this.lazyReferences = lazyReferences;
-    }
-
-    public List<ExportFieldView> getFieldViews() {
-        return fieldViews;
-    }
-
-    public void setFieldViews(List<ExportFieldView> fieldViews) {
-        this.fieldViews = fieldViews;
     }
 
 }
