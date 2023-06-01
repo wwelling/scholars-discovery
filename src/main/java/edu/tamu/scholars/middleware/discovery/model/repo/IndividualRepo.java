@@ -519,9 +519,13 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
                 .setQuery(DEFAULT_QUERY)
                 .setLimit(this.query.getRows());
 
-            String termFilter = String.format("{!terms f=id}:%s", String.join(",", ids));
-
-            request.withFilter(termFilter);
+            if (ids.size() == 1) {
+                request.withFilter(String.format("id:%s", ids.get(0)));
+            } else if (ids.size() > 1) {
+                // ¯\_(ツ)_/¯
+                ids.add(0, ids.get(0));
+                request.withFilter(String.format("{!terms f=id}:%s", String.join(",", ids)));
+            }
 
             // there is variation of boolean logic for filtering
             // for export filters grouped by field are OR'd together

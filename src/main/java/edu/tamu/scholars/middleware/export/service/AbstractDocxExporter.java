@@ -104,27 +104,36 @@ public abstract class AbstractDocxExporter implements Exporter {
     protected <D extends AbstractIndexDocument> ObjectNode processDocument(final ObjectNode node, ExportView view) {
         node.put("vivoUrl", vivoUrl);
         node.put("uiUrl", uiUrl);
-        fetchLazyReferences(node, view.getLazyReferences());
+        fetchAndAttachLazyReferences(node, view.getLazyReferences());
         return node;
     }
 
-    protected void fetchLazyReferences(ObjectNode node, List<ExportFieldView> lazyReferences) {
+    protected void fetchAndAttachLazyReferences(ObjectNode node, List<ExportFieldView> lazyReferences) {
         lazyReferences
             .stream()
             .filter(lazyReference -> node.hasNonNull(lazyReference.getField()))
             .forEach(lazyReference -> {
                 JsonNode reference = node.get(lazyReference.getField());
-                List<String> ids = new ArrayList<String>();
-                if (reference.isArray()) {
-                    ids = StreamSupport.stream(reference.spliterator(), false)
-                        .map(rn -> rn.get(ID).asText())
-                        .collect(Collectors.toList());
-                } else {
-                    ids.add(reference.get(ID).asText());
-                }
+                List<String> ids = extractIds(reference);
                 ArrayNode references = node.putArray(lazyReference.getField());
-                references.addAll((ArrayNode) mapper.valueToTree(fetchLazyReference(lazyReference, ids)));
+
+                List<Individual> ref = fetchLazyReference(lazyReference, ids);
+
+                references.addAll((ArrayNode) mapper.valueToTree(ref));
             });
+    }
+
+    protected List<String> extractIds(JsonNode reference) {
+        List<String> ids = new ArrayList<String>();
+        if (reference.isArray()) {
+            ids = StreamSupport.stream(reference.spliterator(), true)
+                .map(rn -> rn.get(ID).asText())
+                .collect(Collectors.toList());
+        } else {
+            ids.add(reference.get(ID).asText());
+        }
+
+        return ids;
     }
 
     protected List<Individual> fetchLazyReference(ExportFieldView lazyReference, List<String> ids) {
