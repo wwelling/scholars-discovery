@@ -17,8 +17,6 @@ import javax.xml.bind.JAXBException;
 import org.docx4j.Docx4J;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
-import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
-import org.docx4j.openpackaging.parts.WordprocessingML.NumberingDefinitionsPart;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
@@ -112,31 +110,15 @@ public class ZipDocxExporter extends AbstractDocxExporter {
                     File refDocFile = File.createTempFile(String.format("%s-", refDoc.getId()), ".docx");
 
                     try {
-                        final WordprocessingMLPackage pkg = WordprocessingMLPackage.createPackage();
-                        final MainDocumentPart mdp = pkg.getMainDocumentPart();
 
-                        final NumberingDefinitionsPart ndp = new NumberingDefinitionsPart();
-                        pkg.getMainDocumentPart().addTargetPart(ndp);
-                        ndp.unmarshalDefaultNumbering();
-
-                        ObjectNode json = processDocument(refNode, exportView.get());
-
-                        String contentHtml = handlebarsService.template(exportView.get().getContentTemplate(), json);
-
-                        String headerHtml = handlebarsService.template(exportView.get().getHeaderTemplate(), json);
-
-                        addMargin(mdp);
-
-                        createAndAddHeader(pkg, headerHtml);
-
-                        addContent(mdp, contentHtml);
+                        final WordprocessingMLPackage pkg = createDocx(refNode, exportView.get());
 
                         pkg.save(refDocFile, Docx4J.FLAG_SAVE_ZIP_FILE);
 
                         ZipUtility.zipFile(zos, refDocFile);
 
                     } catch (IOException | JAXBException | Docx4JException e) {
-                        e.printStackTrace();
+                        throw new ExportException(e.getMessage());
                     }
                 }
             }

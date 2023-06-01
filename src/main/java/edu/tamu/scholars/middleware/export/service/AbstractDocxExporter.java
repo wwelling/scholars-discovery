@@ -1,5 +1,8 @@
 package edu.tamu.scholars.middleware.export.service;
 
+import static edu.tamu.scholars.middleware.discovery.DiscoveryConstants.ID;
+
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
@@ -8,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import javax.xml.bind.JAXBException;
 
 import org.docx4j.jaxb.Context;
 import org.docx4j.model.structure.SectionWrapper;
@@ -20,6 +25,7 @@ import org.docx4j.openpackaging.parts.WordprocessingML.AltChunkType;
 import org.docx4j.openpackaging.parts.WordprocessingML.AlternativeFormatInputPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.HeaderPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
+import org.docx4j.openpackaging.parts.WordprocessingML.NumberingDefinitionsPart;
 import org.docx4j.relationships.Relationship;
 import org.docx4j.wml.Body;
 import org.docx4j.wml.CTAltChunk;
@@ -72,6 +78,29 @@ public abstract class AbstractDocxExporter implements Exporter {
     @Value("${ui.url:http://localhost:4200}")
     protected String uiUrl;
 
+    protected WordprocessingMLPackage createDocx(ObjectNode node, ExportView exportView) throws IOException, JAXBException, Docx4JException {
+        final WordprocessingMLPackage pkg = WordprocessingMLPackage.createPackage();
+        final MainDocumentPart mdp = pkg.getMainDocumentPart();
+
+        final NumberingDefinitionsPart ndp = new NumberingDefinitionsPart();
+        pkg.getMainDocumentPart().addTargetPart(ndp);
+        ndp.unmarshalDefaultNumbering();
+
+        ObjectNode json = processDocument(node, exportView);
+
+        String contentHtml = handlebarsService.template(exportView.getContentTemplate(), json);
+
+        String headerHtml = handlebarsService.template(exportView.getHeaderTemplate(), json);
+
+        addMargin(mdp);
+
+        createAndAddHeader(pkg, headerHtml);
+
+        addContent(mdp, contentHtml);
+
+        return pkg;
+    }
+
     protected <D extends AbstractIndexDocument> ObjectNode processDocument(final ObjectNode node, ExportView view) {
         node.put("vivoUrl", vivoUrl);
         node.put("uiUrl", uiUrl);
@@ -87,9 +116,11 @@ public abstract class AbstractDocxExporter implements Exporter {
                 JsonNode reference = node.get(lazyReference.getField());
                 List<String> ids = new ArrayList<String>();
                 if (reference.isArray()) {
-                    ids = StreamSupport.stream(reference.spliterator(), false).map(rn -> rn.get("id").asText()).collect(Collectors.toList());
+                    ids = StreamSupport.stream(reference.spliterator(), false)
+                        .map(rn -> rn.get(ID).asText())
+                        .collect(Collectors.toList());
                 } else {
-                    ids.add(reference.get("id").asText());
+                    ids.add(reference.get(ID).asText());
                 }
                 ArrayNode references = node.putArray(lazyReference.getField());
                 references.addAll((ArrayNode) mapper.valueToTree(fetchLazyReference(lazyReference, ids)));
@@ -97,7 +128,6 @@ public abstract class AbstractDocxExporter implements Exporter {
     }
 
     protected List<Individual> fetchLazyReference(ExportFieldView lazyReference, List<String> ids) {
-
         List<FilterArg> filters = lazyReference.getFilters().stream().map(f -> {
             return FilterArg.of(f.getField(), Optional.of(f.getValue()), Optional.of(f.getOpKey().getKey()), Optional.empty());
         }).collect(Collectors.toList());

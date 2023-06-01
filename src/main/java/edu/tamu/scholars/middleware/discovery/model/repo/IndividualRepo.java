@@ -519,7 +519,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
                 .setQuery(DEFAULT_QUERY)
                 .setLimit(this.query.getRows());
 
-            String termFilter = String.format("{!terms f=id}:%s", String.join(",", ids)); 
+            String termFilter = String.format("{!terms f=id}:%s", String.join(",", ids));
 
             request.withFilter(termFilter);
 

@@ -52,25 +52,16 @@ The application can be configured to harvest and index on startup, ```middleware
 
 Solr is configured via ```spring.data.solr```.
 
-## Installation instructions
+## Development Instructions
 
 1. Install [Maven](https://maven.apache.org/install.html)
-2. Install [Docker](https://docs.docker.com/install/) or Install [Solr](https://solr.apache.org/guide/solr/latest/getting-started/solr-tutorial.html)
+2. Install [Docker](https://docs.docker.com/install/)
 3. Start Solr
 
 ```bash
    cd solr
    docker build --tag=scholars/solr .
    docker run -d -p 8983:8983 scholars/solr
-```
-
-or
-
-Copy `solr/configsets/scholars-discovery` to local Solr installation and run
-
-```bash
-   solr start -p 8983
-   solr create_core -c scholars-discovery -p 8983
 ```
 
 5. Build and Run the application
@@ -109,18 +100,3 @@ With the above installation instructions, the following service endpoints can be
 3. [REST API Docs (9000/api)](http://localhost:9000/api)
 
 The [HAL(Hypertext Application Language)](https://docs.spring.io/spring-data/rest/docs/current/reference/html/#tools.hal-explorer) explorer can be used to browse scholars-discovery resources.
-
-## Workarounds Waiting Dependency Patches
-
-1. `spring-data-solr` dependency from TAMU Maven repository.
-   - Added `tamu-releases` repository in pom.xml
-   - Added dependency `4.3.15.TAMU` version of `spring-data-solr` in pom.xml
-   - Excluded `spring-data-solr` from `spring-boot-starter-data-solr` dependency
-
-   > Waiting on https://jira.spring.io/browse/DATASOLR-572
-
-2. Using custom query and query parser to add edismax/dismax query parameters.
-   - Added package `edu.tamu.scholars.middleware.discovery.query`
-   - Registered parsers on `@PostConstruct` of `IndividualRepoImpl`
-
-   > Waiting on https://jira.spring.io/browse/DATASOLR-153

@@ -77,7 +77,6 @@
           - field: class
             value: Relationship AND type:Grant
             opKey: EXPRESSION
-  exportViews:
   - name: 5 Year Publications
     contentTemplate: "defaults/displayViews/persons/5YearPublicationsContentTemplate.html"
     headerTemplate: "defaults/displayViews/emptyHeaderTemplate.html"
