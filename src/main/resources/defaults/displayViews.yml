@@ -111,6 +111,8 @@
           value: Report
         - field: type
           value: Review
+        - field: type
+          value: Patent
         - field: publicationDate
           value: "[NOW-5YEARS TO NOW]"
           opKey: EXPRESSION
@@ -159,6 +161,8 @@
           value: Report
         - field: type
           value: Review
+        - field: type
+          value: Patent
         - field: publicationDate
           value: "[NOW-8YEARS TO NOW]"
           opKey: EXPRESSION
@@ -967,6 +971,8 @@
           value: Report
         - field: type
           value: Review
+        - field: type
+          value: Patent
         - field: publicationDate
           value: "[NOW-5YEARS TO NOW]"
           opKey: EXPRESSION
@@ -1022,6 +1028,8 @@
           value: Report
         - field: type
           value: Review
+        - field: type
+          value: Patent
         - field: publicationDate
           value: "[NOW-8YEARS TO NOW]"
           opKey: EXPRESSION
