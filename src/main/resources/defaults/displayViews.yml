@@ -114,7 +114,7 @@
         - field: type
           value: Patent
         - field: publicationDate
-          value: "[NOW-5YEARS TO NOW]"
+          value: "[NOW/YEAR-5YEARS TO NOW/YEAR+1YEARS]"
           opKey: EXPRESSION
     - name: Grants
       field: awardsAndHonors
@@ -164,7 +164,7 @@
         - field: type
           value: Patent
         - field: publicationDate
-          value: "[NOW-8YEARS TO NOW]"
+          value: "[NOW/YEAR-8YEARS TO NOW/YEAR+1YEARS]"
           opKey: EXPRESSION
     - name: Grants
       field: awardsAndHonors
@@ -974,7 +974,7 @@
         - field: type
           value: Patent
         - field: publicationDate
-          value: "[NOW-5YEARS TO NOW]"
+          value: "[NOW/YEAR-5YEARS TO NOW/YEAR+1YEARS]"
           opKey: EXPRESSION
     - name: Grants
       field: awardsAndHonors
@@ -1031,7 +1031,7 @@
         - field: type
           value: Patent
         - field: publicationDate
-          value: "[NOW-8YEARS TO NOW]"
+          value: "[NOW/YEAR-8YEARS TO NOW/YEAR+1YEARS]"
           opKey: EXPRESSION
     - name: Grants
       field: awardsAndHonors
