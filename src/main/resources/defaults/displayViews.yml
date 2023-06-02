@@ -99,6 +99,18 @@
           value: Chapter
         - field: type
           value: ConferencePaper
+        - field: type
+          value: GreyLiterature
+        - field: type
+          value: Thesis
+        - field: type
+          value: WorkingPaper
+        - field: type
+          value: Webpage
+        - field: type
+          value: Report
+        - field: type
+          value: Review
         - field: publicationDate
           value: "[NOW-5YEARS TO NOW]"
           opKey: EXPRESSION
@@ -135,6 +147,18 @@
           value: Chapter
         - field: type
           value: ConferencePaper
+        - field: type
+          value: GreyLiterature
+        - field: type
+          value: Thesis
+        - field: type
+          value: WorkingPaper
+        - field: type
+          value: Webpage
+        - field: type
+          value: Report
+        - field: type
+          value: Review
         - field: publicationDate
           value: "[NOW-8YEARS TO NOW]"
           opKey: EXPRESSION
@@ -931,6 +955,18 @@
           value: Chapter
         - field: type
           value: ConferencePaper
+        - field: type
+          value: GreyLiterature
+        - field: type
+          value: Thesis
+        - field: type
+          value: WorkingPaper
+        - field: type
+          value: Webpage
+        - field: type
+          value: Report
+        - field: type
+          value: Review
         - field: publicationDate
           value: "[NOW-5YEARS TO NOW]"
           opKey: EXPRESSION
@@ -974,6 +1010,18 @@
           value: Chapter
         - field: type
           value: ConferencePaper
+        - field: type
+          value: GreyLiterature
+        - field: type
+          value: Thesis
+        - field: type
+          value: WorkingPaper
+        - field: type
+          value: Webpage
+        - field: type
+          value: Report
+        - field: type
+          value: Review
         - field: publicationDate
           value: "[NOW-8YEARS TO NOW]"
           opKey: EXPRESSION

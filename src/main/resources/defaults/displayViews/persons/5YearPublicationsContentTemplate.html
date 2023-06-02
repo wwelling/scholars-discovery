@@ -130,12 +130,10 @@
 
   {{#if publications.length }}
   <div class="section">
-    <div class="label">Publications [{{yearsFrom 5}} to {{year}}]</div>
-
+    <div class="label">Publications [{{yearFrom 5}} to {{year}}]</div>
     <div class="publications">
       {{#eachTypesFor publications}}
         <div class="sublabel">{{toSubsectionTypeLabel .}}</div>
-
         {{#eachFilteredByType publications .}}
         <div>
           <span>{{parseAuthorList authorList}}</span>
