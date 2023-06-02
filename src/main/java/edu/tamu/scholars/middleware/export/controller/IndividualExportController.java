@@ -59,7 +59,7 @@ public class IndividualExportController implements RepresentationModelProcessor<
                 "docx",
                 "Profile Summary"
             )).withRel("export").withTitle("Individual export"));
-        } catch (UnknownExporterTypeException | IllegalArgumentException | IllegalAccessException e) {
+        } catch (NullPointerException | UnknownExporterTypeException | IllegalArgumentException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return resource;

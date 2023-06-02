@@ -102,7 +102,7 @@ public class IndividualController implements RepresentationModelProcessor<Indivi
                 Arrays.asList("authors"),
                 "class:Document"
             )).withRel("network").withTitle("Individual discovery network"));
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException | IllegalArgumentException e) {
             e.printStackTrace();
         }
         return resource;
