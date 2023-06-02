@@ -2,6 +2,10 @@ Handlebars.registerHelper('year', function () {
     return Number(new Date().getUTCFullYear()).toString();
 });
 
+Handlebars.registerHelper('yearsFrom', function (age) {
+    return Number(new Date().getUTCFullYear() - age).toString();
+});
+
 Handlebars.registerHelper('toYear', function (value) {
     if (value) {
         const date = new Date(value);
@@ -10,12 +14,62 @@ Handlebars.registerHelper('toYear', function (value) {
     return value;
 });
 
+Handlebars.registerHelper('eachTypesFor', function (resources, options) {
+    let out = '';
+    if (resources) {
+        resources = JSON.parse(resources);
+        const u = [];
+        for (const i in resources) {
+            if (resources.hasOwnProperty(i)) {
+                const resource = resources[i];
+                for (const j in resource.type) {
+                    if (resource.type.hasOwnProperty(j)) {
+                        const type = resource.type[j];
+                        if (u.indexOf(type) < 0) {
+                            u.push(type);
+                            out += options.fn(type);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return out;
+});
+
+Handlebars.registerHelper('eachFilteredByType', function (resources, type, options) {
+    let out = '';
+    if (resources) {
+        resources = JSON.parse(resources).filter(function (r) {
+            return r.type.indexOf(type) >= 0;
+        });
+        for (const i in resources) {
+            if (resources.hasOwnProperty(i)) {
+                out += options.fn(resources[i]);
+            }
+        }
+    }
+    return out;
+});
+
 Handlebars.registerHelper('toFormalRole', function (value) {
     if (value) {
         switch (value) {
             case "PrincipalInvestigatorRole": return "Principal Investigator (PI)";
             case "CoPrincipalInvestigatorRole": return "Co-Principal Investigator (Co-PI)";
             case "InvestigatorRole": return "Investigator";
+        }
+    }
+    return value;
+});
+
+Handlebars.registerHelper('toSubsectionTypeLabel', function (value) {
+    if (value) {
+        switch (value) {
+            case "AcademicArticle": return "Academic Articles";
+            case "Book": return "Books";
+            case "Chapter": return "Chapters";
+            case "ConferencePaper": return "Conference Papers";
         }
     }
     return value;

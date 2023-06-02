@@ -53,6 +53,11 @@
       font-size: 16px;
     }
 
+    .sublabel {
+      font-weight: 800;
+      font-size: 14px;
+    }
+
     .source {
       margin-top: 100px;
     }
@@ -125,72 +130,74 @@
 
   {{#if publications.length }}
   <div class="section">
-    <div class="label">Publications Last 8 Years From {{year}}</div>
-
+    <div class="label">Publications [{{yearsFrom 8}} to {{year}}]</div>
     <div class="publications">
-      {{#each publications}}
-      <div>
-        <span>{{parseAuthorList authorList}}</span>
-        <span>({{toYear publicationDate}}).</span>
-        <span><u>{{{title}}}</u>.</span>
+      {{#eachTypesFor publications}}
+        <div class="sublabel">{{toSubsectionTypeLabel .}}</div>
+        {{#eachFilteredByType publications .}}
+        <div>
+          <span>{{parseAuthorList authorList}}</span>
+          <span>({{toYear publicationDate}}).</span>
+          <span><u>{{{title}}}</u>.</span>
 
-        {{#if publicationVenue}}
-        <span><em>{{publicationVenue.label}}</em>. </span>
-        {{/if}}
+          {{#if publicationVenue}}
+          <span><em>{{publicationVenue.label}}</em>. </span>
+          {{/if}}
 
-        {{#if bookTitle}}
+          {{#if bookTitle}}
 
-        {{#if editorList}}
-        <span>{{editorList}} (Eds.),</span>
-        {{/if}}
-        <span>{{bookTitle}}.</span>
+          {{#if editorList}}
+          <span>{{editorList}} (Eds.),</span>
+          {{/if}}
+          <span>{{bookTitle}}.</span>
 
-        {{#if pageStart}}
-        {{#if pageEnd}}
-        <span>(pp. {{pageStart}}-{{pageEnd}}).</span>
-        {{else}}
-        <span>(pp. {{pageStart}}).</span>
-        {{/if}}
-        {{else}}
-        {{#if pageEnd}}
-        <span>(pp. {{pageEnd}}).</span>
-        {{/if}}
-        {{/if}}
+          {{#if pageStart}}
+          {{#if pageEnd}}
+          <span>(pp. {{pageStart}}-{{pageEnd}}).</span>
+          {{else}}
+          <span>(pp. {{pageStart}}).</span>
+          {{/if}}
+          {{else}}
+          {{#if pageEnd}}
+          <span>(pp. {{pageEnd}}).</span>
+          {{/if}}
+          {{/if}}
 
-        {{else}}
+          {{else}}
 
-        {{#if volume}}
-        {{#if issue}}
-        <span>{{volume}}({{issue}}), </span>
-        {{else}}
-        <span>{{volume}}, </span>
-        {{/if}}
-        {{else}}
-        {{#if issue}}
-        <span>({{issue}}), </span>
-        {{/if}}
-        {{/if}}
+          {{#if volume}}
+          {{#if issue}}
+          <span>{{volume}}({{issue}}), </span>
+          {{else}}
+          <span>{{volume}}, </span>
+          {{/if}}
+          {{else}}
+          {{#if issue}}
+          <span>({{issue}}), </span>
+          {{/if}}
+          {{/if}}
 
-        {{#if pageStart}}
-        {{#if pageEnd}}
-        <span>{{pageStart}}-{{pageEnd}}.</span>
-        {{else}}
-        <span>{{pageStart}}.</span>
-        {{/if}}
-        {{else}}
-        {{#if pageEnd}}
-        <span>{{pageEnd}}.</span>
-        {{/if}}
-        {{/if}}
+          {{#if pageStart}}
+          {{#if pageEnd}}
+          <span>{{pageStart}}-{{pageEnd}}.</span>
+          {{else}}
+          <span>{{pageStart}}.</span>
+          {{/if}}
+          {{else}}
+          {{#if pageEnd}}
+          <span>{{pageEnd}}.</span>
+          {{/if}}
+          {{/if}}
 
-        {{/if}}
+          {{/if}}
 
-        {{#if publisher}}
-        <span>{{publisher.label}}.</span>
-        {{/if}}
+          {{#if publisher}}
+          <span>{{publisher.label}}.</span>
+          {{/if}}
 
-      </div>
-      {{/each}}
+        </div>
+        {{/eachFilteredByType}}
+      {{/eachTypesFor}}
     </div>
   </div>
   {{/if}}
