@@ -48,6 +48,7 @@ import org.springframework.stereotype.Service;
 
 import edu.tamu.scholars.middleware.discovery.argument.BoostArg;
 import edu.tamu.scholars.middleware.discovery.argument.DiscoveryNetworkDescriptor;
+import edu.tamu.scholars.middleware.discovery.argument.DiscoveryResearchAgeDescriptor;
 import edu.tamu.scholars.middleware.discovery.argument.FacetArg;
 import edu.tamu.scholars.middleware.discovery.argument.FilterArg;
 import edu.tamu.scholars.middleware.discovery.argument.HighlightArg;
@@ -56,8 +57,8 @@ import edu.tamu.scholars.middleware.discovery.exception.SolrRequestException;
 import edu.tamu.scholars.middleware.discovery.model.Individual;
 import edu.tamu.scholars.middleware.discovery.response.DiscoveryFacetAndHighlightPage;
 import edu.tamu.scholars.middleware.discovery.response.DiscoveryNetwork;
+import edu.tamu.scholars.middleware.discovery.response.DiscoveryResearchAge;
 import edu.tamu.scholars.middleware.utility.DateFormatUtility;
-
 import reactor.core.publisher.Flux;
 
 @Service
@@ -76,6 +77,15 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
     @Lazy
     @Autowired
     private SolrClient solrClient;
+
+    @Override
+    public long count(QueryArg query, List<FilterArg> filters) {
+        SolrQueryBuilder builder = new SolrQueryBuilder()
+            .withQuery(query)
+            .withFilters(filters);
+
+        return count(builder.query());
+    }
 
     @Override
     public long count(String query, List<FilterArg> filters) {
@@ -110,14 +120,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
 
     @Override
     public List<Individual> findByIdIn(List<String> ids) {
-        try {
-            SolrDocumentList documents = solrClient.getById(COLLECTION, ids);
-
-            return solrClient.getBinder()
-                .getBeans(Individual.class, documents);
-        } catch (IOException | SolrServerException e) {
-            throw new SolrRequestException("Failed to find documents from ids", e);
-        }
+        return findByIdIn(ids, new ArrayList<>(), Sort.unsorted(), Integer.MAX_VALUE);
     }
 
     @Override
@@ -269,6 +272,43 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
         return dataNetwork;
     }
 
+    @Override
+    public DiscoveryResearchAge researcherAge(DiscoveryResearchAgeDescriptor researcherAgeDescriptor, QueryArg query, List<FilterArg> filters) {
+        DiscoveryResearchAge researchAge = new DiscoveryResearchAge(researcherAgeDescriptor.getLabel(), researcherAgeDescriptor.getDateField());
+
+        String dateField = researcherAgeDescriptor.getDateField();
+        String ageField = researcherAgeDescriptor.getAgeField();
+
+        try {
+
+            // get count
+            long count = this.count(query, filters);
+
+            String fields = researcherAgeDescriptor.getAccumulateMultivaluedDate()
+                ? String.format("%s,%s", dateField, ageField)
+                : ageField;
+
+            SolrQueryBuilder builder = new SolrQueryBuilder()
+                .withQuery(query)
+                .withFields(fields)
+                .withFilters(filters)
+                .withSort(Sort.by(Direction.ASC, ageField))
+                .withRows((int) count);
+
+            QueryResponse response = solrClient.query(COLLECTION, builder.query());
+
+            SolrDocumentList results = response.getResults();
+
+            researchAge.from(researcherAgeDescriptor, results);
+
+        } catch (Exception e) {
+            logger.error("Failed to gather researcher age analytics!", e);
+        }
+        return researchAge;
+    }
+
+    
+
     private boolean validateAndCountDateField(DiscoveryNetwork dataNetwork, Object dateFieldFromDocument) {
         String year = null;
         if (dateFieldFromDocument instanceof Date) {
@@ -278,7 +318,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
             year = String.valueOf(calendar.get(Calendar.YEAR));
         } else if (dateFieldFromDocument instanceof String) {
             try {
-                year = DateFormatUtility.parseOutYear((String) dateFieldFromDocument);
+                year = DateFormatUtility.parseYear((String) dateFieldFromDocument);
             } catch (Exception e) {
                 logger.warn("Unable to format {}. {}", year, e.getMessage());
                 if (logger.isDebugEnabled()) {
@@ -414,6 +454,18 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
             sort.iterator().forEachRemaining(order -> {
                 this.query.addSort(order.getProperty(), order.getDirection().isAscending() ? ORDER.asc: ORDER.desc);
             });
+
+            return this;
+        }
+
+        /**
+         * Overriding fields set with query.
+         * 
+         * @param fl Solr fl query parameter
+         * @return this
+         */
+        public SolrQueryBuilder withFields(String fl) {
+            this.query.setParam("fl", fl);
 
             return this;
         }
