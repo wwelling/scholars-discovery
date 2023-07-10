@@ -22,7 +22,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.tamu.scholars.middleware.discovery.model.AbstractIndexDocument;
 import edu.tamu.scholars.middleware.discovery.model.Individual;
 import edu.tamu.scholars.middleware.export.exception.ExportException;
-import edu.tamu.scholars.middleware.utility.ZipUtility;
+import edu.tamu.scholars.middleware.export.utility.FilenameUtility;
+import edu.tamu.scholars.middleware.export.utility.ZipUtility;
 import edu.tamu.scholars.middleware.view.model.DisplayView;
 import edu.tamu.scholars.middleware.view.model.ExportFieldView;
 import edu.tamu.scholars.middleware.view.model.ExportView;
@@ -96,7 +97,9 @@ public class ZipDocxExporter extends AbstractDocxExporter {
                 for (AbstractIndexDocument refDoc : referenceDocuments) {
                     final ObjectNode refNode = mapper.valueToTree(refDoc);
 
-                    File refDocFile = File.createTempFile(String.format("%s-", refDoc.getId()), ".docx");
+                    String filename = FilenameUtility.normalizeExportFilename(refDoc);
+
+                    File refDocFile = File.createTempFile(filename, ".docx");
 
                     try {
 
