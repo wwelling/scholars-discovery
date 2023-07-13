@@ -3,6 +3,7 @@ package edu.tamu.scholars.middleware.export.utility;
 import java.util.Date;
 import java.util.Locale;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import edu.tamu.scholars.middleware.discovery.model.AbstractIndexDocument;
@@ -11,7 +12,6 @@ import edu.tamu.scholars.middleware.discovery.model.helper.IndividualHelper;
 
 public class FilenameUtility {
 
-    private final static String SPACE = " ";
     private final static String UNDERSCORE = "_";
 
     private FilenameUtility() {
@@ -33,7 +33,7 @@ public class FilenameUtility {
     private static String localizeWhileUnderscoreReplaceSpaceWithUnderscore(String value) {
         Locale locale = LocaleContextHolder.getLocale();
         return value.toLowerCase(locale)
-            .replace(SPACE, UNDERSCORE);
+            .replace(StringUtils.SPACE, UNDERSCORE);
     }
 
     private static String prefixWithTimestampAfterUnderscore(String value) {

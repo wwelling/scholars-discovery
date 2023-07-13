@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.FileUrlResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.lang.Nullable;
@@ -34,24 +35,43 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        String assetDir = middleware.getAssetsLocation().endsWith("/")
+            ? middleware.getAssetsLocation()
+            : String.format("%s/", middleware.getAssetsLocation());
+
         registry.addResourceHandler("/file/**")
-            .addResourceLocations(middleware.getAssetsLocation())
+            .addResourceLocations(assetDir)
             .resourceChain(true)
             .addResolver(new PathResourceResolver() {
 
                 @Override
                 @Nullable
                 protected Resource getResource(String resourcePath, Resource location) throws IOException {
-                    String[] path = resourcePath.split("/");
+                    String[] parts = resourcePath.split("/");
 
-                    resourcePath = String.format(
-                        "a~n/%s/%s/%s",
-                        path[0].substring(1, 4),
-                        path[0].substring(4, path[0].length()),
-                        path[1]
-                    );
+                    StringBuilder path = new StringBuilder("a~n");
 
-                    return super.getResource(resourcePath, location);
+                    if (parts[0].length() >= 5) {
+                        path.append("/").append(parts[0].substring(1, 4));
+                        path.append("/").append(parts[0].substring(4, parts[0].length()));
+                    }
+
+                    if (parts.length > 1) {
+                        path.append("/").append(parts[1]);
+                    }
+
+                    location = super.getResource(path.toString(), location);
+
+                    if (location == null || !location.getFile().exists()) {
+                        resourcePath = String.format(
+                            "%s%s",
+                            assetDir,
+                            resourcePath
+                        );
+                        location = new FileUrlResource(resourcePath);
+                    }
+
+                    return location;
                 }
 
             });

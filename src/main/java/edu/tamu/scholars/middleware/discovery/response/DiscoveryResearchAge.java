@@ -2,12 +2,12 @@ package edu.tamu.scholars.middleware.discovery.response;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
@@ -97,6 +97,8 @@ public class DiscoveryResearchAge {
 
         });
 
+        Collections.sort(groups, new AgeGroupComparator());
+
         this.mean = results.size() > 0 ? sum.get() / results.size() : 0;
         this.median = results.size() > 0 ? DateUtility.ageInYearsFromEpochSecond((long) results.get(results.size() / 2).getFieldValue(ageField)) : 0;
     }
@@ -114,15 +116,7 @@ public class DiscoveryResearchAge {
     }
 
     public List<AgeGroup> getGroups() {
-        // NOTE: sorting on serialization in response
-        return groups.stream().sorted(new Comparator<AgeGroup>() {
-
-            @Override
-            public int compare(AgeGroup o1, AgeGroup o2) {
-                return o1.getIndex().compareTo(o2.getIndex());
-            }
-            
-        }).collect(Collectors.toList());
+        return groups;
     }
 
     public double getMean() {
@@ -155,6 +149,15 @@ public class DiscoveryResearchAge {
         public Integer getValue() {
             return value;
         }
+    }
+
+    private class AgeGroupComparator implements Comparator<AgeGroup> {
+
+        @Override
+        public int compare(AgeGroup o1, AgeGroup o2) {
+            return o1.getIndex().compareTo(o2.getIndex());
+        }
+
     }
 
 }
