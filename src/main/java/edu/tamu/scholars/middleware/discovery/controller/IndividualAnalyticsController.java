@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.tamu.scholars.middleware.discovery.argument.DiscoveryAcademicAgeDescriptor;
 import edu.tamu.scholars.middleware.discovery.argument.DiscoveryQuantityDistributionDescriptor;
-import edu.tamu.scholars.middleware.discovery.argument.DiscoveryResearchAgeDescriptor;
 import edu.tamu.scholars.middleware.discovery.argument.FilterArg;
 import edu.tamu.scholars.middleware.discovery.argument.QueryArg;
 import edu.tamu.scholars.middleware.discovery.model.repo.IndividualRepo;
+import edu.tamu.scholars.middleware.discovery.response.DiscoveryAcademicAge;
 import edu.tamu.scholars.middleware.discovery.response.DiscoveryQuantityDistribution;
-import edu.tamu.scholars.middleware.discovery.response.DiscoveryResearchAge;
 
 @RestController
 @RequestMapping("/individual/analytics")
@@ -25,9 +25,9 @@ public class IndividualAnalyticsController {
     @Autowired
     private IndividualRepo repo;
 
+    @GetMapping("/academicAge")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/researchAge")
-    public ResponseEntity<DiscoveryResearchAge> researcherAge(
+    public ResponseEntity<DiscoveryAcademicAge> academicAge(
         QueryArg query,
         List<FilterArg> filters,
         @RequestParam(name = "label", defaultValue = "Research") String label,
@@ -38,10 +38,11 @@ public class IndividualAnalyticsController {
         @RequestParam(name = "upperLimitInYears", defaultValue = "40") Integer upperLimitInYears,
         @RequestParam(name = "groupingIntervalInYears", defaultValue = "5") Integer groupingIntervalInYears) {
 
-        return ResponseEntity.ok(repo.researcherAge(DiscoveryResearchAgeDescriptor.of(label, dateField, accumulateMultivaluedDate, averageOverInterval, upperLimitInYears, groupingIntervalInYears), query, filters));
+        return ResponseEntity.ok(repo.academicAge(DiscoveryAcademicAgeDescriptor.of(label, dateField, accumulateMultivaluedDate, averageOverInterval, upperLimitInYears, groupingIntervalInYears), query, filters));
     }
 
     @GetMapping("/quantityDistribution")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<DiscoveryQuantityDistribution> quantityDistribution(
         QueryArg query,
         List<FilterArg> filters,

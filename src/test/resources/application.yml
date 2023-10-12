@@ -25,16 +25,17 @@ middleware:
     request-timeout: 30000
     socket-timeout: 60000
   index:
+    name: scholars-discovery
     cron: 0 0 0 * * SUN
     zone: America/Chicago
+    schematize: false
     onStartup: false
+    onStartupDelay: 10000
+    enableIndividualOnBatchFail: false
     batchSize: 1000
   triplestore:
     type: edu.tamu.scholars.middleware.service.TDBTriplestore
     directory: triplestore
-    datasourceUrl: jdbc:mysql://localhost/vivo
-    username:
-    password:
   harvesters:
   - type: edu.tamu.scholars.middleware.discovery.component.jena.TriplestoreHarvester
     documentTypes:
@@ -101,6 +102,8 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true
+  liquibase:
+    enabled: true
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true
@@ -119,8 +122,8 @@ spring:
     password: scholars
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-    generate-ddl: true
-    hibernate.ddl-auto: create
+    generate-ddl: false
+    hibernate.ddl-auto: none
     open-in-view: false
     properties:
       hibernate:
@@ -129,19 +132,7 @@ spring:
         show_sql: false
     show-sql: false
   mail:
-    host: smtp.gmail.com
-    username: scholarsdiscovery@gmail.com
-    password:
-    properties:
-      mail:
-        transport:
-          protocol: smtp
-        smtp:
-          port: 587
-          auth: true
-          starttls:
-            enable: true
-            required: true
+    host: smtp-relay.tamu.edu
   profiles:
     active: test
   session:
@@ -162,6 +153,8 @@ management:
   endpoint:
     health:
       enabled: true
+      show-details: always
+      show-components: always
     info:
       enabled: true
     mappings:
