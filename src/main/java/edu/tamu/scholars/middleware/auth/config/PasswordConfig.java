@@ -3,6 +3,11 @@ package edu.tamu.scholars.middleware.auth.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * Injectable middleware auth configuration to specify password properties.
+ * 
+ * <p>See `middleware.auth.password` in src/main/resources/application.yml.</p>
+ */
 @Component
 @ConfigurationProperties(prefix = "middleware.auth.password")
 public class PasswordConfig {

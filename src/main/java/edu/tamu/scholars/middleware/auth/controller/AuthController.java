@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.tamu.scholars.middleware.auth.model.User;
 
+/**
+ * Authentication controller returning the authenticated {@link User}.
+ */
 @RestController
 public class AuthController {
 

@@ -5,9 +5,12 @@ import java.util.List;
 
 import edu.tamu.scholars.middleware.discovery.model.AbstractIndexDocument;
 
+/**
+ * Inherited by {@link HarvesterConfig} and {@link IndexerConfig}.
+ */
 public abstract class IndexDocumentTypesConfig {
 
-    private List<Class<? extends AbstractIndexDocument>> documentTypes = new ArrayList<Class<? extends AbstractIndexDocument>>();
+    private List<Class<? extends AbstractIndexDocument>> documentTypes = new ArrayList<>();
 
     public IndexDocumentTypesConfig() {
 

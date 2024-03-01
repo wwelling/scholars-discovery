@@ -4,6 +4,9 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * 
+ */
 @Entity
 @Table(name = "directory_views")
 //@ValidIndexField(message = "{DirectoryView.validIndexField}")

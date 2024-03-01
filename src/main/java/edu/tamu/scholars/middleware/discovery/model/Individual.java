@@ -12,15 +12,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.lucene.document.StoredField;
 import org.apache.solr.client.solrj.beans.Field;
 import org.apache.solr.common.SolrDocument;
 import org.springframework.hateoas.server.core.Relation;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import edu.tamu.scholars.middleware.discovery.utility.DiscoveryUtility;
 
+/**
+ * 
+ */
 @JsonInclude(NON_EMPTY)
 @Relation(collectionRelation = "individual", itemRelation = "individual")
 public class Individual extends AbstractIndexDocument {
@@ -80,6 +82,13 @@ public class Individual extends AbstractIndexDocument {
         this.content.put(SYNC_IDS, syncIds);
     }
 
+    public static Object normalize(Object value) {
+        if (StoredField.class.isAssignableFrom(value.getClass())) {
+            return ((StoredField) value).stringValue();
+        }
+        return value;
+    }
+
     public static Individual from(SolrDocument document) {
         Map<String, Object> content = new HashMap<>();
 
@@ -103,13 +112,6 @@ public class Individual extends AbstractIndexDocument {
             });
 
         return Individual.from(content);
-    }
-
-    public static Object normalize(Object value) {
-        if (StoredField.class.isAssignableFrom(value.getClass())) {
-            return ((StoredField) value).stringValue();
-        }
-        return value;
     }
 
     public static Individual from(Map<String, Object> content) {

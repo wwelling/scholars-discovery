@@ -7,37 +7,61 @@ import edu.tamu.scholars.middleware.discovery.annotation.FieldType;
 import edu.tamu.scholars.middleware.discovery.annotation.NestedObject;
 import edu.tamu.scholars.middleware.discovery.annotation.NestedObject.Reference;
 
+/**
+ * 
+ */
 public class Common extends AbstractIndexDocument {
 
     @FieldType(type = "whole_string", searchable = false)
-    @FieldSource(template = "common/image", predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl")
+    @FieldSource(
+        template = "common/image",
+        predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl"
+    )
     private String image;
 
     @FieldType(type = "whole_string", searchable = false)
-    @FieldSource(template = "common/thumbnail", predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl")
+    @FieldSource(
+        template = "common/thumbnail",
+        predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl"
+    )
     private String thumbnail;
 
     @FieldType(type = "nested_whole_strings", searchable = false)
     @NestedObject(properties = { @Reference(value = "websiteUrl", key = "url") })
-    @FieldSource(template = "common/website", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "common/website",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> websites;
 
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "common/websiteUrl", predicate = "http://www.w3.org/2006/vcard/ns#url")
+    @FieldSource(
+        template = "common/websiteUrl",
+        predicate = "http://www.w3.org/2006/vcard/ns#url"
+    )
     private List<String> websiteUrl;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "common/geographicFocus", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "common/geographicFocus",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> geographicFocus;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "common/sameAs", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "common/sameAs",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> sameAs;
 
     @FieldType(type = "pdate")
-    @FieldSource(template = "common/modTime", predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime")
+    @FieldSource(
+        template = "common/modTime",
+        predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime"
+    )
     private String modTime;
 
     public String getImage() {

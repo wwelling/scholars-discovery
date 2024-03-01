@@ -28,8 +28,8 @@ public class TriplestoreConfigTest {
         assertNull(triplestoreConfig.getPassword());
         assertTrue(triplestoreConfig.isJdbcStream());
         assertEquals(8, triplestoreConfig.getJdbcFetchSize());
-        assertTrue(triplestoreConfig.isStreamGraphAPI());
-        assertFalse(triplestoreConfig.isAnnotateGeneratedSQL());
+        assertTrue(triplestoreConfig.isStreamGraphApi());
+        assertFalse(triplestoreConfig.isAnnotateGeneratedSql());
     }
 
     @Test
@@ -53,10 +53,10 @@ public class TriplestoreConfigTest {
         assertFalse(triplestoreConfig.isJdbcStream());
         triplestoreConfig.setJdbcFetchSize(16);
         assertEquals(16, triplestoreConfig.getJdbcFetchSize());
-        triplestoreConfig.setStreamGraphAPI(false);
-        assertFalse(triplestoreConfig.isStreamGraphAPI());
-        triplestoreConfig.setAnnotateGeneratedSQL(true);
-        assertTrue(triplestoreConfig.isAnnotateGeneratedSQL());
+        triplestoreConfig.setStreamGraphApi(false);
+        assertFalse(triplestoreConfig.isStreamGraphApi());
+        triplestoreConfig.setAnnotateGeneratedSql(true);
+        assertTrue(triplestoreConfig.isAnnotateGeneratedSql());
     }
 
 }

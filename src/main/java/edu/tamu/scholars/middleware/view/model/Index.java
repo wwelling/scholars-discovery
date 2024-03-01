@@ -1,15 +1,19 @@
 package edu.tamu.scholars.middleware.view.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import java.util.List;
+
 import edu.tamu.scholars.middleware.model.OpKey;
 
+/**
+ * {@link DirectoryView} embedded class `Index` to describe collection result
+ * navigation.
+ */
 @Embeddable
 public class Index {
 

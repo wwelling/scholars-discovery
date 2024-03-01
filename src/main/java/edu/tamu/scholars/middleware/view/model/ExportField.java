@@ -3,6 +3,9 @@ package edu.tamu.scholars.middleware.view.model;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+/**
+ * 
+ */
 @Embeddable
 public class ExportField {
 

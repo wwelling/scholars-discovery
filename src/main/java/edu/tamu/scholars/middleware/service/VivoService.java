@@ -21,10 +21,13 @@ import org.springframework.stereotype.Service;
 import edu.tamu.scholars.middleware.config.model.VivoConfig;
 import edu.tamu.scholars.middleware.service.request.HttpRequest;
 
+/**
+ * 
+ */
 @Service
 public class VivoService {
 
-    private final static Logger logger = LoggerFactory.getLogger(VivoService.class);
+    private static final Logger logger = LoggerFactory.getLogger(VivoService.class);
 
     @Autowired
     private VivoConfig vivoConfig;
@@ -63,11 +66,11 @@ public class VivoService {
             logger.debug("id: " + id);
             logger.debug("accept: " + accept);
         }
-        HttpRequest request = new HttpRequest();
 
         List<Header> headers = new ArrayList<Header>();
         headers.add(new BasicHeader("Accept", accept));
 
+        HttpRequest request = new HttpRequest();
         request.setUrl(vivoConfig.getLinkedOpenDataEndpointUrl() + "/" + id);
         request.setHeaders(headers);
 
@@ -75,6 +78,7 @@ public class VivoService {
         if (logger.isDebugEnabled()) {
             logger.debug("response:\n" + response);
         }
+
         return response;
     }
 
@@ -84,7 +88,6 @@ public class VivoService {
             logger.debug("query: " + query);
             logger.debug("accept: " + accept);
         }
-        HttpRequest request = new HttpRequest();
 
         List<Header> headers = new ArrayList<Header>();
         headers.add(new BasicHeader("Accept", accept));
@@ -94,6 +97,7 @@ public class VivoService {
         parameters.add(new BasicNameValuePair("password", vivoConfig.getPassword()));
         parameters.add(new BasicNameValuePair("query", query));
 
+        HttpRequest request = new HttpRequest();
         request.setUrl(vivoConfig.getSparqlQueryEndpointUrl());
         request.setHeaders(headers);
         request.setParameters(parameters);
@@ -102,6 +106,7 @@ public class VivoService {
         if (logger.isDebugEnabled()) {
             logger.debug("response:\n" + response);
         }
+
         return response;
     }
 

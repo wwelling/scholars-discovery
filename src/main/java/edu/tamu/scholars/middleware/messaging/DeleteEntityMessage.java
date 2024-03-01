@@ -2,6 +2,9 @@ package edu.tamu.scholars.middleware.messaging;
 
 import static edu.tamu.scholars.middleware.messaging.EntityAction.DELETE;
 
+/**
+ * 
+ */
 public class DeleteEntityMessage<I> {
 
     private final I id;

@@ -19,6 +19,19 @@
 
   <description>VIVO Scholars Middleware</description>
 
+  <organization>
+    <name>Texas A&amp;M University Libraries</name>
+    <url>https://library.tamu.edu</url>
+  </organization>
+
+  <developers>
+
+  </developers>
+
+  <contributors>
+
+  </contributors>
+
   <licenses>
     <license>
       <name>MIT</name>
@@ -29,9 +42,15 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <jena.version>4.9.0</jena.version>
     <liquibase.version>4.23.2</liquibase.version>
     <log4j2.version>2.17.2</log4j2.version>
-    <jena.version>4.9.0</jena.version>
+
+    <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
+
+    <springdoc.version>2.0.0</springdoc.version>
+
     <solr.version>9.1.1</solr.version>
   </properties>
 
@@ -106,7 +125,19 @@
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-rest-hal-explorer</artifactId>
     </dependency>
-    
+
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>${springdoc.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+      <version>${springdoc.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
@@ -314,6 +345,31 @@
   <build>
 
     <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${maven-checkstyle-plugin.version}</version>
+        <configuration>
+          <excludes>org/springframework/**/*</excludes>
+          <configLocation>checkstyles.xml</configLocation>
+          <consoleOutput>true</consoleOutput>
+          <violationSeverity>warning</violationSeverity>
+          <failOnViolation>true</failOnViolation>
+          <failsOnError>true</failsOnError>
+          <linkXRef>false</linkXRef>
+          <skip>false</skip>
+        </configuration>
+        <executions>
+          <execution>
+            <id>validate</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
       <!-- USE: mvn liquibase:generateChangeLog -->
       <plugin>

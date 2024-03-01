@@ -7,6 +7,9 @@ import javax.persistence.Enumerated;
 
 import org.springframework.data.domain.Sort.Direction;
 
+/**
+ * Embeddable class `Sort` to describe ordering of {@link View} result sets.
+ */
 @Embeddable
 public class Sort {
 

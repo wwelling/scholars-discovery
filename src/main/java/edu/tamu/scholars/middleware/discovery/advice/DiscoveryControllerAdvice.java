@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import edu.tamu.scholars.middleware.discovery.exception.InvalidValuePathException;
 import edu.tamu.scholars.middleware.discovery.exception.SolrRequestException;
 
+/**
+ * 
+ */
 @ControllerAdvice
 public class DiscoveryControllerAdvice {
 

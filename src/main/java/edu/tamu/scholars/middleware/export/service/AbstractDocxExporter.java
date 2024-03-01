@@ -1,7 +1,10 @@
 package edu.tamu.scholars.middleware.export.service;
 
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 import static edu.tamu.scholars.middleware.discovery.DiscoveryConstants.ID;
+import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
+
+import javax.servlet.ServletContext;
+import javax.xml.bind.JAXBException;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -13,9 +16,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import javax.servlet.ServletContext;
-import javax.xml.bind.JAXBException;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.docx4j.jaxb.Context;
 import org.docx4j.model.structure.SectionWrapper;
 import org.docx4j.openpackaging.contenttype.ContentType;
@@ -43,11 +47,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.web.util.UriComponents;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import edu.tamu.scholars.middleware.discovery.argument.FilterArg;
 import edu.tamu.scholars.middleware.discovery.model.AbstractIndexDocument;
 import edu.tamu.scholars.middleware.discovery.model.Individual;
@@ -57,6 +56,9 @@ import edu.tamu.scholars.middleware.view.model.ExportFieldView;
 import edu.tamu.scholars.middleware.view.model.ExportView;
 import edu.tamu.scholars.middleware.view.model.repo.DisplayViewRepo;
 
+/**
+ * 
+ */
 public abstract class AbstractDocxExporter implements Exporter {
 
     private static final ContentType HTML_CONTENT_TYPE = new ContentType("text/html");
@@ -84,7 +86,10 @@ public abstract class AbstractDocxExporter implements Exporter {
     @Value("${ui.url:http://localhost:4200}")
     protected String uiUrl;
 
-    protected WordprocessingMLPackage createDocx(ObjectNode node, ExportView exportView) throws IOException, JAXBException, Docx4JException {
+    protected WordprocessingMLPackage createDocx(
+        ObjectNode node,
+        ExportView exportView
+    ) throws IOException, JAXBException, Docx4JException {
         final WordprocessingMLPackage pkg = WordprocessingMLPackage.createPackage();
         final MainDocumentPart mdp = pkg.getMainDocumentPart();
 
@@ -150,7 +155,12 @@ public abstract class AbstractDocxExporter implements Exporter {
 
     protected List<Individual> fetchLazyReference(ExportFieldView lazyReference, List<String> ids) {
         List<FilterArg> filters = lazyReference.getFilters().stream().map(f -> {
-            return FilterArg.of(f.getField(), Optional.of(f.getValue()), Optional.of(f.getOpKey().getKey()), Optional.empty());
+            return FilterArg.of(
+                f.getField(),
+                Optional.of(f.getValue()),
+                Optional.of(f.getOpKey().getKey()),
+                Optional.empty()
+            );
         }).collect(Collectors.toList());
 
         Sort sort = Sort.by(
@@ -179,7 +189,10 @@ public abstract class AbstractDocxExporter implements Exporter {
         mainDocumentPart.addAltChunk(AltChunkType.Xhtml, html.getBytes(Charset.defaultCharset()));
     }
 
-    protected void createAndAddHeader(final WordprocessingMLPackage pkg, final String html) throws InvalidFormatException {
+    protected void createAndAddHeader(
+        final WordprocessingMLPackage pkg,
+        final String html
+    ) throws InvalidFormatException {
         final HeaderPart headerPart = new HeaderPart(new PartName("/word/content-header.xml"));
         pkg.getParts().put(headerPart);
         final Relationship headerRel = pkg.getMainDocumentPart().addTargetPart(headerPart);
@@ -192,11 +205,17 @@ public abstract class AbstractDocxExporter implements Exporter {
         lastSectPr.getEGHdrFtrReferences().add(headerRef);
     }
 
-    protected void createAndAddHtmlHeader(final HeaderPart headerPart, final String html) throws InvalidFormatException {
+    protected void createAndAddHtmlHeader(
+        final HeaderPart headerPart,
+        final String html
+    ) throws InvalidFormatException {
         final Hdr hdr = WML_OBJECT_FACTORY.createHdr();
         headerPart.setJaxbElement(hdr);
         try {
-            final AlternativeFormatInputPart targetpart = createHeaderHtml(new PartName("/word/htmlheader.html"), html);
+            final AlternativeFormatInputPart targetpart = createHeaderHtml(
+                new PartName("/word/htmlheader.html"),
+                html
+            );
             final Relationship rel = headerPart.addTargetPart(targetpart);
             final CTAltChunk ac = WML_OBJECT_FACTORY.createCTAltChunk();
             ac.setId(rel.getId());
@@ -206,7 +225,10 @@ public abstract class AbstractDocxExporter implements Exporter {
         }
     }
 
-    protected AlternativeFormatInputPart createHeaderHtml(final PartName partName, final String html) throws InvalidFormatException, UnsupportedEncodingException {
+    protected AlternativeFormatInputPart createHeaderHtml(
+        final PartName partName,
+        final String html
+    ) throws InvalidFormatException, UnsupportedEncodingException {
         final AlternativeFormatInputPart afiPart = new AlternativeFormatInputPart(partName);
         afiPart.setBinaryData(html.getBytes(Charset.defaultCharset()));
         afiPart.setContentType(HTML_CONTENT_TYPE);

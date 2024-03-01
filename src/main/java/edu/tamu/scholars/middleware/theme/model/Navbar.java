@@ -1,13 +1,16 @@
 package edu.tamu.scholars.middleware.theme.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 
+ */
 @Embeddable
 public class Navbar {
 

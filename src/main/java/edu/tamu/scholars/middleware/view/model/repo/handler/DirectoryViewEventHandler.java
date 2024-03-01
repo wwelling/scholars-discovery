@@ -4,6 +4,10 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 
 import edu.tamu.scholars.middleware.view.model.DirectoryView;
 
+/**
+ * {@link DirectoryView} {@link ViewEventHandler} with const channel
+ * defined for handling events.
+ */
 @RepositoryEventHandler(DirectoryView.class)
 public class DirectoryViewEventHandler extends ViewEventHandler<DirectoryView> {
 

@@ -1,9 +1,13 @@
 package edu.tamu.scholars.middleware.discovery.component;
 
-import edu.tamu.scholars.middleware.discovery.model.AbstractIndexDocument;
-import edu.tamu.scholars.middleware.discovery.model.Individual;
 import reactor.core.publisher.Flux;
 
+import edu.tamu.scholars.middleware.discovery.model.AbstractIndexDocument;
+import edu.tamu.scholars.middleware.discovery.model.Individual;
+
+/**
+ * 
+ */
 public interface Harvester {
 
     public Flux<Individual> harvest();

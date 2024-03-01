@@ -20,6 +20,9 @@ import org.springframework.stereotype.Component;
 import edu.tamu.scholars.middleware.config.model.IndexConfig;
 import edu.tamu.scholars.middleware.discovery.model.repo.IndividualRepo;
 
+/**
+ * 
+ */
 @Component("index")
 @Profile("!test")
 public class IndexHealthIndicator implements HealthIndicator {

@@ -1,20 +1,19 @@
 package edu.tamu.scholars.middleware.view.model;
 
-import static edu.tamu.scholars.middleware.view.model.FacetType.STRING;
-import static org.springframework.data.domain.Sort.Direction.DESC;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-import org.springframework.data.domain.Sort.Direction;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import org.springframework.data.domain.Sort.Direction;
 
 import edu.tamu.scholars.middleware.model.OpKey;
 
+/**
+ * Embeddable domain model for {@link CollectionView} result set faceting.
+ */
 @Embeddable
 @JsonInclude(Include.NON_NULL)
 public class Facet {
@@ -71,11 +70,28 @@ public class Facet {
     @Column(nullable = true)
     private String rangeGap;
 
+    /**
+     * Default `Facet` constructor.
+     * 
+     * <table>
+     * <tr><td>opKey</td><td>{@link OpKey}.EQUALS</td></tr>
+     * <tr><td>type</td><td>{@link FacetType}.STRING</td></tr>
+     * <tr><td>sort</td><td>{@link FacetSort}.COUNT</td></tr>
+     * <tr><td>direction</td><td>{@link Direction}.DESC</td></tr>
+     * <tr><td>pageSize</td><td>10</td></tr>
+     * <tr><td>pageNumber</td><td>1</td></tr>
+     * <tr><td>expandable</td><td>true</td></tr>
+     * <tr><td>collapsible</td><td>true</td></tr>
+     * <tr><td>collapsed</td><td>true</td></tr>
+     * <tr><td>useDialog</td><td>false</td></tr>
+     * <tr><td>hidden</td><td>false</td></tr>
+     * </table>
+     */
     public Facet() {
         opKey = OpKey.EQUALS;
-        type = STRING;
+        type = FacetType.STRING;
         sort = FacetSort.COUNT;
-        direction = DESC;
+        direction = Direction.DESC;
         pageSize = 10;
         pageNumber = 1;
         expandable = true;

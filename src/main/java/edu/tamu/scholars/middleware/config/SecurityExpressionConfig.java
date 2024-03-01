@@ -10,6 +10,9 @@ import org.springframework.security.messaging.access.expression.DefaultMessageSe
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 
+/**
+ * 
+ */
 @Configuration
 public class SecurityExpressionConfig {
 
@@ -22,17 +25,19 @@ public class SecurityExpressionConfig {
 
     @Bean
     public SecurityExpressionHandler<FilterInvocation> securityExpressionHandler() {
-        DefaultWebSecurityExpressionHandler securityExpressionHandler = new DefaultWebSecurityExpressionHandler();
-        securityExpressionHandler.setRoleHierarchy(roleHierarchy());
-        return securityExpressionHandler;
+        DefaultWebSecurityExpressionHandler seh = new DefaultWebSecurityExpressionHandler();
+        seh.setRoleHierarchy(roleHierarchy());
+
+        return seh;
     }
 
     @Bean
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public SecurityExpressionHandler<Message<Object>> messageSecurityExpressionHandler() {
-        DefaultMessageSecurityExpressionHandler securityExpressionHandler = new DefaultMessageSecurityExpressionHandler<Message<Object>>();
-        securityExpressionHandler.setRoleHierarchy(roleHierarchy());
-        return securityExpressionHandler;
+        DefaultMessageSecurityExpressionHandler seh = new DefaultMessageSecurityExpressionHandler<Message<Object>>();
+        seh.setRoleHierarchy(roleHierarchy());
+
+        return seh;
     }
 
     private String buildRoleHierarchy() {

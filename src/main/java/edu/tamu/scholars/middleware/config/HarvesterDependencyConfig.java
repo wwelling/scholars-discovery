@@ -11,6 +11,9 @@ import edu.tamu.scholars.middleware.config.model.MiddlewareConfig;
 import edu.tamu.scholars.middleware.config.model.TriplestoreConfig;
 import edu.tamu.scholars.middleware.service.Triplestore;
 
+/**
+ * 
+ */
 @Configuration
 @Profile("!test")
 public class HarvesterDependencyConfig {
@@ -19,8 +22,14 @@ public class HarvesterDependencyConfig {
     private MiddlewareConfig middleware;
 
     @Bean
-    public Triplestore triplestore() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-        return middleware.getTriplestore().getType().getConstructor(TriplestoreConfig.class).newInstance(middleware.getTriplestore());
+    public Triplestore triplestore()
+        throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+        InvocationTargetException, NoSuchMethodException, SecurityException {
+
+        return middleware.getTriplestore()
+            .getType()
+            .getConstructor(TriplestoreConfig.class)
+            .newInstance(middleware.getTriplestore());
     }
 
 }

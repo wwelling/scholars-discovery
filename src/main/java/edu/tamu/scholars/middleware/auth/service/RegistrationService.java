@@ -7,6 +7,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Optional;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -15,11 +19,6 @@ import org.springframework.security.core.token.Token;
 import org.springframework.security.core.token.TokenService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.tamu.scholars.middleware.auth.config.AuthConfig;
 import edu.tamu.scholars.middleware.auth.controller.exception.RegistrationException;
@@ -31,6 +30,9 @@ import edu.tamu.scholars.middleware.messaging.CreateEntityMessage;
 import edu.tamu.scholars.middleware.service.EmailService;
 import edu.tamu.scholars.middleware.service.TemplateService;
 
+/**
+ * {@link User} registration service for processing registration requests.
+ */
 @Service
 public class RegistrationService {
 
@@ -56,7 +58,7 @@ public class RegistrationService {
     private ObjectMapper objectMapper;
 
     @Autowired
-    protected BCryptPasswordEncoder bCryptPasswordEncoder;
+    protected BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private SimpMessagingTemplate simpMessageTemplate;
@@ -64,14 +66,20 @@ public class RegistrationService {
     public Registration submit(Registration registration) throws JsonProcessingException {
         String registrationJson = objectMapper.writeValueAsString(registration);
         Token token = tokenService.allocateToken(registrationJson);
-        String subject = messageSource.getMessage("RegistrationService.confirmationEmailSubject", new Object[0], LocaleContextHolder.getLocale());
+        String subject = messageSource.getMessage(
+            "RegistrationService.confirmationEmailSubject",
+            new Object[0],
+            LocaleContextHolder.getLocale()
+        );
         String message = templateService.templateConfirmRegistrationMessage(registration, token.getKey());
         createUser(registration);
         emailService.send(registration.getEmail(), subject, message);
+
         return registration;
     }
 
-    public Registration confirm(String key) throws JsonParseException, JsonMappingException, IOException, RegistrationException {
+    public Registration confirm(String key)
+        throws JsonParseException, JsonMappingException, IOException, RegistrationException {
         Token token = tokenService.verifyToken(key);
         String registrationJson = token.getExtendedInformation();
         Registration registration = objectMapper.readValue(registrationJson, Registration.class);
@@ -83,12 +91,24 @@ public class RegistrationService {
                     userRepo.save(user.get());
                     return registration;
                 }
-                throw new RegistrationException(messageSource.getMessage("RegistrationService.emailAlreadyConfirmed", new Object[] { registration.getEmail() }, LocaleContextHolder.getLocale()));
+                throw new RegistrationException(messageSource.getMessage(
+                    "RegistrationService.emailAlreadyConfirmed",
+                    new Object[] { registration.getEmail() },
+                    LocaleContextHolder.getLocale()
+                ));
             }
             userRepo.delete(user.get());
-            throw new RegistrationException(messageSource.getMessage("RegistrationService.tokenExpired", new Object[0], LocaleContextHolder.getLocale()));
+            throw new RegistrationException(messageSource.getMessage(
+                "RegistrationService.tokenExpired",
+                new Object[0],
+                LocaleContextHolder.getLocale()
+            ));
         }
-        throw new RegistrationException(messageSource.getMessage("RegistrationService.unableToConfirmEmailNotFound", new Object[] { registration.getEmail() }, LocaleContextHolder.getLocale()));
+        throw new RegistrationException(messageSource.getMessage(
+            "RegistrationService.unableToConfirmEmailNotFound",
+            new Object[] { registration.getEmail() },
+            LocaleContextHolder.getLocale()
+        ));
     }
 
     public User complete(String key, Registration registration) throws RegistrationException {
@@ -98,15 +118,27 @@ public class RegistrationService {
             if (!isTokenExpired(token)) {
                 if (user.get().isConfirmed()) {
                     user.get().setEnabled(true);
-                    user.get().setPassword(bCryptPasswordEncoder.encode(registration.getPassword()));
+                    user.get().setPassword(passwordEncoder.encode(registration.getPassword()));
                     return userRepo.save(user.get());
                 }
-                throw new RegistrationException(messageSource.getMessage("RegistrationService.emailNotConfirmed", new Object[] { registration.getEmail() }, LocaleContextHolder.getLocale()));
+                throw new RegistrationException(messageSource.getMessage(
+                    "RegistrationService.emailNotConfirmed",
+                    new Object[] { registration.getEmail() },
+                    LocaleContextHolder.getLocale()
+                ));
             }
             userRepo.delete(user.get());
-            throw new RegistrationException(messageSource.getMessage("RegistrationService.tokenExpired", new Object[0], LocaleContextHolder.getLocale()));
+            throw new RegistrationException(messageSource.getMessage(
+                "RegistrationService.tokenExpired",
+                new Object[0],
+                LocaleContextHolder.getLocale()
+            ));
         }
-        throw new RegistrationException(messageSource.getMessage("RegistrationService.unableToCompleteEmailNotFound", new Object[] { registration.getEmail() }, LocaleContextHolder.getLocale()));
+        throw new RegistrationException(messageSource.getMessage(
+            "RegistrationService.unableToCompleteEmailNotFound",
+            new Object[] { registration.getEmail() },
+            LocaleContextHolder.getLocale()
+        ));
     }
 
     private synchronized void createUser(Registration registration) {
@@ -126,7 +158,11 @@ public class RegistrationService {
         Calendar currentTime = Calendar.getInstance();
         Calendar creationTime = Calendar.getInstance();
         creationTime.setTimeInMillis(token.getKeyCreationTime());
-        return ChronoUnit.DAYS.between(creationTime.toInstant(), currentTime.toInstant()) >= authConfig.getRegistrationTokenDuration();
+
+        return ChronoUnit.DAYS.between(
+            creationTime.toInstant(),
+            currentTime.toInstant()
+        ) >= authConfig.getRegistrationTokenDuration();
     }
 
 }

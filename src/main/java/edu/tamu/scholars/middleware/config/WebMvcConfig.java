@@ -24,6 +24,9 @@ import edu.tamu.scholars.middleware.discovery.resolver.HighlightArgumentResolver
 import edu.tamu.scholars.middleware.discovery.resolver.QueryArgumentResolver;
 import edu.tamu.scholars.middleware.export.resolver.ExportArgumentResolver;
 
+/**
+ * 
+ */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 

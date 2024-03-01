@@ -4,13 +4,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.springframework.stereotype.Service;
 
 import edu.tamu.scholars.middleware.view.model.DirectoryView;
 import edu.tamu.scholars.middleware.view.model.repo.DirectoryViewRepo;
 
+/**
+ * 
+ */
 @Service
 public class DirectoryViewsDefaults extends AbstractDefaults<DirectoryView, DirectoryViewRepo> {
 

@@ -9,9 +9,12 @@ import org.slf4j.LoggerFactory;
 
 import edu.tamu.scholars.middleware.config.model.TriplestoreConfig;
 
+/**
+ * 
+ */
 public class HttpTriplestore implements Triplestore {
 
-    private final static Logger logger = LoggerFactory.getLogger(HttpTriplestore.class);
+    private static final Logger logger = LoggerFactory.getLogger(HttpTriplestore.class);
 
     private final TriplestoreConfig config;
 
@@ -28,7 +31,11 @@ public class HttpTriplestore implements Triplestore {
     public void init() {
         Instant start = Instant.now();
         logger.info("Initializing {}", config.getType().getSimpleName());
-        logger.info("{} ready. {} seconds", config.getType().getSimpleName(), Duration.between(start, Instant.now()).toMillis() / 1000.0);
+        logger.info(
+            "{} ready. {} seconds",
+            config.getType().getSimpleName(),
+            Duration.between(start, Instant.now()).toMillis() / 1000.0
+        );
     }
 
     @Override

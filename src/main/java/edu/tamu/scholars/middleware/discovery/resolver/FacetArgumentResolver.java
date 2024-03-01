@@ -14,6 +14,9 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import edu.tamu.scholars.middleware.discovery.argument.FacetArg;
 
+/**
+ * 
+ */
 public class FacetArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
@@ -23,7 +26,12 @@ public class FacetArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer, NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) throws Exception {
+    public Object resolveArgument(
+        MethodParameter parameter,
+        @Nullable ModelAndViewContainer mavContainer,
+        NativeWebRequest webRequest,
+        @Nullable WebDataBinderFactory binderFactory
+    ) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         return getFacetArguments(request);
     }

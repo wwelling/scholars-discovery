@@ -16,15 +16,25 @@ import edu.tamu.scholars.middleware.discovery.response.DiscoveryFacetAndHighligh
 import edu.tamu.scholars.middleware.discovery.response.DiscoveryFacetPage;
 import edu.tamu.scholars.middleware.discovery.response.DiscoveryFacetPage.Facet;
 
+/**
+ * 
+ */
 @Component
 public class DiscoveryPagedResourcesAssembler<T> extends PagedResourcesAssembler<T> {
 
-    public DiscoveryPagedResourcesAssembler(@Nullable HateoasPageableHandlerMethodArgumentResolver resolver, @Nullable UriComponents baseUri) {
+    public DiscoveryPagedResourcesAssembler(
+        @Nullable HateoasPageableHandlerMethodArgumentResolver resolver,
+        @Nullable UriComponents baseUri
+    ) {
         super(resolver, baseUri);
     }
 
     @Override
-    protected <R extends RepresentationModel<?>, S> PagedModel<R> createPagedModel(List<R> resources, PagedModel.PageMetadata metadata, Page<S> page) {
+    protected <R extends RepresentationModel<?>, S> PagedModel<R> createPagedModel(
+        List<R> resources,
+        PagedModel.PageMetadata metadata,
+        Page<S> page
+    ) {
         PagedModel<R> pagedResource = super.createPagedModel(resources, metadata, page);
         if (page instanceof DiscoveryFacetAndHighlightPage) {
             return new FacetAndHightlightPagedResource<R, S>(pagedResource, (DiscoveryFacetAndHighlightPage<S>) page);
@@ -56,7 +66,10 @@ public class DiscoveryPagedResourcesAssembler<T> extends PagedResourcesAssembler
 
         private final List<Highlight> highlights;
 
-        FacetAndHightlightPagedResource(PagedModel<R> pagedResources, DiscoveryFacetAndHighlightPage<S> facetAndHighlightPage) {
+        FacetAndHightlightPagedResource(
+            PagedModel<R> pagedResources,
+            DiscoveryFacetAndHighlightPage<S> facetAndHighlightPage
+        ) {
             super(pagedResources.getContent(), pagedResources.getMetadata(), pagedResources.getLinks());
             this.facets = facetAndHighlightPage.getFacets();
             this.highlights = facetAndHighlightPage.getHighlights();

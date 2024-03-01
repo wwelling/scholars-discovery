@@ -5,20 +5,27 @@ import static edu.tamu.scholars.middleware.auth.AuthConstants.PASSWORD_MAX_LENGT
 import static edu.tamu.scholars.middleware.auth.AuthConstants.PASSWORD_MIN_LENGTH;
 import static edu.tamu.scholars.middleware.discovery.DiscoveryConstants.EXPORT_INDIVIDUAL_KEY;
 
-import java.util.TimeZone;
-
 import javax.annotation.PostConstruct;
+
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import edu.tamu.scholars.middleware.auth.config.AuthConfig;
 import edu.tamu.scholars.middleware.auth.config.PasswordConfig;
 import edu.tamu.scholars.middleware.config.model.ExportConfig;
 import edu.tamu.scholars.middleware.config.model.MiddlewareConfig;
+import edu.tamu.scholars.middleware.discovery.service.IndexService;
 
+/**
+ * Scholars middleware application and initialization.
+ * 
+ * <p>Enables {@link Scheduled} annotation used in {@link IndexService}.</p>
+ */
 @EnableScheduling
 @SpringBootApplication
 public class MiddlewareApplication {

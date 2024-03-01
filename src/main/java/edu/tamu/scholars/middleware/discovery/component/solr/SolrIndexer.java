@@ -22,6 +22,9 @@ import edu.tamu.scholars.middleware.discovery.component.Indexer;
 import edu.tamu.scholars.middleware.discovery.model.AbstractIndexDocument;
 import edu.tamu.scholars.middleware.discovery.model.Individual;
 
+/**
+ * 
+ */
 public class SolrIndexer implements Indexer {
 
     private static final Logger logger = LoggerFactory.getLogger(SolrIndexer.class);
@@ -72,7 +75,10 @@ public class SolrIndexer implements Indexer {
 
                     if (fieldType.copyTo().length > 0) {
                         try {
-                            SchemaRequest.AddCopyField addCopyFieldRequest = new SchemaRequest.AddCopyField(name, Arrays.asList(fieldType.copyTo()));
+                            SchemaRequest.AddCopyField addCopyFieldRequest = new SchemaRequest.AddCopyField(
+                                name,
+                                Arrays.asList(fieldType.copyTo())
+                            );
                             addCopyFieldRequest.process(solrClient, collectionName);
                         } catch (Exception e) {
                             logger.error("Failed to add copy field", e);

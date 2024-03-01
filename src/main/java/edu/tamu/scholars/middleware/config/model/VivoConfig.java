@@ -3,6 +3,11 @@ package edu.tamu.scholars.middleware.config.model;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * Injectable middleware configuration to specify vivo properties.
+ * 
+ * <p>See `vivo` in src/main/resources/application.yml.</p>
+ */
 @Component
 @ConfigurationProperties(prefix = "vivo")
 public class VivoConfig {

@@ -1,16 +1,19 @@
 package edu.tamu.scholars.middleware.export.controller;
 
+import static edu.tamu.scholars.middleware.export.utility.FilenameUtility.normalizeExportFilename;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+
+import javax.persistence.EntityNotFoundException;
 
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.hateoas.server.RepresentationModelProcessor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,14 +32,19 @@ import edu.tamu.scholars.middleware.export.exception.UnauthorizedExportException
 import edu.tamu.scholars.middleware.export.exception.UnknownExporterTypeException;
 import edu.tamu.scholars.middleware.export.service.Exporter;
 import edu.tamu.scholars.middleware.export.service.ExporterRegistry;
-import edu.tamu.scholars.middleware.export.utility.FilenameUtility;
 
+
+/**
+ * REST controller for exporting
+ */
 @RestController
 public class IndividualExportController implements RepresentationModelProcessor<IndividualModel> {
 
+    @Lazy
     @Autowired
     private IndividualRepo repo;
 
+    @Lazy
     @Autowired
     private ExporterRegistry exporterRegistry;
 
@@ -59,8 +67,8 @@ public class IndividualExportController implements RepresentationModelProcessor<
             Individual document = individual.get();
             Exporter exporter = exporterRegistry.getExporter(type);
             return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, exporter.contentDisposition(FilenameUtility.normalizeExportFilename(document)))
-                .header(HttpHeaders.CONTENT_TYPE, exporter.contentType())
+                .header(CONTENT_DISPOSITION, exporter.contentDisposition(normalizeExportFilename(document)))
+                .header(CONTENT_TYPE, exporter.contentType())
                 .body(exporter.streamIndividual(document, name));
         }
         throw new EntityNotFoundException(String.format("Individual with id %s not found", id));
@@ -71,13 +79,37 @@ public class IndividualExportController implements RepresentationModelProcessor<
         Individual individual = resource.getContent();
         if (individual != null) {
             if (individual.getProxy().equals(Person.class.getSimpleName())) {
-                addResource(resource, new ResourceLink(individual, "docx", "Single Page Bio", "Individual single page bio export"));
-                addResource(resource, new ResourceLink(individual, "docx", "Profile Summary", "Individual profile summary export"));
-                addResource(resource, new ResourceLink(individual, "zip", "Last 5 Years", "Individual 5 year publications export"));
-                addResource(resource, new ResourceLink(individual, "zip", "Last 8 Years", "Individual 8 year publications export"));
+                addResource(resource, new ResourceLink(
+                    individual,
+                    "docx",
+                     "Single Page Bio", 
+                     "Individual single page bio export"));
+                addResource(resource, new ResourceLink(
+                    individual,
+                    "docx",
+                     "Profile Summary", 
+                     "Individual profile summary export"));
+                addResource(resource, new ResourceLink(
+                    individual,
+                    "zip", 
+                    "Last 5 Years", 
+                    "Individual 5 year publications export"));
+                addResource(resource, new ResourceLink(
+                    individual,
+                    "zip", 
+                    "Last 8 Years", 
+                    "Individual 8 year publications export"));
             } else if (individual.getProxy().equals(Organization.class.getSimpleName())) {
-                addResource(resource, new ResourceLink(individual, "zip", "Last 5 Years", "Organization 5 year publications export"));
-                addResource(resource, new ResourceLink(individual, "zip", "Last 8 Years", "Organization 8 year publications export"));
+                addResource(resource, new ResourceLink(
+                    individual,
+                    "zip",
+                    "Last 5 Years",
+                    "Organization 5 year publications export"));
+                addResource(resource, new ResourceLink(
+                    individual,
+                    "zip",
+                    "Last 8 Years",
+                    "Organization 8 year publications export"));
             }
         }
 
@@ -86,7 +118,9 @@ public class IndividualExportController implements RepresentationModelProcessor<
 
     private boolean isAdmin(Authentication authentication) {
         return authentication.getAuthorities().stream()
-            .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN") || a.getAuthority().equals("ROLE_SUPER_ADMIN"));
+            .anyMatch(a -> 
+                a.getAuthority().equals("ROLE_ADMIN") || a.getAuthority().equals("ROLE_SUPER_ADMIN")
+            );
     }
 
     private void addResource(IndividualModel resource, ResourceLink link) {
@@ -95,8 +129,13 @@ public class IndividualExportController implements RepresentationModelProcessor<
                 link.getIndividual().getId(),
                 link.getType(),
                 link.getName()
-            )).withRel(link.getName().toLowerCase().replace(" ", "_")).withTitle(link.getTitle()));
-        } catch (NullPointerException | UnknownExporterTypeException | IllegalArgumentException | IllegalAccessException e) {
+            )).withRel(link.getName().toLowerCase().replace(" ", "_"))
+                .withTitle(link.getTitle()));
+        } catch (NullPointerException
+            | UnknownExporterTypeException
+            | IllegalArgumentException
+            | IllegalAccessException e
+        ) {
             e.printStackTrace();
         }
     }

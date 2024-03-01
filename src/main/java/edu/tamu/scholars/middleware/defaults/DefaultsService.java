@@ -1,9 +1,9 @@
 package edu.tamu.scholars.middleware.defaults;
 
+import javax.annotation.PostConstruct;
+
 import java.io.IOException;
 import java.util.List;
-
-import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import edu.tamu.scholars.middleware.config.model.MiddlewareConfig;
 
+/**
+ * 
+ */
 @Service
 @Profile("!test")
 public class DefaultsService {

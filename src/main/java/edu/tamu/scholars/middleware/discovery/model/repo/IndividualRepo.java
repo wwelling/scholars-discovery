@@ -43,6 +43,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
 import edu.tamu.scholars.middleware.discovery.argument.BoostArg;
 import edu.tamu.scholars.middleware.discovery.argument.DiscoveryAcademicAgeDescriptor;
@@ -59,8 +60,10 @@ import edu.tamu.scholars.middleware.discovery.response.DiscoveryFacetAndHighligh
 import edu.tamu.scholars.middleware.discovery.response.DiscoveryNetwork;
 import edu.tamu.scholars.middleware.discovery.response.DiscoveryQuantityDistribution;
 import edu.tamu.scholars.middleware.utility.DateFormatUtility;
-import reactor.core.publisher.Flux;
 
+/**
+ * 
+ */
 @Service
 public class IndividualRepo implements IndexDocumentRepo<Individual> {
 
@@ -87,7 +90,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
             .withQuery(query)
             .withFilters(filters);
 
-        return count(builder.query());
+        return countQuery(builder.query());
     }
 
     @Override
@@ -95,7 +98,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
         SolrQueryBuilder builder = new SolrQueryBuilder(query)
             .withFilters(filters);
 
-        return count(builder.query());
+        return countQuery(builder.query());
     }
 
     @Override
@@ -108,7 +111,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
         SolrQueryBuilder builder = new SolrQueryBuilder()
             .withPage(pageable);
 
-        return findAll(builder.query(), pageable);
+        return findAllQuery(builder.query(), pageable);
     }
 
     @Override
@@ -118,7 +121,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
             .withFilters(Arrays.asList(filter))
             .withRows(Integer.MAX_VALUE);
 
-        return findAll(builder.query());
+        return findAllQuery(builder.query());
     }
 
     @Override
@@ -154,7 +157,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
             .withSort(Sort.by(Direction.DESC, MOD_TIME))
             .withRows(limit);
 
-        return findAll(builder.query());
+        return findAllQuery(builder.query());
     }
 
     @Override
@@ -182,7 +185,14 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
                 .map(Individual::from)
                 .collect(Collectors.toList());
 
-            return DiscoveryFacetAndHighlightPage.from(individuals, response, page, facets, highlight, Individual.class);
+            return DiscoveryFacetAndHighlightPage.from(
+                individuals,
+                response,
+                page,
+                facets,
+                highlight,
+                Individual.class
+            );
         } catch (IOException | SolrServerException e) {
             throw new SolrRequestException("Failed to search documents", e);
         }
@@ -275,8 +285,13 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
     }
 
     @Override
-    public DiscoveryAcademicAge academicAge(DiscoveryAcademicAgeDescriptor academicAgeDescriptor, QueryArg query, List<FilterArg> filters) {
-        DiscoveryAcademicAge academicAge = new DiscoveryAcademicAge(academicAgeDescriptor.getLabel(), academicAgeDescriptor.getDateField());
+    public DiscoveryAcademicAge academicAge(
+        DiscoveryAcademicAgeDescriptor academicAgeDescriptor,
+        QueryArg query,
+        List<FilterArg> filters
+    ) {
+        DiscoveryAcademicAge academicAge =
+            new DiscoveryAcademicAge(academicAgeDescriptor.getLabel(), academicAgeDescriptor.getDateField());
 
         String dateField = academicAgeDescriptor.getDateField();
         String ageField = academicAgeDescriptor.getAgeField();
@@ -308,24 +323,31 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
     }
 
     @Override
-    public DiscoveryQuantityDistribution quantityDistribution(DiscoveryQuantityDistributionDescriptor quantityDistributionDescriptor, QueryArg query, List<FilterArg> filters) {
-        DiscoveryQuantityDistribution quantityDistribution = DiscoveryQuantityDistribution.from(quantityDistributionDescriptor);
+    public DiscoveryQuantityDistribution quantityDistribution(
+        DiscoveryQuantityDistributionDescriptor quantityDistributionDescriptor,
+        QueryArg query,
+        List<FilterArg> filters
+    ) {
+        DiscoveryQuantityDistribution quantityDistribution =
+            DiscoveryQuantityDistribution.from(quantityDistributionDescriptor);
 
         String field = quantityDistributionDescriptor.getField();
 
-        List<FacetArg> facets = new ArrayList<FacetArg>() {{
-            add(FacetArg.of(
-                field, 
-                Optional.of("COUNT,DESC"),
-                Optional.of(String.valueOf(Integer.MAX_VALUE)),
-                Optional.empty(),
-                Optional.of("STRING"),
-                Optional.empty(),
-                Optional.empty(),
-                Optional.empty(),
-                Optional.empty()
-            ));
-        }};
+        List<FacetArg> facets = new ArrayList<FacetArg>() {
+            {
+                add(FacetArg.of(
+                    field, 
+                    Optional.of("COUNT,DESC"),
+                    Optional.of(String.valueOf(Integer.MAX_VALUE)),
+                    Optional.empty(),
+                    Optional.of("STRING"),
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty()
+                ));
+            }
+        };
 
         SolrQueryBuilder builder = new SolrQueryBuilder()
             .withQuery(query)
@@ -371,7 +393,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
         return success;
     }
 
-    private long count(SolrQuery query) {
+    private long countQuery(SolrQuery query) {
         try {
             return solrClient.query(collectionName, query)
                 .getResults()
@@ -391,7 +413,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
         }
     }
 
-    private List<Individual> findAll(SolrQuery query) {
+    private List<Individual> findAllQuery(SolrQuery query) {
         try {
             return solrClient.query(collectionName, query).getResults()
                 .stream()
@@ -402,7 +424,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
         }
     }
 
-    private Page<Individual> findAll(SolrQuery query, Pageable pageable) {
+    private Page<Individual> findAllQuery(SolrQuery query, Pageable pageable) {
         try {
             SolrDocumentList documents = solrClient.query(collectionName, query)
                 .getResults();
@@ -464,7 +486,10 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
 
             if (StringUtils.isNotEmpty(query.getFields())) {
                 String fields = String.join(REQUEST_PARAM_DELIMETER, ID, CLASS, query.getFields());
-                String fl = String.join(REQUEST_PARAM_DELIMETER, Arrays.stream(fields.split(REQUEST_PARAM_DELIMETER)).collect(Collectors.toSet()));
+                String fl = String.join(
+                    REQUEST_PARAM_DELIMETER,
+                    Arrays.stream(fields.split(REQUEST_PARAM_DELIMETER)).collect(Collectors.toSet())
+                );
                 this.query.setParam("fl", fl);
             }
 
@@ -493,7 +518,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
 
         public SolrQueryBuilder withSort(Sort sort) {
             sort.iterator().forEachRemaining(order -> {
-                this.query.addSort(order.getProperty(), order.getDirection().isAscending() ? ORDER.asc: ORDER.desc);
+                this.query.addSort(order.getProperty(), order.getDirection().isAscending() ? ORDER.asc : ORDER.desc);
             });
 
             return this;
@@ -723,6 +748,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
                 case RAW:
                     filterQuery
                         .append(value);
+                    break;
                 default:
                     break;
             }

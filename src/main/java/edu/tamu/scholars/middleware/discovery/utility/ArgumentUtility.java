@@ -1,5 +1,7 @@
 package edu.tamu.scholars.middleware.discovery.utility;
 
+import javax.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -7,8 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -18,36 +18,43 @@ import edu.tamu.scholars.middleware.discovery.argument.FilterArg;
 import edu.tamu.scholars.middleware.discovery.argument.HighlightArg;
 import edu.tamu.scholars.middleware.discovery.argument.QueryArg;
 
+/**
+ * 
+ */
 public class ArgumentUtility {
 
-    private final static String FACET_QUERY_PARAM_KEY = "facets";
-    private final static String FILTER_QUERY_PARAM_KEY = "filters";
-    private final static String BOOST_QUERY_PARAM_KEY = "boost";
+    private static final String FACET_QUERY_PARAM_KEY = "facets";
+    private static final String FILTER_QUERY_PARAM_KEY = "filters";
+    private static final String BOOST_QUERY_PARAM_KEY = "boost";
 
-    private final static String QUERY_EXPRESSION_QUERY_PARAM_KEY = "q";
-    private final static String DEFAULT_FIELD_QUERY_PARAM_KEY = "df";
-    private final static String MINIMUM_SHOULD_MATCH_QUERY_PARAM_KEY = "mm";
-    private final static String QUERY_FIELD_QUERY_PARAM_KEY = "qf";
-    private final static String BOOST_QUERY_QUERY_PARAM_KEY = "bq";
-    private final static String FIELDS_QUERY_PARAM_KEY = "fl";
+    private static final String QUERY_EXPRESSION_QUERY_PARAM_KEY = "q";
+    private static final String DEFAULT_FIELD_QUERY_PARAM_KEY = "df";
+    private static final String MINIMUM_SHOULD_MATCH_QUERY_PARAM_KEY = "mm";
+    private static final String QUERY_FIELD_QUERY_PARAM_KEY = "qf";
+    private static final String BOOST_QUERY_QUERY_PARAM_KEY = "bq";
+    private static final String FIELDS_QUERY_PARAM_KEY = "fl";
 
-    private final static String HIGHLIGHT_FIELDS_QUERY_PARAM_KEY = "hl";
-    private final static String HIGHLIGHT_PRE_QUERY_PARAM_KEY = "hl.prefix";
-    private final static String HIGHLIGHT_POST_QUERY_PARAM_KEY = "hl.postfix";
+    private static final String HIGHLIGHT_FIELDS_QUERY_PARAM_KEY = "hl";
+    private static final String HIGHLIGHT_PRE_QUERY_PARAM_KEY = "hl.prefix";
+    private static final String HIGHLIGHT_POST_QUERY_PARAM_KEY = "hl.postfix";
 
-    private final static String FACET_SORT_FORMAT = "%s.sort";
-    private final static String FACET_PAGE_SIZE_FORMAT = "%s.pageSize";
-    private final static String FACET_PAGE_NUMBER_FORMAT = "%s.pageNumber";
-    private final static String FACET_TYPE_FORMAT = "%s.type";
-    private final static String FACET_EXCLUDE_TAG_FORMAT = "%s.exclusionTag";
-    private final static String FACET_RANGE_START_TAG_FORMAT = "%s.rangeStart";
-    private final static String FACET_RANGE_END_TAG_FORMAT = "%s.rangeEnd";
-    private final static String FACET_RANGE_GAP_TAG_FORMAT = "%s.rangeGap";
+    private static final String FACET_SORT_FORMAT = "%s.sort";
+    private static final String FACET_PAGE_SIZE_FORMAT = "%s.pageSize";
+    private static final String FACET_PAGE_NUMBER_FORMAT = "%s.pageNumber";
+    private static final String FACET_TYPE_FORMAT = "%s.type";
+    private static final String FACET_EXCLUDE_TAG_FORMAT = "%s.exclusionTag";
+    private static final String FACET_RANGE_START_TAG_FORMAT = "%s.rangeStart";
+    private static final String FACET_RANGE_END_TAG_FORMAT = "%s.rangeEnd";
+    private static final String FACET_RANGE_GAP_TAG_FORMAT = "%s.rangeGap";
 
-    private final static String FILTER_VALUE_DELIMITER = ";;";
-    private final static String FILTER_VALUE_FORMAT = "%s.filter";
-    private final static String FILTER_OPKEY_FORMAT = "%s.opKey";
-    private final static String FILTER_TAG_FORMAT = "%s.tag";
+    private static final String FILTER_VALUE_DELIMITER = ";;";
+    private static final String FILTER_VALUE_FORMAT = "%s.filter";
+    private static final String FILTER_OPKEY_FORMAT = "%s.opKey";
+    private static final String FILTER_TAG_FORMAT = "%s.tag";
+
+    private ArgumentUtility() {
+
+    }
 
     public static List<FacetArg> getFacetArguments(HttpServletRequest request) {
         List<String> parameterNames = Collections.list(request.getParameterNames());
@@ -69,14 +76,14 @@ public class ArgumentUtility {
             final String rangeStartTagFacet = String.format(FACET_RANGE_START_TAG_FORMAT, field);
             final String rangeEndTagFacet = String.format(FACET_RANGE_END_TAG_FORMAT, field);
             final String rangeGapTagFacet = String.format(FACET_RANGE_GAP_TAG_FORMAT, field);
-            Optional<String> sort = Optional.empty(),
-                pageSize = Optional.empty(),
-                pageNumber = Optional.empty(),
-                type = Optional.empty(),
-                exclusionTag = Optional.empty(),
-                rangeStart = Optional.empty(),
-                rangeEnd = Optional.empty(),
-                rangeGap = Optional.empty();
+            Optional<String> sort = Optional.empty();
+            Optional<String> pageSize = Optional.empty();
+            Optional<String> pageNumber = Optional.empty();
+            Optional<String> type = Optional.empty();
+            Optional<String> exclusionTag = Optional.empty();
+            Optional<String> rangeStart = Optional.empty();
+            Optional<String> rangeEnd = Optional.empty();
+            Optional<String> rangeGap = Optional.empty();
             for (String paramName : parameterNames) {
                 String[] parameterValues = request.getParameterValues(paramName);
                 if (Objects.nonNull(parameterValues)) {
@@ -121,8 +128,8 @@ public class ArgumentUtility {
             final String opKeyFilter = String.format(FILTER_OPKEY_FORMAT, field);
             final String tagFilter = String.format(FILTER_TAG_FORMAT, field);
             String values = StringUtils.EMPTY;
-            Optional<String> opKey = Optional.empty(),
-                tag = Optional.empty();
+            Optional<String> opKey = Optional.empty();
+            Optional<String> tag = Optional.empty();
             for (String paramName : parameterNames) {
                 String[] parameterValues = request.getParameterValues(paramName);
                 if (Objects.nonNull(parameterValues)) {
@@ -162,7 +169,9 @@ public class ArgumentUtility {
     public static QueryArg getQueryArgument(HttpServletRequest request) {
         Optional<String> expression = Optional.ofNullable(request.getParameter(QUERY_EXPRESSION_QUERY_PARAM_KEY));
         Optional<String> defaultField = Optional.ofNullable(request.getParameter(DEFAULT_FIELD_QUERY_PARAM_KEY));
-        Optional<String> minimumShouldMatch = Optional.ofNullable(request.getParameter(MINIMUM_SHOULD_MATCH_QUERY_PARAM_KEY));
+        Optional<String> minimumShouldMatch = Optional.ofNullable(
+            request.getParameter(MINIMUM_SHOULD_MATCH_QUERY_PARAM_KEY)
+        );
         Optional<String> queryField = Optional.ofNullable(request.getParameter(QUERY_FIELD_QUERY_PARAM_KEY));
         Optional<String> boostQuery = Optional.ofNullable(request.getParameter(BOOST_QUERY_QUERY_PARAM_KEY));
         Optional<String> fields = Optional.ofNullable(request.getParameter(FIELDS_QUERY_PARAM_KEY));

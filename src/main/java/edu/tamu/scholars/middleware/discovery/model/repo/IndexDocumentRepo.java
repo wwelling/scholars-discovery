@@ -6,22 +6,25 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import reactor.core.publisher.Flux;
 
 import edu.tamu.scholars.middleware.discovery.argument.BoostArg;
+import edu.tamu.scholars.middleware.discovery.argument.DiscoveryAcademicAgeDescriptor;
 import edu.tamu.scholars.middleware.discovery.argument.DiscoveryNetworkDescriptor;
 import edu.tamu.scholars.middleware.discovery.argument.DiscoveryQuantityDistributionDescriptor;
-import edu.tamu.scholars.middleware.discovery.argument.DiscoveryAcademicAgeDescriptor;
 import edu.tamu.scholars.middleware.discovery.argument.FacetArg;
 import edu.tamu.scholars.middleware.discovery.argument.FilterArg;
 import edu.tamu.scholars.middleware.discovery.argument.HighlightArg;
 import edu.tamu.scholars.middleware.discovery.argument.QueryArg;
 import edu.tamu.scholars.middleware.discovery.model.AbstractIndexDocument;
+import edu.tamu.scholars.middleware.discovery.response.DiscoveryAcademicAge;
 import edu.tamu.scholars.middleware.discovery.response.DiscoveryFacetAndHighlightPage;
 import edu.tamu.scholars.middleware.discovery.response.DiscoveryNetwork;
 import edu.tamu.scholars.middleware.discovery.response.DiscoveryQuantityDistribution;
-import edu.tamu.scholars.middleware.discovery.response.DiscoveryAcademicAge;
-import reactor.core.publisher.Flux;
 
+/**
+ * 
+ */
 public interface IndexDocumentRepo<D extends AbstractIndexDocument> {
 
     public long count(QueryArg query, List<FilterArg> filters);
@@ -40,14 +43,29 @@ public interface IndexDocumentRepo<D extends AbstractIndexDocument> {
 
     public List<D> findMostRecentlyUpdate(Integer limit, List<FilterArg> filters);
 
-    public DiscoveryFacetAndHighlightPage<D> search(QueryArg query, List<FacetArg> facets, List<FilterArg> filters, List<BoostArg> boosts, HighlightArg highlight, Pageable page);
+    public DiscoveryFacetAndHighlightPage<D> search(
+        QueryArg query,
+        List<FacetArg> facets,
+        List<FilterArg> filters,
+        List<BoostArg> boosts,
+        HighlightArg highlight,
+        Pageable page
+    );
 
     public Flux<D> export(QueryArg query, List<FilterArg> filters, List<BoostArg> boosts, Sort sort);
 
     public DiscoveryNetwork network(DiscoveryNetworkDescriptor dataNetworkDescriptor);
 
-    public DiscoveryAcademicAge academicAge(DiscoveryAcademicAgeDescriptor academicAgeDescriptor, QueryArg query, List<FilterArg> filters);
+    public DiscoveryAcademicAge academicAge(
+        DiscoveryAcademicAgeDescriptor academicAgeDescriptor,
+        QueryArg query,
+        List<FilterArg> filters
+    );
 
-    public DiscoveryQuantityDistribution quantityDistribution(DiscoveryQuantityDistributionDescriptor quantityDistributionDescriptor, QueryArg query, List<FilterArg> filters);
+    public DiscoveryQuantityDistribution quantityDistribution(
+        DiscoveryQuantityDistributionDescriptor quantityDistributionDescriptor,
+        QueryArg query,
+        List<FilterArg> filters
+    );
 
 }

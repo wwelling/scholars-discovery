@@ -2,6 +2,9 @@ package edu.tamu.scholars.middleware.discovery.argument;
 
 import edu.tamu.scholars.middleware.discovery.utility.DiscoveryUtility;
 
+/**
+ * 
+ */
 public class BoostArg {
 
     private final String field;

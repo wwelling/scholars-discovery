@@ -10,6 +10,9 @@ import edu.tamu.scholars.middleware.auth.model.User;
 import edu.tamu.scholars.middleware.messaging.DeleteEntityMessage;
 import edu.tamu.scholars.middleware.messaging.UpdateEntityMessage;
 
+/**
+ * {@link User} persistance event handler dispatching user update and delete events.
+ */
 @RepositoryEventHandler(User.class)
 public class UserEventHandler {
 
@@ -21,13 +24,24 @@ public class UserEventHandler {
     @HandleAfterSave
     public void broadcastUserUpdate(User user) {
         simpMessageTemplate.convertAndSend(USERS_CHANNEL, new UpdateEntityMessage<User>(user));
-        simpMessageTemplate.convertAndSendToUser(user.getEmail(), USERS_CHANNEL, new UpdateEntityMessage<User>(user));
+        simpMessageTemplate.convertAndSendToUser(
+            user.getEmail(),
+            USERS_CHANNEL,
+            new UpdateEntityMessage<User>(user)
+        );
     }
 
     @HandleAfterDelete
     public void broadcastUserDelete(User user) {
-        simpMessageTemplate.convertAndSend(USERS_CHANNEL, new DeleteEntityMessage<String>(user.getEmail()));
-        simpMessageTemplate.convertAndSendToUser(user.getEmail(), USERS_CHANNEL, new DeleteEntityMessage<String>(user.getEmail()));
+        simpMessageTemplate.convertAndSend(
+            USERS_CHANNEL,
+            new DeleteEntityMessage<String>(user.getEmail())
+        );
+        simpMessageTemplate.convertAndSendToUser(
+            user.getEmail(),
+            USERS_CHANNEL,
+            new DeleteEntityMessage<String>(user.getEmail())
+        );
     }
 
 }

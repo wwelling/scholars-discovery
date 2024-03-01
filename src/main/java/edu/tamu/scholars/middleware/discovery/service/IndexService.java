@@ -1,13 +1,13 @@
 package edu.tamu.scholars.middleware.discovery.service;
 
+import javax.annotation.PostConstruct;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +21,15 @@ import edu.tamu.scholars.middleware.discovery.component.Harvester;
 import edu.tamu.scholars.middleware.discovery.component.Indexer;
 import edu.tamu.scholars.middleware.service.Triplestore;
 
+/**
+ * 
+ */
 @Service
 public class IndexService {
 
-    private final static Logger logger = LoggerFactory.getLogger(IndexService.class);
+    private static final Logger logger = LoggerFactory.getLogger(IndexService.class);
 
-    private final static AtomicBoolean indexing = new AtomicBoolean(false);
+    private static final AtomicBoolean indexing = new AtomicBoolean(false);
 
     public static final List<String> CREATED_FIELDS = new CopyOnWriteArrayList<String>();
 
@@ -74,15 +77,17 @@ public class IndexService {
     public void index() {
         if (indexing.compareAndSet(false, true)) {
             triplestore.init();
-            Instant start = Instant.now();
+            final Instant start = Instant.now();
             logger.info("Indexing...");
             harvesters.parallelStream().forEach(harvester -> {
                 logger.info("Indexing {} documents.", harvester.type().getSimpleName());
                 if (indexers.stream().anyMatch(indexer -> indexer.type().equals(harvester.type()))) {
                     harvester.harvest().buffer(index.getBatchSize()).subscribe(batch -> {
-                        indexers.parallelStream().filter(indexer -> indexer.type().equals(harvester.type())).forEach(indexer -> {
-                            indexer.index(batch);
-                        });
+                        indexers.parallelStream()
+                            .filter(indexer -> indexer.type().equals(harvester.type()))
+                            .forEach(indexer -> {
+                                indexer.index(batch);
+                            });
                     });
                 } else {
                     logger.warn("No indexer found for {} documents!", harvester.type().getSimpleName());

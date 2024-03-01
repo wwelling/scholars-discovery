@@ -3,13 +3,13 @@ package edu.tamu.scholars.middleware.auth.validator;
 import static edu.tamu.scholars.middleware.auth.AuthConstants.PASSWORD_MAX_LENGTH;
 import static edu.tamu.scholars.middleware.auth.AuthConstants.PASSWORD_MIN_LENGTH;
 
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
@@ -31,6 +31,9 @@ import edu.tamu.scholars.middleware.auth.controller.request.Registration;
 import edu.tamu.scholars.middleware.auth.model.User;
 import edu.tamu.scholars.middleware.auth.model.repo.UserRepo;
 
+/**
+ * {@link User} passsword validator. Valid when email does not exist, otherwise invalid.
+ */
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, Registration> {
 
     @Autowired
@@ -76,7 +79,11 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
         List<Reference> passwordReferences;
 
         if (user.isPresent()) {
-            passwordReferences = user.get().getOldPasswords().stream().map(pw -> new HistoricalReference(pw)).collect(Collectors.toList());
+            passwordReferences = user.get()
+                .getOldPasswords()
+                .stream()
+                .map(pw -> new HistoricalReference(pw))
+                .collect(Collectors.toList());
         } else {
             passwordReferences = new ArrayList<Reference>();
         }
@@ -89,12 +96,19 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
                 return true;
             }
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(String.join(", ", validator.getMessages(result))).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(String.join(", ", validator.getMessages(result)))
+                .addConstraintViolation();
+
             return false;
         }
         context.disableDefaultConstraintViolation();
 
-        context.buildConstraintViolationWithTemplate(messageSource.getMessage("Registration.passwordsDoNotMatch", new Object[0], LocaleContextHolder.getLocale())).addConstraintViolation();
+        context.buildConstraintViolationWithTemplate(messageSource.getMessage(
+            "Registration.passwordsDoNotMatch",
+            new Object[0],
+            LocaleContextHolder.getLocale()
+        )).addConstraintViolation();
+
         return false;
     }
 

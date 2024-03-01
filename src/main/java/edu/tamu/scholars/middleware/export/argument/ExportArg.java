@@ -4,6 +4,9 @@ import java.util.Map;
 
 import edu.tamu.scholars.middleware.discovery.utility.DiscoveryUtility;
 
+/**
+ * 
+ */
 public class ExportArg {
 
     private final String field;

@@ -14,6 +14,11 @@ import edu.tamu.scholars.middleware.auth.details.CustomUserDetails;
 import edu.tamu.scholars.middleware.auth.model.User;
 import edu.tamu.scholars.middleware.auth.model.repo.UserRepo;
 
+/**
+ * Spring Boot autoconfigured custom {@link UserDetailsService}. Customized to
+ * load a {@link CustomUserDetails} from a persisted {@link User} into the
+ * Spring security context for an authenticated principle.
+ */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -29,7 +34,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user.isPresent()) {
             return new CustomUserDetails(user.get());
         }
-        throw new UsernameNotFoundException(messageSource.getMessage("CustomUserDetailsService.emailNotFound", new Object[] { username }, LocaleContextHolder.getLocale()));
+        throw new UsernameNotFoundException(messageSource.getMessage(
+                "CustomUserDetailsService.emailNotFound",
+                new Object[] { username },
+                LocaleContextHolder.getLocale()));
     }
 
 }

@@ -1,5 +1,8 @@
 package edu.tamu.scholars.middleware.service;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -7,9 +10,6 @@ import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 
 import org.apache.http.Header;
 import org.apache.http.HttpStatus;
@@ -31,10 +31,13 @@ import org.springframework.stereotype.Service;
 import edu.tamu.scholars.middleware.config.model.HttpConfig;
 import edu.tamu.scholars.middleware.service.request.HttpRequest;
 
+/**
+ * 
+ */
 @Service
 public class HttpService {
 
-    private final static Logger logger = LoggerFactory.getLogger(HttpService.class);
+    private static final Logger logger = LoggerFactory.getLogger(HttpService.class);
 
     @Autowired
     private HttpConfig httpConfig;

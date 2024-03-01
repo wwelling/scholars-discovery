@@ -12,6 +12,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * 
+ */
 public class DiscoveryNetwork {
 
     private final String id;
@@ -83,26 +86,26 @@ public class DiscoveryNetwork {
             return;
         }
 
-        String[] sParts = source.split(NESTED_DELIMITER);
-        String[] tParts = target.split(NESTED_DELIMITER);
+        String[] sourceParts = source.split(NESTED_DELIMITER);
+        String[] targetParts = target.split(NESTED_DELIMITER);
 
-        if (sParts.length <= 1 || tParts.length <= 1) {
+        if (sourceParts.length <= 1 || targetParts.length <= 1) {
             return;
         }
 
-        String sId = sParts[1];
-        String tId = tParts[1];
+        String sourceId = sourceParts[1];
+        String targetId = targetParts[1];
 
         for (DirectedData dd : this.data) {
             // count either direction
-            if ((dd.getSource().equals(sId) && dd.getTarget().equals(tId)) ||
-                (dd.getSource().equals(tId) && dd.getTarget().equals(sId))) {
+            if (dd.getSource().equals(sourceId) && dd.getTarget().equals(targetId)
+                || dd.getSource().equals(targetId) && dd.getTarget().equals(sourceId)) {
                 dd.add(id);
                 return;
             }
         }
         // add new connection
-        this.data.add(new DirectedData(id, sId, tId));
+        this.data.add(new DirectedData(id, sourceId, targetId));
     }
 
     public static DiscoveryNetwork to(String id) {

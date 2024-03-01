@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ */
 // TODO: refactor to DiscoveryAcademicAgeDescriptorArg and add argument resolver
 public class DiscoveryAcademicAgeDescriptor {
 
@@ -79,7 +82,8 @@ public class DiscoveryAcademicAgeDescriptor {
 
         int bound = getUpperLimitInYears() + getGroupingIntervalInYears();
 
-        int i = 0, o = 0;
+        int i = 0;
+        int o = 0;
         int prevStart = i;
         int nextStart;
         while (i <= bound) {

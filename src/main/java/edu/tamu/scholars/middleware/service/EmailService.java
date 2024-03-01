@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import edu.tamu.scholars.middleware.config.model.MailConfig;
 
+/**
+ * 
+ */
 @Service
 public class EmailService {
 
@@ -25,7 +28,13 @@ public class EmailService {
         emailSender.send(createMimeMessagePreparator(to, subject, message, from, replyTo));
     }
 
-    MimeMessagePreparator createMimeMessagePreparator(String to, String subject, String message, String from, String replyTo) {
+    MimeMessagePreparator createMimeMessagePreparator(
+        String to,
+        String subject,
+        String message,
+        String from,
+        String replyTo
+    ) {
         return mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom(from);

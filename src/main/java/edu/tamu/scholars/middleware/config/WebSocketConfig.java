@@ -21,6 +21,9 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 import edu.tamu.scholars.middleware.config.model.MiddlewareConfig;
 import edu.tamu.scholars.middleware.messaging.handler.CustomStompSubProtocolErrorHandler;
 
+/**
+ * 
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfigurer<Session> {
@@ -38,11 +41,17 @@ public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
             .setAllowedOrigins(config.getAllowedOrigins().toArray(new String[config.getAllowedOrigins().size()]))
             .addInterceptors(
                 new HttpSessionHandshakeInterceptor(),
-                // TODO: remove when patched in spring-session, https://github.com/spring-projects/spring-session/issues/561
+                // TODO: remove when patched in spring-session
+                // https://github.com/spring-projects/spring-session/issues/561
                 new HandshakeInterceptor() {
 
                     @Override
-                    public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
+                    public boolean beforeHandshake(
+                        ServerHttpRequest request,
+                        ServerHttpResponse response,
+                        WebSocketHandler wsHandler,
+                        Map<String, Object> attributes
+                    ) throws Exception {
                         if (attributes.containsKey(HTTP_SESSION_ID_ATTR_NAME)) {
                             attributes.put(SPRING_SESSION_ID_ATTR_NAME, attributes.get(HTTP_SESSION_ID_ATTR_NAME));
                         }
@@ -50,7 +59,12 @@ public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
                     }
 
                     @Override
-                    public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, @Nullable Exception exception) {
+                    public void afterHandshake(
+                        ServerHttpRequest request,
+                        ServerHttpResponse response,
+                        WebSocketHandler wsHandler,
+                        @Nullable Exception exception
+                    ) {
 
                     }
 

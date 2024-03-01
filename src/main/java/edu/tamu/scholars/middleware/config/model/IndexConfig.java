@@ -3,6 +3,11 @@ package edu.tamu.scholars.middleware.config.model;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * Injectable middleware configuration to specify index properties.
+ * 
+ * <p>See `middleware.index` in src/main/resources/application.yml.</p>
+ */
 @Component
 @ConfigurationProperties(prefix = "middleware.index")
 public class IndexConfig {

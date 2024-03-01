@@ -11,6 +11,9 @@ import java.util.Map;
 import org.apache.solr.common.params.MapSolrParams;
 import org.apache.solr.common.params.SolrParams;
 
+/**
+ * 
+ */
 // TODO: refactor to DiscoveryNetworkDescriptorArg and add argument resolver
 public class DiscoveryNetworkDescriptor {
 
@@ -72,7 +75,12 @@ public class DiscoveryNetworkDescriptor {
         return new MapSolrParams(queryParamMap);
     }
 
-    public static DiscoveryNetworkDescriptor of(String id, String dateField, List<String> dataFields, String typeFilter) {
+    public static DiscoveryNetworkDescriptor of(
+        String id,
+        String dateField,
+        List<String> dataFields,
+        String typeFilter
+    ) {
         return new DiscoveryNetworkDescriptor(id, dateField, dataFields, typeFilter);
     }
 

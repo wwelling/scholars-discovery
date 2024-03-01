@@ -8,6 +8,9 @@ import org.springframework.data.web.config.PageableHandlerMethodArgumentResolver
 import edu.tamu.scholars.middleware.auth.model.repo.handler.UserEventHandler;
 import edu.tamu.scholars.middleware.theme.model.repo.handler.ThemeEventHandler;
 
+/**
+ * 
+ */
 @Configuration
 public class RepositoryRestConfig implements RepositoryRestConfigurer {
 
