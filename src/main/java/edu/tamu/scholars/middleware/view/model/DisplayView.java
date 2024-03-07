@@ -21,7 +21,9 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 /**
+ * A persistent representation of how a UI should render a display view.
  * 
+ * <p>See `src/main/resources/defaults/displayViews.yml`</p>
  */
 @Entity
 @Table(name = "display_views")

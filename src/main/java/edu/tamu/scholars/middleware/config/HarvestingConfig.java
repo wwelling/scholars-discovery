@@ -15,7 +15,9 @@ import edu.tamu.scholars.middleware.discovery.component.Harvester;
 import edu.tamu.scholars.middleware.discovery.model.AbstractIndexDocument;
 
 /**
+ * Externally configured list of @{link Harvester} beans.
  * 
+ * <p>See {@link MiddlewareConfig}.</p>
  */
 @Configuration
 public class HarvestingConfig {

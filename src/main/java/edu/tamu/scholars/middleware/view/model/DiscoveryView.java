@@ -13,7 +13,9 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
+ * A persistent representation of how a UI should render a discovery view and its result set.
  * 
+ * <p>See `src/main/resources/defaults/discoveryViews.yml`</p>
  */
 @Entity
 @JsonInclude(NON_EMPTY)

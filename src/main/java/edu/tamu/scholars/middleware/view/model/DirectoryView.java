@@ -5,7 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
+ * A persistent representation of how a UI should render a directory view and its result set.
  * 
+ * <p>See `src/main/resources/defaults/directoryView.yml`</p>
  */
 @Entity
 @Table(name = "directory_views")

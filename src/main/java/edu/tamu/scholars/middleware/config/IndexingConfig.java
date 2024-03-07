@@ -15,7 +15,7 @@ import edu.tamu.scholars.middleware.discovery.component.Indexer;
 import edu.tamu.scholars.middleware.discovery.model.AbstractIndexDocument;
 
 /**
- * 
+ * Externally configured list of @{link Indexer} beans.
  */
 @Configuration
 public class IndexingConfig {

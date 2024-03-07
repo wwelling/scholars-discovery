@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
+ * A persistent representation of how a UI should render a collection view and its result set.
  */
 @MappedSuperclass
 // @ValidCollectionFacets(message = "{CollectionView.validCollectionFacets}")

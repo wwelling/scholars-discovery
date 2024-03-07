@@ -45,7 +45,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/file/**")
             .addResourceLocations(assetDir)
             .resourceChain(true)
-            .addResolver(new PathResourceResolver() {
+            .addResolver(
+                new PathResourceResolver() {
 
                 @Override
                 @Nullable
@@ -80,8 +81,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
                     return location;
                 }
-
-            });
+            }
+        );
     }
 
     @Override

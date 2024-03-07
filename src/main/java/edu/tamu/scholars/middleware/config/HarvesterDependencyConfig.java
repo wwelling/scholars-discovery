@@ -12,7 +12,9 @@ import edu.tamu.scholars.middleware.config.model.TriplestoreConfig;
 import edu.tamu.scholars.middleware.service.Triplestore;
 
 /**
+ * Externally configured triplestore for harvesting.
  * 
+ * <p>See {@link TriplestoreConfig}.</p>
  */
 @Configuration
 @Profile("!test")

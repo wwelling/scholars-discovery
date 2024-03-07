@@ -7,7 +7,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 /**
+ * A persistent representation of how a UI should render a data and analytics view.
  * 
+ * <p>See `src/main/resources/defaults/dataAndAnalyticViews.yml`</p>
  */
 @Entity
 @Table(name = "data_and_analytics_views")
