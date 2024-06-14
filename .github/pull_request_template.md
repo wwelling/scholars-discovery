@@ -1,8 +1,8 @@
 # Description
-> Please provide only as much detail as needed to justify the changes.
+> Please provide as much detail as needed to explain the changes.
 
 # Supporting Material
-> Please provide the links necessary to support the description above.
+> Please provide any links, screenshots, etc. as necessary to support the description.
 
 # Additional Comments
 > Please provide any additional feedback here.
