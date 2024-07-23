@@ -3,6 +3,9 @@ package edu.tamu.scholars.middleware.theme.model;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+/**
+ * 
+ */
 @Embeddable
 public class Link {
 

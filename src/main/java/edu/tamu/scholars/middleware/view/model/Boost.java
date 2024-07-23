@@ -3,6 +3,9 @@ package edu.tamu.scholars.middleware.view.model;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+/**
+ * Embeddable domain model for {@link CollectionView} result set term relevancy boosting.
+ */
 @Embeddable
 public class Boost {
 

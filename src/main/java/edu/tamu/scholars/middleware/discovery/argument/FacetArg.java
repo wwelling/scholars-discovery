@@ -7,6 +7,9 @@ import org.apache.commons.lang3.StringUtils;
 import edu.tamu.scholars.middleware.discovery.utility.DiscoveryUtility;
 import edu.tamu.scholars.middleware.view.model.FacetType;
 
+/**
+ * 
+ */
 public class FacetArg {
 
     private final String field;
@@ -27,7 +30,17 @@ public class FacetArg {
 
     private final String rangeGap;
 
-    FacetArg(String field, String sort, int pageSize, int pageNumber, String type, String exclusionTag, String rangeStart, String rangeEnd, String rangeGap) {
+    FacetArg(
+        String field,
+        String sort,
+        int pageSize,
+        int pageNumber,
+        String type,
+        String exclusionTag,
+        String rangeStart,
+        String rangeEnd,
+        String rangeGap
+    ) {
         this.field = DiscoveryUtility.findProperty(field);
         this.sort = FacetSortArg.of(sort);
         this.pageSize = pageSize;
@@ -79,7 +92,17 @@ public class FacetArg {
         return StringUtils.isEmpty(exclusionTag) ? field : String.format("{!ex=%s}%s", exclusionTag, field);
     }
 
-    public static FacetArg of(String field, Optional<String> sort, Optional<String> pageSize, Optional<String> pageNumber, Optional<String> type, Optional<String> exclusionTag, Optional<String> rangeStart, Optional<String> rangeEnd, Optional<String> rangeGap) {
+    public static FacetArg of(
+        String field,
+        Optional<String> sort,
+        Optional<String> pageSize,
+        Optional<String> pageNumber,
+        Optional<String> type,
+        Optional<String> exclusionTag,
+        Optional<String> rangeStart,
+        Optional<String> rangeEnd,
+        Optional<String> rangeGap
+    ) {
         String sortParam = sort.isPresent() ? sort.get() : "COUNT,DESC";
         int pageSizeParam = pageSize.isPresent() ? Integer.valueOf(pageSize.get()) : 10;
         int pageNumberParam = pageNumber.isPresent() ? Integer.valueOf(pageNumber.get()) : 1;
@@ -88,7 +111,17 @@ public class FacetArg {
         String rangeStartParam = rangeStart.isPresent() ? rangeStart.get() : "0";
         String rangeEndParam = rangeEnd.isPresent() ? rangeEnd.get() : "100000";
         String rangeGapParam = rangeGap.isPresent() ? rangeGap.get() : "100";
-        return new FacetArg(field, sortParam, pageSizeParam, pageNumberParam, typeParam, exclusionTagParam, rangeStartParam, rangeEndParam, rangeGapParam);
+        return new FacetArg(
+            field,
+            sortParam,
+            pageSizeParam,
+            pageNumberParam,
+            typeParam,
+            exclusionTagParam,
+            rangeStartParam,
+            rangeEndParam,
+            rangeGapParam
+        );
     }
 
 }

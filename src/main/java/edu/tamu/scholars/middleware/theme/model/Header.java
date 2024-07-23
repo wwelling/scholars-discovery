@@ -1,13 +1,16 @@
 package edu.tamu.scholars.middleware.theme.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 
+ */
 @Embeddable
 public class Header {
 

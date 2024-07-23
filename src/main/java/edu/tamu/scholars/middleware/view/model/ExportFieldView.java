@@ -5,6 +5,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * 
+ */
 @Entity
 @Table(name = "export_fields")
 @AttributeOverride(name = "name", column = @Column(nullable = false))

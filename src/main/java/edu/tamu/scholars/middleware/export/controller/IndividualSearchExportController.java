@@ -3,6 +3,8 @@ package edu.tamu.scholars.middleware.export.controller;
 import static edu.tamu.scholars.middleware.discovery.DiscoveryConstants.DEFAULT_QUERY;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +12,11 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.RepositorySearchesResource;
 import org.springframework.data.web.SortDefault;
 import org.springframework.hateoas.server.RepresentationModelProcessor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,12 +34,17 @@ import edu.tamu.scholars.middleware.export.service.Exporter;
 import edu.tamu.scholars.middleware.export.service.ExporterRegistry;
 import edu.tamu.scholars.middleware.export.utility.FilenameUtility;
 
+/**
+ * 
+ */
 @RestController
 public class IndividualSearchExportController implements RepresentationModelProcessor<RepositorySearchesResource> {
 
+    @Lazy
     @Autowired
     private IndividualRepo repo;
 
+    @Lazy
     @Autowired
     private ExporterRegistry exporterRegistry;
 
@@ -53,8 +60,8 @@ public class IndividualSearchExportController implements RepresentationModelProc
     ) throws UnknownExporterTypeException, InterruptedException, ExecutionException {
         Exporter exporter = exporterRegistry.getExporter(type);
         return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION, exporter.contentDisposition(FilenameUtility.normalizeExportFilename(view)))
-            .header(HttpHeaders.CONTENT_TYPE, exporter.contentType())
+            .header(CONTENT_DISPOSITION, exporter.contentDisposition(FilenameUtility.normalizeExportFilename(view)))
+            .header(CONTENT_TYPE, exporter.contentType())
             .body(exporter.streamIndividuals(repo.export(query, filters, boosts, sort), export));
     }
 

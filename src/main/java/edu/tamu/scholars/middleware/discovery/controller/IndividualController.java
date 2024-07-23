@@ -5,13 +5,14 @@ import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import javax.persistence.EntityNotFoundException;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.PagedModel;
@@ -35,15 +36,21 @@ import edu.tamu.scholars.middleware.discovery.model.Individual;
 import edu.tamu.scholars.middleware.discovery.model.repo.IndividualRepo;
 import edu.tamu.scholars.middleware.discovery.response.DiscoveryNetwork;
 
+/**
+ * 
+ */
 @RestController
 public class IndividualController implements RepresentationModelProcessor<IndividualModel> {
 
+    @Lazy
     @Autowired
     private IndividualRepo repo;
 
+    @Lazy
     @Autowired
     private IndividualResourceAssembler assembler;
 
+    @Lazy
     @Autowired
     private DiscoveryPagedResourcesAssembler<Individual> pagedAssembler;
 

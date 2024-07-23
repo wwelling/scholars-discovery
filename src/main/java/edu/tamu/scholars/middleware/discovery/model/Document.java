@@ -15,352 +15,600 @@ import edu.tamu.scholars.middleware.discovery.annotation.NestedMultiValuedProper
 import edu.tamu.scholars.middleware.discovery.annotation.NestedObject;
 import edu.tamu.scholars.middleware.discovery.annotation.NestedObject.Reference;
 
+/**
+ * 
+ */
 @JsonInclude(NON_EMPTY)
 @CollectionSource(name = "documents", predicate = "http://purl.org/ontology/bibo/Document")
 public class Document extends Common {
 
     @FieldType(type = "tokenized_string", copyTo = { "_text_", "title_sort" })
-    @FieldSource(template = "document/title", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/title",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private String title;
 
     @JsonProperty(ABSTRACT)
     @FieldType(type = "tokenized_string", value = ABSTRACT, copyTo = "_text_")
-    @FieldSource(template = "document/abstract", predicate = "http://purl.org/ontology/bibo/abstract")
+    @FieldSource(
+        template = "document/abstract",
+        predicate = "http://purl.org/ontology/bibo/abstract"
+    )
     private String abstractText;
 
     @FieldType(type = "whole_string", copyTo = "_text_")
-    @FieldSource(template = "document/abbreviation", predicate = "http://vivoweb.org/ontology/core#abbreviation")
+    @FieldSource(
+        template = "document/abbreviation",
+        predicate = "http://vivoweb.org/ontology/core#abbreviation"
+    )
     private String abbreviation;
 
     @NestedObject
     @FieldType(type = "nested_whole_string", copyTo = "_text_")
-    @FieldSource(template = "document/publicationVenue", predicate = "http://www.w3.org/2000/01/rdf-schema#label", unique = true)
+    @FieldSource(
+        template = "document/publicationVenue",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label",
+        unique = true
+    )
     private String publicationVenue;
 
     @NestedObject
     @FieldType(type = "nested_whole_string", searchable = false)
-    @FieldSource(template = "document/hasPublicationVenueFor", predicate = "http://www.w3.org/2000/01/rdf-schema#label", unique = true)
+    @FieldSource(
+        template = "document/hasPublicationVenueFor",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label",
+        unique = true
+    )
     private String hasPublicationVenueFor;
 
     @FieldType(type = "whole_string", copyTo = "_text_")
-    @FieldSource(template = "document/publicationOutlet", predicate = "http://vivo.library.tamu.edu/ontology/TAMU#publishedProceedings", unique = true)
+    @FieldSource(
+        template = "document/publicationOutlet",
+        predicate = "http://vivo.library.tamu.edu/ontology/TAMU#publishedProceedings",
+        unique = true
+    )
     private String publicationOutlet;
 
     @FieldType(type = "whole_string", copyTo = "_text_")
-    @FieldSource(template = "document/nameOfConference", predicate = "http://vivo.library.tamu.edu/ontology/TAMU#nameOfConference", unique = true)
+    @FieldSource(
+        template = "document/nameOfConference",
+        predicate = "http://vivo.library.tamu.edu/ontology/TAMU#nameOfConference",
+        unique = true
+    )
     private String nameOfConference;
 
     @FieldType(type = "nested_whole_strings", copyTo = "_text_")
-    @NestedObject(properties = { @Reference(value = "authorOrganization", key = "organizations") })
-    @FieldSource(template = "document/author", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @NestedObject(properties = {
+        @Reference(value = "authorOrganization", key = "organizations")
+    })
+    @FieldSource(
+        template = "document/author",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> authors;
 
     @NestedMultiValuedProperty
     @NestedObject(root = false)
     @FieldType(type = "nested_whole_strings")
-    @FieldSource(template = "document/authorOrganization", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/authorOrganization",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> authorOrganization;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/editor", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/editor",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> editors;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/translator", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/translator",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> translators;
 
     @FieldType(type = "whole_string", searchable = false)
-    @FieldSource(template = "document/status", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/status",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private String status;
 
     @FieldType(type = "pdate")
-    @FieldSource(template = "document/publicationDate", predicate = "http://vivoweb.org/ontology/core#dateTime")
+    @FieldSource(
+        template = "document/publicationDate",
+        predicate = "http://vivoweb.org/ontology/core#dateTime"
+    )
     private String publicationDate;
 
     @FieldType(type = "nested_whole_string")
-    @NestedObject(properties = { @Reference(value = "publisherType", key = "type") })
-    @FieldSource(template = "document/publisher", predicate = "http://www.w3.org/2000/01/rdf-schema#label", unique = true)
+    @NestedObject(properties = {
+        @Reference(value = "publisherType", key = "type")
+    })
+    @FieldSource(
+        template = "document/publisher",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label",
+        unique = true
+    )
     private String publisher;
 
     @FieldType(type = "nested_whole_string")
-    @FieldSource(template = "document/publisherType", predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType", parse = true)
+    @FieldSource(
+        template = "document/publisherType",
+        predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
+        parse = true
+    )
     private String publisherType;
 
     @FieldType(type = "pdate", searchable = false)
-    @FieldSource(template = "document/dateFiled", predicate = "http://vivoweb.org/ontology/core#dateTime")
+    @FieldSource(
+        template = "document/dateFiled",
+        predicate = "http://vivoweb.org/ontology/core#dateTime"
+    )
     private String dateFiled;
 
     @FieldType(type = "pdate", searchable = false)
-    @FieldSource(template = "document/dateIssued", predicate = "http://vivoweb.org/ontology/core#dateTime")
+    @FieldSource(
+        template = "document/dateIssued",
+        predicate = "http://vivoweb.org/ontology/core#dateTime"
+    )
     private String dateIssued;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings")
-    @FieldSource(template = "document/hasSubjectArea", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/hasSubjectArea",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> subjectAreas;
 
     @FieldType(type = "whole_strings", searchable = false)
-    @FieldSource(template = "document/hasRestriction", predicate = "http://purl.obolibrary.org/obo/ERO_0000045")
+    @FieldSource(
+        template = "document/hasRestriction",
+        predicate = "http://purl.obolibrary.org/obo/ERO_0000045"
+    )
     private List<String> restrictions;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/documentPart", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/documentPart",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> documentParts;
 
     @FieldType(type = "whole_string", searchable = false)
-    @FieldSource(template = "document/chapter", predicate = "http://purl.org/ontology/bibo/chapter")
+    @FieldSource(
+        template = "document/chapter",
+        predicate = "http://purl.org/ontology/bibo/chapter"
+    )
     private String chapter;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/feature", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/feature",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> features;
 
     @FieldType(type = "whole_string", searchable = false)
-    @FieldSource(template = "document/edition", predicate = "http://purl.org/ontology/bibo/edition")
+    @FieldSource(
+        template = "document/edition",
+        predicate = "http://purl.org/ontology/bibo/edition"
+    )
     private String edition;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/documentationForProjectOrResource", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/documentationForProjectOrResource",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> documentationForProjectOrResource;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/outputOfProcessOrEvent", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/outputOfProcessOrEvent",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> outputOfProcessOrEvent;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/presentedAt", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/presentedAt",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> presentedAt;
 
     @FieldType(type = "whole_strings", copyTo = "_text_")
-    @FieldSource(template = "document/keyword", predicate = "http://vivoweb.org/ontology/core#freetextKeyword")
+    @FieldSource(
+        template = "document/keyword",
+        predicate = "http://vivoweb.org/ontology/core#freetextKeyword"
+    )
     private List<String> keywords;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/eanucc13", predicate = "http://purl.org/ontology/bibo/eanucc13")
+    @FieldSource(
+        template = "document/eanucc13",
+        predicate = "http://purl.org/ontology/bibo/eanucc13"
+    )
     private String eanucc13;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/nihmsid", predicate = "http://vivoweb.org/ontology/core#nihmsid")
+    @FieldSource(
+        template = "document/nihmsid",
+        predicate = "http://vivoweb.org/ontology/core#nihmsid"
+    )
     private String nihmsid;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/pmcid", predicate = "http://vivoweb.org/ontology/core#pmcid")
+    @FieldSource(
+        template = "document/pmcid",
+        predicate = "http://vivoweb.org/ontology/core#pmcid"
+    )
     private String pmcid;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/identifier", predicate = "http://purl.org/ontology/bibo/identifier")
+    @FieldSource(
+        template = "document/identifier",
+        predicate = "http://purl.org/ontology/bibo/identifier"
+    )
     private String identifier;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/patentNumber", predicate = "http://vivoweb.org/ontology/core#patentNumber")
+    @FieldSource(
+        template = "document/patentNumber",
+        predicate = "http://vivoweb.org/ontology/core#patentNumber"
+    )
     private String patentNumber;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/doi", predicate = "http://purl.org/ontology/bibo/doi")
+    @FieldSource(
+        template = "document/doi",
+        predicate = "http://purl.org/ontology/bibo/doi"
+    )
     private String doi;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/oclcnum", predicate = "http://purl.org/ontology/bibo/oclcnum")
+    @FieldSource(
+        template = "document/oclcnum",
+        predicate = "http://purl.org/ontology/bibo/oclcnum"
+    )
     private String oclcnum;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/isbn10", predicate = "http://purl.org/ontology/bibo/isbn10")
+    @FieldSource(
+        template = "document/isbn10",
+        predicate = "http://purl.org/ontology/bibo/isbn10"
+    )
     private String isbn10;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/isbn13", predicate = "http://purl.org/ontology/bibo/isbn13")
+    @FieldSource(
+        template = "document/isbn13",
+        predicate = "http://purl.org/ontology/bibo/isbn13"
+    )
     private String isbn13;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/pmid", predicate = "http://purl.org/ontology/bibo/pmid")
+    @FieldSource(
+        template = "document/pmid",
+        predicate = "http://purl.org/ontology/bibo/pmid"
+    )
     private String pmid;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/lccn", predicate = "http://purl.org/ontology/bibo/lccn")
+    @FieldSource(
+        template = "document/lccn",
+        predicate = "http://purl.org/ontology/bibo/lccn"
+    )
     private String lccn;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/issn", predicate = "http://purl.org/ontology/bibo/issn")
+    @FieldSource(
+        template = "document/issn",
+        predicate = "http://purl.org/ontology/bibo/issn"
+    )
     private String issn;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/eissn", predicate = "http://purl.org/ontology/bibo/eissn")
+    @FieldSource(
+        template = "document/eissn",
+        predicate = "http://purl.org/ontology/bibo/eissn"
+    )
     private String eissn;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/uri", predicate = "http://purl.org/ontology/bibo/uri")
+    @FieldSource(
+        template = "document/uri",
+        predicate = "http://purl.org/ontology/bibo/uri"
+    )
     private String uri;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/citedBy", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/citedBy",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> citedBy;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/cites", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/cites",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> cites;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/citesAsDataSource", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/citesAsDataSource",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> citesAsDataSource;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/hasTranslation", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/hasTranslation",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> translations;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/translationOf", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/translationOf",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> translationOf;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/globalCitationFrequency", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/globalCitationFrequency",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> globalCitationFrequency;
 
     @FieldType(type = "whole_string", searchable = false)
-    @FieldSource(template = "document/iclCode", predicate = "http://vivoweb.org/ontology/core#iclCode")
+    @FieldSource(
+        template = "document/iclCode",
+        predicate = "http://vivoweb.org/ontology/core#iclCode"
+    )
     private String iclCode;
 
     @FieldType(type = "pint")
-    @FieldSource(template = "document/numberOfPages", predicate = "http://purl.org/ontology/bibo/numPages")
+    @FieldSource(
+        template = "document/numberOfPages",
+        predicate = "http://purl.org/ontology/bibo/numPages"
+    )
     private Integer numberOfPages;
 
     @FieldType(type = "whole_string", searchable = false)
-    @FieldSource(template = "document/pageStart", predicate = "http://purl.org/ontology/bibo/pageStart")
+    @FieldSource(
+        template = "document/pageStart",
+        predicate = "http://purl.org/ontology/bibo/pageStart"
+    )
     private String pageStart;
 
     @FieldType(type = "whole_string", searchable = false)
-    @FieldSource(template = "document/pageEnd", predicate = "http://purl.org/ontology/bibo/pageEnd")
+    @FieldSource(
+        template = "document/pageEnd",
+        predicate = "http://purl.org/ontology/bibo/pageEnd"
+    )
     private String pageEnd;
 
     @FieldType(type = "whole_string", searchable = false)
-    @FieldSource(template = "document/number", predicate = "http://purl.org/ontology/bibo/number")
+    @FieldSource(
+        template = "document/number",
+        predicate = "http://purl.org/ontology/bibo/number"
+    )
     private String number;
 
     @FieldType(type = "whole_string", searchable = false)
-    @FieldSource(template = "document/volume", predicate = "http://purl.org/ontology/bibo/volume")
+    @FieldSource(
+        template = "document/volume",
+        predicate = "http://purl.org/ontology/bibo/volume"
+    )
     private String volume;
 
     @FieldType(type = "whole_string", searchable = false)
-    @FieldSource(template = "document/issue", predicate = "http://purl.org/ontology/bibo/issue")
+    @FieldSource(
+        template = "document/issue",
+        predicate = "http://purl.org/ontology/bibo/issue"
+    )
     private String issue;
 
     @FieldType(type = "whole_string", searchable = false)
-    @FieldSource(template = "document/placeOfPublication", predicate = "http://vivoweb.org/ontology/core#placeOfPublication")
+    @FieldSource(
+        template = "document/placeOfPublication",
+        predicate = "http://vivoweb.org/ontology/core#placeOfPublication"
+    )
     private String placeOfPublication;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/assignee", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/assignee",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> assignees;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/reproducedIn", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/reproducedIn",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> reproducedIn;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/reproduces", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/reproduces",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> reproduces;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/isAbout", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/isAbout",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> isAbout;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/specifiedOutputOf", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/specifiedOutputOf",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> specifiedOutputOf;
 
     @FieldType(type = "whole_string", searchable = false)
-    @FieldSource(template = "document/isTemplate", predicate = "http://purl.obolibrary.org/obo/ARG_0000001")
+    @FieldSource(
+        template = "document/isTemplate",
+        predicate = "http://purl.obolibrary.org/obo/ARG_0000001"
+    )
     private String isTemplate;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/mention", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/mention",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> mentions;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/participatesIn", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/participatesIn",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> participatesIn;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/supportedBy", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/supportedBy",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> supportedBy;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/receipt", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/receipt",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> receipts;
 
     @FieldType(type = "pfloat")
-    @FieldSource(template = "document/altmetricScore", predicate = "http://vivo.library.tamu.edu/ontology/TAMU#AltmetricScore")
+    @FieldSource(
+        template = "document/altmetricScore",
+        predicate = "http://vivo.library.tamu.edu/ontology/TAMU#AltmetricScore"
+    )
     private Float altmetricScore;
 
     @FieldType(type = "pint")
-    @FieldSource(template = "document/citationCount", predicate = "http://vivo.library.tamu.edu/ontology/TAMU#CitationCount")
+    @FieldSource(
+        template = "document/citationCount",
+        predicate = "http://vivo.library.tamu.edu/ontology/TAMU#CitationCount"
+    )
     private Integer citationCount;
 
     @FieldType(type = "whole_strings")
-    @FieldSource(template = "document/tag", predicate = "http://purl.obolibrary.org/obo/ARG_0000015")
+    @FieldSource(
+        template = "document/tag",
+        predicate = "http://purl.obolibrary.org/obo/ARG_0000015"
+    )
     private List<String> tags;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/note", predicate = "http://www.w3.org/2006/vcard/ns#note")
+    @FieldSource(
+        template = "document/note",
+        predicate = "http://www.w3.org/2006/vcard/ns#note"
+    )
     private String note;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/key", predicate = "http://www.w3.org/2006/vcard/ns#key")
+    @FieldSource(
+        template = "document/key",
+        predicate = "http://www.w3.org/2006/vcard/ns#key"
+    )
     private String key;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/url", predicate = "http://www.w3.org/2006/vcard/ns#url")
+    @FieldSource(
+        template = "document/url",
+        predicate = "http://www.w3.org/2006/vcard/ns#url"
+    )
     private String url;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings", searchable = false)
-    @FieldSource(template = "document/etdChairedBy", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/etdChairedBy",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> etdChairedBy;
 
     @NestedObject
     @FieldType(type = "nested_whole_strings")
-    @FieldSource(template = "document/advisedBy", predicate = "http://www.w3.org/2000/01/rdf-schema#label")
+    @FieldSource(
+        template = "document/advisedBy",
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+    )
     private List<String> advisedBy;
 
     @FieldType(type = "whole_strings")
-    @FieldSource(template = "document/completeAuthorList", predicate = "http://vivo.library.tamu.edu/ontology/TAMU#completeAuthorList", split = true)
+    @FieldSource(
+        template = "document/completeAuthorList",
+        predicate = "http://vivo.library.tamu.edu/ontology/TAMU#completeAuthorList",
+        split = true
+    )
     private List<String> completeAuthorList;
 
     @FieldType(type = "whole_strings")
-    @FieldSource(template = "document/authorList", predicate = "http://vivo.library.tamu.edu/ontology/TAMU#fullAuthorList")
+    @FieldSource(
+        template = "document/authorList",
+        predicate = "http://vivo.library.tamu.edu/ontology/TAMU#fullAuthorList"
+    )
     private List<String> authorList;
 
     @FieldType(type = "whole_strings", searchable = false)
-    @FieldSource(template = "document/editorList", predicate = "http://vivo.library.tamu.edu/ontology/TAMU#fullEditorList")
+    @FieldSource(
+        template = "document/editorList",
+        predicate = "http://vivo.library.tamu.edu/ontology/TAMU#fullEditorList"
+    )
     private List<String> editorList;
 
     @FieldType(type = "tokenized_string", copyTo = "_text_")
-    @FieldSource(template = "document/bookTitle", predicate = "http://vivo.library.tamu.edu/ontology/TAMU#bookTitleForChapter")
+    @FieldSource(
+        template = "document/bookTitle",
+        predicate = "http://vivo.library.tamu.edu/ontology/TAMU#bookTitleForChapter"
+    )
     private String bookTitle;
 
     @FieldType(type = "whole_string")
-    @FieldSource(template = "document/newsOutlet", predicate = "http://vivo.library.tamu.edu/ontology/TAMU#NewsOutlet")
+    @FieldSource(
+        template = "document/newsOutlet",
+        predicate = "http://vivo.library.tamu.edu/ontology/TAMU#NewsOutlet"
+    )
     private String newsOutlet;
 
     public Document() {
@@ -956,7 +1204,7 @@ public class Document extends Common {
     }
 
     public void setCompleteAuthorList(List<String> completeAuthorList) {
-        this.completeAuthorList =completeAuthorList;
+        this.completeAuthorList = completeAuthorList;
     }
 
     public List<String> getAuthorList() {

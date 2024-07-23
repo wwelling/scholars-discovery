@@ -28,13 +28,16 @@ import edu.tamu.scholars.middleware.discovery.annotation.FieldType;
 import edu.tamu.scholars.middleware.discovery.annotation.NestedObject;
 import edu.tamu.scholars.middleware.discovery.annotation.NestedObject.Reference;
 
+/**
+ * 
+ */
 public class DiscoveryUtility {
 
-    private final static Map<String, Class<?>> TYPES = new HashMap<>();
+    private static final Map<String, Class<?>> TYPES = new HashMap<>();
 
-    private final static Map<String, Map<String, Class<?>>> TYPE_FIELDS = new HashMap<>();
+    private static final Map<String, Map<String, Class<?>>> TYPE_FIELDS = new HashMap<>();
 
-    private final static BidiMap<String, String> MAPPING = new DualHashBidiMap<String, String>();
+    private static final BidiMap<String, String> MAPPING = new DualHashBidiMap<String, String>();
 
     static {
         ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
@@ -61,6 +64,10 @@ public class DiscoveryUtility {
                 throw new RuntimeException("Unable to find class for " + beanDefinition.getBeanClassName(), e);
             }
         }
+    }
+
+    private DiscoveryUtility() {
+
     }
 
     public static Class<?> getDiscoveryDocumentType(String name) {

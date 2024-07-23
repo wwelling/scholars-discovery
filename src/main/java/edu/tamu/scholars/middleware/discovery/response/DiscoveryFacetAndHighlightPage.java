@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -20,20 +20,36 @@ import edu.tamu.scholars.middleware.discovery.DiscoveryConstants;
 import edu.tamu.scholars.middleware.discovery.argument.FacetArg;
 import edu.tamu.scholars.middleware.discovery.argument.HighlightArg;
 
+/**
+ * 
+ */
 public class DiscoveryFacetAndHighlightPage<T> extends DiscoveryFacetPage<T> {
 
     private static final long serialVersionUID = 1932430579005159735L;
 
-    private final static Pattern REFERENCE_PATTERN = Pattern.compile("^(.*?)::([\\w\\-\\:]*)(.*)$");
+    private static final Pattern REFERENCE_PATTERN = Pattern.compile("^(.*?)::([\\w\\-\\:]*)(.*)$");
 
     private final List<Highlight> highlights;
 
-    public DiscoveryFacetAndHighlightPage(List<T> content, Pageable pageable, long total, List<Facet> facets, List<Highlight> highlights) {
+    public DiscoveryFacetAndHighlightPage(
+        List<T> content,
+        Pageable pageable,
+        long total,
+        List<Facet> facets,
+        List<Highlight> highlights
+    ) {
         super(content, pageable, total, facets);
         this.highlights = highlights;
     }
 
-    public static <T> DiscoveryFacetAndHighlightPage<T> from(List<T> documents, QueryResponse response, Pageable pageable, List<FacetArg> facetArguments, HighlightArg highlightArg, Class<T> type) {
+    public static <T> DiscoveryFacetAndHighlightPage<T> from(
+        List<T> documents,
+        QueryResponse response,
+        Pageable pageable,
+        List<FacetArg> facetArguments,
+        HighlightArg highlightArg,
+        Class<T> type
+    ) {
         List<Facet> facets = buildFacets(response, facetArguments);
         List<Highlight> highlights = buildHighlights(response, highlightArg);
         SolrDocumentList results = response.getResults();
@@ -45,29 +61,40 @@ public class DiscoveryFacetAndHighlightPage<T> extends DiscoveryFacetPage<T> {
         List<Highlight> highlights = new ArrayList<>();
         Map<String, Map<String, List<String>>> highlighting = response.getHighlighting();
         if (Objects.nonNull(highlighting)) {
-            highlighting.entrySet().stream().filter(DiscoveryFacetAndHighlightPage::hasHighlights).forEach(hEntry -> {
-                String id = hEntry.getKey();
-                Map<String, List<Object>> snippets = new HashMap<>();
-                hEntry.getValue().entrySet().stream().filter(DiscoveryFacetAndHighlightPage::hasSnippets).forEach(sEntry -> {
-                    snippets.put(findPath(sEntry.getKey()), sEntry.getValue().stream().map(s -> {
-                        Matcher matcher = REFERENCE_PATTERN.matcher(s);
-                        if (matcher.find()) {
-                            Map<String, String> value = new HashMap<>();
-                            value.put(DiscoveryConstants.ID, matcher.group(2));
-                            value.put(DiscoveryConstants.SNIPPET, matcher.group(1) + matcher.group(3));
-                            return value;
-                        }
-                        return s;
-                    }).collect(Collectors.toList()));
-                });
-                highlights.add(new Highlight(id, snippets));
-            });
+            highlighting.entrySet()
+                .stream()
+                .filter(DiscoveryFacetAndHighlightPage::hasHighlights)
+                    .forEach(highlightEntry -> {
+
+                        String id = highlightEntry.getKey();
+                        Map<String, List<Object>> snippets = new HashMap<>();
+
+                        highlightEntry.getValue().entrySet()
+                            .stream()
+                            .filter(DiscoveryFacetAndHighlightPage::hasSnippets)
+                                .forEach(se -> {
+
+                                    snippets.put(findPath(se.getKey()), se.getValue().stream().map(s -> {
+                                        Matcher matcher = REFERENCE_PATTERN.matcher(s);
+                                        if (matcher.find()) {
+                                            Map<String, String> value = new HashMap<>();
+                                            value.put(DiscoveryConstants.ID, matcher.group(2));
+                                            value.put(DiscoveryConstants.SNIPPET, matcher.group(1) + matcher.group(3));
+                                            return value;
+                                        }
+
+                                        return s;
+                                    }).collect(Collectors.toList()));
+                                });
+
+                        highlights.add(new Highlight(id, snippets));
+                    });
         }
 
         return highlights;
     }
 
-    public static <T> boolean hasHighlights(Entry<String, Map<String, List<String>>> entry ) {
+    public static <T> boolean hasHighlights(Entry<String, Map<String, List<String>>> entry) {
         return !entry.getValue().isEmpty();
     }
 

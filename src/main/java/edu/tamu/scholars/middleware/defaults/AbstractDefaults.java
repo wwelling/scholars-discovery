@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,13 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-
 import edu.tamu.scholars.middleware.config.model.MiddlewareConfig;
 import edu.tamu.scholars.middleware.model.Named;
 import edu.tamu.scholars.middleware.model.repo.NamedRepo;
 
+/**
+ * 
+ */
 public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> implements Defaults<E, R> {
 
     private static final String CREATED_DEFAULTS = "Created {} {} defaults.";

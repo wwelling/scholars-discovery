@@ -1,10 +1,5 @@
 package edu.tamu.scholars.middleware.view.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.EnumType;
@@ -12,6 +7,14 @@ import javax.persistence.Enumerated;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.MappedSuperclass;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * A persistent representation of how a UI should render a collection view and its result set.
+ */
 @MappedSuperclass
 // @ValidCollectionFacets(message = "{CollectionView.validCollectionFacets}")
 // @ValidCollectionFilters(message = "{CollectionView.validCollectionFilters}")

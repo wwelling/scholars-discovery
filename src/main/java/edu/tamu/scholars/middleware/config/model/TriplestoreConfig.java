@@ -3,6 +3,11 @@ package edu.tamu.scholars.middleware.config.model;
 import edu.tamu.scholars.middleware.service.TDBTriplestore;
 import edu.tamu.scholars.middleware.service.Triplestore;
 
+/**
+ * {@link MiddlewareConfig} configuration to specify triplestore.
+ * 
+ * <p>See `middleware.triplestore` in src/main/resources/application.yml.</p>
+ */
 public class TriplestoreConfig {
 
     private Class<? extends Triplestore> type = TDBTriplestore.class;
@@ -23,9 +28,9 @@ public class TriplestoreConfig {
 
     private int jdbcFetchSize = 8;
 
-    private boolean streamGraphAPI = true;
+    private boolean streamGraphApi = true;
 
-    private boolean annotateGeneratedSQL = false;
+    private boolean annotateGeneratedSql = false;
 
     public TriplestoreConfig() {
 
@@ -103,20 +108,20 @@ public class TriplestoreConfig {
         this.jdbcFetchSize = jdbcFetchSize;
     }
 
-    public boolean isStreamGraphAPI() {
-        return streamGraphAPI;
+    public boolean isStreamGraphApi() {
+        return streamGraphApi;
     }
 
-    public void setStreamGraphAPI(boolean streamGraphAPI) {
-        this.streamGraphAPI = streamGraphAPI;
+    public void setStreamGraphApi(boolean streamGraphApi) {
+        this.streamGraphApi = streamGraphApi;
     }
 
-    public boolean isAnnotateGeneratedSQL() {
-        return annotateGeneratedSQL;
+    public boolean isAnnotateGeneratedSql() {
+        return annotateGeneratedSql;
     }
 
-    public void setAnnotateGeneratedSQL(boolean annotateGeneratedSQL) {
-        this.annotateGeneratedSQL = annotateGeneratedSQL;
+    public void setAnnotateGeneratedSql(boolean annotateGeneratedSql) {
+        this.annotateGeneratedSql = annotateGeneratedSql;
     }
 
 }

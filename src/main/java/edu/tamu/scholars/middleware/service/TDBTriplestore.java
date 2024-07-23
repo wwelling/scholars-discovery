@@ -13,9 +13,14 @@ import org.slf4j.LoggerFactory;
 
 import edu.tamu.scholars.middleware.config.model.TriplestoreConfig;
 
+/**
+ * 
+ */
+//CHECKSTYLE.OFF: AbbreviationAsWordInName - TDBFactory
 public class TDBTriplestore implements Triplestore {
+    //CHECKSTYLE.ON: AbbreviationAsWordInName
 
-    private final static Logger logger = LoggerFactory.getLogger(TDBTriplestore.class);
+    private static final Logger logger = LoggerFactory.getLogger(TDBTriplestore.class);
 
     private final TriplestoreConfig config;
 
@@ -32,12 +37,16 @@ public class TDBTriplestore implements Triplestore {
 
     @Override
     public void init() {
-        Instant start = Instant.now();
-        logger.info(String.format("Intializing %s", config.getType().getSimpleName()));
+        final Instant start = Instant.now();
+        logger.info("Intializing {}", config.getType().getSimpleName());
         // TODO: handle missing configurations
         TDB.getContext().setTrue(TDB.symUnionDefaultGraph);
         dataset = TDBFactory.createDataset(config.getDirectory());
-        logger.info(String.format("%s ready. %s seconds", config.getType().getSimpleName(), Duration.between(start, Instant.now()).toMillis() / 1000.0));
+        logger.info(
+            "{} ready. {} seconds",
+            config.getType().getSimpleName(),
+            Duration.between(start, Instant.now()).toMillis() / 1000.0
+        );
     }
 
     @Override

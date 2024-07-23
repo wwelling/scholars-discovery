@@ -12,12 +12,15 @@ import edu.tamu.scholars.middleware.discovery.model.Individual;
 import edu.tamu.scholars.middleware.discovery.model.Organization;
 import edu.tamu.scholars.middleware.discovery.model.Person;
 
+/**
+ * 
+ */
 public class FilenameUtility {
 
-    private final static String UNDERSCORE = "_";
-    private final static String NAME = "name";
-    private final static String LAST_NAME = "lastName";
-    private final static String FIRST_NAME = "firstName";
+    private static final String UNDERSCORE = "_";
+    private static final String NAME = "name";
+    private static final String LAST_NAME = "lastName";
+    private static final String FIRST_NAME = "firstName";
 
     private FilenameUtility() {
 
@@ -41,7 +44,7 @@ public class FilenameUtility {
             label.append((String) content.get(NAME))
                 .append(UNDERSCORE);
         } else if (proxy.equals(Person.class.getSimpleName()) && content.containsKey(LAST_NAME)) {
-             label.append((String) content.get(LAST_NAME))
+            label.append((String) content.get(LAST_NAME))
                 .append(UNDERSCORE);
 
             if (content.containsKey(FIRST_NAME)) {

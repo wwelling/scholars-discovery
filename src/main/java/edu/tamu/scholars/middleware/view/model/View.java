@@ -4,6 +4,9 @@ import javax.persistence.MappedSuperclass;
 
 import edu.tamu.scholars.middleware.model.Named;
 
+/**
+ * Abstract mapped superclass `View` to differentiate between persistent views.
+ */
 @MappedSuperclass
 public abstract class View extends Named {
 

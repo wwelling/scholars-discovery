@@ -8,6 +8,11 @@ import org.springframework.stereotype.Component;
 
 import edu.tamu.scholars.middleware.auth.config.AuthConfig;
 
+/**
+ * Injectable middleware configuration.
+ * 
+ * <p>See `middleware` in src/main/resources/application.yml.</p>
+ */
 @Component
 @ConfigurationProperties(prefix = "middleware")
 public class MiddlewareConfig {

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.RepositorySearchesResource;
@@ -35,21 +36,29 @@ import edu.tamu.scholars.middleware.discovery.assembler.model.IndividualModel;
 import edu.tamu.scholars.middleware.discovery.model.Individual;
 import edu.tamu.scholars.middleware.discovery.model.repo.IndividualRepo;
 
+/**
+ * 
+ */
 @RestController
 @RequestMapping("/individual")
 public class IndividualSearchController implements RepresentationModelProcessor<RepositorySearchesResource> {
 
+    @Lazy
     @Autowired
     private IndividualRepo repo;
 
+    @Lazy
     @Autowired
     private IndividualResourceAssembler assembler;
 
+    @Lazy
     @Autowired
     private DiscoveryPagedResourcesAssembler<Individual> pagedAssembler;
 
     @GetMapping("/search/findByIdIn")
-    public ResponseEntity<CollectionModel<IndividualModel>> findByIdIn(@RequestParam(required = true) List<String> ids) {
+    public ResponseEntity<CollectionModel<IndividualModel>> findByIdIn(
+        @RequestParam(required = true) List<String> ids
+    ) {
         return ResponseEntity.ok(assembler.toCollectionModel(repo.findByIdIn(ids)));
     }
 
@@ -75,7 +84,12 @@ public class IndividualSearchController implements RepresentationModelProcessor<
         HighlightArg highlight,
         @PageableDefault(page = 0, size = 10, sort = ID, direction = ASC) Pageable page
     ) {
-        return ResponseEntity.ok(pagedAssembler.toModel(repo.search(query, facets, filters, boosts, highlight, page), assembler));
+        return ResponseEntity.ok(
+            pagedAssembler.toModel(
+                repo.search(query, facets, filters, boosts, highlight, page),
+                assembler
+            )
+        );
     }
 
     @Override

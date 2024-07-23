@@ -5,6 +5,9 @@ import java.util.Collection;
 import edu.tamu.scholars.middleware.discovery.model.AbstractIndexDocument;
 import edu.tamu.scholars.middleware.discovery.model.Individual;
 
+/**
+ * 
+ */
 public interface Indexer {
 
     public void init();

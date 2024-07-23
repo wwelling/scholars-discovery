@@ -25,6 +25,7 @@ import org.apache.jena.shared.InvalidPropertyURIException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import reactor.core.publisher.Flux;
 
 import edu.tamu.scholars.middleware.discovery.annotation.CollectionSource;
 import edu.tamu.scholars.middleware.discovery.annotation.FieldSource;
@@ -34,8 +35,10 @@ import edu.tamu.scholars.middleware.discovery.model.AbstractIndexDocument;
 import edu.tamu.scholars.middleware.discovery.model.Individual;
 import edu.tamu.scholars.middleware.service.TemplateService;
 import edu.tamu.scholars.middleware.service.Triplestore;
-import reactor.core.publisher.Flux;
 
+/**
+ * 
+ */
 public class TriplestoreHarvester implements Harvester {
 
     private static final Logger logger = LoggerFactory.getLogger(TriplestoreHarvester.class);
@@ -99,7 +102,9 @@ public class TriplestoreHarvester implements Harvester {
         return type;
     }
 
-    private Individual createIndividual(String subject) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+    private Individual createIndividual(String subject)
+        throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+        InvocationTargetException, NoSuchMethodException, SecurityException {
         Individual individual = new Individual();
         individual.setId(parse(subject));
         lookupProperties(individual, subject);
@@ -121,7 +126,12 @@ public class TriplestoreHarvester implements Harvester {
                     logger.debug("Could not find values for {}", typeOp.getField().getName());
                 }
             } catch (Exception e) {
-                logger.error("Unable to populate individual {} {}: {}", type.getSimpleName(), parse(subject), e.getMessage());
+                logger.error(
+                    "Unable to populate individual {} {}: {}",
+                    type.getSimpleName(),
+                    parse(subject),
+                    e.getMessage()
+                );
                 logger.debug("Error populating individual", e);
             }
         });
@@ -184,7 +194,11 @@ public class TriplestoreHarvester implements Harvester {
         return values;
     }
 
-    private void populate(Individual document, Field field, List<Object> values) throws IllegalArgumentException, IllegalAccessException {
+    private void populate(
+        Individual document,
+        Field field,
+        List<Object> values
+    ) throws IllegalArgumentException, IllegalAccessException {
         if (values.isEmpty()) {
             logger.debug("Could not find values for {}", field.getName());
         } else {
@@ -216,9 +230,9 @@ public class TriplestoreHarvester implements Harvester {
     }
 
     private void addSyncId(Set<String> syncIds, String value) {
-        String[] vParts = value.split(NESTED_DELIMITER);
-        for (int i = 1; i < vParts.length; i++) {
-            syncIds.add(vParts[i]);
+        String[] valueParts = value.split(NESTED_DELIMITER);
+        for (int i = 1; i < valueParts.length; i++) {
+            syncIds.add(valueParts[i]);
         }
     }
 

@@ -1,11 +1,11 @@
 package edu.tamu.scholars.middleware.service;
 
+import javax.annotation.PostConstruct;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.annotation.PostConstruct;
 
 import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.Handlebars;
@@ -16,13 +16,15 @@ import com.github.jknack.handlebars.context.FieldValueResolver;
 import com.github.jknack.handlebars.context.JavaBeanValueResolver;
 import com.github.jknack.handlebars.context.MapValueResolver;
 import com.github.jknack.handlebars.context.MethodValueResolver;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.scholars.middleware.auth.controller.request.Registration;
 
+/**
+ * 
+ */
 @Service
 public class TemplateService {
 

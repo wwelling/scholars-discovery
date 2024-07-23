@@ -11,22 +11,63 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import edu.tamu.scholars.middleware.auth.annotation.AvailableEmail;
 import edu.tamu.scholars.middleware.auth.annotation.ValidPassword;
+import edu.tamu.scholars.middleware.auth.model.User;
 import edu.tamu.scholars.middleware.auth.validator.group.CompleteRegistration;
 import edu.tamu.scholars.middleware.auth.validator.group.SubmitRegistration;
 
+/**
+ * {@link User} registration request DTO with validation of two forms; submit and complete requests.
+ */
 @ValidPassword(groups = CompleteRegistration.class, message = "{Registration.passwordInvalid}")
 public class Registration {
 
-    @Size(min = 2, max = 64, groups = { SubmitRegistration.class, CompleteRegistration.class }, message = "{Registration.firstNameSize}")
+    @Size(
+        min = 2,
+        max = 64,
+        groups = {
+            SubmitRegistration.class,
+            CompleteRegistration.class
+        },
+        message = "{Registration.firstNameSize}"
+    )
     private String firstName;
 
-    @Size(min = 2, max = 64, groups = { SubmitRegistration.class, CompleteRegistration.class }, message = "{Registration.lastNameSize}")
+    @Size(
+        min = 2,
+        max = 64,
+        groups = {
+            SubmitRegistration.class,
+            CompleteRegistration.class
+        },
+        message = "{Registration.lastNameSize}"
+    )
     private String lastName;
 
-    @NotNull(message = "{Registration.emailRequired}", groups = { SubmitRegistration.class, CompleteRegistration.class })
-    @NotEmpty(message = "{Registration.emailRequired}", groups = { SubmitRegistration.class, CompleteRegistration.class })
-    @AvailableEmail(groups = SubmitRegistration.class, message = "{Registration.emailAlreadyInUse}")
-    @Email(message = "{Registration.emailInvalid}", groups = { SubmitRegistration.class, CompleteRegistration.class })
+    @NotNull(
+        message = "{Registration.emailRequired}",
+        groups = {
+            SubmitRegistration.class,
+            CompleteRegistration.class
+        }
+    )
+    @NotEmpty(
+        message = "{Registration.emailRequired}",
+        groups = {
+            SubmitRegistration.class,
+            CompleteRegistration.class
+        }
+    )
+    @AvailableEmail(
+        groups = SubmitRegistration.class,
+        message = "{Registration.emailAlreadyInUse}"
+    )
+    @Email(
+        message = "{Registration.emailInvalid}",
+        groups = {
+            SubmitRegistration.class,
+            CompleteRegistration.class
+        }
+    )
     private String email;
 
     @JsonInclude(NON_NULL)

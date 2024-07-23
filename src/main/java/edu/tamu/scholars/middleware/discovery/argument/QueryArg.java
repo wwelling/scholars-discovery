@@ -7,6 +7,9 @@ import org.apache.commons.lang3.StringUtils;
 import edu.tamu.scholars.middleware.discovery.DiscoveryConstants;
 import edu.tamu.scholars.middleware.discovery.utility.DiscoveryUtility;
 
+/**
+ * 
+ */
 public class QueryArg {
 
     private final String expression;
@@ -21,7 +24,14 @@ public class QueryArg {
 
     private final String fields;
 
-    QueryArg(String expression, String defaultField, String minimumShouldMatch, String queryField, String boostQuery, String fields) {
+    QueryArg(
+        String expression,
+        String defaultField,
+        String minimumShouldMatch,
+        String queryField,
+        String boostQuery,
+        String fields
+    ) {
         this.expression = expression;
         this.defaultField = DiscoveryUtility.processFields(defaultField);
         this.minimumShouldMatch = minimumShouldMatch;
@@ -54,7 +64,14 @@ public class QueryArg {
         return fields;
     }
 
-    public static QueryArg of(Optional<String> q, Optional<String> df, Optional<String> mm, Optional<String> qf, Optional<String> bq, Optional<String> fl) {
+    public static QueryArg of(
+        Optional<String> q,
+        Optional<String> df,
+        Optional<String> mm,
+        Optional<String> qf,
+        Optional<String> bq,
+        Optional<String> fl
+    ) {
         String expression = q.isPresent() ? q.get() : DiscoveryConstants.DEFAULT_QUERY;
         String defaultField = df.isPresent() ? df.get() : StringUtils.EMPTY;
         String minimumShouldMatch = mm.isPresent() ? mm.get() : StringUtils.EMPTY;

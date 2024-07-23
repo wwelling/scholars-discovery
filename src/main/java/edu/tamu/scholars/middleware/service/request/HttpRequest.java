@@ -6,6 +6,9 @@ import java.util.List;
 import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 
+/**
+ * 
+ */
 public class HttpRequest {
 
     private String url;

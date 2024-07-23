@@ -4,6 +4,10 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 
 import edu.tamu.scholars.middleware.view.model.DisplayView;
 
+/**
+ * {@link DisplayView} {@link ViewEventHandler} with const channel
+ * defined for handling events.
+ */
 @RepositoryEventHandler(DisplayView.class)
 public class DisplayViewEventHandler extends ViewEventHandler<DisplayView> {
 

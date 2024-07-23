@@ -2,16 +2,21 @@ package edu.tamu.scholars.middleware.view.model;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+/**
+ * A persistent representation of how a UI should render a discovery view and its result set.
+ * 
+ * <p>See `src/main/resources/defaults/discoveryViews.yml`</p>
+ */
 @Entity
 @JsonInclude(NON_EMPTY)
 @Table(name = "discovery_views")

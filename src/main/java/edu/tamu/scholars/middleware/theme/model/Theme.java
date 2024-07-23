@@ -1,16 +1,19 @@
 package edu.tamu.scholars.middleware.theme.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.tamu.scholars.middleware.model.Named;
 
+/**
+ * 
+ */
 @Entity
 @Table(name = "themes")
 public class Theme extends Named {

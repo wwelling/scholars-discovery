@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -36,8 +37,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import edu.tamu.scholars.middleware.auth.config.TokenConfig;
 import edu.tamu.scholars.middleware.auth.handler.CustomAccessDeniedExceptionHandler;
 import edu.tamu.scholars.middleware.auth.handler.CustomAuthenticationEntryPoint;
@@ -46,6 +45,9 @@ import edu.tamu.scholars.middleware.auth.handler.CustomAuthenticationSuccessHand
 import edu.tamu.scholars.middleware.auth.handler.CustomLogoutSuccessHandler;
 import edu.tamu.scholars.middleware.config.model.MiddlewareConfig;
 
+/**
+ * 
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -95,8 +97,6 @@ public class WebSecurityConfig {
 
     @Bean
     public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
         CorsConfiguration embedConfig = new CorsConfiguration();
         embedConfig.setAllowCredentials(true);
         embedConfig.setAllowedOriginPatterns(Arrays.asList("*"));
@@ -105,17 +105,28 @@ public class WebSecurityConfig {
         embedConfig.addAllowedMethod("GET");
         embedConfig.addAllowedMethod("OPTION");
 
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/displayViews/search/findByName", embedConfig);
-
         source.registerCorsConfiguration("/individual/{id}", embedConfig);
-
         source.registerCorsConfiguration("/individual/search/findByIdIn", embedConfig);
 
         CorsConfiguration primaryConfig = new CorsConfiguration();
         primaryConfig.setAllowCredentials(true);
         primaryConfig.setAllowedOrigins(config.getAllowedOrigins());
-        primaryConfig.setAllowedMethods(Arrays.asList("GET", "DELETE", "PUT", "POST", "PATCH", "OPTIONS"));
-        primaryConfig.setAllowedHeaders(Arrays.asList("Authorization", "Origin", "Content-Type", "Content-Disposition"));
+        primaryConfig.setAllowedMethods(Arrays.asList(
+            "GET",
+            "DELETE",
+            "PUT",
+            "POST",
+            "PATCH",
+            "OPTIONS"
+        ));
+        primaryConfig.setAllowedHeaders(Arrays.asList(
+            "Authorization",
+            "Origin",
+            "Content-Type",
+            "Content-Disposition"
+        ));
         primaryConfig.setExposedHeaders(Arrays.asList("Content-Disposition"));
 
         // NOTE: most general path must be last

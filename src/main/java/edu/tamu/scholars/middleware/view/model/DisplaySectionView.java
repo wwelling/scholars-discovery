@@ -1,8 +1,5 @@
 package edu.tamu.scholars.middleware.view.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,9 +10,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+/**
+ * 
+ */
 @Entity
 @Table(name = "display_sections")
 @AttributeOverride(name = "name", column = @Column(nullable = false))

@@ -1,5 +1,8 @@
 package edu.tamu.scholars.middleware.messaging;
 
+/**
+ * 
+ */
 public abstract class SaveEntityMessage<E> implements EntityMessage {
 
     private final E entity;

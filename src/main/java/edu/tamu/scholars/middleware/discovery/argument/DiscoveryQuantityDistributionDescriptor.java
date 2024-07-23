@@ -1,5 +1,8 @@
 package edu.tamu.scholars.middleware.discovery.argument;
 
+/**
+ * 
+ */
 // TODO: refactor to DiscoveryQuantityDistributionDescriptorArg and add argument resolver
 public class DiscoveryQuantityDistributionDescriptor {
 

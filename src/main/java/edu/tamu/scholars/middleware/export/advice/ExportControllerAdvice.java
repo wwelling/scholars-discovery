@@ -16,10 +16,13 @@ import edu.tamu.scholars.middleware.export.exception.UnauthorizedExportException
 import edu.tamu.scholars.middleware.export.exception.UnknownExporterTypeException;
 import edu.tamu.scholars.middleware.export.exception.UnsupportedExporterTypeException;
 
+/**
+ * 
+ */
 @ControllerAdvice
 public class ExportControllerAdvice {
 
-    private final static Logger logger = LoggerFactory.getLogger(ExportControllerAdvice.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExportControllerAdvice.class);
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = UnknownExporterTypeException.class)
@@ -41,7 +44,9 @@ public class ExportControllerAdvice {
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = ExportQueryParameterRequiredException.class)
-    public @ResponseBody String handleExportQueryParameterRequiredException(ExportQueryParameterRequiredException exception) {
+    public @ResponseBody String handleExportQueryParameterRequiredException(
+        ExportQueryParameterRequiredException exception
+    ) {
         return exception.getMessage();
     }
 

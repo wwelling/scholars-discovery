@@ -2,11 +2,6 @@ package edu.tamu.scholars.middleware.view.model;
 
 import static javax.persistence.EnumType.STRING;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -17,9 +12,19 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+/**
+ * A persistent representation of how a UI should render a display view.
+ * 
+ * <p>See `src/main/resources/defaults/displayViews.yml`</p>
+ */
 @Entity
 @Table(name = "display_views")
 public class DisplayView extends View {

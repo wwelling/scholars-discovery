@@ -24,6 +24,9 @@ import edu.tamu.scholars.middleware.discovery.resolver.HighlightArgumentResolver
 import edu.tamu.scholars.middleware.discovery.resolver.QueryArgumentResolver;
 import edu.tamu.scholars.middleware.export.resolver.ExportArgumentResolver;
 
+/**
+ * 
+ */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
@@ -42,7 +45,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/file/**")
             .addResourceLocations(assetDir)
             .resourceChain(true)
-            .addResolver(new PathResourceResolver() {
+            .addResolver(
+                new PathResourceResolver() {
 
                 @Override
                 @Nullable
@@ -77,8 +81,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
                     return location;
                 }
-
-            });
+            }
+        );
     }
 
     @Override

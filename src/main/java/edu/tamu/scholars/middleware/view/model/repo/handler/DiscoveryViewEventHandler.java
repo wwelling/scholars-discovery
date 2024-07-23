@@ -4,6 +4,10 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 
 import edu.tamu.scholars.middleware.view.model.DiscoveryView;
 
+/**
+ * {@link DiscoveryView} {@link ViewEventHandler} with const channel
+ * defined for handling events.
+ */
 @RepositoryEventHandler(DiscoveryView.class)
 public class DiscoveryViewEventHandler extends ViewEventHandler<DiscoveryView> {
 

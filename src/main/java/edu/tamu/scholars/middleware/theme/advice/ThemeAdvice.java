@@ -11,20 +11,23 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.tamu.scholars.middleware.theme.exception.CreateActiveThemeException;
 import edu.tamu.scholars.middleware.theme.exception.DeleteActiveThemeException;
 
+/**
+ * 
+ */
 @RestController
 @ControllerAdvice
 public class ThemeAdvice {
 
-	@ResponseStatus(BAD_REQUEST)
-	@ExceptionHandler(CreateActiveThemeException.class)
-	public @ResponseBody String handleCreateActiveThemeException(CreateActiveThemeException exception) {
-		return exception.getMessage();
-	}
+    @ResponseStatus(BAD_REQUEST)
+    @ExceptionHandler(CreateActiveThemeException.class)
+    public @ResponseBody String handleCreateActiveThemeException(CreateActiveThemeException exception) {
+        return exception.getMessage();
+    }
 
-	@ResponseStatus(BAD_REQUEST)
-	@ExceptionHandler(DeleteActiveThemeException.class)
-	public @ResponseBody String handleDeleteActiveThemeException(DeleteActiveThemeException exception) {
-		return exception.getMessage();
-	}
+    @ResponseStatus(BAD_REQUEST)
+    @ExceptionHandler(DeleteActiveThemeException.class)
+    public @ResponseBody String handleDeleteActiveThemeException(DeleteActiveThemeException exception) {
+        return exception.getMessage();
+    }
 
 }

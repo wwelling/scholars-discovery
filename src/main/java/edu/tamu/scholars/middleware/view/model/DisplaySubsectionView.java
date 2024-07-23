@@ -5,6 +5,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * Represents a view for display subsections.
+ * Extends the {@link FieldView} class.
+ */
 @Entity
 @Table(name = "display_subsections")
 @AttributeOverride(name = "name", column = @Column(nullable = false))
@@ -18,25 +22,49 @@ public class DisplaySubsectionView extends FieldView {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String template;
 
+    /**
+     * Default constructor.
+     * Initializes the page size to 5.
+     */
     public DisplaySubsectionView() {
         super();
         pageSize = 5;
     }
 
+    /**
+     * Gets the page size.
+     *
+     * @return The page size.
+     */
     public int getPageSize() {
         return pageSize;
     }
 
+    /**
+     * Sets the page size.
+     *
+     * @param pageSize The new page size.
+     */
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
 
+    /**
+     * Gets the template.
+     *
+     * @return The template.
+     */
     public String getTemplate() {
         return template;
     }
 
+    /**
+     * Sets the template.
+     *
+     * @param template The new template.
+     */
     public void setTemplate(String template) {
         this.template = template;
     }
-
 }
+

@@ -3,6 +3,7 @@ package edu.tamu.scholars.middleware.discovery.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +19,14 @@ import edu.tamu.scholars.middleware.discovery.model.repo.IndividualRepo;
 import edu.tamu.scholars.middleware.discovery.response.DiscoveryAcademicAge;
 import edu.tamu.scholars.middleware.discovery.response.DiscoveryQuantityDistribution;
 
+/**
+ * 
+ */
 @RestController
 @RequestMapping("/individual/analytics")
 public class IndividualAnalyticsController {
 
+    @Lazy
     @Autowired
     private IndividualRepo repo;
 
@@ -38,7 +43,20 @@ public class IndividualAnalyticsController {
         @RequestParam(name = "upperLimitInYears", defaultValue = "40") Integer upperLimitInYears,
         @RequestParam(name = "groupingIntervalInYears", defaultValue = "5") Integer groupingIntervalInYears) {
 
-        return ResponseEntity.ok(repo.academicAge(DiscoveryAcademicAgeDescriptor.of(label, dateField, accumulateMultivaluedDate, averageOverInterval, upperLimitInYears, groupingIntervalInYears), query, filters));
+        return ResponseEntity.ok(
+            repo.academicAge(
+                DiscoveryAcademicAgeDescriptor.of(
+                    label,
+                    dateField,
+                    accumulateMultivaluedDate,
+                    averageOverInterval,
+                    upperLimitInYears,
+                    groupingIntervalInYears
+                ),
+                query,
+                filters
+            )
+        );
     }
 
     @GetMapping("/quantityDistribution")
@@ -49,7 +67,13 @@ public class IndividualAnalyticsController {
         @RequestParam(name = "label", defaultValue = "UN SDG") String label,
         @RequestParam(name = "field", defaultValue = "tags") String field) {
 
-        return ResponseEntity.ok(repo.quantityDistribution(DiscoveryQuantityDistributionDescriptor.of(label, field), query, filters));
+        return ResponseEntity.ok(
+            repo.quantityDistribution(
+                DiscoveryQuantityDistributionDescriptor.of(label, field),
+                query,
+                filters
+            )
+        );
     }
 
 }

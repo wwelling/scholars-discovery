@@ -10,6 +10,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.tamu.scholars.middleware.discovery.annotation.FieldSource;
 import edu.tamu.scholars.middleware.discovery.annotation.FieldType;
 
+/**
+ * 
+ */
 public abstract class AbstractIndexDocument {
 
     @JsonProperty(CLASS)
@@ -19,7 +22,11 @@ public abstract class AbstractIndexDocument {
     private String id;
 
     @FieldType(type = "whole_strings")
-    @FieldSource(template = "common/type", predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType", parse = true)
+    @FieldSource(
+        template = "common/type",
+        predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
+        parse = true
+    )
     private List<String> type;
 
     @FieldType(type = "strings")

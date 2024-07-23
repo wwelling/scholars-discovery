@@ -8,6 +8,9 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import edu.tamu.scholars.middleware.view.model.DisplayView;
 
+/**
+ * {@link DisplayView} <a href="https://docs.spring.io/spring-data/rest/reference/repository-resources.html">Sprint Data REST repository resource.</a>
+ */
 @RepositoryRestResource
 public interface DisplayViewRepo extends ViewRepo<DisplayView> {
 

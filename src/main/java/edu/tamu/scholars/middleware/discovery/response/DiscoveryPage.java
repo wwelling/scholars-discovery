@@ -2,11 +2,13 @@ package edu.tamu.scholars.middleware.discovery.response;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+/**
+ * 
+ */
 @JsonIgnoreProperties({
     "number",
     "size",

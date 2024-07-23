@@ -7,6 +7,9 @@ import javax.persistence.Enumerated;
 
 import edu.tamu.scholars.middleware.model.OpKey;
 
+/**
+ * Embeddable class `Filter` to describe filtering of {@link View} result sets.
+ */
 @Embeddable
 public class Filter {
 

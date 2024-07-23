@@ -3,6 +3,11 @@ package edu.tamu.scholars.middleware.auth.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * Injectable middleware auth configuration to specify token properties.
+ * 
+ * <p>See `middleware.auth.token` in src/main/resources/application.yml.</p>
+ */
 @Component
 @ConfigurationProperties(prefix = "middleware.auth.token")
 public class TokenConfig {

@@ -3,6 +3,12 @@ package edu.tamu.scholars.middleware.auth.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * Injectable middleware configuration to specify properties relating to
+ * authentication and authorization.
+ *
+ * <p>See `middleware.auth` in src/main/resources/application.yml.</p>
+ */
 @Component
 @ConfigurationProperties(prefix = "middleware.auth")
 public class AuthConfig {

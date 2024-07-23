@@ -14,6 +14,9 @@ import edu.tamu.scholars.middleware.config.model.MiddlewareConfig;
 import edu.tamu.scholars.middleware.discovery.component.Indexer;
 import edu.tamu.scholars.middleware.discovery.model.AbstractIndexDocument;
 
+/**
+ * Externally configured list of @{link Indexer} beans.
+ */
 @Configuration
 public class IndexingConfig {
 
@@ -24,7 +27,9 @@ public class IndexingConfig {
     private AutowireCapableBeanFactory beanFactory;
 
     @Bean
-    public List<Indexer> indexers() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+    public List<Indexer> indexers()
+        throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+        InvocationTargetException, NoSuchMethodException, SecurityException {
         List<Indexer> indexers = new ArrayList<Indexer>();
         for (IndexerConfig config : middleware.getIndexers()) {
             for (Class<? extends AbstractIndexDocument> documentType : config.getDocumentTypes()) {
@@ -34,7 +39,9 @@ public class IndexingConfig {
         return indexers;
     }
 
-    public Indexer indexer(Class<? extends Indexer> type, Class<? extends AbstractIndexDocument> documentType) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+    public Indexer indexer(Class<? extends Indexer> type, Class<? extends AbstractIndexDocument> documentType)
+        throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+        InvocationTargetException, NoSuchMethodException, SecurityException {
         Indexer indexer = type.getConstructor(Class.class).newInstance(documentType);
         beanFactory.autowireBean(indexer);
         return indexer;

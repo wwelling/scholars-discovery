@@ -15,13 +15,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+import reactor.core.publisher.Flux;
 
 import edu.tamu.scholars.middleware.config.model.ExportConfig;
 import edu.tamu.scholars.middleware.discovery.exception.InvalidValuePathException;
 import edu.tamu.scholars.middleware.discovery.model.Individual;
 import edu.tamu.scholars.middleware.export.argument.ExportArg;
-import reactor.core.publisher.Flux;
 
+/**
+ * 
+ */
 @Service
 public class CsvExporter implements Exporter {
 
@@ -69,7 +72,11 @@ public class CsvExporter implements Exporter {
                         try {
                             List<Object> row = getRow(individual, properties);
                             printer.printRecord(row.toArray(new Object[row.size()]));
-                        } catch (IllegalArgumentException | IllegalAccessException | InvalidValuePathException | IOException e) {
+                        } catch (IllegalArgumentException
+                            | IllegalAccessException
+                            | InvalidValuePathException
+                            | IOException e
+                        ) {
                             e.printStackTrace();
                         }
                     }, error -> {
@@ -99,7 +106,10 @@ public class CsvExporter implements Exporter {
         return columnHeaders.toArray(new String[columnHeaders.size()]);
     }
 
-    private List<Object> getRow(Individual individual, List<String> properties) throws InvalidValuePathException, IllegalArgumentException, IllegalAccessException {
+    private List<Object> getRow(
+        Individual individual,
+        List<String> properties
+    ) throws InvalidValuePathException, IllegalArgumentException, IllegalAccessException {
         Map<String, Object> content = individual.getContent();
         List<Object> row = new ArrayList<Object>();
         for (String property : properties) {

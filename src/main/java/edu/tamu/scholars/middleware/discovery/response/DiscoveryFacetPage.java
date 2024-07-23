@@ -24,6 +24,9 @@ import edu.tamu.scholars.middleware.discovery.argument.FacetSortArg;
 import edu.tamu.scholars.middleware.utility.DateFormatUtility;
 import edu.tamu.scholars.middleware.view.model.FacetSort;
 
+/**
+ * 
+ */
 public class DiscoveryFacetPage<T> extends DiscoveryPage<T> {
 
     private static final long serialVersionUID = 8673698977219588493L;
@@ -35,7 +38,13 @@ public class DiscoveryFacetPage<T> extends DiscoveryPage<T> {
         this.facets = facets;
     }
 
-    public static <T> DiscoveryFacetPage<T> from(List<T> documents, QueryResponse response, Pageable pageable, List<FacetArg> facetArguments, Class<T> type) {
+    public static <T> DiscoveryFacetPage<T> from(
+        List<T> documents,
+        QueryResponse response,
+        Pageable pageable,
+        List<FacetArg> facetArguments,
+        Class<T> type
+    ) {
         List<Facet> facets = buildFacets(response, facetArguments);
         SolrDocumentList results = response.getResults();
 
@@ -54,7 +63,9 @@ public class DiscoveryFacetPage<T> extends DiscoveryPage<T> {
 
                 List<FacetEntry> entries = facetField.getValues().parallelStream()
                     .map(entry -> new FacetEntry(entry.getName(), entry.getCount()))
-                    .collect(Collectors.toMap(FacetEntry::getValueKey, fe -> fe, FacetEntry::merge)).values().parallelStream()
+                    .collect(Collectors.toMap(FacetEntry::getValueKey, fe -> fe, FacetEntry::merge))
+                        .values()
+                        .parallelStream()
                     .sorted(FacetEntryComparator.of(facetArgument.getSort()))
                     .collect(Collectors.toList());
 
@@ -69,11 +80,17 @@ public class DiscoveryFacetPage<T> extends DiscoveryPage<T> {
 
                 int end = offset + (pageSize > totalElements ? totalElements : offset + pageSize);
 
-                Sort sort = Sort.by(facetArgument.getSort().getDirection(), facetArgument.getSort().getProperty().toString());
+                Sort sort = Sort.by(
+                    facetArgument.getSort().getDirection(),
+                    facetArgument.getSort().getProperty().toString()
+                );
 
                 Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
 
-                facets.add(new Facet(findPath(name), DiscoveryPage.from(entries.subList(start, end), pageable, totalElements)));
+                facets.add(
+                    new Facet(findPath(name),
+                    DiscoveryPage.from(entries.subList(start, end), pageable, totalElements))
+                );
             }
         });
         return facets;
@@ -90,7 +107,9 @@ public class DiscoveryFacetPage<T> extends DiscoveryPage<T> {
         @Override
         public int compare(FacetEntry e1, FacetEntry e2) {
             if (facetSort.getProperty().equals(FacetSort.COUNT)) {
-                return facetSort.getDirection().equals(Direction.ASC) ? Long.compare(e1.count, e2.count) : Long.compare(e2.count, e1.count);
+                return facetSort.getDirection().equals(Direction.ASC)
+                    ? Long.compare(e1.count, e2.count)
+                    : Long.compare(e2.count, e1.count);
             }
             try {
                 ZonedDateTime ld1 = DateFormatUtility.parseZonedDateTime(e1.value);
@@ -102,7 +121,9 @@ public class DiscoveryFacetPage<T> extends DiscoveryPage<T> {
                     Double d2 = Double.parseDouble(e2.value);
                     return facetSort.getDirection().equals(Direction.ASC) ? d1.compareTo(d2) : d2.compareTo(d1);
                 } else {
-                    return facetSort.getDirection().equals(Direction.ASC) ? e1.value.compareTo(e2.value) : e2.value.compareTo(e1.value);
+                    return facetSort.getDirection().equals(Direction.ASC)
+                        ? e1.value.compareTo(e2.value)
+                        : e2.value.compareTo(e1.value);
                 }
             }
         }

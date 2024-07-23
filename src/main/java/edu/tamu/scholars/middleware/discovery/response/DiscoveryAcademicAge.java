@@ -16,6 +16,9 @@ import edu.tamu.scholars.middleware.discovery.argument.DiscoveryAcademicAgeDescr
 import edu.tamu.scholars.middleware.discovery.argument.DiscoveryAcademicAgeDescriptor.LabeledRange;
 import edu.tamu.scholars.middleware.discovery.utility.DateUtility;
 
+/**
+ * 
+ */
 public class DiscoveryAcademicAge {
 
     private final String label;
@@ -100,7 +103,9 @@ public class DiscoveryAcademicAge {
         Collections.sort(groups, new AgeGroupComparator());
 
         this.mean = results.size() > 0 ? sum.get() / results.size() : 0;
-        this.median = results.size() > 0 ? DateUtility.ageInYearsFromEpochSecond((long) results.get(results.size() / 2).getFieldValue(ageField)) : 0;
+        this.median = results.size() > 0
+            ? DateUtility.ageInYearsFromEpochSecond((long) results.get(results.size() / 2).getFieldValue(ageField))
+            : 0;
     }
 
     public String getLabel() {
@@ -135,17 +140,21 @@ public class DiscoveryAcademicAge {
         private final Integer index;
         private final String label;
         private final Integer value;
+
         private AgeGroup(Integer index, String label, Integer value) {
             this.index = index;
             this.label = label;
             this.value = value;
         }
+
         public Integer getIndex() {
             return index;
         }
+
         public String getLabel() {
             return label;
         }
+
         public Integer getValue() {
             return value;
         }

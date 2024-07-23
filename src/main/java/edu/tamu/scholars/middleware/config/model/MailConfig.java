@@ -3,6 +3,11 @@ package edu.tamu.scholars.middleware.config.model;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * Injectable middleware configuration to specify mail properties.
+ * 
+ * <p>See `middleware.mail` in src/main/resources/application.yml.</p>
+ */
 @Component
 @ConfigurationProperties(prefix = "middleware.mail")
 public class MailConfig {

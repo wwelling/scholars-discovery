@@ -1,13 +1,17 @@
 package edu.tamu.scholars.middleware.view.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Min;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Abstract mapped superclass `FieldView` to order itself and
+ * filter and sort its result sets for a given field.
+ */
 @MappedSuperclass
 public abstract class FieldView extends View {
 

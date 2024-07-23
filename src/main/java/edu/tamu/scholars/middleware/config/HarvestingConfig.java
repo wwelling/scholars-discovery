@@ -14,6 +14,11 @@ import edu.tamu.scholars.middleware.config.model.MiddlewareConfig;
 import edu.tamu.scholars.middleware.discovery.component.Harvester;
 import edu.tamu.scholars.middleware.discovery.model.AbstractIndexDocument;
 
+/**
+ * Externally configured list of @{link Harvester} beans.
+ * 
+ * <p>See {@link MiddlewareConfig}.</p>
+ */
 @Configuration
 public class HarvestingConfig {
 
@@ -24,7 +29,9 @@ public class HarvestingConfig {
     private AutowireCapableBeanFactory beanFactory;
 
     @Bean
-    public List<Harvester> harvesters() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+    public List<Harvester> harvesters()
+        throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+        InvocationTargetException, NoSuchMethodException, SecurityException {
         List<Harvester> harvesters = new ArrayList<Harvester>();
         for (HarvesterConfig config : middleware.getHarvesters()) {
             for (Class<? extends AbstractIndexDocument> documentType : config.getDocumentTypes()) {
@@ -34,7 +41,9 @@ public class HarvestingConfig {
         return harvesters;
     }
 
-    public Harvester harvester(Class<? extends Harvester> type, Class<? extends AbstractIndexDocument> documentType) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+    public Harvester harvester(Class<? extends Harvester> type, Class<? extends AbstractIndexDocument> documentType)
+        throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+        InvocationTargetException, NoSuchMethodException, SecurityException {
         Harvester harvester = type.getConstructor(Class.class).newInstance(documentType);
         beanFactory.autowireBean(harvester);
         return harvester;

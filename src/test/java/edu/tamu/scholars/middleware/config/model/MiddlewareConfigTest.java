@@ -164,8 +164,8 @@ public class MiddlewareConfigTest {
         newTriplestoreConfig.setPassword("password");
         newTriplestoreConfig.setJdbcStream(false);
         newTriplestoreConfig.setJdbcFetchSize(16);
-        newTriplestoreConfig.setStreamGraphAPI(false);
-        newTriplestoreConfig.setAnnotateGeneratedSQL(true);
+        newTriplestoreConfig.setStreamGraphApi(false);
+        newTriplestoreConfig.setAnnotateGeneratedSql(true);
         middlewareConfig.setTriplestore(newTriplestoreConfig);
         TriplestoreConfig triplestoreConfig = middlewareConfig.getTriplestore();
         triplestoreConfig.setType(TDBTriplestore.class);
@@ -186,10 +186,10 @@ public class MiddlewareConfigTest {
         assertFalse(triplestoreConfig.isJdbcStream());
         triplestoreConfig.setJdbcFetchSize(16);
         assertEquals(16, triplestoreConfig.getJdbcFetchSize());
-        triplestoreConfig.setStreamGraphAPI(false);
-        assertFalse(triplestoreConfig.isStreamGraphAPI());
-        triplestoreConfig.setAnnotateGeneratedSQL(true);
-        assertTrue(triplestoreConfig.isAnnotateGeneratedSQL());
+        triplestoreConfig.setStreamGraphApi(false);
+        assertFalse(triplestoreConfig.isStreamGraphApi());
+        triplestoreConfig.setAnnotateGeneratedSql(true);
+        assertTrue(triplestoreConfig.isAnnotateGeneratedSql());
     }
 
     @Test

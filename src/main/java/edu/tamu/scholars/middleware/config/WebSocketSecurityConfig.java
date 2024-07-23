@@ -13,6 +13,9 @@ import org.springframework.security.access.expression.SecurityExpressionHandler;
 import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
 import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
 
+/**
+ * 
+ */
 @Configuration
 public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {
 

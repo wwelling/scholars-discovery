@@ -9,6 +9,9 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 
 import edu.tamu.scholars.middleware.discovery.argument.DiscoveryQuantityDistributionDescriptor;
 
+/**
+ * 
+ */
 public class DiscoveryQuantityDistribution {
 
     private final String label;
@@ -60,8 +63,13 @@ public class DiscoveryQuantityDistribution {
             });
     }
 
-    public static DiscoveryQuantityDistribution from(DiscoveryQuantityDistributionDescriptor quantityDistributionDescriptor) {
-        return new DiscoveryQuantityDistribution(quantityDistributionDescriptor.getLabel(), quantityDistributionDescriptor.getField());
+    public static DiscoveryQuantityDistribution from(
+        DiscoveryQuantityDistributionDescriptor quantityDistributionDescriptor
+    ) {
+        return new DiscoveryQuantityDistribution(
+            quantityDistributionDescriptor.getLabel(),
+            quantityDistributionDescriptor.getField()
+        );
     }
 
     public class Slice {

@@ -8,10 +8,18 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.socket.messaging.StompSubProtocolErrorHandler;
 
+/**
+ * 
+ */
 public class CustomStompSubProtocolErrorHandler extends StompSubProtocolErrorHandler {
 
     @Override
-    protected Message<byte[]> handleInternal(StompHeaderAccessor errorHeaderAccessor, byte[] errorPayload, @Nullable Throwable cause, @Nullable StompHeaderAccessor clientHeaderAccessor) {
+    protected Message<byte[]> handleInternal(
+        StompHeaderAccessor errorHeaderAccessor,
+        byte[] errorPayload,
+        @Nullable Throwable cause,
+        @Nullable StompHeaderAccessor clientHeaderAccessor
+    ) {
         if (Objects.nonNull(clientHeaderAccessor)) {
             errorHeaderAccessor.setDestination(clientHeaderAccessor.getDestination());
         }

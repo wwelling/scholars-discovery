@@ -11,10 +11,13 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
+/**
+ * 
+ */
 @Component
 public class SubscriptionListener implements ApplicationListener<SessionSubscribeEvent> {
 
-    private final static byte[] EMPTY_PAYLOAD = new byte[0];
+    private static final byte[] EMPTY_PAYLOAD = new byte[0];
 
     @Autowired
     private AbstractSubscribableChannel clientOutboundChannel;

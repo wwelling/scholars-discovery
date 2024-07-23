@@ -6,6 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.rest.core.annotation.RestResource;
 
+/**
+ * {@link Named} {@link JpaRepository} interface.
+ *
+ * @param <E> entity
+ */
 @NoRepositoryBean
 public interface NamedRepo<E> extends JpaRepository<E, Long> {
 

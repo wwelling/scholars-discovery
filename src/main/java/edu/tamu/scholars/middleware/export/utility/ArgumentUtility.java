@@ -1,17 +1,20 @@
 package edu.tamu.scholars.middleware.export.utility;
 
+import javax.servlet.http.HttpServletRequest;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletRequest;
-
 import edu.tamu.scholars.middleware.export.argument.ExportArg;
 
+/**
+ * 
+ */
 public class ArgumentUtility {
 
-    private final static String EXPORT_QUERY_PARAM_KEY = "export";
+    private static final String EXPORT_QUERY_PARAM_KEY = "export";
 
     public static List<ExportArg> getExportArguments(HttpServletRequest request) {
         return Collections.list(request.getParameterNames()).stream()
