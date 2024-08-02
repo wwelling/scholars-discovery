@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
@@ -407,8 +408,8 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
         try {
             SolrDocument document = solrClient.getById(collectionName, id);
 
-            return Individual.from(document);
-        } catch (IOException | SolrServerException e) {
+            return Objects.nonNull(document) ? Individual.from(document) : null;
+        } catch (IOException | NullPointerException | SolrServerException e) {
             throw new SolrRequestException("Failed to get document by id", e);
         }
     }
