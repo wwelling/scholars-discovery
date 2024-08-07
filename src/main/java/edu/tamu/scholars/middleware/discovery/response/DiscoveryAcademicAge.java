@@ -53,10 +53,9 @@ public class DiscoveryAcademicAge {
 
         List<LabeledRange> labeledRanges = academicAgeDescriptor.getLabeledRanges();
 
-        AtomicInteger sum = new AtomicInteger(0);
-        AtomicInteger total = new AtomicInteger(0);
+        int sum = 0;
 
-        labeledRanges.parallelStream().forEach(lr -> {
+        for (LabeledRange lr : labeledRanges) {
 
             int subtotal = 0;
 
@@ -70,7 +69,7 @@ public class DiscoveryAcademicAge {
                 boolean inRange = false;
 
                 if (lr.isFirst) {
-                    sum.getAndAdd(age);
+                    sum += age;
                     inRange = age < lr.to;
                 } else if (lr.isLast) {
                     inRange = age >= lr.from;
@@ -90,19 +89,16 @@ public class DiscoveryAcademicAge {
                 }
             }
 
-            total.addAndGet(subtotal);
-
             Integer value = academicAgeDescriptor.getAverageOverInterval() && set.size() > 0
                 ? subtotal / set.size()
                 : subtotal;
 
             add(lr.index, lr.range, lr.label, value);
-
-        });
+        }
 
         Collections.sort(groups, new AgeGroupComparator());
 
-        this.mean = results.size() > 0 ? sum.get() / results.size() : 0;
+        this.mean = results.size() > 0 ? sum / results.size() : 0;
         this.median = results.size() > 0
             ? DateUtility.ageInYearsFromEpochSecond((long) results.get(results.size() / 2).getFieldValue(ageField))
             : 0;
