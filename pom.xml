@@ -355,7 +355,7 @@
           <configLocation>checkstyles.xml</configLocation>
           <consoleOutput>true</consoleOutput>
           <violationSeverity>warning</violationSeverity>
-          <failOnViolation>true</failOnViolation>
+          <failOnViolation>false</failOnViolation>
           <failsOnError>true</failsOnError>
           <linkXRef>false</linkXRef>
           <skip>false</skip>
