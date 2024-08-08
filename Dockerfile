@@ -24,6 +24,7 @@ RUN apk -U upgrade
 WORKDIR $SOURCE_DIR
 
 # Copy files over.
+COPY ./checkstyles.xml ./checkstyles.xml
 COPY ./pom.xml ./pom.xml
 COPY ./src ./src
 COPY ./solr ./solr
