@@ -5,7 +5,7 @@ ARG HOME_DIR=/$USER_NAME
 ARG SOURCE_DIR=$HOME_DIR/source
 
 # Maven stage.
-FROM maven:3-eclipse-temurin-17-alpine as maven
+FROM maven:3-eclipse-temurin-17-alpine AS maven
 ARG USER_ID
 ARG USER_NAME
 ARG HOME_DIR
