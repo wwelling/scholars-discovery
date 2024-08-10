@@ -87,11 +87,15 @@ public class DiscoveryUtility {
     }
 
     public static String[] processFields(String[] fields) {
-        return Arrays.asList(fields)
+        return processFields(Arrays.asList(fields))
+            .toArray(new String[fields.length]);
+    }
+
+    public static List<String> processFields(List<String> fields) {
+        return fields
             .stream()
             .map(DiscoveryUtility::findProperty)
-            .collect(Collectors.toList())
-            .toArray(new String[fields.length]);
+            .collect(Collectors.toList());
     }
 
     public static String processFields(String fields) {

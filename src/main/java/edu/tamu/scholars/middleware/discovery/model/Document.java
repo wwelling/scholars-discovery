@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import edu.tamu.scholars.middleware.discovery.annotation.CollectionSource;
 import edu.tamu.scholars.middleware.discovery.annotation.FieldSource;
+import edu.tamu.scholars.middleware.discovery.annotation.FieldSource.CacheableLookup;
 import edu.tamu.scholars.middleware.discovery.annotation.FieldType;
 import edu.tamu.scholars.middleware.discovery.annotation.NestedMultiValuedProperty;
 import edu.tamu.scholars.middleware.discovery.annotation.NestedObject;
@@ -93,7 +94,13 @@ public class Document extends Common {
     @FieldType(type = "nested_whole_strings")
     @FieldSource(
         template = "document/authorOrganization",
-        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+        predicate = "http://www.w3.org/2000/01/rdf-schema#label",
+        lookup = {
+            @CacheableLookup(
+                template = "document/authorOrganizations",
+                predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+            )
+        }
     )
     private List<String> authorOrganization;
 
