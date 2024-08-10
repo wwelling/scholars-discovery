@@ -35,3 +35,5 @@
 triplestore/
 assets/
 logs/
+
+pgdata/
