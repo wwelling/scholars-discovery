@@ -26,4 +26,19 @@ public @interface FieldSource {
 
     boolean split() default false;
 
+    CacheableLookup[] lookup() default {};
+
+    // allow to pass field source values into another template
+    // each result is appended to one set
+    @Documented
+    @Target(FIELD)
+    @Retention(RUNTIME)
+    public @interface CacheableLookup {
+
+        String template();
+
+        String predicate();
+
+    }
+
 }

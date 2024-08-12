@@ -1,5 +1,7 @@
 package edu.tamu.scholars.middleware.discovery.argument;
 
+import edu.tamu.scholars.middleware.discovery.utility.DiscoveryUtility;
+
 /**
  * 
  */
@@ -13,7 +15,7 @@ public class DiscoveryQuantityDistributionDescriptor {
     private DiscoveryQuantityDistributionDescriptor(String label, String field) {
         super();
         this.label = label;
-        this.field = field;
+        this.field = DiscoveryUtility.findProperty(field);
     }
 
     public String getLabel() {
