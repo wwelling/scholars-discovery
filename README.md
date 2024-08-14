@@ -119,7 +119,8 @@ To run the `mvn spring-boot:run` command with `SPRING_APPLICATION_JSON` defined,
 SPRING_APPLICATION_JSON='{"spring.datasource.driver-class-name":"org.postgresql.Driver","spring.datasource.url":"jdbc:postgresql://localhost:5432/scholars","spring.jpa.database-platform":"org.hibernate.dialect.PostgreSQLDialect","spring.sql.init.platform":"postgres"}' mvn spring-boot:run
 ```
 
-config.json
+Save the following as `config.json`.
+
 ```json
 {
   "spring.datasource.driver-class-name": "org.postgresql.Driver",
