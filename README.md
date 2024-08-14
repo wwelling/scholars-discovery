@@ -105,6 +105,47 @@ docker run -d -p 9000:9000 -e SPRING_APPLICATION_JSON="{\"spring\":{\"data\":{\"
 
 > The environment variable `SPRING_APPLICATION_JSON` will override properties in application.yml.
 
+## Docker Compose for Development
+
+```bash
+docker-compose up
+```
+
+This will provide Postgres database at localhost:5432 and Solr at localhost:8983. There should be two volume mounts at relative path `pgdata` and `solr/data`.
+
+To run the mvn spring-boot:run command with SPRING_APPLICATION_JSON defined, you can use the following approach:
+
+```
+SPRING_APPLICATION_JSON='{"spring.datasource.driver-class-name":"org.postgresql.Driver","spring.datasource.url":"jdbc:postgresql://localhost:5432/scholars","spring.jpa.database-platform":"org.hibernate.dialect.PostgreSQLDialect","spring.sql.init.platform":"postgres"}' mvn spring-boot:run
+```
+
+config.json
+```json
+{
+  "spring.datasource.driver-class-name": "org.postgresql.Driver",
+  "spring.datasource.url": "jdbc:postgresql://localhost:5432/scholars",
+  "spring.jpa.database-platform": "org.hibernate.dialect.PostgreSQLDialect",
+  "spring.sql.init.platform": "postgres"
+}
+```
+
+```
+SPRING_APPLICATION_JSON=$(cat config.json) mvn spring-boot:run
+```
+
+
+For Windows Command Prompt, the syntax is slightly different:
+
+```
+set SPRING_APPLICATION_JSON={"spring.datasource.driver-class-name":"org.postgresql.Driver","spring.datasource.url":"jdbc:postgresql://localhost:5432/scholars","spring.jpa.database-platform":"org.hibernate.dialect.PostgreSQLDialect","spring.sql.init.platform":"postgres"} && mvn spring-boot:run
+```
+
+For Windows PowerShell:
+
+```
+$env:SPRING_APPLICATION_JSON='{"spring.datasource.driver-class-name":"org.postgresql.Driver","spring.datasource.url":"jdbc:postgresql://localhost:5432/scholars","spring.jpa.database-platform":"org.hibernate.dialect.PostgreSQLDialect","spring.sql.init.platform":"postgres"}'; mvn spring-boot:run
+```
+
 ## Verify Installation
 
 With the above installation instructions, the following service endpoints can be verified:
