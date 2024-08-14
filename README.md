@@ -113,7 +113,7 @@ docker-compose up
 
 This will provide Postgres database at localhost:5432 and Solr at localhost:8983. There should be two volume mounts at relative path `pgdata` and `solr/data`.
 
-To run the mvn spring-boot:run command with SPRING_APPLICATION_JSON defined, you can use the following approach:
+To run the `mvn spring-boot:run` command with `SPRING_APPLICATION_JSON` defined, you can use the following approach:
 
 ```
 SPRING_APPLICATION_JSON='{"spring.datasource.driver-class-name":"org.postgresql.Driver","spring.datasource.url":"jdbc:postgresql://localhost:5432/scholars","spring.jpa.database-platform":"org.hibernate.dialect.PostgreSQLDialect","spring.sql.init.platform":"postgres"}' mvn spring-boot:run
