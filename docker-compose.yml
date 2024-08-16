@@ -18,6 +18,6 @@ services:
       context: ./solr/
       dockerfile: Dockerfile
     volumes:
-      - ./solr/data5:/var/solr/data
+      - ./solr/data:/var/solr/data
     ports:
       - 8983:8983
