@@ -4,6 +4,6 @@ CONSTRUCT {
     ?dateTimeStart vivo:dateTime ?dateTime .
 } WHERE {
     <{{uri}}> vivo:dateTimeInterval ?dateTimeInterval .
-    ?dateTimeInterval vivo:start ?dateTimeStart .
+    ?dateTimeInterval vivo:end ?dateTimeStart .
     ?dateTimeStart vivo:dateTime ?dateTime .
 }

@@ -1,0 +1,23 @@
+services:
+
+  db:
+    container_name: scholars-db
+    image: postgres
+    environment:
+       - POSTGRES_DB=scholars
+       - POSTGRES_USER=scholars
+       - POSTGRES_PASSWORD=scholars
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  solr:
+    container_name: scholars-solr
+    build:
+      context: ./solr/
+      dockerfile: Dockerfile
+    volumes:
+      - ./solr/data:/var/solr/data
+    ports:
+      - 8983:8983

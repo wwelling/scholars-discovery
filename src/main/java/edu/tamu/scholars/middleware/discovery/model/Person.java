@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import edu.tamu.scholars.middleware.discovery.annotation.CollectionSource;
 import edu.tamu.scholars.middleware.discovery.annotation.FieldSource;
+import edu.tamu.scholars.middleware.discovery.annotation.FieldSource.CacheableLookup;
 import edu.tamu.scholars.middleware.discovery.annotation.FieldType;
 import edu.tamu.scholars.middleware.discovery.annotation.NestedMultiValuedProperty;
 import edu.tamu.scholars.middleware.discovery.annotation.NestedObject;
@@ -1204,7 +1205,13 @@ public class Person extends Common {
     @FieldType(type = "whole_strings")
     @FieldSource(
         template = "person/organization",
-        predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+        predicate = "http://vivoweb.org/ontology/core#relates",
+        lookup = {
+            @CacheableLookup(
+                template = "person/organizations",
+                predicate = "http://www.w3.org/2000/01/rdf-schema#label"
+            )
+        }
     )
     private List<String> organizations;
 

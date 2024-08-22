@@ -210,6 +210,9 @@
   filters:
     - field: class
       value: Document
+    - field: title
+      value: '*'
+      opKey: EXPRESSION
   boosts: []
   sort:
     - field: title_sort

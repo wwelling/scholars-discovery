@@ -303,6 +303,9 @@
     - field: class
       value: Document OR type:creativeWork
       opKey: EXPRESSION
+    - field: title
+      value: '*'
+      opKey: EXPRESSION
   boosts:
     - field: title
       value: 2

@@ -3,8 +3,8 @@ package edu.tamu.scholars.middleware.discovery.indicator;
 import static edu.tamu.scholars.middleware.discovery.DiscoveryConstants.DEFAULT_QUERY;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.solr.client.solrj.SolrClient;
@@ -57,7 +57,7 @@ public class IndexHealthIndicator implements HealthIndicator {
 
             if (response.getStatus() == 0 && message.equals("OK")) {
 
-                long count = individualRepo.count(DEFAULT_QUERY, List.of());
+                long count = individualRepo.count(DEFAULT_QUERY, Arrays.asList());
 
                 details.put("count", count);
 

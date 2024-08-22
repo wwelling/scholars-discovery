@@ -11,6 +11,8 @@ import java.util.Map;
 import org.apache.solr.common.params.MapSolrParams;
 import org.apache.solr.common.params.SolrParams;
 
+import edu.tamu.scholars.middleware.discovery.utility.DiscoveryUtility;
+
 /**
  * 
  */
@@ -28,8 +30,8 @@ public class DiscoveryNetworkDescriptor {
     private DiscoveryNetworkDescriptor(String id, String dateField, List<String> dataFields, String typeFilter) {
         super();
         this.id = id;
-        this.dateField = dateField;
-        this.dataFields = dataFields;
+        this.dateField = DiscoveryUtility.findProperty(dateField);
+        this.dataFields = DiscoveryUtility.processFields(dataFields);
         this.typeFilter = typeFilter;
     }
 
