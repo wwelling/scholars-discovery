@@ -5,6 +5,7 @@ import static edu.tamu.scholars.middleware.discovery.DiscoveryConstants.NESTED_D
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ import edu.tamu.scholars.middleware.config.model.ExportConfig;
 import edu.tamu.scholars.middleware.discovery.exception.InvalidValuePathException;
 import edu.tamu.scholars.middleware.discovery.model.Individual;
 import edu.tamu.scholars.middleware.export.argument.ExportArg;
+import edu.tamu.scholars.middleware.utility.DateFormatUtility;
 
 /**
  * 
@@ -67,7 +69,14 @@ public class CsvExporter implements Exporter {
                 .map(e -> e.getField())
                 .collect(Collectors.toList());
             try (CSVPrinter printer = new CSVPrinter(outputStreamWriter, format)) {
-                individuals.subscribe(
+                individuals.doOnComplete(() -> {
+                    try {
+                        printer.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw new RuntimeException("Failed to flush CSV printer", e);
+                    }
+                }).subscribe(
                     individual -> {
                         try {
                             List<Object> row = getRow(individual, properties);
@@ -78,16 +87,11 @@ public class CsvExporter implements Exporter {
                             | IOException e
                         ) {
                             e.printStackTrace();
+                            throw new RuntimeException("Failed mapping and printing individuals", e);
                         }
-                    }, error -> {
-                        throw new RuntimeException("Failed attempting to stream individuals", error);
-                    },
-                    () -> {
-                        try {
-                            printer.flush();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                    }, e -> {
+                        e.printStackTrace();
+                        throw new RuntimeException("Failed attempting to stream individuals", e);
                     }
                 );
             } catch (IllegalArgumentException e) {
@@ -136,6 +140,8 @@ public class CsvExporter implements Exporter {
                             .collect(Collectors.toList()));
                     }
 
+                } else if (Date.class.isAssignableFrom(value.getClass())) {
+                    data = DateFormatUtility.format((Date) value);
                 } else {
                     data = (String) value;
                 }

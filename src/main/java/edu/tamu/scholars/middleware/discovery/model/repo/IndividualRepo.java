@@ -221,11 +221,11 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
                     @Override
                     public void streamSolrDocument(SolrDocument document) {
                         Individual individual = Individual.from(document);
-                        logger.info("{}: streamSolrDocument: {}", builder.getId(), individual);
+                        logger.debug("{}: streamSolrDocument: {}", builder.getId(), individual);
                         emitter.next(individual);
 
                         long numRemaining = remaining.decrementAndGet();
-                        logger.info("{}: streamSolrDocument remaining: {}", builder.getId(), numRemaining);
+                        logger.debug("{}: streamSolrDocument remaining: {}", builder.getId(), numRemaining);
                         if (numRemaining == 0 && docListInfoReceived.get()) {
                             logger.info("{}: streamSolrDocument COMPLETE", builder.getId());
                             emitter.complete();
@@ -234,7 +234,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
 
                     @Override
                     public void streamDocListInfo(long numFound, long start, Float maxScore) {
-                        logger.info("{}: streamDocListInfo {} {} {}", builder.getId(), numFound, start, maxScore);
+                        logger.debug("{}: streamDocListInfo {} {} {}", builder.getId(), numFound, start, maxScore);
 
                         remaining.set(numFound);
                         docListInfoReceived.set(true);
