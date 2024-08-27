@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -215,26 +216,31 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
             try {
                 solrClient.queryAndStreamResponse(collectionName, builder.query(), new StreamingResponseCallback() {
                     private final AtomicLong remaining = new AtomicLong(0);
+                    private final AtomicBoolean docListInfoReceived  = new AtomicBoolean(false);
 
                     @Override
                     public void streamSolrDocument(SolrDocument document) {
-                        emitter.next(Individual.from(document));
+                        Individual individual = Individual.from(document);
+                        logger.info("{}: streamSolrDocument: {}", builder.getId(), individual);
+                        emitter.next(individual);
 
                         long numRemaining = remaining.decrementAndGet();
-                        logger.debug("{}: streamSolrDocument {}", builder.getId(), numRemaining);
-                        if (numRemaining == 0) {
-                            logger.info("{}: COMPLETE", builder.getId());
+                        logger.info("{}: streamSolrDocument remaining: {}", builder.getId(), numRemaining);
+                        if (numRemaining == 0 && docListInfoReceived.get()) {
+                            logger.info("{}: streamSolrDocument COMPLETE", builder.getId());
                             emitter.complete();
                         }
                     }
 
                     @Override
                     public void streamDocListInfo(long numFound, long start, Float maxScore) {
-                        logger.debug("{}: streamDocListInfo {} {} {}", builder.getId(), numFound, start, maxScore);
-                        if (numFound > 0) {
-                            remaining.set(numFound);
-                        } else {
-                            logger.info("{}: COMPLETE", builder.getId());
+                        logger.info("{}: streamDocListInfo {} {} {}", builder.getId(), numFound, start, maxScore);
+
+                        remaining.set(numFound);
+                        docListInfoReceived.set(true);
+
+                        if (numFound == 0) {
+                            logger.info("{}: streamDocListInfo COMPLETE", builder.getId());
                             emitter.complete();
                         }
                     }
