@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -208,6 +209,8 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
             .withSort(sort)
             .withRows(Integer.MAX_VALUE);
 
+        logger.info("{}: Exporting {} {} {} {}", builder.getId(), query, filters, boosts, sort);
+
         return Flux.create(emitter -> {
             try {
                 solrClient.queryAndStreamResponse(collectionName, builder.query(), new StreamingResponseCallback() {
@@ -217,16 +220,21 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
                     public void streamSolrDocument(SolrDocument document) {
                         emitter.next(Individual.from(document));
 
-                        if (remaining.decrementAndGet() == 0) {
+                        long numRemaining = remaining.decrementAndGet();
+                        logger.debug("{}: streamSolrDocument {}", builder.getId(), numRemaining);
+                        if (numRemaining == 0) {
+                            logger.info("{}: COMPLETE", builder.getId());
                             emitter.complete();
                         }
                     }
 
                     @Override
                     public void streamDocListInfo(long numFound, long start, Float maxScore) {
+                        logger.debug("{}: streamDocListInfo {} {} {}", builder.getId(), numFound, start, maxScore);
                         if (numFound > 0) {
                             remaining.set(numFound);
                         } else {
+                            logger.info("{}: COMPLETE", builder.getId());
                             emitter.complete();
                         }
                     }
@@ -443,13 +451,15 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
 
     private List<String> getValues(SolrDocument document, List<String> dataFields) {
         return dataFields.stream()
-            .filter(v -> document.containsKey(v))
+            .filter(document::containsKey)
             .flatMap(v -> document.getFieldValues(v).stream())
             .map(v -> (String) v)
             .collect(Collectors.toList());
     }
 
     private class SolrQueryBuilder {
+
+        private final UUID id;
 
         private final SolrQuery query;
 
@@ -460,11 +470,16 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
         }
 
         private SolrQueryBuilder(String query) {
+            this.id = UUID.randomUUID();
             this.query = new SolrQuery()
                 .setParam("defType", defType)
                 .setParam("q.op", defaultOperator)
                 .setQuery(query);
             this.filters = new ArrayList<>();
+        }
+
+        public String getId() {
+            return id.toString();
         }
 
         public SolrQueryBuilder withQuery(QueryArg query) {

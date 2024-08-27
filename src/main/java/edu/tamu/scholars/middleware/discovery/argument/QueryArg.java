@@ -81,4 +81,11 @@ public class QueryArg {
         return new QueryArg(expression, defaultField, minimumShouldMatch, queryField, boostQuery, field);
     }
 
+    @Override
+    public String toString() {
+        return "QueryArg [expression=" + expression + ", defaultField=" + defaultField + ", minimumShouldMatch="
+                + minimumShouldMatch + ", queryField=" + queryField + ", boostQuery=" + boostQuery + ", fields="
+                + fields + "]";
+    }
+
 }
