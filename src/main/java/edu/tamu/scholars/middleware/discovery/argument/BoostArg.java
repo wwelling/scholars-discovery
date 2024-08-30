@@ -29,4 +29,9 @@ public class BoostArg {
         return new BoostArg(parts[0], parts.length > 1 ? Float.valueOf(parts[1]) : 1.0f);
     }
 
+    @Override
+    public String toString() {
+        return "BoostArg [field=" + field + ", value=" + value + "]";
+    }
+
 }

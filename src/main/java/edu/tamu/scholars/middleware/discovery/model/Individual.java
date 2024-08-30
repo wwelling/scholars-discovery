@@ -118,4 +118,9 @@ public class Individual extends AbstractIndexDocument {
         return new Individual(content);
     }
 
+    @Override
+    public String toString() {
+        return "Individual [content=" + content + "]";
+    }
+
 }

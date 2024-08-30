@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
@@ -40,6 +42,8 @@ import edu.tamu.scholars.middleware.export.utility.FilenameUtility;
 @RestController
 public class IndividualSearchExportController implements RepresentationModelProcessor<RepositorySearchesResource> {
 
+    private static final Logger logger = LoggerFactory.getLogger(IndividualSearchExportController.class);
+
     @Lazy
     @Autowired
     private IndividualRepo repo;
@@ -58,7 +62,9 @@ public class IndividualSearchExportController implements RepresentationModelProc
         List<BoostArg> boosts,
         List<ExportArg> export
     ) throws UnknownExporterTypeException, InterruptedException, ExecutionException {
+        logger.info("/individual/search/export {} {} {} {} {} {} {}", view, type, query, sort, filters, boosts, export);
         Exporter exporter = exporterRegistry.getExporter(type);
+
         return ResponseEntity.ok()
             .header(CONTENT_DISPOSITION, exporter.contentDisposition(FilenameUtility.normalizeExportFilename(view)))
             .header(CONTENT_TYPE, exporter.contentType())
