@@ -322,9 +322,22 @@
                 - field: title
                   direction: ASC
               template: "defaults/displayViews/persons/publications/selectedPublications/default.html"
-            - name: Theses
+            - name: Datasets
               field: publications
               order: 6
+              filters:
+                - field: type
+                  value: Dataset
+              sort:
+                - field: publicationDate
+                  direction: DESC
+                  date: true
+                - field: title
+                  direction: ASC
+              template: "defaults/displayViews/persons/publications/selectedPublications/default.html"
+            - name: Theses
+              field: publications
+              order: 7
               filters:
                 - field: type
                   value: Thesis
@@ -337,7 +350,7 @@
               template: "defaults/displayViews/persons/publications/selectedPublications/thesis.html"
             - name: Working Papers
               field: publications
-              order: 7
+              order: 8
               filters:
                 - field: type
                   value: WorkingPaper
@@ -350,7 +363,7 @@
               template: "defaults/displayViews/persons/publications/selectedPublications/default.html"
             - name: Internet Publications
               field: publications
-              order: 8
+              order: 9
               filters:
                 - field: type
                   value: Webpage
@@ -363,7 +376,7 @@
               template: "defaults/displayViews/persons/publications/selectedPublications/internetPublication.html"
             - name: Reports
               field: publications
-              order: 9
+              order: 10
               filters:
                 - field: type
                   value: Report
@@ -376,7 +389,7 @@
               template: "defaults/displayViews/persons/publications/selectedPublications/report.html"
             - name: Reviews
               field: publications
-              order: 10
+              order: 11
               filters:
                 - field: type
                   value: Review
@@ -1439,20 +1452,21 @@
 - name: Documents
   types:
     - AcademicArticle
-    - ConferencePaper
-    - Thesis
-    - Chapter
     - Book
-    - GreyLiterature
-    - Patent
-    - WorkingPaper
-    - NewsRelease
-    - ERO_0000071
     - Capstone
-    - Webpage
+    - Chapter
+    - ConferencePaper
+    - Dataset
+    - GreyLiterature
+    - NewsRelease
+    - Patent
     - Report
     - Review
     - TeachingMaterial
+    - Thesis
+    - Webpage
+    - WorkingPaper
+    - ERO_0000071
   mainContentTemplate: "defaults/displayViews/documents/mainContentTemplate.html"
   rightScanTemplate: "defaults/displayViews/documents/rightScanTemplate.html"
   metaTemplates:

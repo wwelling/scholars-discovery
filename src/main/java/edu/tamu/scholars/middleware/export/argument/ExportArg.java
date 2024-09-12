@@ -39,4 +39,9 @@ public class ExportArg {
         return new ExportArg(parts[0], parts.length > 1 ? parts[1] : parts[0]);
     }
 
+    @Override
+    public String toString() {
+        return "ExportArg [field=" + field + ", label=" + label + "]";
+    }
+
 }
