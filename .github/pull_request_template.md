@@ -1,14 +1,16 @@
 # Description
-> Please provide as much detail as needed to explain the changes.
 
-# Supporting Material
-> Please provide any links, screenshots, etc. as necessary to support the description.
+Please include a summary of the changes. Please also include relevant motivation and context. At a minimum, providing a bulleted list of changes in your PR is helpful to reviewers.
 
-# Additional Comments
-> Please provide any additional feedback here.
+## Type of change
 
-# Helper Checklist (optional)
-> Please ensure the following has been completed.
+Please delete options that are not relevant.
 
-- [ ] Changes are documented to the best of your understanding.
-- [ ] Changes are reviewed and accepted.
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] This change requires a documentation update
+
+# Testing Procedures
+
+Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration.
