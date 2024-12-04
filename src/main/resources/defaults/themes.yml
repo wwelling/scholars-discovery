@@ -10,7 +10,7 @@
         imageAlt: Clarendon Building, University of Oxford
         watermarkImageUri: assets/images/vector-world-map.png
         watermarkText: worldwide collaboration
-        helpText: "<a href='https://scholars.library.scholars.edu/howto_scholars/#tutorials'>Tutorials: How To Update</a>"
+        helpText: ""
         baseText: Thank you for visiting Scholars@Scholars. We have worked to
           create the first version of your profile and continue to explore additional
           data sources to enhance your profile. We request your participation to update
@@ -169,7 +169,7 @@
         imageAlt: Texas A&M Acedemic Building
         watermarkImageUri: assets/images/vector-world-map.png
         watermarkText: worldwide collaboration
-        helpText: "<a href='https://scholars.library.tamu.edu/howto_scholars/#tutorials'>Tutorials: How To Update</a>"
+        helpText: ""
         baseText: Thank you for visiting Scholars@TAMU. We have worked to
           create the first version of your profile and continue to explore additional
           data sources to enhance your profile. We request your participation to update
