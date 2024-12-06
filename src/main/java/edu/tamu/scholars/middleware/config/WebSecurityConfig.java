@@ -9,6 +9,7 @@ import static org.springframework.http.HttpMethod.PUT;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.Objects;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,9 @@ public class WebSecurityConfig {
 
     @Value("${spring.h2.console.enabled:false}")
     private boolean h2ConsoleEnabled;
+
+    @Value("${server.servlet.session.cookie.domain}")
+    private String domainName;
 
     @Autowired
     private MiddlewareConfig config;
@@ -148,6 +152,10 @@ public class WebSecurityConfig {
         serializer.setUseSecureCookie(false);
         serializer.setCookiePath("/");
         serializer.setCookieName("SESSION");
+        if (Objects.nonNull(domainName)) {
+            serializer.setDomainName(domainName);
+        }
+
         return serializer;
     }
 
