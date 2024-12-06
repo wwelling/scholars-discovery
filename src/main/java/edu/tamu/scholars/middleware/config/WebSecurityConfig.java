@@ -60,7 +60,7 @@ public class WebSecurityConfig {
     @Value("${spring.h2.console.enabled:false}")
     private boolean h2ConsoleEnabled;
 
-    @Value("${server.servlet.session.cookie.domain:localhost}")
+    @Value("${server.servlet.session.cookie.domain:library.tamu.edu}")
     private String domainName;
 
     @Autowired
