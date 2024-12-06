@@ -60,7 +60,7 @@ public class WebSecurityConfig {
     @Value("${spring.h2.console.enabled:false}")
     private boolean h2ConsoleEnabled;
 
-    @Value("${server.servlet.session.cookie.domain}")
+    @Value("${server.servlet.session.cookie.domain:localhost}")
     private String domainName;
 
     @Autowired
@@ -152,9 +152,7 @@ public class WebSecurityConfig {
         serializer.setUseSecureCookie(false);
         serializer.setCookiePath("/");
         serializer.setCookieName("SESSION");
-        if (Objects.nonNull(domainName)) {
-            serializer.setDomainName(domainName);
-        }
+        serializer.setDomainName(domainName);
 
         return serializer;
     }
