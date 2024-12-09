@@ -152,7 +152,7 @@ spring:
     # database-platform: org.hibernate.dialect.PostgreSQLDialect
 
     generate-ddl: false
-    hibernate.ddl-auto: create
+    hibernate.ddl-auto: none
     open-in-view: false
     properties:
       hibernate:
