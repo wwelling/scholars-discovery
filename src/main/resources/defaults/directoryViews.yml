@@ -13,7 +13,7 @@
     - positions.organizations
     - thumbnail
   facets:
-    - name: Type
+    - name: People
       field: type
       type: STRING
       sort: COUNT
