@@ -130,13 +130,6 @@ spring:
     username: scholars
     password: scholars
   jpa:
-
-    # h2
-    # database-platform: org.hibernate.dialect.H2Dialect
-
-    # postgres
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-
     generate-ddl: true
     hibernate.ddl-auto: update
     open-in-view: false
