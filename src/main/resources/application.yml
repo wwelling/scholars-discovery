@@ -134,11 +134,6 @@ spring:
     hibernate.ddl-auto: update
     open-in-view: false
     defer-datasource-initialization: true
-    properties:
-      hibernate:
-        enable_lazy_load_no_trans: true
-        auto_close_session: true
-        show_sql: false
     show-sql: false
   mail:
     host: smtp-relay.tamu.edu

@@ -2,6 +2,7 @@ ui:
   url: http://localhost:4200
 
 discovery:
+  assets-location: classpath:/assets
   load-defaults: false
   update-defaults: false
   allowed-origins:
@@ -112,11 +113,6 @@ spring:
     hibernate.ddl-auto: create-drop
     open-in-view: false
     defer-datasource-initialization: true
-    properties:
-      hibernate:
-        enable_lazy_load_no_trans: true
-        auto_close_session: true
-        show_sql: false
     show-sql: false
   mail:
     host: smtp-relay.tamu.edu

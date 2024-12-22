@@ -14,7 +14,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.token.Token;
 import org.springframework.security.core.token.TokenService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.scholars.discovery.auth.config.AuthConfig;
@@ -40,7 +40,7 @@ public class RegistrationService {
     private final TokenService tokenService;
     private final MessageSource messageSource;
     private final ObjectMapper objectMapper;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final SimpMessagingTemplate simpMessageTemplate;
 
     RegistrationService(
@@ -51,7 +51,7 @@ public class RegistrationService {
         TokenService tokenService,
         MessageSource messageSource,
         ObjectMapper objectMapper,
-        BCryptPasswordEncoder passwordEncoder,
+        PasswordEncoder passwordEncoder,
         SimpMessagingTemplate simpMessageTemplate
     ) {
         this.authConfig = authConfig;

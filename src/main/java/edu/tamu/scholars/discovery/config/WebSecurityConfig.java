@@ -12,12 +12,13 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -60,24 +61,6 @@ public class WebSecurityConfig {
     @Value("${server.servlet.session.cookie.domain:library.tamu.edu}")
     private String domainName;
 
-    @Autowired
-    public void configureGlobal(
-        AuthenticationManagerBuilder authenticationManagerBuilder,
-        PasswordEncoder passwordEncoder,
-        UserDetailsService userDetailsService
-    ) throws Exception {
-        authenticationManagerBuilder.userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoder);
-    }
-
-    // @Bean
-    // MethodSecurityExpressionHandler methodSecurityExpressionHandler(RoleHierarchy roleHierarchy) {
-    //     DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
-    //     expressionHandler.setRoleHierarchy(roleHierarchy);
-
-    //     return expressionHandler;
-    // }
-
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -90,6 +73,7 @@ public class WebSecurityConfig {
         tokenService.setServerSecret(tokenConfig.getServerSecret());
         tokenService.setPseudoRandomNumberBytes(tokenConfig.getPseudoRandomNumberBytes());
         tokenService.setSecureRandom(SecureRandom.getInstanceStrong());
+
         return tokenService;
     }
 
@@ -112,19 +96,17 @@ public class WebSecurityConfig {
         primaryConfig.setAllowCredentials(true);
         primaryConfig.setAllowedOrigins(config.getAllowedOrigins());
         primaryConfig.setAllowedMethods(Arrays.asList(
-            "GET",
-            "DELETE",
-            "PUT",
-            "POST",
-            "PATCH",
-            "OPTIONS"
-        ));
+                "GET",
+                "DELETE",
+                "PUT",
+                "POST",
+                "PATCH",
+                "OPTIONS"));
         primaryConfig.setAllowedHeaders(Arrays.asList(
-            "Authorization",
-            "Origin",
-            "Content-Type",
-            "Content-Disposition"
-        ));
+                "Authorization",
+                "Origin",
+                "Content-Type",
+                "Content-Disposition"));
         primaryConfig.setExposedHeaders(Arrays.asList("Content-Disposition"));
 
         // NOTE: most general path must be last
@@ -152,108 +134,115 @@ public class WebSecurityConfig {
     }
 
     @Bean
+    MethodSecurityExpressionHandler methodSecurityExpressionHandler(RoleHierarchy roleHierarchy) {
+        DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
+        expressionHandler.setRoleHierarchy(roleHierarchy);
+
+        return expressionHandler;
+    }
+
+    @Bean
     protected SecurityFilterChain configure(
-        HttpSecurity httpSecurity,
-        MessageSource messageSource,
-        ObjectMapper objectMapper,
-        UserDetailsService userDetailsService
-    ) throws Exception {
+            HttpSecurity httpSecurity,
+            MessageSource messageSource,
+            ObjectMapper objectMapper,
+            UserDetailsService userDetailsService) throws Exception {
         if (enableH2Console()) {
             // NOTE: permit all access to h2console
             httpSecurity
-                .headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin));
+                    .headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin));
         }
 
         httpSecurity
-            .authorizeHttpRequests(authorize -> authorize
+                .authorizeHttpRequests(authorize -> authorize
 
-                .requestMatchers(PATCH,
-                    "/dataAndAnalyticsViews/{id}",
-                    "/directoryViews/{id}",
-                    "/discoveryViews/{id}",
-                    "/displayViews/{id}",
-                    "/themes/{id}",
-                    "/users/{id}")
-                    .hasRole("ADMIN")
+                        .requestMatchers(PATCH,
+                                "/dataAndAnalyticsViews/{id}",
+                                "/directoryViews/{id}",
+                                "/discoveryViews/{id}",
+                                "/displayViews/{id}",
+                                "/themes/{id}",
+                                "/users/{id}")
+                        .hasRole("ADMIN")
 
-                .requestMatchers(POST, "/registration")
-                    .permitAll()
+                        .requestMatchers(POST, "/registration")
+                        .permitAll()
 
-                .requestMatchers(POST,
-                    "/dataAndAnalyticsViews/{id}",
-                    "/directoryViews/{id}",
-                    "/discoveryViews/{id}",
-                    "/displayViews/{id}",
-                    "/themes/{id}")
-                    .hasRole("ADMIN")
+                        .requestMatchers(POST,
+                                "/dataAndAnalyticsViews/{id}",
+                                "/directoryViews/{id}",
+                                "/discoveryViews/{id}",
+                                "/displayViews/{id}",
+                                "/themes/{id}")
+                        .hasRole("ADMIN")
 
-                .requestMatchers(POST, "/users/{id}")
-                    .denyAll()
+                        .requestMatchers(POST, "/users/{id}")
+                        .denyAll()
 
-                .requestMatchers(PUT, "/registration")
-                    .permitAll()
+                        .requestMatchers(PUT, "/registration")
+                        .permitAll()
 
-                .requestMatchers(PUT,
-                    "/dataAndAnalyticsViews/{id}",
-                    "/directoryViews/{id}",
-                    "/discoveryViews/{id}",
-                    "/displayViews/{id}",
-                    "/themes/{id}")
-                    .hasRole("ADMIN")
+                        .requestMatchers(PUT,
+                                "/dataAndAnalyticsViews/{id}",
+                                "/directoryViews/{id}",
+                                "/discoveryViews/{id}",
+                                "/displayViews/{id}",
+                                "/themes/{id}")
+                        .hasRole("ADMIN")
 
-                .requestMatchers(PUT, "/users/{id}")
-                    .denyAll()
+                        .requestMatchers(PUT, "/users/{id}")
+                        .denyAll()
 
-                .requestMatchers(GET, "/user")
-                    .hasRole("USER")
+                        .requestMatchers(GET, "/user")
+                        .hasRole("USER")
 
-                .requestMatchers(GET,
-                    "/users",
-                    "/users/{id}",
-                    "/themes",
-                    "/themes/{id}")
-                    .hasRole("ADMIN")
+                        .requestMatchers(GET,
+                                "/users",
+                                "/users/{id}",
+                                "/themes",
+                                "/themes/{id}")
+                        .hasRole("ADMIN")
 
-                .requestMatchers(DELETE,
-                    "/dataAndAnalyticsViews/{id}",
-                    "/directoryViews/{id}",
-                    "/discoveryViews/{id}",
-                    "/displayViews/{id}",
-                    "/themes/{id}")
-                    .hasRole("ADMIN")
+                        .requestMatchers(DELETE,
+                                "/dataAndAnalyticsViews/{id}",
+                                "/directoryViews/{id}",
+                                "/discoveryViews/{id}",
+                                "/displayViews/{id}",
+                                "/themes/{id}")
+                        .hasRole("ADMIN")
 
-                .requestMatchers(DELETE, "/users/{id}")
-                    .hasRole("SUPER_ADMIN")
+                        .requestMatchers(DELETE, "/users/{id}")
+                        .hasRole("SUPER_ADMIN")
 
-                .anyRequest()
-                    .permitAll())
-            
-            .formLogin(formLogin -> formLogin
-                .successHandler(authenticationSuccessHandler(objectMapper))
-                .failureHandler(authenticationFailureHandler())
-                .permitAll())
+                        .anyRequest()
+                        .permitAll())
 
-            .logout(logout -> logout
-                .deleteCookies("SESSION")
-                .invalidateHttpSession(true)
-                .logoutSuccessHandler(logoutSuccessHandler(messageSource))
-                .permitAll())
+                .formLogin(formLogin -> formLogin
+                        .successHandler(authenticationSuccessHandler(objectMapper))
+                        .failureHandler(authenticationFailureHandler())
+                        .permitAll())
 
-            .exceptionHandling(exceptionHandling -> exceptionHandling
-                .authenticationEntryPoint(authenticationEntryPoint())
-                .accessDeniedHandler(accessDeniedHandler()))
+                .logout(logout -> logout
+                        .deleteCookies("SESSION")
+                        .invalidateHttpSession(true)
+                        .logoutSuccessHandler(logoutSuccessHandler(messageSource))
+                        .permitAll())
 
-            .requestCache(requestCache -> requestCache
-                .requestCache(nullRequestCache()))
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(authenticationEntryPoint())
+                        .accessDeniedHandler(accessDeniedHandler()))
 
-            .cors(withDefaults())
+                .requestCache(requestCache -> requestCache
+                        .requestCache(nullRequestCache()))
 
-            .csrf(csrf -> csrf.disable());
+                .cors(withDefaults())
+
+                .csrf(csrf -> csrf.disable());
 
         httpSecurity
-            .sessionManagement(sessionManagement -> sessionManagement
-                .sessionFixation(SessionFixationConfigurer::migrateSession)
-                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+                .sessionManagement(sessionManagement -> sessionManagement
+                        .sessionFixation(SessionFixationConfigurer::migrateSession)
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
 
         return httpSecurity.build();
     }
