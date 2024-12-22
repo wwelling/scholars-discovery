@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import edu.tamu.scholars.discovery.auth.model.User;
 
-public interface UserRepo extends JpaRepository<User, Long> {
+interface UserRepo extends JpaRepository<User, Long> {
 
     @RestResource(exported = false)
     public Optional<User> findByEmail(String email);

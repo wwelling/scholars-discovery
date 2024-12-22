@@ -4,19 +4,19 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import edu.tamu.scholars.discovery.auth.annotation.AvailableEmail;
-import edu.tamu.scholars.discovery.auth.model.repo.UserRepo;
+import edu.tamu.scholars.discovery.auth.model.repo.UserService;
 
 public class EmailConstraintValidator implements ConstraintValidator<AvailableEmail, String> {
 
-    private final UserRepo userRepo;
+    private final UserService userService;
 
-    public EmailConstraintValidator(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    public EmailConstraintValidator(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext context) {
-        return !userRepo.existsByEmail(email);
+        return !userService.existsByEmail(email);
     }
 
 }

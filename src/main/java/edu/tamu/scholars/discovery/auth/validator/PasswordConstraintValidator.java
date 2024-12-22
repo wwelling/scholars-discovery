@@ -25,20 +25,20 @@ import edu.tamu.scholars.discovery.auth.annotation.ValidPassword;
 import edu.tamu.scholars.discovery.auth.config.PasswordConfig;
 import edu.tamu.scholars.discovery.auth.controller.request.Registration;
 import edu.tamu.scholars.discovery.auth.model.User;
-import edu.tamu.scholars.discovery.auth.model.repo.UserRepo;
+import edu.tamu.scholars.discovery.auth.model.repo.UserService;
 
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, Registration> {
 
-    private UserRepo userRepo;
+    private UserService userService;
     private MessageSource messageSource;
     private PasswordConfig passwordConfig;
 
     PasswordConstraintValidator(
-        UserRepo userRepo,
+        UserService userService,
         MessageSource messageSource,
         PasswordConfig passwordConfig
     ) {
-        this.userRepo = userRepo;
+        this.userService = userService;
         this.messageSource = messageSource;
         this.passwordConfig = passwordConfig;
     }
@@ -75,7 +75,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 
         PasswordData passwordData = new PasswordData(password);
 
-        Optional<User> user = userRepo.findByEmail(email);
+        Optional<User> user = userService.findByEmail(email);
 
         List<Reference> passwordReferences;
 

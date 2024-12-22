@@ -22,7 +22,7 @@ import edu.tamu.scholars.discovery.auth.controller.exception.RegistrationExcepti
 import edu.tamu.scholars.discovery.auth.controller.request.Registration;
 import edu.tamu.scholars.discovery.auth.model.Role;
 import edu.tamu.scholars.discovery.auth.model.User;
-import edu.tamu.scholars.discovery.auth.model.repo.UserRepo;
+import edu.tamu.scholars.discovery.auth.model.repo.UserService;
 import edu.tamu.scholars.discovery.messaging.CreateEntityMessage;
 import edu.tamu.scholars.discovery.service.EmailService;
 import edu.tamu.scholars.discovery.service.TemplateService;
@@ -34,7 +34,7 @@ import edu.tamu.scholars.discovery.service.TemplateService;
 public class RegistrationService {
 
     private final AuthConfig authConfig;
-    private final UserRepo userRepo;
+    private final UserService userService;
     private final TemplateService templateService;
     private final EmailService emailService;
     private final TokenService tokenService;
@@ -45,7 +45,7 @@ public class RegistrationService {
 
     RegistrationService(
         AuthConfig authConfig,
-        UserRepo userRepo,
+        UserService userService,
         TemplateService templateService,
         EmailService emailService,
         TokenService tokenService,
@@ -55,7 +55,7 @@ public class RegistrationService {
         SimpMessagingTemplate simpMessageTemplate
     ) {
         this.authConfig = authConfig;
-        this.userRepo = userRepo;
+        this.userService = userService;
         this.templateService = templateService;
         this.emailService = emailService;
         this.tokenService = tokenService;
@@ -85,12 +85,12 @@ public class RegistrationService {
         Token token = tokenService.verifyToken(key);
         String registrationJson = token.getExtendedInformation();
         Registration registration = objectMapper.readValue(registrationJson, Registration.class);
-        Optional<User> user = userRepo.findByEmail(registration.getEmail());
+        Optional<User> user = userService.findByEmail(registration.getEmail());
         if (user.isPresent()) {
             if (!isTokenExpired(token)) {
                 if (!user.get().isConfirmed()) {
                     user.get().setConfirmed(true);
-                    userRepo.save(user.get());
+                    userService.save(user.get());
                     return registration;
                 }
                 throw new RegistrationException(messageSource.getMessage(
@@ -99,7 +99,7 @@ public class RegistrationService {
                     LocaleContextHolder.getLocale()
                 ));
             }
-            userRepo.delete(user.get());
+            userService.delete(user.get());
             throw new RegistrationException(messageSource.getMessage(
                 "RegistrationService.tokenExpired",
                 new Object[0],
@@ -115,13 +115,13 @@ public class RegistrationService {
 
     public User complete(String key, Registration registration) throws RegistrationException {
         Token token = tokenService.verifyToken(key);
-        Optional<User> user = userRepo.findByEmail(registration.getEmail());
+        Optional<User> user = userService.findByEmail(registration.getEmail());
         if (user.isPresent()) {
             if (!isTokenExpired(token)) {
                 if (user.get().isConfirmed()) {
                     user.get().setEnabled(true);
                     user.get().setPassword(passwordEncoder.encode(registration.getPassword()));
-                    return userRepo.save(user.get());
+                    return userService.save(user.get());
                 }
                 throw new RegistrationException(messageSource.getMessage(
                     "RegistrationService.emailNotConfirmed",
@@ -129,7 +129,7 @@ public class RegistrationService {
                     LocaleContextHolder.getLocale()
                 ));
             }
-            userRepo.delete(user.get());
+            userService.delete(user.get());
             throw new RegistrationException(messageSource.getMessage(
                 "RegistrationService.tokenExpired",
                 new Object[0],
@@ -145,16 +145,16 @@ public class RegistrationService {
 
     private synchronized void createUser(Registration registration) {
         User user = new User(registration.getFirstName(), registration.getLastName(), registration.getEmail());
-        if (userRepo.count() == 0) {
+        if (userService.count() == 0) {
             user.setRole(Role.ROLE_SUPER_ADMIN);
-        } else if (userRepo.count() == 1) {
+        } else if (userService.count() == 1) {
             user.setRole(Role.ROLE_ADMIN);
-        } else if (userRepo.count() == 2) {
+        } else if (userService.count() == 2) {
             user.setRole(Role.ROLE_MANAGER);
         } else {
             user.setRole(Role.ROLE_USER);
         }
-        user = userRepo.save(user);
+        user = userService.save(user);
         simpMessageTemplate.convertAndSend(USERS_CHANNEL, new CreateEntityMessage<User>(user));
     }
 

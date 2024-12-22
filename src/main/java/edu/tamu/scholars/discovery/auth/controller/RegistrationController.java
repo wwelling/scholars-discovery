@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.auth.controller;
 
+import static edu.tamu.scholars.discovery.auth.AuthConstants.REGISTRATION_REST_BASE_PATH;
+
 import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,7 +24,7 @@ import edu.tamu.scholars.discovery.auth.validator.group.SubmitRegistration;
 
 @Validated
 @RestController
-@RequestMapping("/registration")
+@RequestMapping(REGISTRATION_REST_BASE_PATH)
 public class RegistrationController {
 
     private RegistrationService registrationService;

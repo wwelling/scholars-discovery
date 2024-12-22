@@ -6,6 +6,8 @@ public class AuthConstants {
     public static final String USERS_REST_BASE_PATH = "${discovery.users.base-path:/users}";
     public static final String USERS_REST_SELF_PATH = "${discovery.users.base-path:/self}";
 
+    public static final String REGISTRATION_REST_BASE_PATH = "${discovery.registration.base-path:/registration}";
+
     // message channels
     public static final String USERS_CHANNEL = "${discovery.users.message-channel:/queue/users}";
 

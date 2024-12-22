@@ -12,28 +12,28 @@ import org.springframework.stereotype.Service;
 import edu.tamu.scholars.discovery.auth.config.PasswordConfig;
 import edu.tamu.scholars.discovery.auth.details.CustomUserDetails;
 import edu.tamu.scholars.discovery.auth.model.User;
-import edu.tamu.scholars.discovery.auth.model.repo.UserRepo;
+import edu.tamu.scholars.discovery.auth.model.repo.UserService;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private UserRepo userRepo;
+    private UserService userService;
     private MessageSource messageSource;
     private PasswordConfig passwordConfig;
 
     CustomUserDetailsService(
-        UserRepo userRepo,
+        UserService userService,
         MessageSource messageSource,
         PasswordConfig passwordConfig
     ) {
-        this.userRepo = userRepo;
+        this.userService = userService;
         this.messageSource = messageSource;
         this.passwordConfig = passwordConfig;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepo.findByEmail(username);
+        Optional<User> user = userService.findByEmail(username);
         if (user.isPresent()) {
             return new CustomUserDetails(user.get(), passwordConfig);
         }
