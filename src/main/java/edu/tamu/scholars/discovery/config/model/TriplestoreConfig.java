@@ -1,7 +1,7 @@
 package edu.tamu.scholars.discovery.config.model;
 
 import edu.tamu.scholars.discovery.service.HttpTriplestore;
-import edu.tamu.scholars.discovery.service.TDBTriplestore;
+import edu.tamu.scholars.discovery.service.TdbTriplestore;
 import edu.tamu.scholars.discovery.service.Triplestore;
 
 /**
@@ -11,9 +11,9 @@ import edu.tamu.scholars.discovery.service.Triplestore;
  */
 public class TriplestoreConfig {
 
-    private Class<? extends Triplestore> type = TDBTriplestore.class;
+    private Class<? extends Triplestore> type = TdbTriplestore.class;
 
-    /** directory property used by {@link TDBTriplestore } */
+    /** directory property used by {@link TdbTriplestore } */
     private String directory = "triplestore";
 
     /** directory property used by {@link HttpTriplestore } */

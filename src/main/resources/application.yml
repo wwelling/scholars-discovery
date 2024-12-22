@@ -39,7 +39,7 @@ discovery:
     onStartupDelay: 10000
     batchSize: 10000
   triplestore:
-    type: edu.tamu.scholars.discovery.service.TDBTriplestore
+    type: edu.tamu.scholars.discovery.service.TdbTriplestore
     directory: triplestore
   harvesters:
   - type: edu.tamu.scholars.discovery.discovery.component.jena.TriplestoreHarvester

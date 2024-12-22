@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import edu.tamu.scholars.discovery.service.TDBTriplestore;
+import edu.tamu.scholars.discovery.service.TdbTriplestore;
 
 @ExtendWith(MockitoExtension.class)
 public class TriplestoreConfigTest {
@@ -17,7 +17,7 @@ public class TriplestoreConfigTest {
     public void testDefaultConstructor() {
         TriplestoreConfig triplestoreConfig = new TriplestoreConfig();
         assertNotNull(triplestoreConfig);
-        assertEquals(TDBTriplestore.class, triplestoreConfig.getType());
+        assertEquals(TdbTriplestore.class, triplestoreConfig.getType());
         assertEquals("triplestore", triplestoreConfig.getDirectory());
         assertNull(triplestoreConfig.getDatasourceUrl());
     }
@@ -25,8 +25,8 @@ public class TriplestoreConfigTest {
     @Test
     public void testGettersAndSetters() {
         TriplestoreConfig triplestoreConfig = new TriplestoreConfig();
-        triplestoreConfig.setType(TDBTriplestore.class);
-        assertEquals(TDBTriplestore.class, triplestoreConfig.getType());
+        triplestoreConfig.setType(TdbTriplestore.class);
+        assertEquals(TdbTriplestore.class, triplestoreConfig.getType());
         triplestoreConfig.setDirectory("vivo_data");
         assertEquals("vivo_data", triplestoreConfig.getDirectory());
         triplestoreConfig.setDatasourceUrl("jdbc://localhost:6541/test");

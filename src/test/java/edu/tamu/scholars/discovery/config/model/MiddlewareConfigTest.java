@@ -21,7 +21,7 @@ import edu.tamu.scholars.discovery.discovery.model.Organization;
 import edu.tamu.scholars.discovery.discovery.model.Person;
 import edu.tamu.scholars.discovery.discovery.model.Process;
 import edu.tamu.scholars.discovery.discovery.model.Relationship;
-import edu.tamu.scholars.discovery.service.TDBTriplestore;
+import edu.tamu.scholars.discovery.service.TdbTriplestore;
 
 @ExtendWith(MockitoExtension.class)
 public class MiddlewareConfigTest {
@@ -149,13 +149,13 @@ public class MiddlewareConfigTest {
     public void testTriplestoreGetterSetter() {
         MiddlewareConfig middlewareConfig = new MiddlewareConfig();
         TriplestoreConfig newTriplestoreConfig = new TriplestoreConfig();
-        newTriplestoreConfig.setType(TDBTriplestore.class);
+        newTriplestoreConfig.setType(TdbTriplestore.class);
         newTriplestoreConfig.setDirectory("vivo_data");
         newTriplestoreConfig.setDatasourceUrl("jdbc://localhost:6541/test");
         middlewareConfig.setTriplestore(newTriplestoreConfig);
         TriplestoreConfig triplestoreConfig = middlewareConfig.getTriplestore();
-        triplestoreConfig.setType(TDBTriplestore.class);
-        assertEquals(TDBTriplestore.class, triplestoreConfig.getType());
+        triplestoreConfig.setType(TdbTriplestore.class);
+        assertEquals(TdbTriplestore.class, triplestoreConfig.getType());
         triplestoreConfig.setDirectory("vivo_data");
         assertEquals("vivo_data", triplestoreConfig.getDirectory());
         triplestoreConfig.setDatasourceUrl("jdbc://localhost:6541/test");
