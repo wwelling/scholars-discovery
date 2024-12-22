@@ -1,12 +1,7 @@
 package edu.tamu.scholars.discovery.auth.controller.request;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
-import static edu.tamu.scholars.discovery.auth.AuthConstants.EMAIL_ALREADY_IN_USE_MESSAGE;
-import static edu.tamu.scholars.discovery.auth.AuthConstants.EMAIL_INVALID_MESSAGE;
-import static edu.tamu.scholars.discovery.auth.AuthConstants.EMAIL_REQUIRED_MESSAGE;
-import static edu.tamu.scholars.discovery.auth.AuthConstants.FIRST_NAME_SIZE_MESSAGE;
-import static edu.tamu.scholars.discovery.auth.AuthConstants.LAST_NAME_SIZE_MESSAGE;
-import static edu.tamu.scholars.discovery.auth.AuthConstants.PASSWORD_INVALID_MESSAGE;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.*;
 import static edu.tamu.scholars.discovery.auth.AuthConstants.REGISTRATION_FIRST_NAME_MAX_LENGTH;
 import static edu.tamu.scholars.discovery.auth.AuthConstants.REGISTRATION_FIRST_NAME_MIN_LENGTH;
 import static edu.tamu.scholars.discovery.auth.AuthConstants.REGISTRATION_LAST_NAME_MAX_LENGTH;
@@ -25,7 +20,7 @@ import edu.tamu.scholars.discovery.auth.validator.group.SubmitRegistration;
 
 @ValidPassword(
     groups = CompleteRegistration.class,
-    message = PASSWORD_INVALID_MESSAGE)
+    message = REGISTRATION_PASSWORD_INVALID_MESSAGE)
 public class Registration {
 
     @Size(
@@ -35,7 +30,7 @@ public class Registration {
             SubmitRegistration.class,
             CompleteRegistration.class
         },
-        message = FIRST_NAME_SIZE_MESSAGE)
+        message = REGISTRATION_FIRST_NAME_SIZE_MESSAGE)
     private String firstName;
 
     @Size(
@@ -45,7 +40,7 @@ public class Registration {
             SubmitRegistration.class,
             CompleteRegistration.class
         },
-        message = LAST_NAME_SIZE_MESSAGE)
+        message = REGISTRATION_LAST_NAME_SIZE_MESSAGE)
     private String lastName;
 
     @NotNull(
@@ -53,22 +48,22 @@ public class Registration {
             SubmitRegistration.class,
             CompleteRegistration.class
         },
-        message = EMAIL_REQUIRED_MESSAGE)
+        message = REGISTRATION_EMAIL_REQUIRED_MESSAGE)
     @NotEmpty(
         groups = {
             SubmitRegistration.class,
             CompleteRegistration.class
         },
-        message = EMAIL_REQUIRED_MESSAGE)
+        message = REGISTRATION_EMAIL_REQUIRED_MESSAGE)
     @AvailableEmail(
         groups = SubmitRegistration.class,
-        message = EMAIL_ALREADY_IN_USE_MESSAGE)
+        message = REGISTRATION_EMAIL_ALREADY_IN_USE_MESSAGE)
     @Email(
         groups = {
             SubmitRegistration.class,
             CompleteRegistration.class
         },
-        message = EMAIL_INVALID_MESSAGE)
+        message = REGISTRATION_EMAIL_INVALID_MESSAGE)
     private String email;
 
     @JsonInclude(NON_NULL)

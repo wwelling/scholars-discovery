@@ -1,6 +1,31 @@
 package edu.tamu.scholars.discovery.auth.model;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USERS_ACTIVE_COLUMN_NAME;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USERS_CONFIRMED_COLUMN_NAME;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USERS_CREATED_COLUMN_NAME;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USERS_EMAIL_COLUMN_NAME;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USERS_ENABLED_COLUMN_NAME;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USERS_FIRST_NAME_COLUMN_NAME;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USERS_ID_COLUMN_NAME;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USERS_LAST_NAME_COLUMN_NAME;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USERS_OLD_PASSWORDS_JOIN_COLUMN_NAME;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USERS_OLD_PASSWORDS_TABLE_NAME;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USERS_PASSWORD_COLUMN_NAME;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USERS_ROLE_COLUMN_NAME;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USERS_TABLE_NAME;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USERS_TIMESTAMP_COLUMN_NAME;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USER_EMAIL_INVALID_MESSAGE;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USER_EMAIL_REQUIRED_MESSAGE;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USER_FIRST_NAME_MAX_LENGTH;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USER_FIRST_NAME_MIN_LENGTH;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USER_FIRST_NAME_REQUIRED_MESSAGE;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USER_FIRST_NAME_SIZE_MESSAGE;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USER_LAST_NAME_MAX_LENGTH;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USER_LAST_NAME_MIN_LENGTH;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USER_LAST_NAME_REQUIRED_MESSAGE;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USER_LAST_NAME_SIZE_MESSAGE;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.USER_ROLE_REQUIRED_MESSAGE;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -16,12 +41,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.validation.constraints.Email;
@@ -31,7 +58,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "users")
+@Table(name = USERS_TABLE_NAME)
 public class User implements Serializable {
 
     private static final long serialVersionUID = -7535464109980348619L;
@@ -39,56 +66,86 @@ public class User implements Serializable {
     @Id
     @JsonInclude(Include.NON_EMPTY)
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = USERS_ID_COLUMN_NAME)
     private Long id;
 
-    @NotNull(message = "${User.firstNameRequired}")
-    @Size(min = 2, max = 64, message = "${User.firstNameSize}")
-    @Column(nullable = false)
+    @NotNull(message = USER_FIRST_NAME_REQUIRED_MESSAGE)
+    @Size(
+        max = USER_FIRST_NAME_MAX_LENGTH,
+        min = USER_FIRST_NAME_MIN_LENGTH,
+        message = USER_FIRST_NAME_SIZE_MESSAGE)
+    @Column(
+        name = USERS_FIRST_NAME_COLUMN_NAME,
+        nullable = false)
     private String firstName;
 
-    @NotNull(message = "${User.lastNameRequired}")
-    @Size(min = 2, max = 64, message = "${User.lastNameSize}")
-    @Column(nullable = false)
+    @NotNull(message = USER_LAST_NAME_REQUIRED_MESSAGE)
+    @Size(
+        max = USER_LAST_NAME_MAX_LENGTH,
+        min = USER_LAST_NAME_MIN_LENGTH,
+        message = USER_LAST_NAME_SIZE_MESSAGE)
+    @Column(
+        name = USERS_LAST_NAME_COLUMN_NAME,
+        nullable = false)
     private String lastName;
 
-    @NotNull(message = "{User.emailRequired}")
-    @Email(message = "{User.emailInvalid}")
-    @Column(nullable = false, unique = true)
+    @NotNull(message = USER_EMAIL_REQUIRED_MESSAGE)
+    @Email(message = USER_EMAIL_INVALID_MESSAGE)
+    @Column(
+        name = USERS_EMAIL_COLUMN_NAME,
+        nullable = false,
+        unique = true)
     private String email;
 
     @JsonProperty(access = WRITE_ONLY)
-    @Column
+    @Column(name = USERS_PASSWORD_COLUMN_NAME)
     private String password;
 
     @JsonIgnore
     @ElementCollection(fetch = EAGER)
+    @CollectionTable(
+        name = USERS_OLD_PASSWORDS_TABLE_NAME,
+        joinColumns = @JoinColumn(
+            name = USERS_OLD_PASSWORDS_JOIN_COLUMN_NAME))
     private List<String> oldPasswords;
 
-    @NotNull(message = "{User.roleRequired}")
+    @NotNull(message = USER_ROLE_REQUIRED_MESSAGE)
     @Enumerated(STRING)
-    @Column(nullable = false)
+    @Column(
+        name = USERS_ROLE_COLUMN_NAME,
+        nullable = false)
     private Role role;
 
     @JsonIgnore
     @CreationTimestamp
     @Temporal(TIMESTAMP)
-    @Column(nullable = false)
+    @Column(
+        name = USERS_CREATED_COLUMN_NAME,
+        nullable = false)
     private Calendar created;
 
     @JsonIgnore
     @UpdateTimestamp
     @Temporal(TIMESTAMP)
-    @Column(nullable = false)
+    @Column(
+        name = USERS_TIMESTAMP_COLUMN_NAME,
+        nullable = false)
     private Calendar timestamp;
 
     @JsonIgnore
-    @Column(nullable = false)
+    @Column(
+        name = USERS_CONFIRMED_COLUMN_NAME,
+        nullable = false)
     private boolean confirmed;
 
-    @Column(nullable = false)
+    @Column(
+        name = USERS_ACTIVE_COLUMN_NAME,
+        nullable = false)
     private boolean active;
 
-    @Column(nullable = false)
+    @Column(
+        name = USERS_ENABLED_COLUMN_NAME,
+        nullable = false)
     private boolean enabled;
 
     public User() {

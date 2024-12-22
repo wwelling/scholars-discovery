@@ -1,5 +1,8 @@
 package edu.tamu.scholars.discovery.auth.validator;
 
+import static edu.tamu.scholars.discovery.AppConstants.EMPTY_OBJECT_ARRAY;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.PASSWORDS_DO_NOT_MATCH_MESSAGE;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -105,8 +108,8 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
         context.disableDefaultConstraintViolation();
 
         context.buildConstraintViolationWithTemplate(messageSource.getMessage(
-            "Registration.passwordsDoNotMatch",
-            new Object[0],
+            PASSWORDS_DO_NOT_MATCH_MESSAGE,
+            EMPTY_OBJECT_ARRAY,
             LocaleContextHolder.getLocale()
         )).addConstraintViolation();
 

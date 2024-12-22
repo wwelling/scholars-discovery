@@ -1,6 +1,7 @@
 package edu.tamu.scholars.discovery.auth.controller;
 
 import static edu.tamu.scholars.discovery.auth.AuthConstants.REGISTRATION_REST_BASE_PATH;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.io.IOException;
 
@@ -33,7 +34,10 @@ public class RegistrationController {
         this.registrationService = registrationService;
     }
 
-    @PostMapping
+    @PostMapping(
+        consumes = APPLICATION_JSON_VALUE,
+        produces = APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<Registration> submit(
         @RequestBody
         @Validated(SubmitRegistration.class)
@@ -42,7 +46,9 @@ public class RegistrationController {
         return ResponseEntity.ok(registrationService.submit(registration));
     }
 
-    @GetMapping
+    @GetMapping(
+        produces = APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<Registration> confirm(
         @RequestParam(required = true)
         String key
@@ -50,7 +56,10 @@ public class RegistrationController {
         return ResponseEntity.ok(registrationService.confirm(key));
     }
 
-    @PutMapping
+    @PutMapping(
+        consumes = APPLICATION_JSON_VALUE,
+        produces = APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<User> complete(
         @RequestParam(required = true)
         String key,

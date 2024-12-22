@@ -1,5 +1,12 @@
 package edu.tamu.scholars.discovery.auth.service;
 
+import static edu.tamu.scholars.discovery.AppConstants.EMPTY_OBJECT_ARRAY;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.CONFIRMATION_EMAIL_SUBJECT_MESSAGE;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.EMAIL_ALREADY_CONFIRMED_MESSAGE;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.EMAIL_NOT_CONFIRMED_MESSAGE;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.TOKEN_EXPIRED_MESSAGE;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.UNABLE_TO_COMPLETE_EMAIL_NOT_FOUND_MESSAGE;
+import static edu.tamu.scholars.discovery.auth.AuthConstants.UNABLE_TO_CONFIRM_EMAIL_NOT_FOUND_MESSAGE;
 import static edu.tamu.scholars.discovery.auth.AuthConstants.USERS_CHANNEL;
 
 import java.io.IOException;
@@ -27,9 +34,6 @@ import edu.tamu.scholars.discovery.messaging.CreateEntityMessage;
 import edu.tamu.scholars.discovery.service.EmailService;
 import edu.tamu.scholars.discovery.service.TemplateService;
 
-/**
- * {@link User} registration service for processing registration requests.
- */
 @Service
 public class RegistrationService {
 
@@ -69,8 +73,8 @@ public class RegistrationService {
         String registrationJson = objectMapper.writeValueAsString(registration);
         Token token = tokenService.allocateToken(registrationJson);
         String subject = messageSource.getMessage(
-            "RegistrationService.confirmationEmailSubject",
-            new Object[0],
+            CONFIRMATION_EMAIL_SUBJECT_MESSAGE,
+            EMPTY_OBJECT_ARRAY,
             LocaleContextHolder.getLocale()
         );
         String message = templateService.templateConfirmRegistrationMessage(registration, token.getKey());
@@ -86,61 +90,63 @@ public class RegistrationService {
         String registrationJson = token.getExtendedInformation();
         Registration registration = objectMapper.readValue(registrationJson, Registration.class);
         Optional<User> user = userService.findByEmail(registration.getEmail());
-        if (user.isPresent()) {
-            if (!isTokenExpired(token)) {
-                if (!user.get().isConfirmed()) {
-                    user.get().setConfirmed(true);
-                    userService.save(user.get());
-                    return registration;
-                }
-                throw new RegistrationException(messageSource.getMessage(
-                    "RegistrationService.emailAlreadyConfirmed",
-                    new Object[] { registration.getEmail() },
-                    LocaleContextHolder.getLocale()
-                ));
-            }
-            userService.delete(user.get());
+        if (!user.isPresent()) {
             throw new RegistrationException(messageSource.getMessage(
-                "RegistrationService.tokenExpired",
-                new Object[0],
+                UNABLE_TO_CONFIRM_EMAIL_NOT_FOUND_MESSAGE,
+                new Object[] { registration.getEmail() },
                 LocaleContextHolder.getLocale()
             ));
         }
-        throw new RegistrationException(messageSource.getMessage(
-            "RegistrationService.unableToConfirmEmailNotFound",
-            new Object[] { registration.getEmail() },
-            LocaleContextHolder.getLocale()
-        ));
+        if (isTokenExpired(token)) {
+            userService.delete(user.get());
+            throw new RegistrationException(messageSource.getMessage(
+                TOKEN_EXPIRED_MESSAGE,
+                EMPTY_OBJECT_ARRAY,
+                LocaleContextHolder.getLocale()
+            ));
+        }
+        if (user.get().isConfirmed()) {
+            throw new RegistrationException(messageSource.getMessage(
+                EMAIL_ALREADY_CONFIRMED_MESSAGE,
+                new Object[] { registration.getEmail() },
+                LocaleContextHolder.getLocale()
+            ));
+        }
+        user.get().setConfirmed(true);
+        userService.save(user.get());
+
+        return registration;
     }
 
     public User complete(String key, Registration registration) throws RegistrationException {
         Token token = tokenService.verifyToken(key);
         Optional<User> user = userService.findByEmail(registration.getEmail());
-        if (user.isPresent()) {
-            if (!isTokenExpired(token)) {
-                if (user.get().isConfirmed()) {
-                    user.get().setEnabled(true);
-                    user.get().setPassword(passwordEncoder.encode(registration.getPassword()));
-                    return userService.save(user.get());
-                }
-                throw new RegistrationException(messageSource.getMessage(
-                    "RegistrationService.emailNotConfirmed",
-                    new Object[] { registration.getEmail() },
-                    LocaleContextHolder.getLocale()
-                ));
-            }
-            userService.delete(user.get());
+        if (!user.isPresent()) {
             throw new RegistrationException(messageSource.getMessage(
-                "RegistrationService.tokenExpired",
-                new Object[0],
+                UNABLE_TO_COMPLETE_EMAIL_NOT_FOUND_MESSAGE,
+                new Object[] { registration.getEmail() },
                 LocaleContextHolder.getLocale()
             ));
         }
-        throw new RegistrationException(messageSource.getMessage(
-            "RegistrationService.unableToCompleteEmailNotFound",
-            new Object[] { registration.getEmail() },
-            LocaleContextHolder.getLocale()
-        ));
+        if (isTokenExpired(token)) {
+            userService.delete(user.get());
+            throw new RegistrationException(messageSource.getMessage(
+                TOKEN_EXPIRED_MESSAGE,
+                EMPTY_OBJECT_ARRAY,
+                LocaleContextHolder.getLocale()
+            ));
+        }
+        if (!user.get().isConfirmed()) {
+            throw new RegistrationException(messageSource.getMessage(
+                EMAIL_NOT_CONFIRMED_MESSAGE,
+                new Object[] { registration.getEmail() },
+                LocaleContextHolder.getLocale()
+            ));
+        }
+        user.get().setEnabled(true);
+        user.get().setPassword(passwordEncoder.encode(registration.getPassword()));
+
+        return userService.save(user.get());
     }
 
     private synchronized void createUser(Registration registration) {

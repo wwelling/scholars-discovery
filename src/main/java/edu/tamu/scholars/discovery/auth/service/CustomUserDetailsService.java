@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.auth.service;
 
+import static edu.tamu.scholars.discovery.auth.AuthConstants.EMAIL_NOT_FOUND_MESSAGE;
+
 import java.util.Optional;
 
 import org.springframework.context.MessageSource;
@@ -34,13 +36,15 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userService.findByEmail(username);
-        if (user.isPresent()) {
-            return new CustomUserDetails(user.get(), passwordConfig);
+        if (!user.isPresent()) {
+            String message = messageSource.getMessage(
+            EMAIL_NOT_FOUND_MESSAGE,
+            new Object[] { username },
+            LocaleContextHolder.getLocale());
+            throw new UsernameNotFoundException(message);
         }
-        throw new UsernameNotFoundException(messageSource.getMessage(
-                "CustomUserDetailsService.emailNotFound",
-                new Object[] { username },
-                LocaleContextHolder.getLocale()));
+
+        return new CustomUserDetails(user.get(), passwordConfig);
     }
 
 }
