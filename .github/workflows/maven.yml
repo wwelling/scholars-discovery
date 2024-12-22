@@ -12,25 +12,18 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup Java
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         java-version: ${{ matrix.java-version }}
         distribution: 'adopt'
         architecture: x64
         cache: 'maven'
 
-    - name: Tests with Coveralls coverage report
-      run: mvn clean test jacoco:report coveralls:report -DdryRun=true
-
-    - name: Coveralls coverage report
-      uses: MikeEdgar/github-action@raw_coverage_file
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-file: ./target/coveralls.json
-        coverage-format: raw
+    - name: Run Tests
+      run: mvn clean test
 
     - name: Deploy to GitHub pages
       if: ${{ github.ref == 'refs/heads/tamu-main' && matrix.runs-on == 'ubuntu-latest' &&  matrix.java-version == '17' }}

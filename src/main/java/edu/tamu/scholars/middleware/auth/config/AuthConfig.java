@@ -1,26 +1,23 @@
 package edu.tamu.scholars.middleware.auth.config;
 
+import static edu.tamu.scholars.middleware.auth.AuthConstants.DEFAULT_REGISTRATION_TOKEN_DURATION;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.MIDDLEWARE_AUTH;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-/**
- * Injectable middleware configuration to specify properties relating to
- * authentication and authorization.
- *
- * <p>See `middleware.auth` in src/main/resources/application.yml.</p>
- */
 @Component
-@ConfigurationProperties(prefix = "middleware.auth")
+@ConfigurationProperties(MIDDLEWARE_AUTH)
 public class AuthConfig {
 
     private PasswordConfig password = new PasswordConfig();
 
     private TokenConfig token = new TokenConfig();
 
-    private int registrationTokenDuration = 14;
+    private int registrationTokenDuration = DEFAULT_REGISTRATION_TOKEN_DURATION;
 
     public AuthConfig() {
-
+        // this configuration class is instantiated by reflection by Spring
     }
 
     public PasswordConfig getPassword() {

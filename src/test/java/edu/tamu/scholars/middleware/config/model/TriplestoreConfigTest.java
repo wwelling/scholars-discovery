@@ -1,18 +1,16 @@
 package edu.tamu.scholars.middleware.config.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import edu.tamu.scholars.middleware.service.TDBTriplestore;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class TriplestoreConfigTest {
 
     @Test
@@ -21,15 +19,7 @@ public class TriplestoreConfigTest {
         assertNotNull(triplestoreConfig);
         assertEquals(TDBTriplestore.class, triplestoreConfig.getType());
         assertEquals("triplestore", triplestoreConfig.getDirectory());
-        assertEquals("layout2/hash", triplestoreConfig.getLayoutType());
-        assertEquals("MySQL", triplestoreConfig.getDatabaseType());
         assertNull(triplestoreConfig.getDatasourceUrl());
-        assertNull(triplestoreConfig.getUsername());
-        assertNull(triplestoreConfig.getPassword());
-        assertTrue(triplestoreConfig.isJdbcStream());
-        assertEquals(8, triplestoreConfig.getJdbcFetchSize());
-        assertTrue(triplestoreConfig.isStreamGraphApi());
-        assertFalse(triplestoreConfig.isAnnotateGeneratedSql());
     }
 
     @Test
@@ -39,24 +29,8 @@ public class TriplestoreConfigTest {
         assertEquals(TDBTriplestore.class, triplestoreConfig.getType());
         triplestoreConfig.setDirectory("vivo_data");
         assertEquals("vivo_data", triplestoreConfig.getDirectory());
-        triplestoreConfig.setLayoutType("layout/hash");
-        assertEquals("layout/hash", triplestoreConfig.getLayoutType());
-        triplestoreConfig.setDatabaseType("PostgreSQL");
-        assertEquals("PostgreSQL", triplestoreConfig.getDatabaseType());
         triplestoreConfig.setDatasourceUrl("jdbc://localhost:6541/test");
         assertEquals("jdbc://localhost:6541/test", triplestoreConfig.getDatasourceUrl());
-        triplestoreConfig.setUsername("username");
-        assertEquals("username", triplestoreConfig.getUsername());
-        triplestoreConfig.setPassword("password");
-        assertEquals("password", triplestoreConfig.getPassword());
-        triplestoreConfig.setJdbcStream(false);
-        assertFalse(triplestoreConfig.isJdbcStream());
-        triplestoreConfig.setJdbcFetchSize(16);
-        assertEquals(16, triplestoreConfig.getJdbcFetchSize());
-        triplestoreConfig.setStreamGraphApi(false);
-        assertFalse(triplestoreConfig.isStreamGraphApi());
-        triplestoreConfig.setAnnotateGeneratedSql(true);
-        assertTrue(triplestoreConfig.isAnnotateGeneratedSql());
     }
 
 }

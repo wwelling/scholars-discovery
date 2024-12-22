@@ -12,6 +12,12 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "middleware.index")
 public class IndexConfig {
 
+    private String host = "http://localhost:8983/solr";
+
+    private String operator = "OR";
+
+    private String parser = "edismax";
+
     private String name = "scholars-discovery";
 
     private String cron = "0 0 0 * * SUN";
@@ -27,6 +33,30 @@ public class IndexConfig {
     private int onStartupDelay = 10000;
 
     private int batchSize = 10000;
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public String getParser() {
+        return parser;
+    }
+
+    public void setParser(String parser) {
+        this.parser = parser;
+    }
 
     public String getName() {
         return name;

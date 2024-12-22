@@ -5,6 +5,7 @@ import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.PATCH;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -16,18 +17,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.expression.SecurityExpressionHandler;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer.SessionFixationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.token.KeyBasedPersistenceTokenService;
 import org.springframework.security.core.token.TokenService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.savedrequest.NullRequestCache;
 import org.springframework.session.web.http.CookieSerializer;
@@ -45,12 +46,9 @@ import edu.tamu.scholars.middleware.auth.handler.CustomAuthenticationSuccessHand
 import edu.tamu.scholars.middleware.auth.handler.CustomLogoutSuccessHandler;
 import edu.tamu.scholars.middleware.config.model.MiddlewareConfig;
 
-/**
- * 
- */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig {
 
     @Value("${spring.profiles.active:default}")
@@ -63,34 +61,31 @@ public class WebSecurityConfig {
     private String domainName;
 
     @Autowired
-    private MiddlewareConfig config;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private MessageSource messageSource;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private SecurityExpressionHandler<FilterInvocation> securityExpressionHandler;
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    public void configureGlobal(
+        AuthenticationManagerBuilder authenticationManagerBuilder,
+        PasswordEncoder passwordEncoder,
+        UserDetailsService userDetailsService
+    ) throws Exception {
+        authenticationManagerBuilder.userDetailsService(userDetailsService)
+            .passwordEncoder(passwordEncoder);
     }
 
+    // @Bean
+    // MethodSecurityExpressionHandler methodSecurityExpressionHandler(RoleHierarchy roleHierarchy) {
+    //     DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
+    //     expressionHandler.setRoleHierarchy(roleHierarchy);
+
+    //     return expressionHandler;
+    // }
+
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public TokenService tokenService() throws NoSuchAlgorithmException {
+    TokenService tokenService(TokenConfig tokenConfig) throws NoSuchAlgorithmException {
         KeyBasedPersistenceTokenService tokenService = new KeyBasedPersistenceTokenService();
-        TokenConfig tokenConfig = config.getAuth().getToken();
         tokenService.setServerInteger(tokenConfig.getServerInteger());
         tokenService.setServerSecret(tokenConfig.getServerSecret());
         tokenService.setPseudoRandomNumberBytes(tokenConfig.getPseudoRandomNumberBytes());
@@ -99,7 +94,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public CorsFilter corsFilter() {
+    CorsFilter corsFilter(MiddlewareConfig config) {
         CorsConfiguration embedConfig = new CorsConfiguration();
         embedConfig.setAllowCredentials(true);
         embedConfig.setAllowedOriginPatterns(Arrays.asList("*"));
@@ -138,14 +133,14 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public LocalValidatorFactoryBean getValidator() {
+    LocalValidatorFactoryBean getValidator(MessageSource messageSource) {
         LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
         bean.setValidationMessageSource(messageSource);
         return bean;
     }
 
     @Bean
-    public CookieSerializer cookieSerializer() {
+    CookieSerializer cookieSerializer() {
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();
         serializer.setUseHttpOnlyCookie(false);
         serializer.setUseSecureCookie(false);
@@ -157,19 +152,22 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
+    protected SecurityFilterChain configure(
+        HttpSecurity httpSecurity,
+        MessageSource messageSource,
+        ObjectMapper objectMapper,
+        UserDetailsService userDetailsService
+    ) throws Exception {
         if (enableH2Console()) {
             // NOTE: permit all access to h2console
-            http
-                .headers()
-                    .frameOptions()
-                        .sameOrigin();
+            httpSecurity
+                .headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin));
         }
-        http
-            .authorizeRequests()
-                .expressionHandler(securityExpressionHandler)
 
-                .antMatchers(PATCH,
+        httpSecurity
+            .authorizeHttpRequests(authorize -> authorize
+
+                .requestMatchers(PATCH,
                     "/dataAndAnalyticsViews/{id}",
                     "/directoryViews/{id}",
                     "/discoveryViews/{id}",
@@ -178,11 +176,10 @@ public class WebSecurityConfig {
                     "/users/{id}")
                     .hasRole("ADMIN")
 
-                .antMatchers(POST,
-                    "/registration")
+                .requestMatchers(POST, "/registration")
                     .permitAll()
 
-                .antMatchers(POST,
+                .requestMatchers(POST,
                     "/dataAndAnalyticsViews/{id}",
                     "/directoryViews/{id}",
                     "/discoveryViews/{id}",
@@ -190,13 +187,13 @@ public class WebSecurityConfig {
                     "/themes/{id}")
                     .hasRole("ADMIN")
 
-                .antMatchers(POST, "/users/{id}")
+                .requestMatchers(POST, "/users/{id}")
                     .denyAll()
 
-                .antMatchers(PUT, "/registration")
+                .requestMatchers(PUT, "/registration")
                     .permitAll()
 
-                .antMatchers(PUT,
+                .requestMatchers(PUT,
                     "/dataAndAnalyticsViews/{id}",
                     "/directoryViews/{id}",
                     "/discoveryViews/{id}",
@@ -204,20 +201,20 @@ public class WebSecurityConfig {
                     "/themes/{id}")
                     .hasRole("ADMIN")
 
-                .antMatchers(PUT, "/users/{id}")
+                .requestMatchers(PUT, "/users/{id}")
                     .denyAll()
 
-                .antMatchers(GET, "/user")
+                .requestMatchers(GET, "/user")
                     .hasRole("USER")
 
-                .antMatchers(GET,
+                .requestMatchers(GET,
                     "/users",
                     "/users/{id}",
                     "/themes",
                     "/themes/{id}")
                     .hasRole("ADMIN")
 
-                .antMatchers(DELETE,
+                .requestMatchers(DELETE,
                     "/dataAndAnalyticsViews/{id}",
                     "/directoryViews/{id}",
                     "/discoveryViews/{id}",
@@ -225,45 +222,43 @@ public class WebSecurityConfig {
                     "/themes/{id}")
                     .hasRole("ADMIN")
 
-                .antMatchers(DELETE, "/users/{id}")
+                .requestMatchers(DELETE, "/users/{id}")
                     .hasRole("SUPER_ADMIN")
 
                 .anyRequest()
-                    .permitAll()
+                    .permitAll())
+            
+            .formLogin(formLogin -> formLogin
+                .successHandler(authenticationSuccessHandler(objectMapper))
+                .failureHandler(authenticationFailureHandler())
+                .permitAll())
 
-            .and()
-                .formLogin()
-                    .successHandler(authenticationSuccessHandler())
-                    .failureHandler(authenticationFailureHandler())
-                        .permitAll()
-            .and()
-                .logout()
-                    .deleteCookies("SESSION")
-                    .invalidateHttpSession(true)
-                    .logoutSuccessHandler(logoutSuccessHandler())
-                        .permitAll()
-            .and()
-                .exceptionHandling()
-                    .authenticationEntryPoint(authenticationEntryPoint())
-                    .accessDeniedHandler(accessDeniedHandler())
-            .and()
-                .requestCache()
-                    .requestCache(nullRequestCache())
-            .and()
-                .cors()
-            .and()
-                .csrf()
-                    .disable();
+            .logout(logout -> logout
+                .deleteCookies("SESSION")
+                .invalidateHttpSession(true)
+                .logoutSuccessHandler(logoutSuccessHandler(messageSource))
+                .permitAll())
 
-        http.sessionManagement()
-            .sessionFixation()
-                .migrateSession()
-            .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+            .exceptionHandling(exceptionHandling -> exceptionHandling
+                .authenticationEntryPoint(authenticationEntryPoint())
+                .accessDeniedHandler(accessDeniedHandler()))
 
-        return http.build();
+            .requestCache(requestCache -> requestCache
+                .requestCache(nullRequestCache()))
+
+            .cors(withDefaults())
+
+            .csrf(csrf -> csrf.disable());
+
+        httpSecurity
+            .sessionManagement(sessionManagement -> sessionManagement
+                .sessionFixation(SessionFixationConfigurer::migrateSession)
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+
+        return httpSecurity.build();
     }
 
-    private CustomAuthenticationSuccessHandler authenticationSuccessHandler() {
+    private CustomAuthenticationSuccessHandler authenticationSuccessHandler(ObjectMapper objectMapper) {
         return new CustomAuthenticationSuccessHandler(objectMapper);
     }
 
@@ -271,7 +266,7 @@ public class WebSecurityConfig {
         return new CustomAuthenticationFailureHandler();
     }
 
-    private CustomLogoutSuccessHandler logoutSuccessHandler() {
+    private CustomLogoutSuccessHandler logoutSuccessHandler(MessageSource messageSource) {
         return new CustomLogoutSuccessHandler(messageSource);
     }
 

@@ -1,73 +1,74 @@
 package edu.tamu.scholars.middleware.auth.controller.request;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.EMAIL_ALREADY_IN_USE_MESSAGE;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.EMAIL_INVALID_MESSAGE;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.EMAIL_REQUIRED_MESSAGE;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.FIRST_NAME_SIZE_MESSAGE;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.LAST_NAME_SIZE_MESSAGE;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.PASSWORD_INVALID_MESSAGE;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.REGISTRATION_FIRST_NAME_MAX_LENGTH;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.REGISTRATION_FIRST_NAME_MIN_LENGTH;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.REGISTRATION_LAST_NAME_MAX_LENGTH;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.REGISTRATION_LAST_NAME_MIN_LENGTH;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import edu.tamu.scholars.middleware.auth.annotation.AvailableEmail;
 import edu.tamu.scholars.middleware.auth.annotation.ValidPassword;
-import edu.tamu.scholars.middleware.auth.model.User;
 import edu.tamu.scholars.middleware.auth.validator.group.CompleteRegistration;
 import edu.tamu.scholars.middleware.auth.validator.group.SubmitRegistration;
 
-/**
- * {@link User} registration request DTO with validation of two forms; submit and complete requests.
- */
-@ValidPassword(groups = CompleteRegistration.class, message = "{Registration.passwordInvalid}")
+@ValidPassword(
+    groups = CompleteRegistration.class,
+    message = PASSWORD_INVALID_MESSAGE)
 public class Registration {
 
     @Size(
-        min = 2,
-        max = 64,
+        max = REGISTRATION_FIRST_NAME_MAX_LENGTH,
+        min = REGISTRATION_FIRST_NAME_MIN_LENGTH,
         groups = {
             SubmitRegistration.class,
             CompleteRegistration.class
         },
-        message = "{Registration.firstNameSize}"
-    )
+        message = FIRST_NAME_SIZE_MESSAGE)
     private String firstName;
 
     @Size(
-        min = 2,
-        max = 64,
+        max = REGISTRATION_LAST_NAME_MAX_LENGTH,
+        min = REGISTRATION_LAST_NAME_MIN_LENGTH,
         groups = {
             SubmitRegistration.class,
             CompleteRegistration.class
         },
-        message = "{Registration.lastNameSize}"
-    )
+        message = LAST_NAME_SIZE_MESSAGE)
     private String lastName;
 
     @NotNull(
-        message = "{Registration.emailRequired}",
         groups = {
             SubmitRegistration.class,
             CompleteRegistration.class
-        }
-    )
+        },
+        message = EMAIL_REQUIRED_MESSAGE)
     @NotEmpty(
-        message = "{Registration.emailRequired}",
         groups = {
             SubmitRegistration.class,
             CompleteRegistration.class
-        }
-    )
+        },
+        message = EMAIL_REQUIRED_MESSAGE)
     @AvailableEmail(
         groups = SubmitRegistration.class,
-        message = "{Registration.emailAlreadyInUse}"
-    )
+        message = EMAIL_ALREADY_IN_USE_MESSAGE)
     @Email(
-        message = "{Registration.emailInvalid}",
         groups = {
             SubmitRegistration.class,
             CompleteRegistration.class
-        }
-    )
+        },
+        message = EMAIL_INVALID_MESSAGE)
     private String email;
 
     @JsonInclude(NON_NULL)

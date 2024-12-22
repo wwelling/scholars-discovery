@@ -1,16 +1,14 @@
 package edu.tamu.scholars.middleware.config.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import edu.tamu.scholars.middleware.auth.config.AuthConfig;
 import edu.tamu.scholars.middleware.auth.config.PasswordConfig;
@@ -25,7 +23,7 @@ import edu.tamu.scholars.middleware.discovery.model.Process;
 import edu.tamu.scholars.middleware.discovery.model.Relationship;
 import edu.tamu.scholars.middleware.service.TDBTriplestore;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class MiddlewareConfigTest {
 
     @Test
@@ -51,10 +49,8 @@ public class MiddlewareConfigTest {
         assertEquals("scholarsdiscovery@gmail.com", mailConfig.getReplyTo());
         HttpConfig httpConfig = middlewareConfig.getHttp();
         assertNotNull(httpConfig);
-        assertEquals(60000, httpConfig.getTimeout());
-        assertEquals(60000, httpConfig.getTimeToLive());
-        assertEquals(30000, httpConfig.getRequestTimeout());
-        assertEquals(60000, httpConfig.getSocketTimeout());
+        assertEquals(5, httpConfig.getConnectTimeout());
+        assertEquals(30, httpConfig.getReadTimeout());
         ExportConfig exportConfig = middlewareConfig.getExport();
         assertNotNull(exportConfig);
         assertEquals("http://localhost:4200/display", exportConfig.getIndividualBaseUri());
@@ -109,16 +105,14 @@ public class MiddlewareConfigTest {
     public void testHttpGetterSetter() {
         MiddlewareConfig middlewareConfig = new MiddlewareConfig();
         HttpConfig newHttpConfig = new HttpConfig();
-        newHttpConfig.setTimeout(120000);
-        newHttpConfig.setTimeToLive(90000);
-        newHttpConfig.setRequestTimeout(15000);
-        newHttpConfig.setSocketTimeout(450000);
+        newHttpConfig.setConnectTimeout(10);
+        newHttpConfig.setReadTimeout(45);
+        assertEquals(10, newHttpConfig.getConnectTimeout());
+        assertEquals(45, newHttpConfig.getReadTimeout());
         middlewareConfig.setHttp(newHttpConfig);
         HttpConfig httpConfig = middlewareConfig.getHttp();
-        assertEquals(120000, httpConfig.getTimeout());
-        assertEquals(90000, httpConfig.getTimeToLive());
-        assertEquals(15000, httpConfig.getRequestTimeout());
-        assertEquals(450000, httpConfig.getSocketTimeout());
+        assertEquals(10, httpConfig.getConnectTimeout());
+        assertEquals(45, httpConfig.getReadTimeout());
     }
 
     @Test
@@ -157,39 +151,15 @@ public class MiddlewareConfigTest {
         TriplestoreConfig newTriplestoreConfig = new TriplestoreConfig();
         newTriplestoreConfig.setType(TDBTriplestore.class);
         newTriplestoreConfig.setDirectory("vivo_data");
-        newTriplestoreConfig.setLayoutType("layout/hash");
-        newTriplestoreConfig.setDatabaseType("PostgreSQL");
         newTriplestoreConfig.setDatasourceUrl("jdbc://localhost:6541/test");
-        newTriplestoreConfig.setUsername("username");
-        newTriplestoreConfig.setPassword("password");
-        newTriplestoreConfig.setJdbcStream(false);
-        newTriplestoreConfig.setJdbcFetchSize(16);
-        newTriplestoreConfig.setStreamGraphApi(false);
-        newTriplestoreConfig.setAnnotateGeneratedSql(true);
         middlewareConfig.setTriplestore(newTriplestoreConfig);
         TriplestoreConfig triplestoreConfig = middlewareConfig.getTriplestore();
         triplestoreConfig.setType(TDBTriplestore.class);
         assertEquals(TDBTriplestore.class, triplestoreConfig.getType());
         triplestoreConfig.setDirectory("vivo_data");
         assertEquals("vivo_data", triplestoreConfig.getDirectory());
-        triplestoreConfig.setLayoutType("layout/hash");
-        assertEquals("layout/hash", triplestoreConfig.getLayoutType());
-        triplestoreConfig.setDatabaseType("PostgreSQL");
-        assertEquals("PostgreSQL", triplestoreConfig.getDatabaseType());
         triplestoreConfig.setDatasourceUrl("jdbc://localhost:6541/test");
         assertEquals("jdbc://localhost:6541/test", triplestoreConfig.getDatasourceUrl());
-        triplestoreConfig.setUsername("username");
-        assertEquals("username", triplestoreConfig.getUsername());
-        triplestoreConfig.setPassword("password");
-        assertEquals("password", triplestoreConfig.getPassword());
-        triplestoreConfig.setJdbcStream(false);
-        assertFalse(triplestoreConfig.isJdbcStream());
-        triplestoreConfig.setJdbcFetchSize(16);
-        assertEquals(16, triplestoreConfig.getJdbcFetchSize());
-        triplestoreConfig.setStreamGraphApi(false);
-        assertFalse(triplestoreConfig.isStreamGraphApi());
-        triplestoreConfig.setAnnotateGeneratedSql(true);
-        assertTrue(triplestoreConfig.isAnnotateGeneratedSql());
     }
 
     @Test

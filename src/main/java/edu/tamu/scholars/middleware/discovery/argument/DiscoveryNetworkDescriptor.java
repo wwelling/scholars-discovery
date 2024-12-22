@@ -8,9 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.solr.common.params.MapSolrParams;
-import org.apache.solr.common.params.SolrParams;
-
 import edu.tamu.scholars.middleware.discovery.utility.DiscoveryUtility;
 
 /**
@@ -66,7 +63,7 @@ public class DiscoveryNetworkDescriptor {
         return String.format("syncIds:%s AND %s", id, typeFilter);
     }
 
-    public SolrParams getSolrParams() {
+    public Map<String, String> getSolrParams() {
         final Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("q", DEFAULT_QUERY);
         queryParamMap.put("rows", String.valueOf(Integer.MAX_VALUE));
@@ -74,7 +71,7 @@ public class DiscoveryNetworkDescriptor {
         queryParamMap.put("fl", getFieldList());
         queryParamMap.put("fq", getFilterQuery());
 
-        return new MapSolrParams(queryParamMap);
+        return queryParamMap;
     }
 
     public static DiscoveryNetworkDescriptor of(

@@ -1,7 +1,5 @@
 package edu.tamu.scholars.middleware.auth.details;
 
-import static edu.tamu.scholars.middleware.auth.AuthConstants.PASSWORD_DURATION_IN_DAYS;
-
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Collection;
@@ -11,17 +9,18 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import edu.tamu.scholars.middleware.auth.config.PasswordConfig;
 import edu.tamu.scholars.middleware.auth.model.User;
 
-/**
- * Custom {@link UserDetails} that encapsulates the {@link User}.
- */
 public class CustomUserDetails extends User implements UserDetails {
 
     private static final long serialVersionUID = 6674712962625174202L;
 
-    public CustomUserDetails(User user) {
+    private final transient PasswordConfig passwordConfig;
+
+    public CustomUserDetails(User user, PasswordConfig passwordConfig) {
         super(user);
+        this.passwordConfig = passwordConfig;
     }
 
     @Override
@@ -48,7 +47,7 @@ public class CustomUserDetails extends User implements UserDetails {
         return ChronoUnit.DAYS.between(
             getTimestamp().toInstant(),
             Calendar.getInstance().toInstant()
-        ) < PASSWORD_DURATION_IN_DAYS;
+        ) < passwordConfig.getDuration();
     }
 
     @Override

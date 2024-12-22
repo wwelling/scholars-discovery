@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.solr.client.solrj.response.FacetField.Count;
-import org.apache.solr.client.solrj.response.QueryResponse;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import edu.tamu.scholars.middleware.discovery.argument.DiscoveryQuantityDistributionDescriptor;
 
@@ -45,22 +44,22 @@ public class DiscoveryQuantityDistribution {
         return total;
     }
 
-    public void parse(QueryResponse response) {
-        response
-            .getFacetField(field)
-            .getValues()
-            .stream()
-            .sorted(new Comparator<Count>() {
+    public void parse(JsonNode response) {
+        // response
+        //     .getFacetField(field)
+        //     .getValues()
+        //     .stream()
+        //     .sorted(new Comparator<Count>() {
 
-                @Override
-                public int compare(Count o1, Count o2) {
-                    return Long.compare(o2.getCount(), o1.getCount());
-                }
+        //         @Override
+        //         public int compare(Count o1, Count o2) {
+        //             return Long.compare(o2.getCount(), o1.getCount());
+        //         }
 
-            }).forEach(value -> {
-                distribution.add(new Slice(value.getName(), value.getCount()));
-                total += value.getCount();
-            });
+        //     }).forEach(value -> {
+        //         distribution.add(new Slice(value.getName(), value.getCount()));
+        //         total += value.getCount();
+        //     });
     }
 
     public static DiscoveryQuantityDistribution from(

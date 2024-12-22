@@ -11,14 +11,13 @@ ARG USER_NAME
 ARG HOME_DIR
 ARG SOURCE_DIR
 
+RUN \
 # Create the group (use a high ID to attempt to avoid conflits).
-RUN addgroup -g $USER_ID $USER_NAME
-
+addgroup -g ${USER_ID} ${USER_NAME} \
 # Create the user (use a high ID to attempt to avoid conflits).
-RUN adduser -h $HOME_DIR -u $USER_ID -G $USER_NAME -D $USER_NAME
-
+adduser -h ${HOME_DIR} -u ${USER_ID} -G ${USER_NAME} -D ${USER_NAME} \
 # Update the system.
-RUN apk -U upgrade
+apk -U upgrade
 
 # Set deployment directory.
 WORKDIR $SOURCE_DIR
@@ -45,11 +44,12 @@ ARG USER_NAME
 ARG HOME_DIR
 ARG SOURCE_DIR
 
-# Create the group (use a high ID to attempt to avoid conflits).
-RUN addgroup -g $USER_ID $USER_NAME
 
+RUN \
+# Create the group (use a high ID to attempt to avoid conflits).
+addgroup -g ${USER_ID} ${USER_NAME} \
 # Create the user (use a high ID to attempt to avoid conflits).
-RUN adduser -h $HOME_DIR -u $USER_ID -G $USER_NAME -D $USER_NAME
+adduser -h ${HOME_DIR} -u ${USER_ID} -G ${USER_NAME} -D ${USER_NAME}
 
 # Login as user.
 USER $USER_NAME

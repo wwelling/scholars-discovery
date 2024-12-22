@@ -20,11 +20,12 @@ middleware:
     from: scholarsdiscovery@gmail.com
     replyTo: scholarsdiscovery@gmail.com
   http:
-    timeout: 60000
-    time-to-live: 60000
-    request-timeout: 30000
-    socket-timeout: 60000
+    connect-timeout: 5
+    read-timeout: 30
   index:
+    host: http://localhost:8983/solr
+    operator: OR
+    parser: edismax
     name: scholars-discovery
     cron: 0 0 0 * * SUN
     zone: America/Chicago
@@ -60,17 +61,9 @@ middleware:
     individualKey: individual
     individualBaseUri: ${ui.url}/display
 
-vivo:
-  email: vivo_root@school.edu
-  password:
-  base-url: http://localhost:8080/vivo
-  linked-open-data-endpoint: /individual
-  list-rdf-endpoint: /listrdf
-  sparql-query-endpoint: /api/sparqlQuery
-
 logging:
   file:
-    name: logs/scholars-test.log
+    name: logs/scholars-tests.log
   level:
     edu:
       tamu:
@@ -82,7 +75,7 @@ logging:
         web: INFO
 
 server:
-  max-http-header-size: 16384
+  max-http-request-header-size: 16384
   port: 9001
   servlet:
     contextPath:
@@ -95,15 +88,9 @@ spring:
       return-body-on-create: true
       return-body-on-update: true
       max-page-size: 1000
-    solr:
-      operator: OR
-      parser: edismax
-    # NOTE: this does not work yet, https://jira.spring.io/browse/DATAREST-1290
     web:
       pageable:
         one-indexed-parameters: true
-  liquibase:
-    enabled: true
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true
@@ -122,9 +109,10 @@ spring:
     password: scholars
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-    generate-ddl: false
-    hibernate.ddl-auto: none
+    generate-ddl: true
+    hibernate.ddl-auto: create-drop
     open-in-view: false
+    defer-datasource-initialization: true
     properties:
       hibernate:
         enable_lazy_load_no_trans: true
@@ -145,17 +133,18 @@ spring:
 
 management:
   endpoints:
-    enabled-by-default: false
+    access:
+      default: NONE
     web:
       exposure:
         # https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html
         include: health, info, mappings
   endpoint:
     health:
-      enabled: true
+      access: READ_ONLY
       show-details: always
       show-components: always
     info:
-      enabled: true
+      access: READ_ONLY
     mappings:
-      enabled: true
+      access: READ_ONLY

@@ -3,7 +3,6 @@ package edu.tamu.scholars.middleware.config;
 import java.io.IOException;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileUrlResource;
 import org.springframework.core.io.Resource;
@@ -30,11 +29,16 @@ import edu.tamu.scholars.middleware.export.resolver.ExportArgumentResolver;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private AsyncTaskExecutor taskExecutor;
+    private final AsyncTaskExecutor taskExecutor;
+    private final MiddlewareConfig middleware;
 
-    @Autowired
-    private MiddlewareConfig middleware;
+    WebMvcConfig(
+        AsyncTaskExecutor taskExecutor,
+        MiddlewareConfig middleware
+    ) {
+        this.taskExecutor = taskExecutor;
+        this.middleware = middleware;
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

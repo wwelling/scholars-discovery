@@ -2,7 +2,7 @@ services:
 
   db:
     container_name: scholars-db
-    image: postgres
+    image: postgres:latest
     environment:
        - POSTGRES_DB=scholars
        - POSTGRES_USER=scholars
@@ -14,10 +14,14 @@ services:
 
   solr:
     container_name: scholars-solr
-    build:
-      context: ./solr/
-      dockerfile: Dockerfile
+    image: solr:9.7.0
+    environment:
+      - SOLR_HOME=/var/solr/data
     volumes:
-      - ./solr/data:/var/solr/data
+      - ./solrdata:/var/solr/data
+      - ./managed-schema.xml:/opt/solr-9.7.0/server/solr/configsets/_default/conf/managed-schema.xml
     ports:
       - 8983:8983
+    command:
+      - solr-precreate
+      - scholars-discovery

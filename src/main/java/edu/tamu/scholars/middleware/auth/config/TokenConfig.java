@@ -1,25 +1,25 @@
 package edu.tamu.scholars.middleware.auth.config;
 
+import static edu.tamu.scholars.middleware.auth.AuthConstants.DEFAULT_TOKEN_PSEUDO_RANDOM_NUMBER_BYTES;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.DEFAULT_TOKEN_SERVER_INTEGER;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.DEFAULT_TOKEN_SERVER_SECRET;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.MIDDLEWARE_AUTH_TOKEN;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-/**
- * Injectable middleware auth configuration to specify token properties.
- * 
- * <p>See `middleware.auth.token` in src/main/resources/application.yml.</p>
- */
 @Component
-@ConfigurationProperties(prefix = "middleware.auth.token")
+@ConfigurationProperties(MIDDLEWARE_AUTH_TOKEN)
 public class TokenConfig {
 
-    private int serverInteger = 1;
+    private int serverInteger = DEFAULT_TOKEN_SERVER_INTEGER;
 
-    private String serverSecret = "wKFkxTX54UzKx6xCYnC8WlEI2wtOy0PR";
+    private String serverSecret = DEFAULT_TOKEN_SERVER_SECRET;
 
-    private int pseudoRandomNumberBytes = 64;
+    private int pseudoRandomNumberBytes = DEFAULT_TOKEN_PSEUDO_RANDOM_NUMBER_BYTES;
 
     public TokenConfig() {
-
+        // this configuration class is instantiated by reflection by Spring
     }
 
     public int getServerInteger() {

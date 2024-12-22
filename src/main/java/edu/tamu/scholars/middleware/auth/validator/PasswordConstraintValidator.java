@@ -1,16 +1,12 @@
 package edu.tamu.scholars.middleware.auth.validator;
 
-import static edu.tamu.scholars.middleware.auth.AuthConstants.PASSWORD_MAX_LENGTH;
-import static edu.tamu.scholars.middleware.auth.AuthConstants.PASSWORD_MIN_LENGTH;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.HistoryRule;
@@ -22,25 +18,30 @@ import org.passay.PasswordValidator;
 import org.passay.RuleResult;
 import org.passay.WhitespaceRule;
 import org.passay.spring.SpringMessageResolver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import edu.tamu.scholars.middleware.auth.annotation.ValidPassword;
+import edu.tamu.scholars.middleware.auth.config.PasswordConfig;
 import edu.tamu.scholars.middleware.auth.controller.request.Registration;
 import edu.tamu.scholars.middleware.auth.model.User;
 import edu.tamu.scholars.middleware.auth.model.repo.UserRepo;
 
-/**
- * {@link User} passsword validator. Valid when email does not exist, otherwise invalid.
- */
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, Registration> {
 
-    @Autowired
     private UserRepo userRepo;
-
-    @Autowired
     private MessageSource messageSource;
+    private PasswordConfig passwordConfig;
+
+    PasswordConstraintValidator(
+        UserRepo userRepo,
+        MessageSource messageSource,
+        PasswordConfig passwordConfig
+    ) {
+        this.userRepo = userRepo;
+        this.messageSource = messageSource;
+        this.passwordConfig = passwordConfig;
+    }
 
     @Override
     public boolean isValid(Registration registration, ConstraintValidatorContext context) {
@@ -52,7 +53,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
                 new SpringMessageResolver(messageSource),
 
                 // length between PASSWORD_MIN_LENGTH and PASSWORD_MAX_LENGTH characters
-                new LengthRule(PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH),
+                new LengthRule(passwordConfig.getMinLength(), passwordConfig.getMaxLength()),
 
                 // at least one upper-case character
                 new CharacterRule(EnglishCharacterData.UpperCase, 1),
@@ -82,10 +83,10 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
             passwordReferences = user.get()
                 .getOldPasswords()
                 .stream()
-                .map(pw -> new HistoricalReference(pw))
+                .map(HistoricalReference::new)
                 .collect(Collectors.toList());
         } else {
-            passwordReferences = new ArrayList<Reference>();
+            passwordReferences = new ArrayList<>();
         }
 
         passwordData.setPasswordReferences(passwordReferences);

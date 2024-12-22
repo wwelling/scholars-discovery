@@ -1,25 +1,25 @@
 package edu.tamu.scholars.middleware.auth.config;
 
+import static edu.tamu.scholars.middleware.auth.AuthConstants.DEFAULT_PASSWORD_DURATION;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.DEFAULT_PASSWORD_MAX_LENGTH;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.DEFAULT_PASSWORD_MIN_LENGTH;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.MIDDLEWARE_AUTH_PASSWORD;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-/**
- * Injectable middleware auth configuration to specify password properties.
- * 
- * <p>See `middleware.auth.password` in src/main/resources/application.yml.</p>
- */
 @Component
-@ConfigurationProperties(prefix = "middleware.auth.password")
+@ConfigurationProperties(MIDDLEWARE_AUTH_PASSWORD)
 public class PasswordConfig {
 
-    private int duration = 180;
+    private int duration = DEFAULT_PASSWORD_DURATION;
 
-    private int minLength = 8;
+    private int minLength = DEFAULT_PASSWORD_MIN_LENGTH;
 
-    private int maxLength = 64;
+    private int maxLength = DEFAULT_PASSWORD_MAX_LENGTH;
 
     public PasswordConfig() {
-
+        // this configuration class is instantiated by reflection by Spring
     }
 
     public int getDuration() {

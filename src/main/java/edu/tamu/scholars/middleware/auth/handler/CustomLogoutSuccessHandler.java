@@ -1,20 +1,18 @@
 package edu.tamu.scholars.middleware.auth.handler;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import static edu.tamu.scholars.middleware.AppConstants.EMPTY_OBJECT_ARRAY;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.LOGOUT_SUCCESS_MESSAGE;
 
 import java.io.IOException;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
-/**
- * Spring Boot autoconfigured custom {@link LogoutSuccessHandler}. Customized to
- * return 205 status and write i18n message to response.
- */
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
     private MessageSource messageSource;
@@ -29,14 +27,17 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
         HttpServletResponse response,
         Authentication authentication
     ) throws IOException, ServletException {
+        String message = messageSource.getMessage(
+            LOGOUT_SUCCESS_MESSAGE,
+            EMPTY_OBJECT_ARRAY,
+            LocaleContextHolder.getLocale());
         response.setStatus(HttpServletResponse.SC_RESET_CONTENT);
-        response.getWriter().write(messageSource.getMessage(
-            "CustomLogoutSuccessHandler.success",
-            new Object[0],
-            LocaleContextHolder.getLocale()
-        ));
-        response.getWriter().flush();
-        response.getWriter().close();
+        response.getWriter()
+            .write(message);
+        response.getWriter()
+            .flush();
+        response.getWriter()
+            .close();
     }
 
 }

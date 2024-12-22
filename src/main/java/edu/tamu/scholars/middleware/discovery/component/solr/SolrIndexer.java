@@ -10,12 +10,12 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.request.schema.SchemaRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.client.RestTemplate;
 
 import edu.tamu.scholars.middleware.discovery.annotation.FieldType;
 import edu.tamu.scholars.middleware.discovery.component.Indexer;
@@ -30,7 +30,7 @@ public class SolrIndexer implements Indexer {
     private static final Logger logger = LoggerFactory.getLogger(SolrIndexer.class);
 
     @Autowired
-    private SolrClient solrClient;
+    private RestTemplate restTemplate;
 
     @Value("${middleware.index.name}")
     private String collectionName;
@@ -54,7 +54,7 @@ public class SolrIndexer implements Indexer {
                 : field.getName();
 
             if (!fieldType.readonly() && !CREATED_FIELDS.contains(name) && CREATED_FIELDS.add(name)) {
-                Map<String, Object> fieldAttributes = new HashMap<String,Object>();
+                Map<String, Object> fieldAttributes = new HashMap<String, Object>();
 
                 fieldAttributes.put("type", fieldType.type());
                 fieldAttributes.put("stored", fieldType.stored());
@@ -69,24 +69,24 @@ public class SolrIndexer implements Indexer {
 
                 fieldAttributes.put("name", name);
 
-                try {
-                    SchemaRequest.AddField addFieldRequest = new SchemaRequest.AddField(fieldAttributes);
-                    addFieldRequest.process(solrClient, collectionName);
+                // try {
+                //     SchemaRequest.AddField addFieldRequest = new SchemaRequest.AddField(fieldAttributes);
+                //     addFieldRequest.process(solrClient, collectionName);
 
-                    if (fieldType.copyTo().length > 0) {
-                        try {
-                            SchemaRequest.AddCopyField addCopyFieldRequest = new SchemaRequest.AddCopyField(
-                                name,
-                                Arrays.asList(fieldType.copyTo())
-                            );
-                            addCopyFieldRequest.process(solrClient, collectionName);
-                        } catch (Exception e) {
-                            logger.error("Failed to add copy field", e);
-                        }
-                    }
-                } catch (Exception e) {
-                    logger.debug("Failed to add field", e);
-                }
+                //     if (fieldType.copyTo().length > 0) {
+                //         try {
+                //             SchemaRequest.AddCopyField addCopyFieldRequest = new SchemaRequest.AddCopyField(
+                //                 name,
+                //                 Arrays.asList(fieldType.copyTo())
+                //             );
+                //             addCopyFieldRequest.process(solrClient, collectionName);
+                //         } catch (Exception e) {
+                //             logger.error("Failed to add copy field", e);
+                //         }
+                //     }
+                // } catch (Exception e) {
+                //     logger.debug("Failed to add field", e);
+                // }
             }
         }
     }
@@ -94,8 +94,8 @@ public class SolrIndexer implements Indexer {
     @Override
     public void index(Collection<Individual> individuals) {
         try {
-            solrClient.addBeans(collectionName, individuals);
-            solrClient.commit(collectionName);
+            // solrClient.addBeans(collectionName, individuals);
+            // solrClient.commit(collectionName);
             logger.info("Saved {} batch of {}", name(), individuals.size());
         } catch (Exception e) {
             logger.debug("Error saving batch", e);
@@ -111,8 +111,8 @@ public class SolrIndexer implements Indexer {
     @Override
     public void index(Individual individual) {
         try {
-            solrClient.addBean(collectionName, individual);
-            solrClient.commit(collectionName);
+            // solrClient.addBean(collectionName, individual);
+            // solrClient.commit(collectionName);
             logger.info("Saved {} with id {}", name(), individual.getId());
         } catch (Exception e) {
             logger.debug("Error saving individual", e);
@@ -123,7 +123,7 @@ public class SolrIndexer implements Indexer {
     @Override
     public void optimize() {
         try {
-            solrClient.optimize(collectionName);
+            // solrClient.optimize(collectionName);
         } catch (Exception e) {
             logger.debug("Error optimizing collection", e);
             logger.warn("Failed to optimize collection. {}", e.getMessage());

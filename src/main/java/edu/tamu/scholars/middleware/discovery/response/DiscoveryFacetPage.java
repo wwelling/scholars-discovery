@@ -10,10 +10,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.solr.client.solrj.response.FacetField;
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.SolrDocumentList;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -40,58 +38,60 @@ public class DiscoveryFacetPage<T> extends DiscoveryPage<T> {
 
     public static <T> DiscoveryFacetPage<T> from(
         List<T> documents,
-        QueryResponse response,
+        JsonNode response,
         Pageable pageable,
         List<FacetArg> facetArguments,
         Class<T> type
     ) {
         List<Facet> facets = buildFacets(response, facetArguments);
-        SolrDocumentList results = response.getResults();
+        // JsonNode results = response.getResults();
 
-        return new DiscoveryFacetPage<T>(documents, pageable, results.getNumFound(), facets);
+        // return new DiscoveryFacetPage<T>(documents, pageable, results.getNumFound(), facets);
+
+        return null;
     }
 
-    public static <T> List<Facet> buildFacets(QueryResponse response, List<FacetArg> facetArguments) {
+    public static <T> List<Facet> buildFacets(JsonNode response, List<FacetArg> facetArguments) {
         List<Facet> facets = new ArrayList<Facet>();
 
         facetArguments.forEach(facetArgument -> {
             String name = facetArgument.getField();
 
-            FacetField facetField = response.getFacetField(name);
+            // JsonNode facetField = response.getFacetField(name);
 
-            if (Objects.nonNull(facetField) && !facetField.getValues().isEmpty()) {
+            // if (Objects.nonNull(facetField) && !facetField.getValues().isEmpty()) {
 
-                List<FacetEntry> entries = facetField.getValues().parallelStream()
-                    .map(entry -> new FacetEntry(entry.getName(), entry.getCount()))
-                    .collect(Collectors.toMap(FacetEntry::getValueKey, fe -> fe, FacetEntry::merge))
-                        .values()
-                        .parallelStream()
-                    .sorted(FacetEntryComparator.of(facetArgument.getSort()))
-                    .collect(Collectors.toList());
+            //     List<FacetEntry> entries = facetField.getValues().parallelStream()
+            //         .map(entry -> new FacetEntry(entry.getName(), entry.getCount()))
+            //         .collect(Collectors.toMap(FacetEntry::getValueKey, fe -> fe, FacetEntry::merge))
+            //             .values()
+            //             .parallelStream()
+            //         .sorted(FacetEntryComparator.of(facetArgument.getSort()))
+            //         .collect(Collectors.toList());
 
-                int pageSize = facetArgument.getPageSize();
-                // convert to zero-based numbering page number
-                int pageNumber = facetArgument.getPageNumber() - 1;
-                int offset = pageSize * pageNumber;
+            //     int pageSize = facetArgument.getPageSize();
+            //     // convert to zero-based numbering page number
+            //     int pageNumber = facetArgument.getPageNumber() - 1;
+            //     int offset = pageSize * pageNumber;
 
-                int totalElements = (int) entries.size();
+            //     int totalElements = (int) entries.size();
 
-                int start = offset;
+            //     int start = offset;
 
-                int end = offset + (pageSize > totalElements ? totalElements : offset + pageSize);
+            //     int end = offset + (pageSize > totalElements ? totalElements : offset + pageSize);
 
-                Sort sort = Sort.by(
-                    facetArgument.getSort().getDirection(),
-                    facetArgument.getSort().getProperty().toString()
-                );
+            //     Sort sort = Sort.by(
+            //         facetArgument.getSort().getDirection(),
+            //         facetArgument.getSort().getProperty().toString()
+            //     );
 
-                Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+            //     Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
 
-                facets.add(
-                    new Facet(findPath(name),
-                    DiscoveryPage.from(entries.subList(start, end), pageable, totalElements))
-                );
-            }
+            //     facets.add(
+            //         new Facet(findPath(name),
+            //         DiscoveryPage.from(entries.subList(start, end), pageable, totalElements))
+            //     );
+            // }
         });
         return facets;
     }

@@ -1,34 +1,20 @@
 package edu.tamu.scholars.middleware.auth.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * {@link User} role enumeration used for role-based authentication defined
- * primarily in the {@link SecurityFilterChainConfig} or controller
- * annotations @PreAuthorize using spring expression `hasRole`.
- */
 public enum Role {
 
     // NOTE: inconsistent use of enum key
     // SecurityFilterChainConfig @PreAuthorize
-    // `.hasRole("USER")`        `@PreAuthorise("hasRole('ROLE_USER')")`
-    // `.hasRole("ADMIN")`       `@PreAuthorise("hasRole('ROLE_ADMIN')")`
-    // `.hasRole("SUPER_ADMIN")` `@PreAuthorise("hasRole('ROLE_SUPER_ADMIN')")`
+    // `.hasRole("USER")` `@PreAuthorize("hasRole('ROLE_USER')")`
+    // `.hasRole("MANAGER")` `@PreAuthorize("hasRole('ROLE_MANAGER')")`
+    // `.hasRole("ADMIN")` `@PreAuthorize("hasRole('ROLE_ADMIN')")`
+    // `.hasRole("SUPER_ADMIN")` `@PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")`
 
-    ROLE_USER("User"),
-    ROLE_ADMIN("Administrator"),
-    ROLE_SUPER_ADMIN("Super Administrator"); 
+    ROLE_USER("USER"),
+    ROLE_MANAGER("MANAGER"),
+    ROLE_ADMIN("ADMIN"),
+    ROLE_SUPER_ADMIN("SUPER_ADMIN");
 
     private final String value;
-
-    private static Map<String, Role> map = new HashMap<String, Role>();
-
-    static {
-        for (Role role : Role.values()) {
-            map.put(role.value, role);
-        }
-    }
 
     Role(String value) {
         this.value = value;
@@ -36,10 +22,6 @@ public enum Role {
 
     public String getValue() {
         return value;
-    }
-
-    public static Role withValue(String value) {
-        return map.get(value);
     }
 
 }

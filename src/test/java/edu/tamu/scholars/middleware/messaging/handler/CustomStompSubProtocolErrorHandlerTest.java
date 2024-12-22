@@ -7,15 +7,17 @@ import static org.springframework.messaging.simp.stomp.StompCommand.SUBSCRIBE;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class CustomStompSubProtocolErrorHandlerTest {
 
-    private CustomStompSubProtocolErrorHandler customStompSubProtocolErrorHandler = new CustomStompSubProtocolErrorHandler();
+    @InjectMocks
+    private CustomStompSubProtocolErrorHandler customStompSubProtocolErrorHandler;
 
     @Test
     public void testHandleInternal() {

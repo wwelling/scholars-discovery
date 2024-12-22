@@ -1,17 +1,14 @@
 package edu.tamu.scholars.middleware.auth.service;
 
-import static edu.tamu.scholars.middleware.auth.model.repo.handler.UserEventHandler.USERS_CHANNEL;
+import static edu.tamu.scholars.middleware.auth.AuthConstants.USERS_CHANNEL;
 
 import java.io.IOException;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Optional;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -36,32 +33,37 @@ import edu.tamu.scholars.middleware.service.TemplateService;
 @Service
 public class RegistrationService {
 
-    @Autowired
-    private AuthConfig authConfig;
+    private final AuthConfig authConfig;
+    private final UserRepo userRepo;
+    private final TemplateService templateService;
+    private final EmailService emailService;
+    private final TokenService tokenService;
+    private final MessageSource messageSource;
+    private final ObjectMapper objectMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final SimpMessagingTemplate simpMessageTemplate;
 
-    @Autowired
-    private UserRepo userRepo;
-
-    @Autowired
-    private TemplateService templateService;
-
-    @Autowired
-    private EmailService emailService;
-
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    private MessageSource messageSource;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    protected BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired
-    private SimpMessagingTemplate simpMessageTemplate;
+    RegistrationService(
+        AuthConfig authConfig,
+        UserRepo userRepo,
+        TemplateService templateService,
+        EmailService emailService,
+        TokenService tokenService,
+        MessageSource messageSource,
+        ObjectMapper objectMapper,
+        BCryptPasswordEncoder passwordEncoder,
+        SimpMessagingTemplate simpMessageTemplate
+    ) {
+        this.authConfig = authConfig;
+        this.userRepo = userRepo;
+        this.templateService = templateService;
+        this.emailService = emailService;
+        this.tokenService = tokenService;
+        this.messageSource = messageSource;
+        this.objectMapper = objectMapper;
+        this.passwordEncoder = passwordEncoder;
+        this.simpMessageTemplate = simpMessageTemplate;
+    }
 
     public Registration submit(Registration registration) throws JsonProcessingException {
         String registrationJson = objectMapper.writeValueAsString(registration);
@@ -79,7 +81,7 @@ public class RegistrationService {
     }
 
     public Registration confirm(String key)
-        throws JsonParseException, JsonMappingException, IOException, RegistrationException {
+        throws IOException, RegistrationException {
         Token token = tokenService.verifyToken(key);
         String registrationJson = token.getExtendedInformation();
         Registration registration = objectMapper.readValue(registrationJson, Registration.class);
@@ -147,6 +149,8 @@ public class RegistrationService {
             user.setRole(Role.ROLE_SUPER_ADMIN);
         } else if (userRepo.count() == 1) {
             user.setRole(Role.ROLE_ADMIN);
+        } else if (userRepo.count() == 2) {
+            user.setRole(Role.ROLE_MANAGER);
         } else {
             user.setRole(Role.ROLE_USER);
         }

@@ -6,50 +6,32 @@ import org.springframework.stereotype.Component;
 /**
  * Injectable middleware configuration to specify http properties.
  * 
- * <p>See `middleware.http` in src/main/resources/application.yml.</p>
+ * <p>
+ * See `middleware.http` in src/main/resources/application.yml.
+ * </p>
  */
 @Component
 @ConfigurationProperties(prefix = "middleware.http")
 public class HttpConfig {
 
-    private int timeout = 60000;
+    private int connectTimeout = 5;
 
-    private int timeToLive = 60000;
+    private int readTimeout = 30;
 
-    private int requestTimeout = 30000;
-
-    private int socketTimeout = 60000;
-
-    public int getTimeout() {
-        return timeout;
+    public int getConnectTimeout() {
+        return connectTimeout;
     }
 
-    public void setTimeout(int timeout) {
-        this.timeout = timeout;
+    public void setConnectTimeout(int connectTimeout) {
+        this.connectTimeout = connectTimeout;
     }
 
-    public int getTimeToLive() {
-        return timeToLive;
+    public int getReadTimeout() {
+        return readTimeout;
     }
 
-    public void setTimeToLive(int timeToLive) {
-        this.timeToLive = timeToLive;
-    }
-
-    public int getRequestTimeout() {
-        return requestTimeout;
-    }
-
-    public void setRequestTimeout(int requestTimeout) {
-        this.requestTimeout = requestTimeout;
-    }
-
-    public int getSocketTimeout() {
-        return socketTimeout;
-    }
-
-    public void setSocketTimeout(int socketTimeout) {
-        this.socketTimeout = socketTimeout;
+    public void setReadTimeout(int readTimeout) {
+        this.readTimeout = readTimeout;
     }
 
 }

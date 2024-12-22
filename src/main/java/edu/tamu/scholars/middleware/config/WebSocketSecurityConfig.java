@@ -6,27 +6,29 @@ import static org.springframework.messaging.simp.SimpMessageType.MESSAGE;
 import static org.springframework.messaging.simp.SimpMessageType.SUBSCRIBE;
 import static org.springframework.messaging.simp.SimpMessageType.UNSUBSCRIBE;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
-import org.springframework.security.access.expression.SecurityExpressionHandler;
-import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
-import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.authorization.AuthorizationManager;
+import org.springframework.security.messaging.access.expression.DefaultMessageSecurityExpressionHandler;
+import org.springframework.security.messaging.access.intercept.MessageMatcherDelegatingAuthorizationManager;
 
-/**
- * 
- */
 @Configuration
-public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {
+public class WebSocketSecurityConfig {
 
-    @Autowired
-    private SecurityExpressionHandler<Message<Object>> messageSecurityExpressionHandler;
+    @Bean
+    DefaultMessageSecurityExpressionHandler<Message<Object>> messageSecurityExpressionHandler(RoleHierarchy roleHierarchy) {
+        DefaultMessageSecurityExpressionHandler<Message<Object>> expressionHandler = new DefaultMessageSecurityExpressionHandler<>();
+        expressionHandler.setRoleHierarchy(roleHierarchy);
 
-    @Override
-    protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
-        messages
-            .expressionHandler(messageSecurityExpressionHandler)
+        return expressionHandler;
+    }
 
+    @Bean
+    @SuppressWarnings("java:S1452")
+    AuthorizationManager<Message<?>> messageAuthorizationManager() {
+        return MessageMatcherDelegatingAuthorizationManager.builder()
             .simpTypeMatchers(CONNECT, UNSUBSCRIBE, DISCONNECT)
                 .permitAll()
             .simpSubscribeDestMatchers(
@@ -53,12 +55,8 @@ public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBro
             .simpTypeMatchers(SUBSCRIBE, MESSAGE)
                 .denyAll()
             .anyMessage()
-                .denyAll();
-    }
-
-    @Override
-    protected boolean sameOriginDisabled() {
-        return true;
+                .denyAll()
+            .build();
     }
 
 }

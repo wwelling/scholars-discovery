@@ -4,8 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.data.web.config.PageableHandlerMethodArgumentResolverCustomizer;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import edu.tamu.scholars.middleware.auth.model.repo.handler.UserEventHandler;
+import edu.tamu.scholars.middleware.theme.model.repo.ThemeRepo;
 import edu.tamu.scholars.middleware.theme.model.repo.handler.ThemeEventHandler;
 
 /**
@@ -15,18 +17,21 @@ import edu.tamu.scholars.middleware.theme.model.repo.handler.ThemeEventHandler;
 public class RepositoryRestConfig implements RepositoryRestConfigurer {
 
     @Bean
-    public PageableHandlerMethodArgumentResolverCustomizer customize() {
+    PageableHandlerMethodArgumentResolverCustomizer customize() {
         return resolver -> resolver.setOneIndexedParameters(true);
     }
 
     @Bean
-    public ThemeEventHandler themeEventHandler() {
-        return new ThemeEventHandler();
+    ThemeEventHandler themeEventHandler(
+        ThemeRepo themeRepo,
+        SimpMessagingTemplate simpMessageTemplate
+    ) {
+        return new ThemeEventHandler(themeRepo, simpMessageTemplate);
     }
 
     @Bean
-    public UserEventHandler userEventHandler() {
-        return new UserEventHandler();
+    UserEventHandler userEventHandler(SimpMessagingTemplate simpMessageTemplate) {
+        return new UserEventHandler(simpMessageTemplate);
     }
 
 }

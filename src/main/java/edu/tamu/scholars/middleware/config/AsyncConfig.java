@@ -20,7 +20,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 public class AsyncConfig implements AsyncConfigurer {
 
     @Bean(name = "taskScheduler")
-    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
+    ThreadPoolTaskScheduler threadPoolTaskScheduler() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
         scheduler.setPoolSize(16);
         scheduler.setThreadNamePrefix("thread-pool-task-scheduler");

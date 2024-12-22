@@ -12,8 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.SolrDocumentList;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.data.domain.Pageable;
 
 import edu.tamu.scholars.middleware.discovery.DiscoveryConstants;
@@ -44,52 +43,53 @@ public class DiscoveryFacetAndHighlightPage<T> extends DiscoveryFacetPage<T> {
 
     public static <T> DiscoveryFacetAndHighlightPage<T> from(
         List<T> documents,
-        QueryResponse response,
+        JsonNode response,
         Pageable pageable,
         List<FacetArg> facetArguments,
         HighlightArg highlightArg,
         Class<T> type
     ) {
-        List<Facet> facets = buildFacets(response, facetArguments);
-        List<Highlight> highlights = buildHighlights(response, highlightArg);
-        SolrDocumentList results = response.getResults();
+        // List<Facet> facets = buildFacets(response, facetArguments);
+        // List<Highlight> highlights = buildHighlights(response, highlightArg);
+        // JsonNode results = response.getResults();
 
-        return new DiscoveryFacetAndHighlightPage<T>(documents, pageable, results.getNumFound(), facets, highlights);
+        // return new DiscoveryFacetAndHighlightPage<T>(documents, pageable, results.getNumFound(), facets, highlights);
+        return null;
     }
 
-    public static <T> List<Highlight> buildHighlights(QueryResponse response, HighlightArg highlightArg) {
+    public static <T> List<Highlight> buildHighlights(JsonNode response, HighlightArg highlightArg) {
         List<Highlight> highlights = new ArrayList<>();
-        Map<String, Map<String, List<String>>> highlighting = response.getHighlighting();
-        if (Objects.nonNull(highlighting)) {
-            highlighting.entrySet()
-                .stream()
-                .filter(DiscoveryFacetAndHighlightPage::hasHighlights)
-                    .forEach(highlightEntry -> {
+        // Map<String, Map<String, List<String>>> highlighting = response.getHighlighting();
+        // if (Objects.nonNull(highlighting)) {
+        //     highlighting.entrySet()
+        //         .stream()
+        //         .filter(DiscoveryFacetAndHighlightPage::hasHighlights)
+        //             .forEach(highlightEntry -> {
 
-                        String id = highlightEntry.getKey();
-                        Map<String, List<Object>> snippets = new HashMap<>();
+        //                 String id = highlightEntry.getKey();
+        //                 Map<String, List<Object>> snippets = new HashMap<>();
 
-                        highlightEntry.getValue().entrySet()
-                            .stream()
-                            .filter(DiscoveryFacetAndHighlightPage::hasSnippets)
-                                .forEach(se -> {
+        //                 highlightEntry.getValue().entrySet()
+        //                     .stream()
+        //                     .filter(DiscoveryFacetAndHighlightPage::hasSnippets)
+        //                         .forEach(se -> {
 
-                                    snippets.put(findPath(se.getKey()), se.getValue().stream().map(s -> {
-                                        Matcher matcher = REFERENCE_PATTERN.matcher(s);
-                                        if (matcher.find()) {
-                                            Map<String, String> value = new HashMap<>();
-                                            value.put(DiscoveryConstants.ID, matcher.group(2));
-                                            value.put(DiscoveryConstants.SNIPPET, matcher.group(1) + matcher.group(3));
-                                            return value;
-                                        }
+        //                             snippets.put(findPath(se.getKey()), se.getValue().stream().map(s -> {
+        //                                 Matcher matcher = REFERENCE_PATTERN.matcher(s);
+        //                                 if (matcher.find()) {
+        //                                     Map<String, String> value = new HashMap<>();
+        //                                     value.put(DiscoveryConstants.ID, matcher.group(2));
+        //                                     value.put(DiscoveryConstants.SNIPPET, matcher.group(1) + matcher.group(3));
+        //                                     return value;
+        //                                 }
 
-                                        return s;
-                                    }).collect(Collectors.toList()));
-                                });
+        //                                 return s;
+        //                             }).collect(Collectors.toList()));
+        //                         });
 
-                        highlights.add(new Highlight(id, snippets));
-                    });
-        }
+        //                 highlights.add(new Highlight(id, snippets));
+        //             });
+        // }
 
         return highlights;
     }

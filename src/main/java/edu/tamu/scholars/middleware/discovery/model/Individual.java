@@ -13,9 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.lucene.document.StoredField;
-import org.apache.solr.client.solrj.beans.Field;
-import org.apache.solr.common.SolrDocument;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.hateoas.server.core.Relation;
 
 import edu.tamu.scholars.middleware.discovery.utility.DiscoveryUtility;
@@ -27,7 +25,6 @@ import edu.tamu.scholars.middleware.discovery.utility.DiscoveryUtility;
 @Relation(collectionRelation = "individual", itemRelation = "individual")
 public class Individual extends AbstractIndexDocument {
 
-    @Field("*")
     private final Map<String, Object> content;
 
     public Individual() {
@@ -83,33 +80,34 @@ public class Individual extends AbstractIndexDocument {
     }
 
     public static Object normalize(Object value) {
-        if (StoredField.class.isAssignableFrom(value.getClass())) {
-            return ((StoredField) value).stringValue();
-        }
+        System.out.println("\n\n" + value.getClass() + "\n\n");
+        // if (StoredField.class.isAssignableFrom(value.getClass())) {
+        //     return ((StoredField) value).stringValue();
+        // }
         return value;
     }
 
-    public static Individual from(SolrDocument document) {
+    public static Individual from(JsonNode document) {
         Map<String, Object> content = new HashMap<>();
 
-        String name = (String) normalize(document.getFieldValue(CLASS));
+        // String name = (String) normalize(document.getFieldValue(CLASS));
 
-        DiscoveryUtility.getDiscoveryDocumentTypeFields(name)
-            .entrySet()
-            .stream()
-            .filter(entry -> document.containsKey(entry.getKey()))
-            .forEach(entry -> {
-                String field = entry.getKey();
-                if (Collection.class.isAssignableFrom(entry.getValue())) {
-                    Collection<Object> values = document.getFieldValues(field)
-                        .stream()
-                        .map(Individual::normalize)
-                        .collect(Collectors.toList());
-                    content.put(field, values);
-                } else {
-                    content.put(field, normalize(document.getFirstValue(field)));
-                }
-            });
+        // DiscoveryUtility.getDiscoveryDocumentTypeFields(name)
+        //     .entrySet()
+        //     .stream()
+        //     .filter(entry -> document.containsKey(entry.getKey()))
+        //     .forEach(entry -> {
+        //         String field = entry.getKey();
+        //         if (Collection.class.isAssignableFrom(entry.getValue())) {
+        //             Collection<Object> values = document.getFieldValues(field)
+        //                 .stream()
+        //                 .map(Individual::normalize)
+        //                 .collect(Collectors.toList());
+        //             content.put(field, values);
+        //         } else {
+        //             content.put(field, normalize(document.getFirstValue(field)));
+        //         }
+        //     });
 
         return Individual.from(content);
     }

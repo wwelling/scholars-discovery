@@ -1,6 +1,5 @@
 package edu.tamu.scholars.middleware.theme.model.repo.handler;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -27,11 +26,16 @@ public class ThemeEventHandler {
 
     public static final String THEMES_CHANNEL = "/queue/themes";
 
-    @Autowired
     private ThemeRepo themeRepo;
-
-    @Autowired
     private SimpMessagingTemplate simpMessageTemplate;
+
+    public ThemeEventHandler(
+        ThemeRepo themeRepo,
+        SimpMessagingTemplate simpMessageTemplate
+    ) {
+        this.themeRepo = themeRepo;
+        this.simpMessageTemplate = simpMessageTemplate;
+    }
 
     @HandleBeforeCreate
     public void handleBeforeThemeCreate(Theme theme) throws CreateActiveThemeException {

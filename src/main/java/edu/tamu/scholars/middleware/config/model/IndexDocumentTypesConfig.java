@@ -12,8 +12,8 @@ public abstract class IndexDocumentTypesConfig {
 
     private List<Class<? extends AbstractIndexDocument>> documentTypes = new ArrayList<>();
 
-    public IndexDocumentTypesConfig() {
-
+    IndexDocumentTypesConfig() {
+        // this configuration class is instantiated by reflection by Spring
     }
 
     public List<Class<? extends AbstractIndexDocument>> getDocumentTypes() {

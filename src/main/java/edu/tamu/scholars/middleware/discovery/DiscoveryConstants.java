@@ -5,8 +5,6 @@ package edu.tamu.scholars.middleware.discovery;
  */
 public class DiscoveryConstants {
 
-    public static String EXPORT_INDIVIDUAL_KEY;
-
     public static final String WILDCARD = "*";
 
     public static final String ID = "id";

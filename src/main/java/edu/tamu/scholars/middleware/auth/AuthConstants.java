@@ -1,18 +1,50 @@
 package edu.tamu.scholars.middleware.auth;
 
-import edu.tamu.scholars.middleware.MiddlewareApplication;
-import edu.tamu.scholars.middleware.auth.details.CustomUserDetails;
-
-/**
- * Application initialized constants for use at runtime statically.
- * These are set in {@link MiddlewareApplication} and used in {@link CustomUserDetails}.
- */
 public class AuthConstants {
 
-    public static int PASSWORD_DURATION_IN_DAYS;
+    // request mapping paths
+    public static final String USERS_REST_BASE_PATH = "${middleware.users.base-path:/users}";
+    public static final String USERS_REST_SELF_PATH = "${middleware.users.base-path:/self}";
 
-    public static int PASSWORD_MIN_LENGTH;
+    // message channels
+    public static final String USERS_CHANNEL = "${middleware.users.message-channel:/queue/users}";
 
-    public static int PASSWORD_MAX_LENGTH;
+    // configuration property prefix
+    public static final String MIDDLEWARE_AUTH = "middleware.auth";
+    public static final String MIDDLEWARE_AUTH_PASSWORD = "middleware.auth.password";
+    public static final String MIDDLEWARE_AUTH_TOKEN = "middleware.auth.token";
+
+    // defaults
+    public static final int DEFAULT_REGISTRATION_TOKEN_DURATION = 14;
+
+    public static final int DEFAULT_PASSWORD_DURATION = 180;
+    public static final int DEFAULT_PASSWORD_MAX_LENGTH = 64;
+    public static final int DEFAULT_PASSWORD_MIN_LENGTH = 8;
+
+    public static final int DEFAULT_TOKEN_SERVER_INTEGER = 1;
+    public static final String DEFAULT_TOKEN_SERVER_SECRET = "wKFkxTX54UzKx6xCYnC8WlEI2wtOy0PR";
+    public static final int DEFAULT_TOKEN_PSEUDO_RANDOM_NUMBER_BYTES = 64;
+
+    // messages
+    public static final String METHOD_ARGUMENT_NOTVALID_EXCEPTION_MESSAGE = "RegistrationAdvice.methodArgumentNotValidExceptionMessage";
+    public static final String LOGOUT_SUCCESS_MESSAGE = "CustomLogoutSuccessHandler.success";
+
+    public static final String PASSWORD_INVALID_MESSAGE = "{Registration.passwordInvalid}";
+    public static final String FIRST_NAME_SIZE_MESSAGE = "{Registration.firstNameSize}";
+    public static final String LAST_NAME_SIZE_MESSAGE = "{Registration.lastNameSize}";
+    public static final String EMAIL_REQUIRED_MESSAGE = "{Registration.emailRequired}";
+    public static final String EMAIL_ALREADY_IN_USE_MESSAGE = "{Registration.emailAlreadyInUse}";
+    public static final String EMAIL_INVALID_MESSAGE = "{Registration.emailInvalid}";
+
+    // validations
+    public static final int REGISTRATION_FIRST_NAME_MAX_LENGTH = 64;
+    public static final int REGISTRATION_FIRST_NAME_MIN_LENGTH = 2;
+
+    public static final int REGISTRATION_LAST_NAME_MAX_LENGTH = 64;
+    public static final int REGISTRATION_LAST_NAME_MIN_LENGTH = 2;
+
+    private AuthConstants() {
+
+    }
 
 }
