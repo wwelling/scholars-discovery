@@ -25,12 +25,12 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
-import edu.tamu.scholars.middleware.discovery.resolver.BoostArgumentResolver;
-import edu.tamu.scholars.middleware.discovery.resolver.FacetArgumentResolver;
-import edu.tamu.scholars.middleware.discovery.resolver.FilterArgumentResolver;
-import edu.tamu.scholars.middleware.discovery.resolver.HighlightArgumentResolver;
-import edu.tamu.scholars.middleware.discovery.resolver.QueryArgumentResolver;
-import edu.tamu.scholars.middleware.export.resolver.ExportArgumentResolver;
+import edu.tamu.scholars.discovery.discovery.resolver.BoostArgumentResolver;
+import edu.tamu.scholars.discovery.discovery.resolver.FacetArgumentResolver;
+import edu.tamu.scholars.discovery.discovery.resolver.FilterArgumentResolver;
+import edu.tamu.scholars.discovery.discovery.resolver.HighlightArgumentResolver;
+import edu.tamu.scholars.discovery.discovery.resolver.QueryArgumentResolver;
+import edu.tamu.scholars.discovery.export.resolver.ExportArgumentResolver;
 
 /**
  * {@link RequestMappingHandlerAdapter} implementation that adds a couple argument resolvers for controller method

@@ -1,18 +1,15 @@
-[![Java CI with Maven](https://github.com/TAMULib/scholars-discovery/workflows/Java%20CI%20with%20Maven/badge.svg)](https://github.com/TAMULib/scholars-discovery/actions?query=workflow%3A%22Java+CI+with+Maven%22)
-[![Coverage Status](https://coveralls.io/repos/github/TAMULib/scholars-discovery/badge.svg)](https://coveralls.io/github/TAMULib/scholars-discovery)
-
 # scholars-discovery
 
-VIVO Scholars Discovery is a middleware project that pulls [VIVO](https://duraspace.org/vivo/) content into its own search index (Solr) and then exposes that content via a RESTful service endpoint.
+VIVO Scholars Discovery is a project that pulls [VIVO](https://duraspace.org/vivo/) content into its own search index (Solr) and then exposes that content via a RESTful service endpoint.
 
 Various frontend applications are available (or can be built) to display the content as read-only websites.
 Existing frontend applications include:
 
-1. [VIVO Scholars Angular](https://github.com/vivo-community/scholars-angular)
+1. [VIVO Scholars Angular](https://github.com/TAMULib/scholars-angular)
 
 # API
 
-[Scholars Middleware REST Service API Documentation](https://tamulib.github.io/scholars-discovery/)
+[Scholars Discovery REST Service API Documentation](https://tamulib.github.io/scholars-discovery/)
 
 # Background
 
@@ -27,8 +24,6 @@ Extraction from VIVO is done view configurable harvesters in which make SPARQL r
 Here is a list of some dependencies used:
 
 1. [Spring Boot](https://spring.io/projects/spring-boot)
-   - [Spring Data REST](https://spring.io/projects/spring-data-rest)
-   - [Spring Data for Apache Solr](https://spring.io/projects/spring-data-solr)
    - [Spring HATEOAS](https://spring.io/projects/spring-hateoas)
    - [Spring REST Docs](https://spring.io/projects/spring-restdocs)
 2. [Apache Jena](https://jena.apache.org/)
@@ -36,33 +31,33 @@ Here is a list of some dependencies used:
 
 ## Configuration
 
-The basic Spring Boot application configuration can be found at [src/main/resources/application.yml](https://github.com/vivo-community/scholars-discovery/blob/master/src/main/resources/application.yml). Here you be able to configure basic server and spring configuration as well as custom configuration for Scholars Discovery. There are several configuration POJOs to represent configurations. They can be found in [src/main/java/edu/tamu/scholars/middleware/config/model](https://github.com/vivo-community/scholars-discovery/tree/master/src/main/java/edu/tamu/scholars/middleware/config/model), and [src/main/java/edu/tamu/scholars/middleware/auth/config](https://github.com/vivo-community/scholars-discovery/tree/master/src/main/java/edu/tamu/scholars/middleware/auth/config).
+The basic Spring Boot application configuration can be found at [src/main/resources/application.yml](https://github.com/vivo-community/scholars-discovery/blob/master/src/main/resources/application.yml). Here you be able to configure basic server and spring configuration as well as custom configuration for Scholars Discovery. There are several configuration POJOs to represent configurations. They can be found in [src/main/java/edu/tamu/scholars/discovery/config/model](https://github.com/vivo-community/scholars-discovery/tree/master/src/main/java/edu/tamu/scholars/discovery/config/model), and [src/main/java/edu/tamu/scholars/discovery/auth/config](https://github.com/vivo-community/scholars-discovery/tree/master/src/main/java/edu/tamu/scholars/discovery/auth/config).
 
 ## Assets
 
-Assets are hosted at `/file/:id/:filename` and configured location `middleware.assets-location`.
+Assets are hosted at `/file/:id/:filename` and configured location `discovery.assets-location`.
 
 Tested options are
 
 Assets stored in src/main/resources/assets
 ```
-middleware.assets-location: classpath:/assets
+discovery.assets-location: classpath:/assets
 ```
 
 Assets stored in externally
 ```
-middleware.assets-location: file:/scholars/assets
+discovery.assets-location: file:/scholars/assets
 ```
 
 ### Harvesting
 
-Harvesting can be configured via ```middleware.harvesters``` and represented with [HarvesterConfig](https://github.com/vivo-community/scholars-discovery/blob/master/src/main/java/edu/tamu/scholars/middleware/config/model/HarvesterConfig.java). For each harvester, a bean will be created in which specifies the type of harvester and which document types it maps to. The reference implementation is the local triplestore harvester.
+Harvesting can be configured via ```discovery.harvesters``` and represented with [HarvesterConfig](https://github.com/vivo-community/scholars-discovery/blob/master/src/main/java/edu/tamu/scholars/discovery/config/model/HarvesterConfig.java). For each harvester, a bean will be created in which specifies the type of harvester and which document types it maps to. The reference implementation is the local triplestore harvester.
 
 ### Indexing
 
-Indexing can be configured via ```middleware.indexers``` and represented with [IndexerConfig](https://github.com/vivo-community/scholars-discovery/blob/master/src/main/java/edu/tamu/scholars/middleware/config/model/IndexerConfig.java). For each indexer, a bean will be created in which specifies the type of indexer and which document types it indexes. The reference implementation is the solr indexer.
+Indexing can be configured via ```discovery.indexers``` and represented with [IndexerConfig](https://github.com/vivo-community/scholars-discovery/blob/master/src/main/java/edu/tamu/scholars/discovery/config/model/IndexerConfig.java). For each indexer, a bean will be created in which specifies the type of indexer and which document types it indexes. The reference implementation is the solr indexer.
 
-The application can be configured to harvest and index on startup, ```middleware.index.onStartup```, and via a cron schedule via ```middleware.index.cron```. The indexing is done in batch for performance. It can be tuned via ```middleware.index.batchSize```.
+The application can be configured to harvest and index on startup, ```discovery.index.onStartup```, and via a cron schedule via ```discovery.index.cron```. The indexing is done in batch for performance. It can be tuned via ```discovery.index.batchSize```.
 
 ### Solr
 
@@ -100,7 +95,7 @@ docker build -t scholars/discovery .
 ```
 
 ```bash
-docker run -d -p 9000:9000 -e SPRING_APPLICATION_JSON="{\"spring\":{\"data\":{\"solr\":{\"host\":\"http://localhost:8983/solr\"}}},\"ui\":{\"url\":\"http://localhost:3000\"},\"vivo\":{\"base-url\":\"http://localhost:8080/vivo\"},\"middleware\":{\"allowed-origins\":[\"http://localhost:3000\"],\"index\":{\"onStartup\":false},\"export\":{\"individualBaseUri\":\"http://localhost:3000/display\"}}}" scholars/discovery
+docker run -d -p 9000:9000 -e SPRING_APPLICATION_JSON="{\"spring\":{\"data\":{\"solr\":{\"host\":\"http://localhost:8983/solr\"}}},\"ui\":{\"url\":\"http://localhost:3000\"},\"vivo\":{\"base-url\":\"http://localhost:8080/vivo\"},\"discovery\":{\"allowed-origins\":[\"http://localhost:3000\"],\"index\":{\"onStartup\":false},\"export\":{\"individualBaseUri\":\"http://localhost:3000/display\"}}}" scholars/discovery
 ```
 
 > The environment variable `SPRING_APPLICATION_JSON` will override properties in application.yml.

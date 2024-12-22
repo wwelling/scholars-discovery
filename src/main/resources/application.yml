@@ -1,7 +1,7 @@
 ui:
   url: http://localhost:4200
 
-middleware:
+discovery:
   ## copy a~n to src/main/resources/assets/a~n
   assets-location: classpath:/assets
   ## works in Windows and expected to work on Linux
@@ -39,28 +39,28 @@ middleware:
     onStartupDelay: 10000
     batchSize: 10000
   triplestore:
-    type: edu.tamu.scholars.middleware.service.TDBTriplestore
+    type: edu.tamu.scholars.discovery.service.TDBTriplestore
     directory: triplestore
   harvesters:
-  - type: edu.tamu.scholars.middleware.discovery.component.jena.TriplestoreHarvester
+  - type: edu.tamu.scholars.discovery.discovery.component.jena.TriplestoreHarvester
     documentTypes:
-    - edu.tamu.scholars.middleware.discovery.model.Collection
-    - edu.tamu.scholars.middleware.discovery.model.Concept
-    - edu.tamu.scholars.middleware.discovery.model.Document
-    - edu.tamu.scholars.middleware.discovery.model.Organization
-    - edu.tamu.scholars.middleware.discovery.model.Person
-    - edu.tamu.scholars.middleware.discovery.model.Process
-    - edu.tamu.scholars.middleware.discovery.model.Relationship
+    - edu.tamu.scholars.discovery.discovery.model.Collection
+    - edu.tamu.scholars.discovery.discovery.model.Concept
+    - edu.tamu.scholars.discovery.discovery.model.Document
+    - edu.tamu.scholars.discovery.discovery.model.Organization
+    - edu.tamu.scholars.discovery.discovery.model.Person
+    - edu.tamu.scholars.discovery.discovery.model.Process
+    - edu.tamu.scholars.discovery.discovery.model.Relationship
   indexers:
-  - type: edu.tamu.scholars.middleware.discovery.component.solr.SolrIndexer
+  - type: edu.tamu.scholars.discovery.discovery.component.solr.SolrIndexer
     documentTypes:
-    - edu.tamu.scholars.middleware.discovery.model.Collection
-    - edu.tamu.scholars.middleware.discovery.model.Concept
-    - edu.tamu.scholars.middleware.discovery.model.Document
-    - edu.tamu.scholars.middleware.discovery.model.Organization
-    - edu.tamu.scholars.middleware.discovery.model.Person
-    - edu.tamu.scholars.middleware.discovery.model.Process
-    - edu.tamu.scholars.middleware.discovery.model.Relationship
+    - edu.tamu.scholars.discovery.discovery.model.Collection
+    - edu.tamu.scholars.discovery.discovery.model.Concept
+    - edu.tamu.scholars.discovery.discovery.model.Document
+    - edu.tamu.scholars.discovery.discovery.model.Organization
+    - edu.tamu.scholars.discovery.discovery.model.Person
+    - edu.tamu.scholars.discovery.discovery.model.Process
+    - edu.tamu.scholars.discovery.discovery.model.Relationship
   export:
     individualKey: individual
     individualBaseUri: ${ui.url}/display
@@ -72,7 +72,7 @@ logging:
     edu:
       tamu:
         scholars:
-          middleware: INFO
+          discovery: INFO
     org:
       springframework:
         security: INFO

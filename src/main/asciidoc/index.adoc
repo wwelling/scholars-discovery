@@ -1,4 +1,4 @@
-= Scholars Middleware REST Service API Documentation
+= Scholars Discovery REST Service API Documentation
 :doctype: book
 :compat-mode:
 :toc: left

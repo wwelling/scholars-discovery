@@ -58,7 +58,7 @@ USER $USER_NAME
 WORKDIR $HOME_DIR
 
 # Copy over the built artifact from the maven image.
-COPY --from=maven $SOURCE_DIR/target/middleware*.jar ./scholars-discovery.jar
+COPY --from=maven $SOURCE_DIR/target/discovery*.jar ./scholars-discovery.jar
 
 # Run java command.
 CMD ["java", "-jar", "./scholars-discovery.jar"]

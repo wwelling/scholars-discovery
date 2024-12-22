@@ -6,5 +6,5 @@
   <logger name="org.docx4j" level="ERROR"/>
   <logger name="org.hibernate" level="OFF"/>
   <logger name="org.springframework" level="ERROR"/>
-  <logger name="edu.tamu.scholars.middleware" level="WARN"/>
+  <logger name="edu.tamu.scholars.discovery" level="WARN"/>
 </configuration>

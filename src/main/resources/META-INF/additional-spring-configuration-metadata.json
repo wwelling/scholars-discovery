@@ -6,24 +6,24 @@
       "description": "A description for 'ui.url'"
     },
     {
-      "name": "middleware.index.cron",
+      "name": "discovery.index.cron",
       "type": "java.lang.String",
-      "description": "A description for 'middleware.index.cron'"
+      "description": "A description for 'discovery.index.cron'"
     },
     {
-      "name": "middleware.index.zone",
+      "name": "discovery.index.zone",
       "type": "java.lang.String",
-      "description": "A description for 'middleware.index.zone'"
+      "description": "A description for 'discovery.index.zone'"
     },
     {
-      "name": "middleware.index.onStartup",
+      "name": "discovery.index.onStartup",
       "type": "java.lang.Boolean",
-      "description": "A description for 'middleware.index.onStartup'"
+      "description": "A description for 'discovery.index.onStartup'"
     },
     {
-      "name": "middleware.index.batchSize",
+      "name": "discovery.index.batchSize",
       "type": "java.lang.Integer",
-      "description": "A description for 'middleware.index.batchSize'"
+      "description": "A description for 'discovery.index.batchSize'"
     },
     {
       "name": "spring.data.rest.authorize-hal-browser",

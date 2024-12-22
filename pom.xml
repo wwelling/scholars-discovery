@@ -12,12 +12,12 @@
   </parent>
 
   <groupId>edu.tamu.scholars</groupId>
-  <artifactId>middleware</artifactId>
+  <artifactId>discovery</artifactId>
   <version>1.5.0-SNAPSHOT</version>
 
-  <name>middleware</name>
+  <name>discovery</name>
 
-  <description>VIVO Scholars Middleware</description>
+  <description>VIVO Scholars Discovery</description>
 
   <organization>
     <name>Texas A&amp;M University Libraries</name>
