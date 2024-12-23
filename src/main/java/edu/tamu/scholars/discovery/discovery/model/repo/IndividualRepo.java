@@ -33,9 +33,6 @@ import edu.tamu.scholars.discovery.discovery.response.DiscoveryQuantityDistribut
 import edu.tamu.scholars.discovery.discovery.service.SolrService;
 import edu.tamu.scholars.discovery.utility.DateFormatUtility;
 
-/**
- * 
- */
 @Service
 public class IndividualRepo implements IndexDocumentRepo<Individual> {
 

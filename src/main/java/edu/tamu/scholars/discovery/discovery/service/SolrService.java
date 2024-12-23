@@ -1,15 +1,19 @@
 package edu.tamu.scholars.discovery.discovery.service;
 
+import static java.lang.String.format;
+import static java.lang.String.join;
+import static org.apache.commons.lang3.StringUtils.removeEnd;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,63 +32,67 @@ public class SolrService {
         this.restTemplate = restTemplate;
     }
 
-    public void addField(JsonNode addFieldNode) {
-        String url = StringUtils.removeEnd(indexHost, "/") + "/" + collectionName + "/schema";
+    public ResponseEntity<JsonNode> ping() {
+        String url = getUrl("admin", "ping");
 
-        String requestBody = addFieldNode.toString();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
-
-        restTemplate.postForEntity(url, requestEntity, String.class);
+        return restTemplate.getForEntity(url, JsonNode.class);
     }
 
-    public void addCopyField(JsonNode addCopyFieldNode) {
-        String url = StringUtils.removeEnd(indexHost, "/") + "/" + collectionName + "/schema?commit=true";
+    public ResponseEntity<JsonNode> addField(JsonNode addFieldNode) {
+        String url = getUrlWithQuery("schema", "commit=true");
 
-        String requestBody = addCopyFieldNode.toString();
+        HttpEntity<JsonNode> requestEntity = getHttpEntity(addFieldNode);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
-
-        restTemplate.postForEntity(url, requestEntity, String.class);
+        return restTemplate.postForEntity(url, requestEntity, JsonNode.class);
     }
 
-    public void index(Collection<Map<String, Object>> documents) {
-        String url = StringUtils.removeEnd(indexHost, "/") + "/" + collectionName + "/update?commit=true";
+    public ResponseEntity<JsonNode> addCopyField(JsonNode addCopyFieldNode) {
+        String url = getUrlWithQuery("schema", "commit=true");
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<JsonNode> requestEntity = getHttpEntity(addCopyFieldNode);
 
-        HttpEntity<Collection<Map<String, Object>>> requestEntity = new HttpEntity<>(documents, headers);
-
-        restTemplate.postForEntity(url, requestEntity, String.class);
+        return restTemplate.postForEntity(url, requestEntity, JsonNode.class);
     }
 
-    public void index(Map<String, Object> document) {
-        String url = StringUtils.removeEnd(indexHost, "/") + "/" + collectionName + "/update?commit=true";
+    public ResponseEntity<JsonNode> index(Collection<Map<String, Object>> documents) {
+        String url = getUrlWithQuery("update", "commit=true");
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Collection<Map<String, Object>>> requestEntity = getHttpEntity(documents);
 
-        HttpEntity<Collection<Map<String, Object>>> requestEntity = new HttpEntity<>(Arrays.asList(document), headers);
-
-        restTemplate.postForEntity(url, requestEntity, String.class);
+        return restTemplate.postForEntity(url, requestEntity, JsonNode.class);
     }
 
-    public void optimize() {
-        String url = StringUtils.removeEnd(indexHost, "/") + "/" + collectionName + "/update?optimize=true";
+    public ResponseEntity<JsonNode> index(Map<String, Object> document) {
+        String url = getUrlWithQuery("update", "commit=true");
 
+        HttpEntity<Collection<Map<String, Object>>> requestEntity = getHttpEntity(Arrays.asList(document));
+
+        return restTemplate.postForEntity(url, requestEntity, JsonNode.class);
+    }
+
+    public ResponseEntity<JsonNode> optimize() {
+        String url = getUrlWithQuery("update", "optimize=true");
+        HttpEntity<String> requestEntity = getHttpEntity("");
+
+        return restTemplate.postForEntity(url, requestEntity, JsonNode.class);
+    }
+
+    private String getUrl(String... paths) {
+        String host = removeEnd(indexHost, "/");
+        String path = join("/", paths);
+
+        return join("/", host, collectionName, path);
+    }
+
+    private String getUrlWithQuery(String path, String query) {
+        return format("%s?%s", getUrl(path), query);
+    }
+
+    private <S> HttpEntity<S> getHttpEntity(S requestBody) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<String> requestEntity = new HttpEntity<>("", headers);
-
-        restTemplate.postForEntity(url, requestEntity, String.class);
+        return new HttpEntity<>(requestBody, headers);
     }
 
 }
