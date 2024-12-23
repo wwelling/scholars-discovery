@@ -33,8 +33,8 @@ discovery:
     name: scholars-discovery
     cron: 0 0 0 * * SUN
     zone: America/Chicago
-    schematize: false
-    onStartup: false
+    schematize: true
+    onStartup: true
     enableIndividualOnBatchFail: true
     onStartupDelay: 10000
     batchSize: 10000
@@ -84,7 +84,7 @@ server:
     mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
     min-response-size: 1024
   max-http-request-header-size: 16384
-  port: 9001
+  port: 9000
   servlet:
     context-path:
   tomcat:
