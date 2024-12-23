@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,7 +22,6 @@ import java.util.Set;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.query.QueryExecution;
-import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
@@ -231,31 +231,16 @@ public class TriplestoreHarvester implements Harvester {
     private List<String> queryForProperty(FieldSource source, Resource resource, Property property) {
         List<String> values = new ArrayList<>();
         StmtIterator statements = resource.listProperties(property);
-    
+
         while (statements.hasNext()) {
             Statement statement = statements.next();
             RDFNode object = statement.getObject();
             String value = null;
-    
+
             if (object.isLiteral()) {
-                Literal literal = object.asLiteral();
-                value = literal.getValue().toString();
-    
-                if (literal.getDatatypeURI() != null) {
-                    String datatype = literal.getDatatypeURI();
-                    if (datatype.equals("http://www.w3.org/2001/XMLSchema#date")) {
-                        value = literal.getValue().toString();
-                    } else if (datatype.equals("http://www.w3.org/2001/XMLSchema#int")) {
-                        value = String.valueOf(literal.getValue());
-                    } else if (datatype.equals("http://www.w3.org/2001/XMLSchema#double")) {
-                        value = String.valueOf(literal.getValue());
-                    } else if (datatype.equals("http://www.w3.org/2001/XMLSchema#boolean")) {
-                        value = String.valueOf(literal.getValue());
-                    }
-                }
+                value = object.asLiteral().getValue().toString();
             } else if (object.isResource()) {
-                Resource resourceObj = object.asResource();
-                value = resourceObj.getURI();
+                value = object.asResource().getURI();
             } else {
                 value = object.toString();
             }
@@ -302,26 +287,26 @@ public class TriplestoreHarvester implements Harvester {
 
     private void lookupSyncIds(Map<String, Object> document) {
         Set<String> syncIds = new HashSet<>();
-        syncIds.add((String) document.get(ID));
-        nestedFields.stream()
-            .forEach(field -> {
-                Object value = document.get(field.getName());
-                if (value != null) {
-                    if (Collection.class.isAssignableFrom(field.getType())) {
-                        @SuppressWarnings("unchecked")
-                        List<String> values = (List<String>) value;
-                        values.forEach(v -> addSyncId(syncIds, v));
-                    } else {
-                        addSyncId(syncIds, (String) value);
-                    }
+
+        nestedFields.forEach(field -> {
+            Object value = document.get(field.getName());
+            if (Objects.nonNull(value)) {
+                if (Collection.class.isAssignableFrom(field.getType())) {
+                    @SuppressWarnings("unchecked")
+                    List<String> values = (List<String>) value;
+                    values.forEach(v -> addSyncId(syncIds, v));
+                } else {
+                    addSyncId(syncIds, (String) value);
                 }
-            });
+            }
+        });
 
         document.put(SYNC_IDS, new ArrayList<>(syncIds));
     }
 
     private void addSyncId(Set<String> syncIds, String value) {
-        syncIds.addAll(Arrays.asList(value.split(NESTED_DELIMITER)));
+        String[] parts = value.split(NESTED_DELIMITER);
+        Collections.addAll(syncIds, Arrays.copyOfRange(parts, 1, parts.length));
     }
 
     private boolean isNestedField(Field field) {
