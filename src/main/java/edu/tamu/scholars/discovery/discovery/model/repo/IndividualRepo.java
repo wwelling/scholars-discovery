@@ -1,41 +1,20 @@
 package edu.tamu.scholars.discovery.discovery.model.repo;
 
-import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.CLASS;
-import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.DEFAULT_QUERY;
-import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.ID;
-import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.MOD_TIME;
-import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.QUERY_DELIMETER;
-import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.REQUEST_PARAM_DELIMETER;
-import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.TYPE;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Flux;
 
 import edu.tamu.scholars.discovery.discovery.argument.BoostArg;
@@ -46,12 +25,12 @@ import edu.tamu.scholars.discovery.discovery.argument.FacetArg;
 import edu.tamu.scholars.discovery.discovery.argument.FilterArg;
 import edu.tamu.scholars.discovery.discovery.argument.HighlightArg;
 import edu.tamu.scholars.discovery.discovery.argument.QueryArg;
-import edu.tamu.scholars.discovery.discovery.exception.SolrRequestException;
 import edu.tamu.scholars.discovery.discovery.model.Individual;
 import edu.tamu.scholars.discovery.discovery.response.DiscoveryAcademicAge;
 import edu.tamu.scholars.discovery.discovery.response.DiscoveryFacetAndHighlightPage;
 import edu.tamu.scholars.discovery.discovery.response.DiscoveryNetwork;
 import edu.tamu.scholars.discovery.discovery.response.DiscoveryQuantityDistribution;
+import edu.tamu.scholars.discovery.discovery.service.SolrService;
 import edu.tamu.scholars.discovery.utility.DateFormatUtility;
 
 /**
@@ -74,7 +53,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
     private String defaultOperator;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private SolrService solrService;
 
     @Override
     public long count(QueryArg query, List<FilterArg> filters) {

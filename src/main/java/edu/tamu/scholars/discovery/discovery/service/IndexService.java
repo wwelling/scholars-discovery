@@ -31,7 +31,7 @@ public class IndexService {
 
     private static final AtomicBoolean indexing = new AtomicBoolean(false);
 
-    public static final List<String> CREATED_FIELDS = new CopyOnWriteArrayList<String>();
+    public static final List<String> CREATED_FIELDS = new CopyOnWriteArrayList<>();
 
     @Autowired
     private IndexConfig index;

@@ -1,18 +1,19 @@
 package edu.tamu.scholars.discovery.discovery.component;
 
+import java.util.Map;
+
 import reactor.core.publisher.Flux;
 
 import edu.tamu.scholars.discovery.discovery.model.AbstractIndexDocument;
-import edu.tamu.scholars.discovery.discovery.model.Individual;
 
 /**
  * 
  */
 public interface Harvester {
 
-    public Flux<Individual> harvest();
+    public Flux<Map<String, Object>> harvest();
 
-    public Individual harvest(String subject);
+    public Map<String, Object> harvest(String subject);
 
     public Class<AbstractIndexDocument> type();
 

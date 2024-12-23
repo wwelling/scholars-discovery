@@ -1,42 +1,40 @@
 package edu.tamu.scholars.discovery.discovery.component.solr;
 
 import static edu.tamu.scholars.discovery.discovery.service.IndexService.CREATED_FIELDS;
+import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.ID;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.client.RestTemplate;
 
 import edu.tamu.scholars.discovery.discovery.annotation.FieldType;
 import edu.tamu.scholars.discovery.discovery.component.Indexer;
 import edu.tamu.scholars.discovery.discovery.model.AbstractIndexDocument;
-import edu.tamu.scholars.discovery.discovery.model.Individual;
+import edu.tamu.scholars.discovery.discovery.service.SolrService;
 
-/**
- * 
- */
 public class SolrIndexer implements Indexer {
 
     private static final Logger logger = LoggerFactory.getLogger(SolrIndexer.class);
 
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @Value("${discovery.index.name}")
-    private String collectionName;
-
     @Value("${discovery.index.enableIndividualOnBatchFail:false}")
     private boolean enableIndividualOnBatchFail;
+
+    @Autowired
+    private SolrService solrService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private final Class<AbstractIndexDocument> type;
 
@@ -54,54 +52,58 @@ public class SolrIndexer implements Indexer {
                 : field.getName();
 
             if (!fieldType.readonly() && !CREATED_FIELDS.contains(name) && CREATED_FIELDS.add(name)) {
-                Map<String, Object> fieldAttributes = new HashMap<String, Object>();
-
-                fieldAttributes.put("type", fieldType.type());
-                fieldAttributes.put("stored", fieldType.stored());
-                fieldAttributes.put("indexed", fieldType.searchable());
-                fieldAttributes.put("required", fieldType.required());
+                ObjectNode addFieldNode = objectMapper.createObjectNode();
+                ObjectNode fieldNode = objectMapper.createObjectNode();
+                fieldNode.put("name", name);
+                fieldNode.put("type", fieldType.type());
+                fieldNode.put("stored", fieldType.stored());
+                fieldNode.put("indexed", fieldType.searchable());
+                fieldNode.put("required", fieldType.required());
 
                 if (StringUtils.isNotEmpty(fieldType.defaultValue())) {
-                    fieldAttributes.put("defaultValue", fieldType.defaultValue());
+                    fieldNode.put("defaultValue", fieldType.defaultValue());
                 }
 
-                fieldAttributes.put("multiValued", Collection.class.isAssignableFrom(field.getType()));
+                fieldNode.put("multiValued", Collection.class.isAssignableFrom(field.getType()));
 
-                fieldAttributes.put("name", name);
+                addFieldNode.set("add-field", fieldNode);
 
-                // try {
-                //     SchemaRequest.AddField addFieldRequest = new SchemaRequest.AddField(fieldAttributes);
-                //     addFieldRequest.process(solrClient, collectionName);
+                try {
+                    solrService.addField(addFieldNode);
+                    if (fieldType.copyTo().length > 0) {
+                        ObjectNode addCopyFieldNode = objectMapper.createObjectNode();
+                        ObjectNode copyFieldNode = objectMapper.createObjectNode();
+                        copyFieldNode.put("source", name);
 
-                //     if (fieldType.copyTo().length > 0) {
-                //         try {
-                //             SchemaRequest.AddCopyField addCopyFieldRequest = new SchemaRequest.AddCopyField(
-                //                 name,
-                //                 Arrays.asList(fieldType.copyTo())
-                //             );
-                //             addCopyFieldRequest.process(solrClient, collectionName);
-                //         } catch (Exception e) {
-                //             logger.error("Failed to add copy field", e);
-                //         }
-                //     }
-                // } catch (Exception e) {
-                //     logger.debug("Failed to add field", e);
-                // }
+                        ArrayNode destinationFields = objectMapper.createArrayNode();
+
+                        for (String destination : Arrays.asList(fieldType.copyTo())) {
+                            destinationFields.add(destination);
+                        }
+
+                        copyFieldNode.set("dest", destinationFields);
+
+                        addCopyFieldNode.set("add-copy-field", copyFieldNode);
+
+                        solrService.addCopyField(addCopyFieldNode);
+                    }
+                } catch (Exception e) {
+                    logger.info("Failed to add field", e);
+                }
             }
         }
     }
 
     @Override
-    public void index(Collection<Individual> individuals) {
+    public void index(Collection<Map<String, Object>> documents) {
         try {
-            // solrClient.addBeans(collectionName, individuals);
-            // solrClient.commit(collectionName);
-            logger.info("Saved {} batch of {}", name(), individuals.size());
+            solrService.index(documents);
+            logger.info("Saved {} batch of {}", name(), documents.size());
         } catch (Exception e) {
             logger.debug("Error saving batch", e);
             if (enableIndividualOnBatchFail) {
                 logger.warn("Failed to save batch of {}. Attempting individually.", name());
-                individuals.stream().forEach(this::index);
+                documents.stream().forEach(this::index);
             } else {
                 logger.warn("Skipping individuals of failed batch of {}. {}", name(), e.getMessage());
             }
@@ -109,21 +111,20 @@ public class SolrIndexer implements Indexer {
     }
 
     @Override
-    public void index(Individual individual) {
+    public void index(Map<String, Object> document) {
         try {
-            // solrClient.addBean(collectionName, individual);
-            // solrClient.commit(collectionName);
-            logger.info("Saved {} with id {}", name(), individual.getId());
+            solrService.index(document);
+            logger.info("Saved {} with id {}", name(), document.get(ID));
         } catch (Exception e) {
             logger.debug("Error saving individual", e);
-            logger.warn("Failed to save {} with id {}", name(), individual.getId());
+            logger.warn("Failed to save {} with id {}", name(), document.get(ID));
         }
     }
 
     @Override
     public void optimize() {
         try {
-            // solrClient.optimize(collectionName);
+            solrService.optimize();
         } catch (Exception e) {
             logger.debug("Error optimizing collection", e);
             logger.warn("Failed to optimize collection. {}", e.getMessage());

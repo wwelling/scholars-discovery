@@ -17,6 +17,7 @@ services:
     image: solr:${SOLR_VERSION}
     environment:
       - SOLR_HOME=/var/solr/data
+      - SOLR_HEAP=4g
     volumes:
       - ./solrdata:/var/solr/data
       - ./managed-schema.xml:/opt/solr-${SOLR_VERSION}/server/solr/configsets/_default/conf/managed-schema.xml

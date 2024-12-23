@@ -14,7 +14,7 @@ public class CacheService {
 
     private static final int MAX_CAPACITY = 7000;
 
-    private final Map<String, List<Object>> cache;
+    private final Map<String, List<String>> cache;
 
     public CacheService() {
         cache = new ConcurrentHashMap<>(MAX_CAPACITY);
@@ -26,7 +26,7 @@ public class CacheService {
      * @param key key to lookup in cache
      * @return See the {@see java.util.concurrent.ConcurrentHashMap#get}
      */
-    public List<Object> get(String key) {
+    public List<String> get(String key) {
         return cache.get(key);
     }
 
@@ -37,7 +37,7 @@ public class CacheService {
      * @param values current values for key to store
      * @return See the {@see java.util.concurrent.ConcurrentHashMap#put}
      */
-    public List<Object> put(String key, List<Object> values) {
+    public List<String> put(String key, List<String> values) {
         return cache.put(key, values);
     }
 

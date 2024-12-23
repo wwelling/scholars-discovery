@@ -1,24 +1,30 @@
 package edu.tamu.scholars.discovery.discovery.component.jena;
 
+import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.CLASS;
+import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.ID;
 import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.NESTED_DELIMITER;
+import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.SYNC_IDS;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.query.QueryExecution;
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
@@ -35,14 +41,10 @@ import edu.tamu.scholars.discovery.discovery.annotation.FieldType;
 import edu.tamu.scholars.discovery.discovery.annotation.NestedObject;
 import edu.tamu.scholars.discovery.discovery.component.Harvester;
 import edu.tamu.scholars.discovery.discovery.model.AbstractIndexDocument;
-import edu.tamu.scholars.discovery.discovery.model.Individual;
 import edu.tamu.scholars.discovery.service.CacheService;
 import edu.tamu.scholars.discovery.service.TemplateService;
 import edu.tamu.scholars.discovery.service.Triplestore;
 
-/**
- * 
- */
 public class TriplestoreHarvester implements Harvester {
 
     private static final Logger logger = LoggerFactory.getLogger(TriplestoreHarvester.class);
@@ -76,10 +78,10 @@ public class TriplestoreHarvester implements Harvester {
         this.nestedFields = FieldUtils.getFieldsListWithAnnotation(type, FieldType.class)
             .stream()
             .filter(this::isNestedField)
-            .collect(Collectors.toList());
+            .toList();
     }
 
-    public Flux<Individual> harvest() {
+    public Flux<Map<String, Object>> harvest() {
         CollectionSource source = type.getAnnotation(CollectionSource.class);
         String query = templateService.templateSparql(COLLECTION, source.predicate());
         logger.debug("{}:\n{}", COLLECTION, query);
@@ -92,7 +94,7 @@ public class TriplestoreHarvester implements Harvester {
             .doFinally(onFinally -> queryExecution.close());
     }
 
-    public Individual harvest(String subject) {
+    public Map<String, Object> harvest(String subject) {
         try {
             return createIndividual(subject);
         } catch (Exception e) {
@@ -106,39 +108,42 @@ public class TriplestoreHarvester implements Harvester {
         return type;
     }
 
-    private Individual createIndividual(String subject)
+    private Map<String, Object> createIndividual(String subject)
         throws IllegalArgumentException, SecurityException {
-        Individual individual = new Individual();
-        individual.setId(parse(subject));
-        lookupProperties(individual, subject);
-        lookupSyncIds(individual);
-        individual.setProxy(type.getSimpleName());
+        Map<String, Object> document = new HashMap<>();
 
-        return individual;
+        document.put(ID, parse(subject));
+
+        lookupProperties(document, subject);
+        lookupSyncIds(document);
+
+        document.put(CLASS, type.getSimpleName());
+
+        return document;
     }
 
-    private void lookupProperties(Individual individual, String subject) {
+    private void lookupProperties(Map<String, Object> document, String subject) {
         fields.parallelStream().forEach(field -> {
             FieldSource source = field.getAnnotation(FieldSource.class);
             try {
                 Model model = queryForModel(source, subject);
-                List<Object> values = lookupProperty(source, model);
+                List<String> values = lookupProperty(source, model);
 
                 // get cacheable lookup
                 if (source.lookup().length > 0) {
-                    Set<Object> uniqueValues = new HashSet<>();
+                    Set<String> uniqueValues = new HashSet<>();
                     boolean isNestedObject = field.isAnnotationPresent(NestedObject.class);
                     for (CacheableLookup lookup : source.lookup()) {
                         FieldSource cacheableSource = getCacheableSource(source, lookup);
-                        for (Object value : values) {
+                        for (String value : values) {
                             if (isNestedObject) {
-                                String[] parts = ((String) value).split(NESTED_DELIMITER);
+                                String[] parts = value.split(NESTED_DELIMITER);
                                 String[] ids = Arrays.copyOfRange(parts, 1, parts.length);
                                 String[] refIds = ids.length > 1 ? Arrays.copyOfRange(ids, 0, ids.length - 1) : new String[] {};
                                 String newSubjectId = ids[ids.length - 1];
                                 String newSubject = subject.replaceAll("[^/]+$", newSubjectId);
-                                for (Object cached : queryForValues(cacheableSource, newSubject)) {
-                                    String[] cachedParts = ((String) cached).split(NESTED_DELIMITER, 2);
+                                for (String cached : queryForValues(cacheableSource, newSubject)) {
+                                    String[] cachedParts = cached.split(NESTED_DELIMITER, 2);
                                     String label = cachedParts[0];
                                     StringBuilder result = new StringBuilder(label);
                                     if (refIds.length > 0) {
@@ -153,8 +158,7 @@ public class TriplestoreHarvester implements Harvester {
                                     uniqueValues.add(result.toString());
                                 }
                             } else {
-                                String newSubject = ((String) value);
-                                for (Object cached : queryForValues(cacheableSource, newSubject)) {
+                                for (String cached : queryForValues(cacheableSource, value)) {
                                     uniqueValues.add(cached);
                                 }
                             }
@@ -164,7 +168,7 @@ public class TriplestoreHarvester implements Harvester {
                 }
 
                 if (!values.isEmpty()) {
-                    populate(individual, field, values);
+                    populate(document, field, values);
                 } else {
                     logger.debug("Could not find values for {}", field.getName());
                 }
@@ -181,9 +185,9 @@ public class TriplestoreHarvester implements Harvester {
         });
     }
 
-    private List<Object> queryForValues(FieldSource source, String subject) {
+    private List<String> queryForValues(FieldSource source, String subject) {
         String key = toKey(source, subject);
-        List<Object> values = cacheService.get(key);
+        List<String> values = cacheService.get(key);
         if (Objects.isNull(values)) {
             Model model = queryForModel(source, subject);
             values = lookupProperty(source, model);
@@ -210,8 +214,8 @@ public class TriplestoreHarvester implements Harvester {
         }
     }
 
-    private List<Object> lookupProperty(FieldSource source, Model model) {
-        List<Object> values = new ArrayList<>();
+    private List<String> lookupProperty(FieldSource source, Model model) {
+        List<String> values = new ArrayList<>();
         ResIterator resources = model.listSubjects();
 
         Property property = model.createProperty(source.predicate());
@@ -224,19 +228,49 @@ public class TriplestoreHarvester implements Harvester {
         return values;
     }
 
-    private List<Object> queryForProperty(FieldSource source, Resource resource, Property property) {
-        List<Object> values = new ArrayList<>();
+    private List<String> queryForProperty(FieldSource source, Resource resource, Property property) {
+        List<String> values = new ArrayList<>();
         StmtIterator statements = resource.listProperties(property);
-
+    
         while (statements.hasNext()) {
             Statement statement = statements.next();
-            String object = statement.getObject().toString();
-            String value = source.parse() ? parse(object) : object;
+            RDFNode object = statement.getObject();
+            String value = null;
+    
+            if (object.isLiteral()) {
+                Literal literal = object.asLiteral();
+                value = literal.getValue().toString();
+    
+                if (literal.getDatatypeURI() != null) {
+                    String datatype = literal.getDatatypeURI();
+                    if (datatype.equals("http://www.w3.org/2001/XMLSchema#date")) {
+                        value = literal.getValue().toString();
+                    } else if (datatype.equals("http://www.w3.org/2001/XMLSchema#int")) {
+                        value = String.valueOf(literal.getValue());
+                    } else if (datatype.equals("http://www.w3.org/2001/XMLSchema#double")) {
+                        value = String.valueOf(literal.getValue());
+                    } else if (datatype.equals("http://www.w3.org/2001/XMLSchema#boolean")) {
+                        value = String.valueOf(literal.getValue());
+                    }
+                }
+            } else if (object.isResource()) {
+                Resource resourceObj = object.asResource();
+                value = resourceObj.getURI();
+            } else {
+                value = object.toString();
+            }
+
+            if (source.parse()) {
+                value = parse(value);
+            }
+
             value = value.replace("\\\"", "\"");
+
             if (value.contains("^^")) {
                 value = value.substring(0, value.indexOf("^^"));
             }
-            if (source.unique() && values.stream().map(v -> v.toString()).anyMatch(value::equalsIgnoreCase)) {
+
+            if (source.unique() && values.stream().anyMatch(value::equalsIgnoreCase)) {
                 logger.debug("duplicate value {}", value);
             } else {
                 if (source.split()) {
@@ -246,32 +280,32 @@ public class TriplestoreHarvester implements Harvester {
                 }
             }
         }
-
+    
         return values;
     }
 
     private void populate(
-        Individual document,
+        Map<String, Object> document,
         Field field,
-        List<Object> values
+        List<String> values
     ) throws IllegalArgumentException {
         if (values.isEmpty()) {
             logger.debug("Could not find values for {}", field.getName());
         } else {
             if (Collection.class.isAssignableFrom(field.getType())) {
-                document.getContent().put(field.getName(), values);
+                document.put(field.getName(), values);
             } else {
-                document.getContent().put(field.getName(), values.get(0));
+                document.put(field.getName(), values.get(0));
             }
         }
     }
 
-    private void lookupSyncIds(Individual individual) {
+    private void lookupSyncIds(Map<String, Object> document) {
         Set<String> syncIds = new HashSet<>();
-        syncIds.add(individual.getId());
+        syncIds.add((String) document.get(ID));
         nestedFields.stream()
             .forEach(field -> {
-                Object value = individual.getContent().get(field.getName());
+                Object value = document.get(field.getName());
                 if (value != null) {
                     if (Collection.class.isAssignableFrom(field.getType())) {
                         @SuppressWarnings("unchecked")
@@ -282,7 +316,8 @@ public class TriplestoreHarvester implements Harvester {
                     }
                 }
             });
-        individual.setSyncIds(new ArrayList<>(syncIds));
+
+        document.put(SYNC_IDS, new ArrayList<>(syncIds));
     }
 
     private void addSyncId(Set<String> syncIds, String value) {
