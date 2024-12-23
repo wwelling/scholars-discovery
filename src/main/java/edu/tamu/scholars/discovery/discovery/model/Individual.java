@@ -6,21 +6,21 @@ import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.ID;
 import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.SYNC_IDS;
 import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.TYPE;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.springframework.hateoas.server.core.Relation;
 
 import edu.tamu.scholars.discovery.discovery.utility.DiscoveryUtility;
 
-/**
- * 
- */
 @JsonInclude(NON_EMPTY)
 @Relation(collectionRelation = "individual", itemRelation = "individual")
 public class Individual extends AbstractIndexDocument {
@@ -39,10 +39,12 @@ public class Individual extends AbstractIndexDocument {
         return content;
     }
 
+    @Override
     public String getProxy() {
         return (String) content.get(CLASS);
     }
 
+    @Override
     public void setProxy(String proxy) {
         this.content.put(CLASS, proxy);
     }
@@ -79,35 +81,28 @@ public class Individual extends AbstractIndexDocument {
         this.content.put(SYNC_IDS, syncIds);
     }
 
-    public static Object normalize(Object value) {
-        System.out.println("\n\n" + value.getClass() + "\n\n");
-        // if (StoredField.class.isAssignableFrom(value.getClass())) {
-        //     return ((StoredField) value).stringValue();
-        // }
-        return value;
-    }
-
     public static Individual from(JsonNode document) {
         Map<String, Object> content = new HashMap<>();
 
-        // String name = (String) normalize(document.getFieldValue(CLASS));
+        String name = document.get(CLASS).asText();
 
-        // DiscoveryUtility.getDiscoveryDocumentTypeFields(name)
-        //     .entrySet()
-        //     .stream()
-        //     .filter(entry -> document.containsKey(entry.getKey()))
-        //     .forEach(entry -> {
-        //         String field = entry.getKey();
-        //         if (Collection.class.isAssignableFrom(entry.getValue())) {
-        //             Collection<Object> values = document.getFieldValues(field)
-        //                 .stream()
-        //                 .map(Individual::normalize)
-        //                 .collect(Collectors.toList());
-        //             content.put(field, values);
-        //         } else {
-        //             content.put(field, normalize(document.getFirstValue(field)));
-        //         }
-        //     });
+        DiscoveryUtility.getDiscoveryDocumentTypeFields(name)
+            .entrySet()
+            .stream()
+            .filter(entry -> document.hasNonNull(entry.getKey()))
+            .forEach(entry -> {
+                String field = entry.getKey();
+                JsonNode value = document.get(field);
+                if (Collection.class.isAssignableFrom(entry.getValue()) && value.isArray()) {
+                    List<String> values = new ArrayList<>();
+                    for (JsonNode v : (ArrayNode) value) {
+                        values.add(v.asText());
+                    }
+                    content.put(field, values);
+                } else {
+                    content.put(field, value.asText());
+                }
+            });
 
         return Individual.from(content);
     }

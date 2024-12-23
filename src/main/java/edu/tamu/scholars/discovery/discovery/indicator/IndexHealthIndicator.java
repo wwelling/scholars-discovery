@@ -14,8 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import edu.tamu.scholars.discovery.config.model.IndexConfig;
+import edu.tamu.scholars.discovery.discovery.component.solr.SolrService;
 import edu.tamu.scholars.discovery.discovery.model.repo.IndividualRepo;
-import edu.tamu.scholars.discovery.discovery.service.SolrService;
 
 @Component("index")
 public class IndexHealthIndicator implements HealthIndicator {
@@ -46,8 +46,8 @@ public class IndexHealthIndicator implements HealthIndicator {
         details.put("response", response.getBody());
 
         if (statusCode.is2xxSuccessful()) {
-            // long count = individualRepo.count(DEFAULT_QUERY, Arrays.asList());
-            // details.put("count", count);
+            long count = individualRepo.count(DEFAULT_QUERY, Arrays.asList());
+            details.put("count", count);
 
             status.up();
         }

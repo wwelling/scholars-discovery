@@ -1,4 +1,4 @@
-package edu.tamu.scholars.discovery.discovery.service;
+package edu.tamu.scholars.discovery.discovery.component.solr;
 
 import static java.lang.String.format;
 import static java.lang.String.join;
@@ -7,6 +7,7 @@ import static org.apache.commons.lang3.StringUtils.removeEnd;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import edu.tamu.scholars.discovery.discovery.model.Individual;
 
 @Service
 public class SolrService {
@@ -76,6 +79,52 @@ public class SolrService {
 
         return restTemplate.postForEntity(url, requestEntity, JsonNode.class);
     }
+
+
+    public long count(String query) {
+        String url = getUrlWithQuery("select", query);
+
+        ResponseEntity<JsonNode> response = restTemplate.getForEntity(url, JsonNode.class);
+
+        return response.getBody()
+            .get("response")
+            .get("numFound")
+            .asLong();
+    }
+
+
+    public Optional<Individual> findById(String query) {
+        String url = getUrlWithQuery("select", query);
+
+        ResponseEntity<JsonNode> response =  restTemplate.getForEntity(url, JsonNode.class);
+
+        Optional<Individual> individual = Optional.empty();
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            Long count = response.getBody()
+                .get("response")
+                .get("numFound")
+                .asLong();
+
+            if (count == 1) {
+                JsonNode document = response.getBody()
+                    .get("response")
+                    .get("docs")
+                    .get(0);
+
+
+                    System.out.println("\n\n" + document + "\n\n");
+
+                individual = Optional.of(Individual.from(document));
+            }
+        }
+
+        return individual;
+    }
+
+
+
+
 
     private String getUrl(String... paths) {
         String host = removeEnd(indexHost, "/");

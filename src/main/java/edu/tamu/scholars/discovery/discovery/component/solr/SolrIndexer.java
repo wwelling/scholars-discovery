@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Value;
 import edu.tamu.scholars.discovery.discovery.annotation.FieldType;
 import edu.tamu.scholars.discovery.discovery.component.Indexer;
 import edu.tamu.scholars.discovery.discovery.model.AbstractIndexDocument;
-import edu.tamu.scholars.discovery.discovery.service.SolrService;
 
 public class SolrIndexer implements Indexer {
 
