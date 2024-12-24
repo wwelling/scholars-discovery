@@ -21,7 +21,15 @@ discovery:
     from: scholarsdiscovery@gmail.com
     replyTo: scholarsdiscovery@gmail.com
   http:
+    max-total-connections: 50
+    max-connections-per-route: 20
+    # in minutes
+    time-to-live: 5
+    # in minutes
+    evict-idle-connections: 2
+    # in seconds
     connect-timeout: 5
+    # in seconds
     read-timeout: 30
   index:
     host: http://localhost:8983/solr
