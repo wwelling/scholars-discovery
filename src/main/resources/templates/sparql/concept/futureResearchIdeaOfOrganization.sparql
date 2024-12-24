@@ -4,7 +4,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX tamu: <http://vivo.library.tamu.edu/ontology/TAMU#>
 
 CONSTRUCT {
-    ?organization rdfs:label ?label .
+    ?organization rdfs:label ?labelWithId .
 } WHERE {
     <{{uri}}> tamu:FutureResearchIdeaOf ?futureResearchIdeaOf .
     ?futureResearchIdeaOf vivo:relatedBy ?position .
@@ -12,5 +12,6 @@ CONSTRUCT {
     ?position vivo:relatedBy ?organization .
     ?organization a foaf:Organization .
     ?organization rdfs:label ?label .
+    BIND( CONCAT( STR(?label), REPLACE(STR(?futureResearchIdeaOf), "(^.*/)", "::"), REPLACE(STR(?organization), "(^.*/)", "::") ) AS ?labelWithId ) .
     FILTER(lang(?label) = '')
 }

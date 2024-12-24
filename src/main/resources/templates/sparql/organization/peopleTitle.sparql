@@ -4,7 +4,7 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 CONSTRUCT {
-    ?position rdfs:label ?label .
+    ?position rdfs:label ?labelWithId .
 } WHERE {
     {
         <{{uri}}> vivo:relatedBy ?position .
@@ -12,6 +12,7 @@ CONSTRUCT {
         ?position vivo:relatedBy ?person .
         ?person a foaf:Person .
         ?position rdfs:label ?label .
+        BIND( CONCAT( STR(?label), REPLACE(STR(?person), "(^.*/)", "::") ) AS ?labelWithId ) .
     }
     UNION
     {
@@ -21,5 +22,6 @@ CONSTRUCT {
         ?position vivo:relatedBy ?person .
         ?person a foaf:Person .
         ?position rdfs:label ?label .
+        BIND( CONCAT( STR(?label), REPLACE(STR(?person), "(^.*/)", "::") ) AS ?labelWithId ) .
     }
 }

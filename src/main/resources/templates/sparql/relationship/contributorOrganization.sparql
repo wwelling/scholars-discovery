@@ -5,7 +5,7 @@ PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
 PREFIX vivo: <http://vivoweb.org/ontology/core#>
 
 CONSTRUCT {
-    ?organization rdfs:label ?label .
+    ?organization rdfs:label ?labelWithId .
 } WHERE {
     <{{uri}}> vivo:relates ?relates ; a vivo:Grant .
     ?relates vitro:mostSpecificType ?mostSpecificType .
@@ -15,4 +15,5 @@ CONSTRUCT {
     ?position vivo:relates ?organization .
     ?organization a foaf:Organization .
     ?organization rdfs:label ?label .
+    BIND( CONCAT( STR(?label), REPLACE(STR(?contributor), "(^.*/)", "::") ) AS ?labelWithId ) .
 }

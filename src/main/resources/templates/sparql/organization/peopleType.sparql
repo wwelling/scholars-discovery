@@ -4,7 +4,7 @@ PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
 
 CONSTRUCT {
-    ?person vitro:mostSpecificType ?mostSpecificType .
+    ?person vitro:mostSpecificType ?mostSpecificTypeWithId .
 } WHERE {
     {
         <{{uri}}> vivo:relatedBy ?position .
@@ -12,6 +12,7 @@ CONSTRUCT {
         ?position vivo:relatedBy ?person .
         ?person a foaf:Person .
         ?person vitro:mostSpecificType ?mostSpecificType .
+        BIND( CONCAT( STR(?mostSpecificType), REPLACE(STR(?person), "(^.*/)", "::") ) AS ?mostSpecificTypeWithId ) .
     }
     UNION
     {
@@ -21,5 +22,6 @@ CONSTRUCT {
         ?position vivo:relatedBy ?person .
         ?person a foaf:Person .
         ?person vitro:mostSpecificType ?mostSpecificType .
+        BIND( CONCAT( STR(?mostSpecificType), REPLACE(STR(?person), "(^.*/)", "::") ) AS ?mostSpecificTypeWithId ) .
     }
 }
