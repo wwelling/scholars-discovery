@@ -61,7 +61,7 @@ public class Person extends Common {
     )
     private String preferredTitle;
 
-    @FieldType(type = "nested_whole_strings", docValues = true)
+    @FieldType(type = "nested_whole_strings", copyTo = { "positions_facets" })
     @NestedObject(properties = {
         @Reference(value = "positionType", key = "type"),
         @Reference(value = "positionOrganization", key = "organizations")
@@ -81,7 +81,7 @@ public class Person extends Common {
     private List<String> positionType;
 
     @NestedMultiValuedProperty
-    @FieldType(type = "nested_whole_strings", docValues = true)
+    @FieldType(type = "nested_whole_strings", copyTo = { "positionOrganization_facets" })
     @NestedObject(
         root = false,
         properties = {
@@ -112,7 +112,7 @@ public class Person extends Common {
     private String overview;
 
     @NestedObject
-    @FieldType(type = "nested_tokenized_strings", copyTo = { "_text_", "researchAreas_nested_facets" })
+    @FieldType(type = "nested_tokenized_strings", copyTo = { "_text_", "researchAreas_facets" })
     @FieldSource(
         template = "person/researchArea",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -489,7 +489,7 @@ public class Person extends Common {
     )
     private List<String> selectedPublicationDate;
 
-    @FieldType(type = "nested_whole_strings", docValues = true)
+    @FieldType(type = "nested_whole_strings", copyTo = { "selectedPublicationPublisher_facets" })
     @FieldSource(
         template = "person/selectedPublicationPublisher",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label",
@@ -497,7 +497,7 @@ public class Person extends Common {
     )
     private List<String> selectedPublicationPublisher;
 
-    @FieldType(type = "nested_whole_strings", docValues = true)
+    @FieldType(type = "nested_whole_strings", copyTo = { "selectedPublicationVenue_facets" })
     @FieldSource(
         template = "person/selectedPublicationVenue",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label",
@@ -505,7 +505,7 @@ public class Person extends Common {
     )
     private List<String> selectedPublicationVenue;
 
-    @FieldType(type = "nested_whole_strings", docValues = true)
+    @FieldType(type = "nested_whole_strings", copyTo = { "selectedPublicationTag_facets" })
     @FieldSource(
         template = "person/selectedPublicationTag",
         predicate = "http://purl.obolibrary.org/obo/ARG_0000015"

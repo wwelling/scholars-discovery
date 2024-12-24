@@ -108,7 +108,7 @@ public class Relationship extends Common {
     )
     private List<String> awardConferredByPreferredLabel;
 
-    @FieldType(type = "nested_tokenized_strings", copyTo = { "_text_", "awardedBy_nested_facets" })
+    @FieldType(type = "nested_tokenized_strings", copyTo = { "_text_", "awardedBy_facets" })
     @NestedObject(properties = {
         @Reference(value = "awardedByType", key = "type"),
         @Reference(value = "awardedByAbbreviation", key = "abbreviation"),
@@ -161,7 +161,7 @@ public class Relationship extends Common {
     private List<String> grantSubcontractedThroughType;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", docValues = true)
+    @FieldType(type = "nested_whole_strings", copyTo = { "administeredBy_facets" })
     @FieldSource(
         template = "relationship/administeredBy",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -239,7 +239,7 @@ public class Relationship extends Common {
     )
     private List<String> contributorRole;
 
-    @FieldType(type = "nested_whole_strings", docValues = true)
+    @FieldType(type = "nested_whole_strings", copyTo = { "contributorOrganization_facets" })
     @FieldSource(
         template = "relationship/contributorOrganization",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -247,7 +247,7 @@ public class Relationship extends Common {
     private List<String> contributorOrganization;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", copyTo = "_text_", docValues = true)
+    @FieldType(type = "nested_whole_strings", copyTo = { "_text_", "principalInvestigators_facets" })
     @FieldSource(
         template = "relationship/principalInvestigator",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -255,7 +255,7 @@ public class Relationship extends Common {
     private List<String> principalInvestigators;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", copyTo = "_text_", docValues = true)
+    @FieldType(type = "nested_whole_strings", copyTo = { "_text_", "coPrincipalInvestigators_facets" })
     @FieldSource(
         template = "relationship/coPrincipalInvestigator",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"

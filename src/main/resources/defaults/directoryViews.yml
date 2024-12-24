@@ -22,7 +22,7 @@
       collapsed: true
       hidden: false
     - name: Organization
-      field: positions.organizations
+      field: positionOrganization_facets
       type: STRING
       sort: INDEX
       direction: ASC
@@ -30,7 +30,7 @@
       collapsed: true
       hidden: false
     - name: Research Area
-      field: researchAreas_nested_facets
+      field: researchAreas_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -38,7 +38,7 @@
       collapsed: true
       hidden: false
     - name: UN Sustainable Development Goals
-      field: selectedPublicationTag
+      field: selectedPublicationTag_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -192,7 +192,7 @@
       collapsed: true
       hidden: false
     - name: Author Organization
-      field: authors.organizations
+      field: authorOrganization_facets
       type: STRING
       sort: COUNT
       direction: DESC

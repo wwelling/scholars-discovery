@@ -68,7 +68,7 @@ public class Process extends Common {
     private String description;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", docValues = true)
+    @FieldType(type = "nested_whole_strings", copyTo = { "offeredBy_facets" })
     @FieldSource(
         template = "process/offeredBy",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -187,7 +187,7 @@ public class Process extends Common {
     )
     private List<String> inEventSeries;
 
-    @FieldType(type = "nested_tokenized_strings", copyTo = { "_text_", "participants_nested_facets" })
+    @FieldType(type = "nested_tokenized_strings", copyTo = { "_text_", "participants_facets" })
     @NestedObject(properties = {
         @Reference(value = "participantId", key = "personId"),
         @Reference(value = "participantRole", key = "role"),

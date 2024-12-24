@@ -43,7 +43,7 @@ public class Document extends Common {
     private String abbreviation;
 
     @NestedObject
-    @FieldType(type = "nested_whole_string", copyTo = "_text_", docValues = true)
+    @FieldType(type = "nested_whole_string", copyTo = { "_text_", "publicationVenue_facets" })
     @FieldSource(
         template = "document/publicationVenue",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label",
@@ -76,7 +76,7 @@ public class Document extends Common {
     )
     private String nameOfConference;
 
-    @FieldType(type = "nested_whole_strings", copyTo = "_text_", docValues = true)
+    @FieldType(type = "nested_whole_strings", copyTo = { "_text_", "authors_facets" })
     @NestedObject(properties = {
         @Reference(value = "authorOrganization", key = "organizations")
     })
@@ -88,7 +88,7 @@ public class Document extends Common {
 
     @NestedMultiValuedProperty
     @NestedObject(root = false)
-    @FieldType(type = "nested_whole_strings", docValues = true)
+    @FieldType(type = "nested_whole_strings", copyTo = { "authorOrganization_facets" })
     @FieldSource(
         template = "document/authorOrganization",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label",
@@ -131,7 +131,7 @@ public class Document extends Common {
     )
     private String publicationDate;
 
-    @FieldType(type = "nested_whole_string", docValues = true)
+    @FieldType(type = "nested_whole_string", copyTo = { "publisher_facets" })
     @NestedObject(properties = {
         @Reference(value = "publisherType", key = "type")
     })

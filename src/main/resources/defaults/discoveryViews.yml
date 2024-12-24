@@ -27,7 +27,7 @@
       collapsed: true
       hidden: false
     - name: Organization
-      field: positions.organizations
+      field: positionOrganization_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -35,7 +35,7 @@
       collapsed: true
       hidden: false
     - name: Research Area
-      field: researchAreas_nested_facets
+      field: researchAreas_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -43,7 +43,7 @@
       collapsed: true
       hidden: false
     - name: UN Sustainable Development Goals
-      field: selectedPublicationTag
+      field: selectedPublicationTag_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -51,7 +51,7 @@
       collapsed: true
       hidden: false
     - name: Published In
-      field: selectedPublicationVenue
+      field: selectedPublicationVenue_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -59,7 +59,7 @@
       collapsed: true
       hidden: false
     - name: Publisher
-      field: selectedPublicationPublisher
+      field: selectedPublicationPublisher_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -67,7 +67,7 @@
       collapsed: true
       hidden: false
     - name: Position
-      field: positions
+      field: positions_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -140,7 +140,7 @@
       collapsed: true
       hidden: false
     - name: Organization
-      field: positions.organizations
+      field: positionOrganization_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -148,7 +148,7 @@
       collapsed: true
       hidden: false
     - name: Research Area
-      field: researchAreas_nested_facets
+      field: researchAreas_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -164,7 +164,7 @@
       collapsed: true
       hidden: false
     - name: Position
-      field: positions
+      field: positions_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -230,7 +230,7 @@
       collapsed: true
       hidden: false
     - name: Author
-      field: authors
+      field: authors_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -238,7 +238,7 @@
       collapsed: true
       hidden: false
     - name: Author Organization
-      field: authors.organizations
+      field: authorOrganization_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -246,7 +246,7 @@
       collapsed: true
       hidden: false
     - name: Published In
-      field: publicationVenue
+      field: publicationVenue_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -254,7 +254,7 @@
       collapsed: true
       hidden: false
     - name: Publisher
-      field: publisher
+      field: publisher_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -372,7 +372,7 @@
       collapsed: true
       hidden: true
     - name: Principal Investigator
-      field: principalInvestigators
+      field: principalInvestigators_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -380,7 +380,7 @@
       collapsed: true
       hidden: false
     - name: Co-Principal Investigator
-      field: coPrincipalInvestigators
+      field: coPrincipalInvestigators_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -388,7 +388,7 @@
       collapsed: true
       hidden: false
     - name: Contributor Organization
-      field: contributors.organizations
+      field: contributorOrganization_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -396,7 +396,7 @@
       collapsed: true
       hidden: false
     - name: Awarded By
-      field: awardedBy_nested_facets
+      field: awardedBy_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -404,7 +404,7 @@
       collapsed: true
       hidden: false
     - name: Administered By
-      field: administeredBy
+      field: administeredBy_facets
       type: STRING
       sort: INDEX
       direction: ASC
@@ -496,7 +496,7 @@
       collapsed: true
       hidden: false
     - name: Recipient
-      field: awardOrHonorFor
+      field: awardOrHonorFor_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -504,7 +504,7 @@
       collapsed: true
       hidden: false
     - name: Conferred By
-      field: awardConferredBy_nested_facets
+      field: awardConferredBy_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -557,7 +557,7 @@
       collapsed: true
       hidden: true
     - name: Offered By
-      field: offeredBy
+      field: offeredBy_facets
       type: STRING
       sort: INDEX
       direction: ASC
@@ -565,7 +565,7 @@
       collapsed: true
       hidden: false
     - name: Participants
-      field: participants_nested_facets
+      field: participants_facets
       type: STRING
       sort: INDEX
       direction: ASC
@@ -608,7 +608,7 @@
       collapsed: true
       hidden: true
     - name: Associated Department
-      field: associatedDepartments
+      field: associatedDepartments_facets
       type: STRING
       sort: INDEX
       direction: ASC
@@ -616,7 +616,7 @@
       collapsed: true
       hidden: false
     - name: Research Area Of
-      field: researchAreaOf
+      field: researchAreaOf_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -663,7 +663,7 @@
       collapsed: true
       hidden: false
     - name: Within Organization
-      field: organizationWithin
+      field: organizationWithin_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -671,7 +671,7 @@
       collapsed: true
       hidden: false
     - name: Research Areas
-      field: affiliatedResearchAreas_nested_facets
+      field: affiliatedResearchAreas_facets
       type: STRING
       sort: COUNT
       direction: DESC

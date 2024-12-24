@@ -25,7 +25,7 @@ public class Concept extends Common {
     private String name;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", docValues = true)
+    @FieldType(type = "nested_whole_strings", copyTo = { "associatedDepartments_facets" })
     @FieldSource(
         template = "concept/associatedDepartment",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -33,14 +33,14 @@ public class Concept extends Common {
     private List<String> associatedDepartments;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", copyTo = "_text_", docValues = true)
+    @FieldType(type = "nested_whole_strings", copyTo = { "_text_", "researchAreaOf_facets" })
     @FieldSource(
         template = "concept/researchAreaOf",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> researchAreaOf;
 
-    @FieldType(type = "nested_whole_strings", copyTo = "_text_", docValues = true)
+    @FieldType(type = "nested_whole_strings", copyTo = { "_text_", "awardOrHonorFor_facets" })
     @NestedObject(properties = {
         @Reference(value = "awardOrHonorForType", key = "type")
     })
@@ -58,7 +58,7 @@ public class Concept extends Common {
     )
     private List<String> awardOrHonorForType;
 
-    @FieldType(type = "nested_tokenized_strings", copyTo = { "_text_", "awardConferredBy_nested_facets" })
+    @FieldType(type = "nested_tokenized_strings", copyTo = { "_text_", "awardConferredBy_facets" })
     @NestedObject(properties = {
         @Reference(value = "awardConferredByType", key = "type")
     })
@@ -131,7 +131,7 @@ public class Concept extends Common {
     )
     private List<String> relatedConcepts;
 
-    @FieldType(type = "nested_tokenized_string", copyTo = { "_text_", "futureResearchIdeaOf_nested_facets" })
+    @FieldType(type = "nested_tokenized_string", copyTo = { "_text_", "futureResearchIdeaOf_facets" })
     @NestedObject(properties = {
         @Reference(value = "futureResearchIdeaOfEmail", key = "email"),
         @Reference(value = "futureResearchIdeaOfTitle", key = "title"),

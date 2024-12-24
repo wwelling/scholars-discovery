@@ -7,7 +7,7 @@
       value: Person
   facets:
     - name: Position Titles
-      field: positions
+      field: positions_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -18,7 +18,7 @@
       useDialog: true
       hidden: false
     - name: Journal Titles
-      field: selectedPublicationVenue
+      field: selectedPublicationVenue_facets
       type: STRING
       sort: COUNT
       direction: DESC
@@ -29,7 +29,7 @@
       useDialog: true
       hidden: false
     - name: Publishers
-      field: selectedPublicationPublisher
+      field: selectedPublicationPublisher_facets
       type: STRING
       sort: COUNT
       direction: DESC

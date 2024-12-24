@@ -203,11 +203,7 @@
     -->
 
     <!-- Scholars whole string type  -->
-    <fieldType name="whole_string" class="solr.TextField" omitNorms="true" termVectors="false" termPositions="false" termOffsets="false" sortMissingLast="true">
-      <analyzer>
-        <tokenizer name="keyword"/>
-      </analyzer>
-    </fieldType>
+    <fieldType name="whole_string" class="solr.StrField" omitNorms="true" termVectors="false" termPositions="false" termOffsets="false" sortMissingLast="true" />
 
     <!-- Scholars whole string sort type  -->
     <fieldType name="whole_string_sort" class="solr.SortableTextField" positionIncrementGap="100" multiValued="false">
@@ -225,17 +221,13 @@
     </fieldType>
 
     <!-- Scholars dynamic sort field -->
-    <dynamicField name="*_sort" type="whole_string_sort" indexed="true" stored="true"/>
+    <dynamicField name="*_sort" type="whole_string_sort" indexed="true" stored="true" docValues="true"/>
 
     <!-- Scholars whole strings type -->
-    <fieldType name="whole_strings" class="solr.TextField" omitNorms="true" termVectors="false" termPositions="false" termOffsets="false" sortMissingLast="true" multiValued="true">
-      <analyzer>
-        <tokenizer name="keyword"/>
-      </analyzer>
-    </fieldType>
+    <fieldType name="whole_strings" class="solr.StrField" omitNorms="true" termVectors="false" termPositions="false" termOffsets="false" sortMissingLast="true" multiValued="true" />
 
     <!-- Scholars dynamic facet field -->
-    <dynamicField name="*_facets" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
+    <dynamicField name="*_facets" type="whole_strings" indexed="true" stored="true" multiValued="true" docValues="true"/>
 
     <!-- Scholars tokenized string type  -->
     <fieldType name="tokenized_string" class="solr.TextField" omitNorms="true" termVectors="false" termPositions="false" termOffsets="false" sortMissingLast="true">
@@ -288,9 +280,6 @@
         <tokenizer name="keyword"/>
       </analyzer>
     </fieldType>
-
-    <!-- Scholars dynamic nested facet field -->
-    <dynamicField name="*_nested_facets" type="nested_whole_strings" indexed="true" stored="true" multiValued="true"/>
 
     <!-- Scholars nested tokenized string type  -->
     <fieldType name="nested_tokenized_string" class="solr.TextField" omitNorms="true" termVectors="false" termPositions="false" termOffsets="false" sortMissingLast="true">
