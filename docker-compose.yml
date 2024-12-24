@@ -20,7 +20,6 @@ services:
       - SOLR_HEAP=4g
     volumes:
       - ./solrdata:/var/solr/data
-      - ./managed-schema.xml:/opt/solr-${SOLR_VERSION}/server/solr/configsets/_default/conf/managed-schema.xml
     ports:
       - 8983:8983
     command:
