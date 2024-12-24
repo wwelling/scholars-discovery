@@ -24,12 +24,10 @@ public class ThemeEventHandler {
     public static final String THEMES_CHANNEL = "/queue/themes";
 
     private ThemeRepo themeRepo;
+
     private SimpMessagingTemplate simpMessageTemplate;
 
-    public ThemeEventHandler(
-        ThemeRepo themeRepo,
-        SimpMessagingTemplate simpMessageTemplate
-    ) {
+    public ThemeEventHandler(ThemeRepo themeRepo, SimpMessagingTemplate simpMessageTemplate) {
         this.themeRepo = themeRepo;
         this.simpMessageTemplate = simpMessageTemplate;
     }

@@ -7,7 +7,6 @@ import java.util.List;
 import edu.tamu.scholars.discovery.model.Named;
 import edu.tamu.scholars.discovery.model.repo.NamedRepo;
 
-
 public interface Defaults<E extends Named, R extends NamedRepo<E>> {
 
     public String path();

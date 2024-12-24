@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import edu.tamu.scholars.discovery.view.model.DiscoveryView;
 import edu.tamu.scholars.discovery.view.model.repo.DiscoveryViewRepo;
 
-
 @Service
 public class DiscoveryViewsDefaults extends AbstractDefaults<DiscoveryView, DiscoveryViewRepo> {
 

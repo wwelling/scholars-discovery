@@ -9,7 +9,6 @@ import java.lang.annotation.Target;
 
 import org.springframework.core.annotation.AliasFor;
 
-
 @Documented
 @Target(FIELD)
 @Retention(RUNTIME)

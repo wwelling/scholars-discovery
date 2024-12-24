@@ -30,9 +30,9 @@ public abstract class FieldView extends View {
     @ElementCollection
     private List<Sort> sort;
 
-    public FieldView() {
-        filters = new ArrayList<Filter>();
-        sort = new ArrayList<Sort>();
+    protected FieldView() {
+        filters = new ArrayList<>();
+        sort = new ArrayList<>();
     }
 
     public String getField() {

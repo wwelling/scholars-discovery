@@ -56,7 +56,6 @@ import edu.tamu.scholars.discovery.view.model.ExportFieldView;
 import edu.tamu.scholars.discovery.view.model.ExportView;
 import edu.tamu.scholars.discovery.view.model.repo.DisplayViewRepo;
 
-
 public abstract class AbstractDocxExporter implements Exporter {
 
     private static final ContentType HTML_CONTENT_TYPE = new ContentType("text/html");

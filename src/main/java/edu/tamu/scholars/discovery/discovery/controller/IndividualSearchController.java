@@ -36,7 +36,6 @@ import edu.tamu.scholars.discovery.discovery.assembler.model.IndividualModel;
 import edu.tamu.scholars.discovery.discovery.model.Individual;
 import edu.tamu.scholars.discovery.discovery.model.repo.IndividualRepo;
 
-
 @RestController
 @RequestMapping("/individual")
 public class IndividualSearchController implements RepresentationModelProcessor<RepositorySearchesResource> {

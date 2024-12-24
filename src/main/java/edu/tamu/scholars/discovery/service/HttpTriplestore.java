@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import edu.tamu.scholars.discovery.config.model.TriplestoreConfig;
 
-
 public class HttpTriplestore implements Triplestore {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpTriplestore.class);

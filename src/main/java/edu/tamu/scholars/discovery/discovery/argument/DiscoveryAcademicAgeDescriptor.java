@@ -6,7 +6,6 @@ import java.util.List;
 
 import edu.tamu.scholars.discovery.discovery.utility.DiscoveryUtility;
 
-
 // TODO: refactor to DiscoveryAcademicAgeDescriptorArg and add argument resolver
 public class DiscoveryAcademicAgeDescriptor {
 

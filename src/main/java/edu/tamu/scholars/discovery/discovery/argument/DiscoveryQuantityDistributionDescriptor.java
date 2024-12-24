@@ -2,7 +2,6 @@ package edu.tamu.scholars.discovery.discovery.argument;
 
 import edu.tamu.scholars.discovery.discovery.utility.DiscoveryUtility;
 
-
 // TODO: refactor to DiscoveryQuantityDistributionDescriptorArg and add argument resolver
 public class DiscoveryQuantityDistributionDescriptor {
 

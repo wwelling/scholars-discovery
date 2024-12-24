@@ -7,9 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import edu.tamu.scholars.discovery.discovery.utility.DiscoveryUtility;
 import edu.tamu.scholars.discovery.model.OpKey;
 
-/**
- * 
- */
 public class FilterArg {
 
     private final String field;

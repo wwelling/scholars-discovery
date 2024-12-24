@@ -1,6 +1,5 @@
 package edu.tamu.scholars.discovery.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -8,15 +7,17 @@ import org.springframework.stereotype.Service;
 
 import edu.tamu.scholars.discovery.config.model.MailConfig;
 
-
 @Service
 public class EmailService {
 
-    @Autowired
-    private JavaMailSender emailSender;
+    private final JavaMailSender emailSender;
 
-    @Autowired
-    private MailConfig mailConfig;
+    private final MailConfig mailConfig;
+
+    EmailService(JavaMailSender emailSender, MailConfig mailConfig) {
+        this.emailSender = emailSender;
+        this.mailConfig = mailConfig;
+    }
 
     public void send(String to, String subject, String message) {
         send(to, subject, message, mailConfig.getFrom(), mailConfig.getReplyTo());
@@ -27,12 +28,11 @@ public class EmailService {
     }
 
     MimeMessagePreparator createMimeMessagePreparator(
-        String to,
-        String subject,
-        String message,
-        String from,
-        String replyTo
-    ) {
+            String to,
+            String subject,
+            String message,
+            String from,
+            String replyTo) {
         return mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom(from);

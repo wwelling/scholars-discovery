@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import edu.tamu.scholars.discovery.view.model.DirectoryView;
 import edu.tamu.scholars.discovery.view.model.repo.DirectoryViewRepo;
 
-
 @Service
 public class DirectoryViewsDefaults extends AbstractDefaults<DirectoryView, DirectoryViewRepo> {
 

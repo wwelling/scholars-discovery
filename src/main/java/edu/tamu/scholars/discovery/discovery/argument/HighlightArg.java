@@ -6,7 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import edu.tamu.scholars.discovery.discovery.utility.DiscoveryUtility;
 
-
 public class HighlightArg {
 
     private final String[] fields;

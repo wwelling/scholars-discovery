@@ -10,7 +10,6 @@ import java.util.Map;
 
 import edu.tamu.scholars.discovery.discovery.utility.DiscoveryUtility;
 
-
 // TODO: refactor to DiscoveryNetworkDescriptorArg and add argument resolver
 public class DiscoveryNetworkDescriptor {
 

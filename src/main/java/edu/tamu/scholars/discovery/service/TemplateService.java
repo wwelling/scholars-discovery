@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 import edu.tamu.scholars.discovery.auth.controller.request.Registration;
 
-
 @Service
 public class TemplateService {
 
@@ -34,16 +33,16 @@ public class TemplateService {
     @Value("${vivo.base-url:http://localhost:8080/vivo}")
     private String vivoUrl;
 
-    @Autowired
-    private ResourceService resourceService;
+    private final ResourceService resourceService;
 
-    public TemplateService() {
+    public TemplateService(ResourceService resourceService) {
+        this.resourceService = resourceService;
         handlebars.with(new HighConcurrencyTemplateCache());
         handlebars.registerHelper("json", Jackson2Helper.INSTANCE);
     }
 
     @PostConstruct
-    public void init() throws IOException, Exception {
+    public void init() throws Exception {
         InputStream helpers = resourceService.getResource("templates/helpers.js");
         handlebars.registerHelpers("helpers.js", helpers);
     }
@@ -58,7 +57,7 @@ public class TemplateService {
 
     public String templateSparql(String name, String uri) {
         String path = String.format("templates/sparql/%s.sparql", name);
-        Map<String, String> data = new HashMap<String, String>();
+        Map<String, String> data = new HashMap<>();
         data.put("uri", uri);
         Context context = Context.newBuilder(data).build();
         try {
@@ -70,7 +69,7 @@ public class TemplateService {
 
     public String templateConfirmRegistrationMessage(Registration registration, String key) {
         String path = "templates/emails/confirm-registration.html";
-        Map<String, Object> data = new HashMap<String, Object>();
+        Map<String, Object> data = new HashMap<>();
         data.put("registration", registration);
         data.put("link", String.format("%s?key=%s", uiUrl, key));
         Context context = Context.newBuilder(data).build();

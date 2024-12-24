@@ -19,7 +19,6 @@ import edu.tamu.scholars.discovery.discovery.model.repo.IndividualRepo;
 import edu.tamu.scholars.discovery.discovery.response.DiscoveryAcademicAge;
 import edu.tamu.scholars.discovery.discovery.response.DiscoveryQuantityDistribution;
 
-
 @RestController
 @RequestMapping("/individual/analytics")
 public class IndividualAnalyticsController {

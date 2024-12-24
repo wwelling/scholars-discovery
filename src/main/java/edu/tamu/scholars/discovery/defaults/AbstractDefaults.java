@@ -22,7 +22,6 @@ import edu.tamu.scholars.discovery.config.model.MiddlewareConfig;
 import edu.tamu.scholars.discovery.model.Named;
 import edu.tamu.scholars.discovery.model.repo.NamedRepo;
 
-
 public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> implements Defaults<E, R> {
 
     private static final String CREATED_DEFAULTS = "Created {} {} defaults.";

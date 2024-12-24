@@ -36,7 +36,6 @@ import edu.tamu.scholars.discovery.discovery.model.Individual;
 import edu.tamu.scholars.discovery.discovery.model.repo.IndividualRepo;
 import edu.tamu.scholars.discovery.discovery.response.DiscoveryNetwork;
 
-
 @RestController
 public class IndividualController implements RepresentationModelProcessor<IndividualModel> {
 
