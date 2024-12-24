@@ -68,7 +68,7 @@ public class Process extends Common {
     private String description;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings")
+    @FieldType(type = "nested_whole_strings", docValues = true)
     @FieldSource(
         template = "process/offeredBy",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"

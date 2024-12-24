@@ -18,7 +18,7 @@ public abstract class AbstractIndexDocument {
     @FieldType(required = true, readonly = true)
     private String id;
 
-    @FieldType(type = "whole_strings")
+    @FieldType(type = "whole_strings", docValues = true)
     @FieldSource(
         template = "common/type",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",

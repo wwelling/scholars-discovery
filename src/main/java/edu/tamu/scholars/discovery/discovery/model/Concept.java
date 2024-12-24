@@ -25,7 +25,7 @@ public class Concept extends Common {
     private String name;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings")
+    @FieldType(type = "nested_whole_strings", docValues = true)
     @FieldSource(
         template = "concept/associatedDepartment",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -33,14 +33,14 @@ public class Concept extends Common {
     private List<String> associatedDepartments;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", copyTo = "_text_")
+    @FieldType(type = "nested_whole_strings", copyTo = "_text_", docValues = true)
     @FieldSource(
         template = "concept/researchAreaOf",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> researchAreaOf;
 
-    @FieldType(type = "nested_whole_strings", copyTo = "_text_")
+    @FieldType(type = "nested_whole_strings", copyTo = "_text_", docValues = true)
     @NestedObject(properties = {
         @Reference(value = "awardOrHonorForType", key = "type")
     })
@@ -83,7 +83,7 @@ public class Concept extends Common {
     )
     private List<String> awardConferredByPreferredLabel;
 
-    @FieldType(type = "pdate")
+    @FieldType(type = "pdate", docValues = true)
     @FieldSource(
         template = "concept/yearAwarded",
         predicate = "http://vivoweb.org/ontology/core#dateTime"

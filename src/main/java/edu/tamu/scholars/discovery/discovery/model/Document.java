@@ -43,7 +43,7 @@ public class Document extends Common {
     private String abbreviation;
 
     @NestedObject
-    @FieldType(type = "nested_whole_string", copyTo = "_text_")
+    @FieldType(type = "nested_whole_string", copyTo = "_text_", docValues = true)
     @FieldSource(
         template = "document/publicationVenue",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label",
@@ -76,7 +76,7 @@ public class Document extends Common {
     )
     private String nameOfConference;
 
-    @FieldType(type = "nested_whole_strings", copyTo = "_text_")
+    @FieldType(type = "nested_whole_strings", copyTo = "_text_", docValues = true)
     @NestedObject(properties = {
         @Reference(value = "authorOrganization", key = "organizations")
     })
@@ -88,7 +88,7 @@ public class Document extends Common {
 
     @NestedMultiValuedProperty
     @NestedObject(root = false)
-    @FieldType(type = "nested_whole_strings")
+    @FieldType(type = "nested_whole_strings", docValues = true)
     @FieldSource(
         template = "document/authorOrganization",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label",
@@ -124,14 +124,14 @@ public class Document extends Common {
     )
     private String status;
 
-    @FieldType(type = "pdate")
+    @FieldType(type = "pdate", docValues = true)
     @FieldSource(
         template = "document/publicationDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private String publicationDate;
 
-    @FieldType(type = "nested_whole_string")
+    @FieldType(type = "nested_whole_string", docValues = true)
     @NestedObject(properties = {
         @Reference(value = "publisherType", key = "type")
     })
@@ -233,7 +233,7 @@ public class Document extends Common {
     )
     private List<String> presentedAt;
 
-    @FieldType(type = "whole_strings", copyTo = "_text_")
+    @FieldType(type = "whole_strings", copyTo = "_text_", docValues = true)
     @FieldSource(
         template = "document/keyword",
         predicate = "http://vivoweb.org/ontology/core#freetextKeyword"
@@ -521,21 +521,21 @@ public class Document extends Common {
     )
     private List<String> receipts;
 
-    @FieldType(type = "pfloat")
+    @FieldType(type = "pfloat", docValues = true)
     @FieldSource(
         template = "document/altmetricScore",
         predicate = "http://vivo.library.tamu.edu/ontology/TAMU#AltmetricScore"
     )
     private Float altmetricScore;
 
-    @FieldType(type = "pint")
+    @FieldType(type = "pint", docValues = true)
     @FieldSource(
         template = "document/citationCount",
         predicate = "http://vivo.library.tamu.edu/ontology/TAMU#CitationCount"
     )
     private Integer citationCount;
 
-    @FieldType(type = "whole_strings")
+    @FieldType(type = "whole_strings", docValues = true)
     @FieldSource(
         template = "document/tag",
         predicate = "http://purl.obolibrary.org/obo/ARG_0000015"

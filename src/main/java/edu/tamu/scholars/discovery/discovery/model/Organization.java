@@ -170,7 +170,7 @@ public class Organization extends Common {
     private List<String> hasSubOrganizationType;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings")
+    @FieldType(type = "nested_whole_strings", docValues = true)
     @FieldSource(
         template = "organization/organizationWithin",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -463,7 +463,7 @@ public class Organization extends Common {
     private List<String> governingAuthorityFor;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings")
+    @FieldType(type = "nested_whole_strings", copyTo = { "affiliatedResearchAreas_nested_facets" })
     @FieldSource(
         template = "organization/affiliatedResearchArea",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label",

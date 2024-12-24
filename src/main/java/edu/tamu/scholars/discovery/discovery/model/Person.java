@@ -61,7 +61,7 @@ public class Person extends Common {
     )
     private String preferredTitle;
 
-    @FieldType(type = "nested_whole_strings")
+    @FieldType(type = "nested_whole_strings", docValues = true)
     @NestedObject(properties = {
         @Reference(value = "positionType", key = "type"),
         @Reference(value = "positionOrganization", key = "organizations")
@@ -81,7 +81,7 @@ public class Person extends Common {
     private List<String> positionType;
 
     @NestedMultiValuedProperty
-    @FieldType(type = "nested_whole_strings")
+    @FieldType(type = "nested_whole_strings", docValues = true)
     @NestedObject(
         root = false,
         properties = {
@@ -126,7 +126,7 @@ public class Person extends Common {
     )
     private String hrJobTitle;
 
-    @FieldType(type = "whole_strings")
+    @FieldType(type = "whole_strings", docValues = true)
     @FieldSource(
         template = "person/keyword",
         predicate = "http://vivoweb.org/ontology/core#freetextKeyword"
@@ -489,7 +489,7 @@ public class Person extends Common {
     )
     private List<String> selectedPublicationDate;
 
-    @FieldType(type = "nested_whole_strings")
+    @FieldType(type = "nested_whole_strings", docValues = true)
     @FieldSource(
         template = "person/selectedPublicationPublisher",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label",
@@ -497,7 +497,7 @@ public class Person extends Common {
     )
     private List<String> selectedPublicationPublisher;
 
-    @FieldType(type = "nested_whole_strings")
+    @FieldType(type = "nested_whole_strings", docValues = true)
     @FieldSource(
         template = "person/selectedPublicationVenue",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label",
@@ -505,7 +505,7 @@ public class Person extends Common {
     )
     private List<String> selectedPublicationVenue;
 
-    @FieldType(type = "nested_whole_strings")
+    @FieldType(type = "nested_whole_strings", docValues = true)
     @FieldSource(
         template = "person/selectedPublicationTag",
         predicate = "http://purl.obolibrary.org/obo/ARG_0000015"

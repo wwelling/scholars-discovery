@@ -161,7 +161,7 @@ public class Relationship extends Common {
     private List<String> grantSubcontractedThroughType;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings")
+    @FieldType(type = "nested_whole_strings", docValues = true)
     @FieldSource(
         template = "relationship/administeredBy",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -239,7 +239,7 @@ public class Relationship extends Common {
     )
     private List<String> contributorRole;
 
-    @FieldType(type = "nested_whole_strings")
+    @FieldType(type = "nested_whole_strings", docValues = true)
     @FieldSource(
         template = "relationship/contributorOrganization",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -247,7 +247,7 @@ public class Relationship extends Common {
     private List<String> contributorOrganization;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", copyTo = "_text_")
+    @FieldType(type = "nested_whole_strings", copyTo = "_text_", docValues = true)
     @FieldSource(
         template = "relationship/principalInvestigator",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -255,7 +255,7 @@ public class Relationship extends Common {
     private List<String> principalInvestigators;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", copyTo = "_text_")
+    @FieldType(type = "nested_whole_strings", copyTo = "_text_", docValues = true)
     @FieldSource(
         template = "relationship/coPrincipalInvestigator",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -270,14 +270,14 @@ public class Relationship extends Common {
     )
     private List<String> supportedPublicationOrOtherWork;
 
-    @FieldType(type = "pdate")
+    @FieldType(type = "pdate", docValues = true)
     @FieldSource(
         template = "relationship/startDateTime",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private String startDateTime;
 
-    @FieldType(type = "pdate")
+    @FieldType(type = "pdate", docValues = true)
     @FieldSource(
         template = "relationship/endDateTime",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
