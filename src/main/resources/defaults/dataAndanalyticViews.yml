@@ -18,7 +18,7 @@
       useDialog: true
       hidden: false
     - name: Journal Titles
-      field: selectedPublicationVenue_facets
+      field: selectedPublicationVenue
       type: STRING
       sort: COUNT
       direction: DESC
@@ -29,7 +29,7 @@
       useDialog: true
       hidden: false
     - name: Publishers
-      field: selectedPublicationPublisher_facets
+      field: selectedPublicationPublisher
       type: STRING
       sort: COUNT
       direction: DESC

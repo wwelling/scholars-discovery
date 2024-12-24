@@ -3,11 +3,10 @@ PREFIX tamu: <http://vivo.library.tamu.edu/ontology/TAMU#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 CONSTRUCT {
-    ?position rdfs:label ?labelWithId .
+    ?position rdfs:label ?label .
 } WHERE {
     <{{uri}}> tamu:FutureResearchIdeaOf ?futureResearchIdeaOf .
     ?futureResearchIdeaOf vivo:relatedBy ?position .
     ?position a vivo:Position .
     ?position rdfs:label ?label .
-    BIND( CONCAT( STR(?label), REPLACE(STR(?futureResearchIdeaOf), "(^.*/)", "::") ) AS ?labelWithId ) .
 }

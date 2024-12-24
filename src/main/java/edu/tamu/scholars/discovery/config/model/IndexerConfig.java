@@ -1,7 +1,7 @@
 package edu.tamu.scholars.discovery.config.model;
 
-import edu.tamu.scholars.discovery.discovery.component.Indexer;
-import edu.tamu.scholars.discovery.discovery.component.solr.SolrIndexer;
+import edu.tamu.scholars.discovery.index.component.Indexer;
+import edu.tamu.scholars.discovery.index.component.solr.SolrIndexer;
 
 /**
  * {@link MiddlewareConfig} configuration to specify list of indexers.

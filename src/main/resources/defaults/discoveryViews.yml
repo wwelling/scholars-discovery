@@ -27,7 +27,7 @@
       collapsed: true
       hidden: false
     - name: Organization
-      field: positionOrganization_facets
+      field: positionOrganization
       type: STRING
       sort: COUNT
       direction: DESC
@@ -35,7 +35,7 @@
       collapsed: true
       hidden: false
     - name: Research Area
-      field: researchAreas_facets
+      field: researchAreas_str
       type: STRING
       sort: COUNT
       direction: DESC
@@ -43,7 +43,7 @@
       collapsed: true
       hidden: false
     - name: UN Sustainable Development Goals
-      field: selectedPublicationTag_facets
+      field: selectedPublicationTag
       type: STRING
       sort: COUNT
       direction: DESC
@@ -51,7 +51,7 @@
       collapsed: true
       hidden: false
     - name: Published In
-      field: selectedPublicationVenue_facets
+      field: selectedPublicationVenue
       type: STRING
       sort: COUNT
       direction: DESC
@@ -59,7 +59,7 @@
       collapsed: true
       hidden: false
     - name: Publisher
-      field: selectedPublicationPublisher_facets
+      field: selectedPublicationPublisher
       type: STRING
       sort: COUNT
       direction: DESC
@@ -67,7 +67,7 @@
       collapsed: true
       hidden: false
     - name: Position
-      field: positions_facets
+      field: positions
       type: STRING
       sort: COUNT
       direction: DESC
@@ -95,7 +95,7 @@
   sort:
     - field: score
       direction: DESC
-    - field: name_sort
+    - field: name_t_sort
       direction: ASC
   export:
     - columnHeader: First name
@@ -140,7 +140,7 @@
       collapsed: true
       hidden: false
     - name: Organization
-      field: positionOrganization_facets
+      field: positionOrganization
       type: STRING
       sort: COUNT
       direction: DESC
@@ -148,7 +148,7 @@
       collapsed: true
       hidden: false
     - name: Research Area
-      field: researchAreas_facets
+      field: researchAreas_str
       type: STRING
       sort: COUNT
       direction: DESC
@@ -164,7 +164,7 @@
       collapsed: true
       hidden: false
     - name: Position
-      field: positions_facets
+      field: positions
       type: STRING
       sort: COUNT
       direction: DESC
@@ -177,7 +177,7 @@
   sort:
     - field: score
       direction: DESC
-    - field: name_sort
+    - field: name_t_sort
       direction: ASC
   export:
     - columnHeader: Name
@@ -230,7 +230,7 @@
       collapsed: true
       hidden: false
     - name: Author
-      field: authors_facets
+      field: authors
       type: STRING
       sort: COUNT
       direction: DESC
@@ -238,7 +238,7 @@
       collapsed: true
       hidden: false
     - name: Author Organization
-      field: authorOrganization_facets
+      field: authorOrganization
       type: STRING
       sort: COUNT
       direction: DESC
@@ -246,7 +246,7 @@
       collapsed: true
       hidden: false
     - name: Published In
-      field: publicationVenue_facets
+      field: publicationVenue
       type: STRING
       sort: COUNT
       direction: DESC
@@ -254,7 +254,7 @@
       collapsed: true
       hidden: false
     - name: Publisher
-      field: publisher_facets
+      field: publisher
       type: STRING
       sort: COUNT
       direction: DESC
@@ -316,7 +316,7 @@
   sort:
     - field: score
       direction: DESC
-    - field: title_sort
+    - field: title_t_sort
       direction: ASC
   export:
     - columnHeader: Publication type
@@ -372,7 +372,7 @@
       collapsed: true
       hidden: true
     - name: Principal Investigator
-      field: principalInvestigators_facets
+      field: principalInvestigators
       type: STRING
       sort: COUNT
       direction: DESC
@@ -380,7 +380,7 @@
       collapsed: true
       hidden: false
     - name: Co-Principal Investigator
-      field: coPrincipalInvestigators_facets
+      field: coPrincipalInvestigators
       type: STRING
       sort: COUNT
       direction: DESC
@@ -388,7 +388,7 @@
       collapsed: true
       hidden: false
     - name: Contributor Organization
-      field: contributorOrganization_facets
+      field: contributorOrganization
       type: STRING
       sort: COUNT
       direction: DESC
@@ -396,7 +396,7 @@
       collapsed: true
       hidden: false
     - name: Awarded By
-      field: awardedBy_facets
+      field: awardedBy_str
       type: STRING
       sort: COUNT
       direction: DESC
@@ -404,7 +404,7 @@
       collapsed: true
       hidden: false
     - name: Administered By
-      field: administeredBy_facets
+      field: administeredBy
       type: STRING
       sort: INDEX
       direction: ASC
@@ -445,7 +445,7 @@
   sort:
     - field: score
       direction: DESC
-    - field: title_sort
+    - field: title_t_sort
       direction: ASC
   export:
     - columnHeader: Grant title
@@ -496,7 +496,7 @@
       collapsed: true
       hidden: false
     - name: Recipient
-      field: awardOrHonorFor_facets
+      field: awardOrHonorFor
       type: STRING
       sort: COUNT
       direction: DESC
@@ -504,7 +504,7 @@
       collapsed: true
       hidden: false
     - name: Conferred By
-      field: awardConferredBy_facets
+      field: awardConferredBy_str
       type: STRING
       sort: COUNT
       direction: DESC
@@ -521,7 +521,7 @@
   sort:
     - field: score
       direction: DESC
-    - field: name_sort
+    - field: name_t_sort
       direction: ASC
   export:
     - columnHeader: Award title
@@ -557,7 +557,7 @@
       collapsed: true
       hidden: true
     - name: Offered By
-      field: offeredBy_facets
+      field: offeredBy
       type: STRING
       sort: INDEX
       direction: ASC
@@ -565,7 +565,7 @@
       collapsed: true
       hidden: false
     - name: Participants
-      field: participants_facets
+      field: participants_str
       type: STRING
       sort: INDEX
       direction: ASC
@@ -582,7 +582,7 @@
   sort:
     - field: score
       direction: DESC
-    - field: title_sort
+    - field: title_t_sort
       direction: ASC
   export:
     - columnHeader: Course number and title
@@ -608,7 +608,7 @@
       collapsed: true
       hidden: true
     - name: Associated Department
-      field: associatedDepartments_facets
+      field: associatedDepartments
       type: STRING
       sort: INDEX
       direction: ASC
@@ -616,7 +616,7 @@
       collapsed: true
       hidden: false
     - name: Research Area Of
-      field: researchAreaOf_facets
+      field: researchAreaOf
       type: STRING
       sort: COUNT
       direction: DESC
@@ -633,7 +633,7 @@
   sort:
     - field: score
       direction: DESC
-    - field: name_sort
+    - field: name_t_sort
       direction: ASC
   export:
     - columnHeader: Concept
@@ -663,7 +663,7 @@
       collapsed: true
       hidden: false
     - name: Within Organization
-      field: organizationWithin_facets
+      field: organizationWithin
       type: STRING
       sort: COUNT
       direction: DESC
@@ -671,7 +671,7 @@
       collapsed: true
       hidden: false
     - name: Research Areas
-      field: affiliatedResearchAreas_facets
+      field: affiliatedResearchAreas
       type: STRING
       sort: COUNT
       direction: DESC
@@ -687,7 +687,7 @@
   sort:
     - field: score
       direction: DESC
-    - field: name_sort
+    - field: name_t_sort
       direction: ASC
   export:
     - columnHeader: Name

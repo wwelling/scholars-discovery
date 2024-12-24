@@ -22,15 +22,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
-import edu.tamu.scholars.discovery.discovery.assembler.model.IndividualModel;
-import edu.tamu.scholars.discovery.discovery.model.Individual;
-import edu.tamu.scholars.discovery.discovery.model.Organization;
-import edu.tamu.scholars.discovery.discovery.model.Person;
-import edu.tamu.scholars.discovery.discovery.model.repo.IndividualRepo;
+import edu.tamu.scholars.discovery.controller.assembler.model.IndividualModel;
 import edu.tamu.scholars.discovery.export.exception.UnauthorizedExportException;
 import edu.tamu.scholars.discovery.export.exception.UnknownExporterTypeException;
 import edu.tamu.scholars.discovery.export.service.Exporter;
 import edu.tamu.scholars.discovery.export.service.ExporterRegistry;
+import edu.tamu.scholars.discovery.index.model.Individual;
+import edu.tamu.scholars.discovery.index.model.Organization;
+import edu.tamu.scholars.discovery.index.model.Person;
+import edu.tamu.scholars.discovery.index.model.repo.IndividualRepo;
 
 @RestController
 public class IndividualExportController implements RepresentationModelProcessor<IndividualModel> {

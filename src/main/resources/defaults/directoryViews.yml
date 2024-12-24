@@ -22,7 +22,7 @@
       collapsed: true
       hidden: false
     - name: Organization
-      field: positionOrganization_facets
+      field: positionOrganization
       type: STRING
       sort: INDEX
       direction: ASC
@@ -30,7 +30,7 @@
       collapsed: true
       hidden: false
     - name: Research Area
-      field: researchAreas_facets
+      field: researchAreas_str
       type: STRING
       sort: COUNT
       direction: DESC
@@ -38,7 +38,7 @@
       collapsed: true
       hidden: false
     - name: UN Sustainable Development Goals
-      field: selectedPublicationTag_facets
+      field: selectedPublicationTag
       type: STRING
       sort: COUNT
       direction: DESC
@@ -50,7 +50,7 @@
       value: Person
   boosts: []
   sort:
-    - field: name_sort
+    - field: name_t_sort
       direction: ASC
   export:
     - columnHeader: First name
@@ -68,7 +68,7 @@
     - columnHeader: Individual
       valuePath: individual
   index:
-    field: name_sort
+    field: name_t_sort
     opKey: STARTS_WITH
     options:
       - A
@@ -120,7 +120,7 @@
       value: Organization
   boosts: []
   sort:
-    - field: name_sort
+    - field: name_t_sort
       direction: ASC
   export:
     - columnHeader: Name
@@ -128,7 +128,7 @@
     - columnHeader: Individual
       valuePath: individual
   index:
-    field: name_sort
+    field: name_t_sort
     opKey: STARTS_WITH
     options:
       - A
@@ -192,7 +192,7 @@
       collapsed: true
       hidden: false
     - name: Author Organization
-      field: authorOrganization_facets
+      field: authorOrganization
       type: STRING
       sort: COUNT
       direction: DESC
@@ -215,7 +215,7 @@
       opKey: EXPRESSION
   boosts: []
   sort:
-    - field: title_sort
+    - field: title_t_sort
       direction: ASC
   export:
     - columnHeader: Publication type
@@ -243,7 +243,7 @@
     - columnHeader: Individual
       valuePath: individual
   index:
-    field: title_sort
+    field: title_t_sort
     opKey: STARTS_WITH
     options:
       - A

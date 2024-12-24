@@ -18,11 +18,11 @@ import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
-import edu.tamu.scholars.discovery.discovery.model.AbstractIndexDocument;
-import edu.tamu.scholars.discovery.discovery.model.Individual;
 import edu.tamu.scholars.discovery.export.exception.ExportException;
 import edu.tamu.scholars.discovery.export.utility.FilenameUtility;
 import edu.tamu.scholars.discovery.export.utility.ZipUtility;
+import edu.tamu.scholars.discovery.index.model.AbstractIndexDocument;
+import edu.tamu.scholars.discovery.index.model.Individual;
 import edu.tamu.scholars.discovery.view.model.DisplayView;
 import edu.tamu.scholars.discovery.view.model.ExportFieldView;
 import edu.tamu.scholars.discovery.view.model.ExportView;

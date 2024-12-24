@@ -7,10 +7,10 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import edu.tamu.scholars.discovery.discovery.model.AbstractIndexDocument;
-import edu.tamu.scholars.discovery.discovery.model.Individual;
-import edu.tamu.scholars.discovery.discovery.model.Organization;
-import edu.tamu.scholars.discovery.discovery.model.Person;
+import edu.tamu.scholars.discovery.index.model.AbstractIndexDocument;
+import edu.tamu.scholars.discovery.index.model.Individual;
+import edu.tamu.scholars.discovery.index.model.Organization;
+import edu.tamu.scholars.discovery.index.model.Person;
 
 public class FilenameUtility {
 

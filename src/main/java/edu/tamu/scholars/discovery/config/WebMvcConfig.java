@@ -16,11 +16,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
 import edu.tamu.scholars.discovery.config.model.MiddlewareConfig;
-import edu.tamu.scholars.discovery.discovery.resolver.BoostArgumentResolver;
-import edu.tamu.scholars.discovery.discovery.resolver.FacetArgumentResolver;
-import edu.tamu.scholars.discovery.discovery.resolver.FilterArgumentResolver;
-import edu.tamu.scholars.discovery.discovery.resolver.HighlightArgumentResolver;
-import edu.tamu.scholars.discovery.discovery.resolver.QueryArgumentResolver;
+import edu.tamu.scholars.discovery.controller.resolver.BoostArgumentResolver;
+import edu.tamu.scholars.discovery.controller.resolver.FacetArgumentResolver;
+import edu.tamu.scholars.discovery.controller.resolver.FilterArgumentResolver;
+import edu.tamu.scholars.discovery.controller.resolver.HighlightArgumentResolver;
+import edu.tamu.scholars.discovery.controller.resolver.QueryArgumentResolver;
 import edu.tamu.scholars.discovery.export.resolver.ExportArgumentResolver;
 
 @Configuration

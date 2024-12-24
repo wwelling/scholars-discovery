@@ -3,11 +3,10 @@ PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 
 CONSTRUCT {
-    ?document vcard:url ?urlWithId .
+    ?document vcard:url ?url .
 } WHERE {
     <{{uri}}> tamu:CapstoneAdvisedOf ?document .
     ?document obo:ARG_2000028 ?contact .
     ?contact vcard:hasURL ?hasURL .
     ?hasURL vcard:url ?url .
-    BIND( CONCAT( STR(?url), REPLACE(STR(?document), "(^.*/)", "::") ) AS ?urlWithId ) .
 }

@@ -3,7 +3,7 @@ package edu.tamu.scholars.discovery.config.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.tamu.scholars.discovery.discovery.model.AbstractIndexDocument;
+import edu.tamu.scholars.discovery.index.model.AbstractIndexDocument;
 
 /**
  * Inherited by {@link HarvesterConfig} and {@link IndexerConfig}.

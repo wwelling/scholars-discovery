@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import reactor.core.publisher.Flux;
 
-import edu.tamu.scholars.discovery.discovery.model.Individual;
 import edu.tamu.scholars.discovery.export.argument.ExportArg;
 import edu.tamu.scholars.discovery.export.exception.UnsupportedExporterTypeException;
+import edu.tamu.scholars.discovery.index.model.Individual;
 
 public interface Exporter {
 

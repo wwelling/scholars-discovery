@@ -13,14 +13,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import edu.tamu.scholars.discovery.auth.config.AuthConfig;
 import edu.tamu.scholars.discovery.auth.config.PasswordConfig;
 import edu.tamu.scholars.discovery.auth.config.TokenConfig;
-import edu.tamu.scholars.discovery.discovery.model.AbstractIndexDocument;
-import edu.tamu.scholars.discovery.discovery.model.Collection;
-import edu.tamu.scholars.discovery.discovery.model.Concept;
-import edu.tamu.scholars.discovery.discovery.model.Document;
-import edu.tamu.scholars.discovery.discovery.model.Organization;
-import edu.tamu.scholars.discovery.discovery.model.Person;
-import edu.tamu.scholars.discovery.discovery.model.Process;
-import edu.tamu.scholars.discovery.discovery.model.Relationship;
+import edu.tamu.scholars.discovery.index.model.AbstractIndexDocument;
+import edu.tamu.scholars.discovery.index.model.Collection;
+import edu.tamu.scholars.discovery.index.model.Concept;
+import edu.tamu.scholars.discovery.index.model.Document;
+import edu.tamu.scholars.discovery.index.model.Organization;
+import edu.tamu.scholars.discovery.index.model.Person;
+import edu.tamu.scholars.discovery.index.model.Process;
+import edu.tamu.scholars.discovery.index.model.Relationship;
 import edu.tamu.scholars.discovery.service.TdbTriplestore;
 
 @ExtendWith(MockitoExtension.class)

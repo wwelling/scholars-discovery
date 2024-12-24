@@ -25,11 +25,11 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
-import edu.tamu.scholars.discovery.discovery.resolver.BoostArgumentResolver;
-import edu.tamu.scholars.discovery.discovery.resolver.FacetArgumentResolver;
-import edu.tamu.scholars.discovery.discovery.resolver.FilterArgumentResolver;
-import edu.tamu.scholars.discovery.discovery.resolver.HighlightArgumentResolver;
-import edu.tamu.scholars.discovery.discovery.resolver.QueryArgumentResolver;
+import edu.tamu.scholars.discovery.controller.resolver.BoostArgumentResolver;
+import edu.tamu.scholars.discovery.controller.resolver.FacetArgumentResolver;
+import edu.tamu.scholars.discovery.controller.resolver.FilterArgumentResolver;
+import edu.tamu.scholars.discovery.controller.resolver.HighlightArgumentResolver;
+import edu.tamu.scholars.discovery.controller.resolver.QueryArgumentResolver;
 import edu.tamu.scholars.discovery.export.resolver.ExportArgumentResolver;
 
 /**

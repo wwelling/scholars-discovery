@@ -1,7 +1,5 @@
 package edu.tamu.scholars.discovery.service;
 
-import jakarta.annotation.PostConstruct;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -16,7 +14,7 @@ import com.github.jknack.handlebars.context.FieldValueResolver;
 import com.github.jknack.handlebars.context.JavaBeanValueResolver;
 import com.github.jknack.handlebars.context.MapValueResolver;
 import com.github.jknack.handlebars.context.MethodValueResolver;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

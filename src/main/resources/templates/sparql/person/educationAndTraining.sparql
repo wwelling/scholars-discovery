@@ -2,9 +2,8 @@ PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
 
 CONSTRUCT {
-    ?training vitro:mostSpecificType ?mostSpecificTypeWithId .
+    ?training vitro:mostSpecificType ?mostSpecificType .
 } WHERE {
     <{{uri}}> obo:RO_0000056 ?training .
     ?training vitro:mostSpecificType ?mostSpecificType .
-    BIND( CONCAT( STR(?mostSpecificType), REPLACE(STR(?training), "(^.*/)", "::") ) AS ?mostSpecificTypeWithId ) .
 }

@@ -3,7 +3,7 @@ PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 CONSTRUCT {
-    ?publication rdfs:label ?labelWithId .
+    ?publication rdfs:label ?label .
 } WHERE {
     <{{uri}}> vivo:relatedBy ?authorship .
     ?authorship a vivo:Authorship .
@@ -11,5 +11,4 @@ CONSTRUCT {
     ?publication a obo:IAO_0000030 .
     ?publication vivo:publisher ?publisher .
     ?publisher rdfs:label ?label .
-    BIND( CONCAT( STR(?label), REPLACE(STR(?publication), "(^.*/)", "::") ) AS ?labelWithId ) .
 }

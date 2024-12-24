@@ -2,10 +2,9 @@ PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 CONSTRUCT {
-    ?organization rdfs:label ?labelWithId .
+    ?organization rdfs:label ?label .
 } WHERE {
     <{{uri}}> obo:BFO_0000051 ?organization .
     ?organization rdfs:label ?label .
-    BIND( CONCAT( STR(?label), REPLACE(STR(?organization), "(^.*/)", "::") ) AS ?labelWithId ) .
     FILTER (lang(?label) = '')
 }

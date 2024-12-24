@@ -2,10 +2,9 @@ PREFIX tamu: <http://vivo.library.tamu.edu/ontology/TAMU#>
 PREFIX vivo: <http://vivoweb.org/ontology/core#>
 
 CONSTRUCT {
-    ?work vivo:dateTime ?publicationDateWithId .
+    ?work vivo:dateTime ?publicationDate .
 } WHERE {
     <{{uri}}> tamu:ETDChairOf ?work .
     ?work vivo:dateTimeValue ?dateTimeValue .
     ?dateTimeValue vivo:dateTime ?publicationDate .
-    BIND( CONCAT( STR(?publicationDate), REPLACE(STR(?work), "(^.*/)", "::") ) AS ?publicationDateWithId ) .
 }

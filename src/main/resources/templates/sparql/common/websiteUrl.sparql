@@ -2,10 +2,9 @@ PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 
 CONSTRUCT {
-    ?hasURL vcard:url ?urlWithLabel .
+    ?hasURL vcard:url ?url .
 } WHERE {
     <{{uri}}> obo:ARG_2000028 ?vcard .
     ?vcard vcard:hasURL ?hasURL .
     ?hasURL vcard:url ?url .
-    BIND( CONCAT( STR(?url), REPLACE(STR(?hasURL), "(^.*/)", "::") ) AS ?urlWithLabel ) .
 }

@@ -1,7 +1,7 @@
 package edu.tamu.scholars.discovery.config.model;
 
-import edu.tamu.scholars.discovery.discovery.component.Harvester;
-import edu.tamu.scholars.discovery.discovery.component.jena.TriplestoreHarvester;
+import edu.tamu.scholars.discovery.index.component.Harvester;
+import edu.tamu.scholars.discovery.index.component.jena.TriplestoreHarvester;
 
 /**
  * {@link MiddlewareConfig} configuration to specify list of harvesters.

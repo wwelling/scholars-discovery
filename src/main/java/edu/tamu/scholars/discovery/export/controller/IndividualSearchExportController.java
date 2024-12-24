@@ -1,6 +1,6 @@
 package edu.tamu.scholars.discovery.export.controller;
 
-import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.DEFAULT_QUERY;
+import static edu.tamu.scholars.discovery.index.DiscoveryConstants.DEFAULT_QUERY;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
@@ -24,16 +24,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
-import edu.tamu.scholars.discovery.discovery.argument.BoostArg;
-import edu.tamu.scholars.discovery.discovery.argument.FilterArg;
-import edu.tamu.scholars.discovery.discovery.argument.QueryArg;
-import edu.tamu.scholars.discovery.discovery.model.Individual;
-import edu.tamu.scholars.discovery.discovery.model.repo.IndividualRepo;
+import edu.tamu.scholars.discovery.controller.argument.BoostArg;
+import edu.tamu.scholars.discovery.controller.argument.FilterArg;
+import edu.tamu.scholars.discovery.controller.argument.QueryArg;
 import edu.tamu.scholars.discovery.export.argument.ExportArg;
 import edu.tamu.scholars.discovery.export.exception.UnknownExporterTypeException;
 import edu.tamu.scholars.discovery.export.service.Exporter;
 import edu.tamu.scholars.discovery.export.service.ExporterRegistry;
 import edu.tamu.scholars.discovery.export.utility.FilenameUtility;
+import edu.tamu.scholars.discovery.index.model.Individual;
+import edu.tamu.scholars.discovery.index.model.repo.IndividualRepo;
 
 @RestController
 public class IndividualSearchExportController implements RepresentationModelProcessor<RepositorySearchesResource> {

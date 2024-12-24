@@ -1,10 +1,9 @@
 PREFIX vivo: <http://vivoweb.org/ontology/core#>
 
 CONSTRUCT {
-    ?startDate vivo:dateTime ?dateTimeWithId .
+    ?startDate vivo:dateTime ?dateTime .
 } WHERE {
     <{{uri}}> vivo:dateTimeInterval ?dateTimeInterval .
     ?dateTimeInterval vivo:start ?startDate .
     ?startDate vivo:dateTime ?dateTime .
-    BIND( CONCAT( CONCAT( STR(?dateTime), REPLACE(STR(?dateTimeInterval), "(^.*/)", "::"), REPLACE(STR(?startDate), "(^.*/)", "::" ) ) ) AS ?dateTimeWithId) .
 }

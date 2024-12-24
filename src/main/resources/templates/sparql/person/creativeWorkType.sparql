@@ -2,10 +2,9 @@ PREFIX tamu: <http://vivo.library.tamu.edu/ontology/TAMU#>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 
 CONSTRUCT {
-    ?creativeWork tamu:subtype ?subtypeWithId .
+    ?creativeWork tamu:subtype ?subtype .
 } WHERE {
     <{{uri}}> obo:RO_0000053 ?artist .
     ?artist obo:BFO_0000054 ?creativeWork .
     ?creativeWork tamu:subtype ?subtype .
-    BIND( CONCAT( STR(?subtype), REPLACE(STR(?creativeWork), "(^.*/)", "::") ) AS ?subtypeWithId ) .
 }

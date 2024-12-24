@@ -39,25 +39,25 @@ discovery:
     type: edu.tamu.scholars.discovery.service.TdbTriplestore
     directory: triplestore
   harvesters:
-  - type: edu.tamu.scholars.discovery.discovery.component.jena.TriplestoreHarvester
+  - type: edu.tamu.scholars.discovery.index.component.jena.TriplestoreHarvester
     documentTypes:
-    - edu.tamu.scholars.discovery.discovery.model.Collection
-    - edu.tamu.scholars.discovery.discovery.model.Concept
-    - edu.tamu.scholars.discovery.discovery.model.Document
-    - edu.tamu.scholars.discovery.discovery.model.Organization
-    - edu.tamu.scholars.discovery.discovery.model.Person
-    - edu.tamu.scholars.discovery.discovery.model.Process
-    - edu.tamu.scholars.discovery.discovery.model.Relationship
+    - edu.tamu.scholars.discovery.index.model.Collection
+    - edu.tamu.scholars.discovery.index.model.Concept
+    - edu.tamu.scholars.discovery.index.model.Document
+    - edu.tamu.scholars.discovery.index.model.Organization
+    - edu.tamu.scholars.discovery.index.model.Person
+    - edu.tamu.scholars.discovery.index.model.Process
+    - edu.tamu.scholars.discovery.index.model.Relationship
   indexers:
-  - type: edu.tamu.scholars.discovery.discovery.component.solr.SolrIndexer
+  - type: edu.tamu.scholars.discovery.index.component.solr.SolrIndexer
     documentTypes:
-    - edu.tamu.scholars.discovery.discovery.model.Collection
-    - edu.tamu.scholars.discovery.discovery.model.Concept
-    - edu.tamu.scholars.discovery.discovery.model.Document
-    - edu.tamu.scholars.discovery.discovery.model.Organization
-    - edu.tamu.scholars.discovery.discovery.model.Person
-    - edu.tamu.scholars.discovery.discovery.model.Process
-    - edu.tamu.scholars.discovery.discovery.model.Relationship
+    - edu.tamu.scholars.discovery.index.model.Collection
+    - edu.tamu.scholars.discovery.index.model.Concept
+    - edu.tamu.scholars.discovery.index.model.Document
+    - edu.tamu.scholars.discovery.index.model.Organization
+    - edu.tamu.scholars.discovery.index.model.Person
+    - edu.tamu.scholars.discovery.index.model.Process
+    - edu.tamu.scholars.discovery.index.model.Relationship
   export:
     individualKey: individual
     individualBaseUri: ${ui.url}/display

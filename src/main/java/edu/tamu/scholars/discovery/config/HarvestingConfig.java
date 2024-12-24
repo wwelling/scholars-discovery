@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
 
 import edu.tamu.scholars.discovery.config.model.HarvesterConfig;
 import edu.tamu.scholars.discovery.config.model.MiddlewareConfig;
-import edu.tamu.scholars.discovery.discovery.component.Harvester;
-import edu.tamu.scholars.discovery.discovery.model.AbstractIndexDocument;
+import edu.tamu.scholars.discovery.index.component.Harvester;
+import edu.tamu.scholars.discovery.index.model.AbstractIndexDocument;
 
 /**
  * Externally configured list of @{link Harvester} beans.

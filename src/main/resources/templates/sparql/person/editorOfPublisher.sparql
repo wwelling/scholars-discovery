@@ -3,13 +3,12 @@ PREFIX bibo: <http://purl.org/ontology/bibo/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 CONSTRUCT {
-    ?publisher rdfs:label ?titleWithId .
+    ?publisher rdfs:label ?label .
 } WHERE {
     <{{uri}}> vivo:relatedBy ?editor .
     ?editor a vivo:Editorship .
     ?editor vivo:relates ?document .
     ?document a bibo:Document .
     ?document vivo:publisher ?publisher .
-    ?publisher rdfs:label ?title .
-    BIND( CONCAT( STR(?title), REPLACE(STR(?document), "(^.*/)", "::") ) AS ?titleWithId ) .
+    ?publisher rdfs:label ?label .
 }

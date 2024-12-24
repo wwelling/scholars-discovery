@@ -2,7 +2,7 @@ package edu.tamu.scholars.discovery.export.argument;
 
 import java.util.Map;
 
-import edu.tamu.scholars.discovery.discovery.utility.DiscoveryUtility;
+import edu.tamu.scholars.discovery.utility.DiscoveryUtility;
 
 public class ExportArg {
 

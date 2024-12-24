@@ -3,10 +3,9 @@ PREFIX vivo: <http://vivoweb.org/ontology/core#>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 
 CONSTRUCT {
-    ?relates vitro:mostSpecificType ?mostSpecificTypeWithId .
+    ?relates vitro:mostSpecificType ?mostSpecificType .
 } WHERE {
     <{{uri}}> vivo:relates ?relates ; a vivo:Grant .
     ?relates vitro:mostSpecificType ?mostSpecificType .
     ?relates obo:RO_0000052 ?contributor ; a vivo:ResearcherRole .
-    BIND( CONCAT( STR(?mostSpecificType), REPLACE(STR(?contributor), "(^.*/)", "::") ) AS ?mostSpecificTypeWithId ) .
 }

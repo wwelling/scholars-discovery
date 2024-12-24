@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.scholars.discovery.config.model.MiddlewareConfig;
@@ -12,11 +11,13 @@ import edu.tamu.scholars.discovery.config.model.MiddlewareConfig;
 @Service
 public class DefaultsService {
 
-    @Autowired
-    private MiddlewareConfig discovery;
+    private final MiddlewareConfig discovery;
+    private final List<Defaults<?, ?>> defaults;
 
-    @Autowired
-    private List<Defaults<?, ?>> defaults;
+    DefaultsService(MiddlewareConfig discovery, List<Defaults<?, ?>> defaults) {
+        this.discovery = discovery;
+        this.defaults = defaults;
+    }
 
     @PostConstruct
     public void init() throws IOException {

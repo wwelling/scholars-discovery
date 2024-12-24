@@ -3,12 +3,11 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 CONSTRUCT {
-    ?participant rdfs:label ?labelWithId .
+    ?participant rdfs:label ?label .
 } WHERE {
     <{{uri}}> obo:BFO_0000055 ?participant .
     ?participant a obo:BFO_0000017 .
     ?participant rdfs:label ?label .
     ?participant obo:RO_0000052 ?person .
     ?person a foaf:Person .
-    BIND( CONCAT( STR(?label), REPLACE(STR(?participant), "(^.*/)", "::") ) AS ?labelWithId ) .
 }

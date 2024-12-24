@@ -1,6 +1,6 @@
 package edu.tamu.scholars.discovery.export.service;
 
-import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.ID;
+import static edu.tamu.scholars.discovery.index.DiscoveryConstants.ID;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 import jakarta.servlet.ServletContext;
@@ -47,10 +47,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.web.util.UriComponents;
 
-import edu.tamu.scholars.discovery.discovery.argument.FilterArg;
-import edu.tamu.scholars.discovery.discovery.model.AbstractIndexDocument;
-import edu.tamu.scholars.discovery.discovery.model.Individual;
-import edu.tamu.scholars.discovery.discovery.model.repo.IndividualRepo;
+import edu.tamu.scholars.discovery.controller.argument.FilterArg;
+import edu.tamu.scholars.discovery.index.model.AbstractIndexDocument;
+import edu.tamu.scholars.discovery.index.model.Individual;
+import edu.tamu.scholars.discovery.index.model.repo.IndividualRepo;
 import edu.tamu.scholars.discovery.service.TemplateService;
 import edu.tamu.scholars.discovery.view.model.ExportFieldView;
 import edu.tamu.scholars.discovery.view.model.ExportView;

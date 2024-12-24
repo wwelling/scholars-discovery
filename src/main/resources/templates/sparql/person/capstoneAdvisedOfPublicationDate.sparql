@@ -2,10 +2,9 @@ PREFIX tamu: <http://vivo.library.tamu.edu/ontology/TAMU#>
 PREFIX vivo: <http://vivoweb.org/ontology/core#>
 
 CONSTRUCT {
-    ?document vivo:dateTime ?publicationDateWithId .
+    ?document vivo:dateTime ?dateTime .
 } WHERE {
     <{{uri}}> tamu:CapstoneAdvisedOf ?document .
     ?document vivo:dateTimeValue ?dateTimeValue .
-    ?dateTimeValue vivo:dateTime ?publicationDate .
-    BIND( CONCAT( STR(?publicationDate), REPLACE(STR(?document), "(^.*/)", "::") ) AS ?publicationDateWithId ) .
+    ?dateTimeValue vivo:dateTime ?dateTime .
 }
