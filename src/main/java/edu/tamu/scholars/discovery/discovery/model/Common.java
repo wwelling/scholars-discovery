@@ -9,21 +9,21 @@ import edu.tamu.scholars.discovery.discovery.annotation.NestedObject.Reference;
 
 public class Common extends AbstractIndexDocument {
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "common/image",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl"
     )
     private String image;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "common/thumbnail",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl"
     )
     private String thumbnail;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = { @Reference(value = "websiteUrl", key = "url") })
     @FieldSource(
         template = "common/website",
@@ -31,7 +31,7 @@ public class Common extends AbstractIndexDocument {
     )
     private List<String> websites;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "common/websiteUrl",
         predicate = "http://www.w3.org/2006/vcard/ns#url"
@@ -39,7 +39,7 @@ public class Common extends AbstractIndexDocument {
     private List<String> websiteUrl;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "common/geographicFocus",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -47,7 +47,7 @@ public class Common extends AbstractIndexDocument {
     private List<String> geographicFocus;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "common/sameAs",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"

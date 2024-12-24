@@ -45,7 +45,7 @@ public class Organization extends Common {
     )
     private String abbreviation;
 
-    @FieldType(type = "pdate", searchable = false)
+    @FieldType(type = "pdate", indexed = false)
     @FieldSource(
         template = "organization/date",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
@@ -53,7 +53,7 @@ public class Organization extends Common {
     private String date;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/sponsorsAwardOrHonor",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -61,7 +61,7 @@ public class Organization extends Common {
     private List<String> sponsorsAwardOrHonor;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/awardOrHonorGiven",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -69,7 +69,7 @@ public class Organization extends Common {
     private List<String> awardOrHonorGiven;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/awardOrHonorReceived",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -83,7 +83,7 @@ public class Organization extends Common {
     )
     private List<String> keywords;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "organizationForTrainingTrainee", key = "trainee"),
         @Reference(value = "organizationForTrainingDegree", key = "degree"),
@@ -97,28 +97,28 @@ public class Organization extends Common {
     private List<String> organizationForTraining;
 
     @NestedObject(root = false)
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/organizationForTrainingTrainee",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> organizationForTrainingTrainee;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/organizationForTrainingDegree",
         predicate = "http://vivoweb.org/ontology/core#abbreviation"
     )
     private List<String> organizationForTrainingDegree;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "organization/organizationForTrainingStartDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> organizationForTrainingStartDate;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "organization/organizationForTrainingEndDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
@@ -136,7 +136,7 @@ public class Organization extends Common {
     )
     private List<String> people;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/peopleType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -154,14 +154,14 @@ public class Organization extends Common {
     @NestedObject(properties = {
         @Reference(value = "hasSubOrganizationType", key = "type")
     })
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/hasSubOrganization",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> hasSubOrganizations;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/hasSubOrganizationType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -178,7 +178,7 @@ public class Organization extends Common {
     private List<String> organizationWithin;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/leadOrganizationOf",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -186,7 +186,7 @@ public class Organization extends Common {
     private List<String> leadOrganizationOf;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/hasCollaboratingOrganizationOrGroup",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -194,7 +194,7 @@ public class Organization extends Common {
     private List<String> hasCollaboratingOrganizationOrGroup;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/hasAffiliatedOrganization",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -202,7 +202,7 @@ public class Organization extends Common {
     private List<String> hasAffiliatedOrganizations;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/memberOf",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -210,7 +210,7 @@ public class Organization extends Common {
     private List<String> memberOf;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/clinicalActivity",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -218,7 +218,7 @@ public class Organization extends Common {
     private List<String> clinicalActivities;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/convenerOfEvent",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -226,7 +226,7 @@ public class Organization extends Common {
     private List<String> convenerOfEvents;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/attendedEvent",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -251,7 +251,7 @@ public class Organization extends Common {
     private List<String> publisherOf;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/presentation",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -259,7 +259,7 @@ public class Organization extends Common {
     private List<String> presentations;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/featuredIn",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -267,7 +267,7 @@ public class Organization extends Common {
     private List<String> featuredIn;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/assigneeForPatent",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -275,7 +275,7 @@ public class Organization extends Common {
     private List<String> assigneeForPatent;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/translatorOf",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -290,14 +290,14 @@ public class Organization extends Common {
     )
     private List<String> awardsGrant;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "organization/awardsGrantDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> awardsGrantDate;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = { @Reference(value = "administersGrantDate", key = "date") })
     @FieldSource(
         template = "organization/administersGrant",
@@ -305,14 +305,14 @@ public class Organization extends Common {
     )
     private List<String> administersGrant;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "organization/administersGrantDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> administersGrantDate;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = { @Reference(value = "subcontractsGrantDate", key = "date") })
     @FieldSource(
         template = "organization/subcontractsGrant",
@@ -320,7 +320,7 @@ public class Organization extends Common {
     )
     private List<String> subcontractsGrant;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "organization/subcontractsGrantDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
@@ -328,7 +328,7 @@ public class Organization extends Common {
     private List<String> subcontractsGrantDate;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/performsHumanStudy",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -336,7 +336,7 @@ public class Organization extends Common {
     private List<String> performsHumanStudy;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/contractOrProviderForService",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -344,7 +344,7 @@ public class Organization extends Common {
     private List<String> contractOrProviderForService;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/outreachAndCommunityServiceActivity",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -352,7 +352,7 @@ public class Organization extends Common {
     private List<String> outreachAndCommunityServiceActivities;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/hasEquipment",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -367,63 +367,63 @@ public class Organization extends Common {
     )
     private List<String> courses;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "organization/phone",
         predicate = "http://www.w3.org/2006/vcard/ns#telephone"
     )
     private String phone;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "organization/fax",
         predicate = "http://www.w3.org/2006/vcard/ns#fax"
     )
     private String fax;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "organization/emailAddress",
         predicate = "http://www.w3.org/2006/vcard/ns#email"
     )
     private String emailAddress;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "organization/streetAddress",
         predicate = "organization.streetAddress"
     )
     private String streetAddress;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "organization/locality",
         predicate = "organization.locality"
     )
     private String locality;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "organization/region",
         predicate = "organization.region"
     )
     private String region;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "organization/postalCode",
         predicate = "organization.postalCode"
     )
     private String postalCode;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "organization/country",
         predicate = "organization.country"
     )
     private String country;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "organization/geographicLocation",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -431,7 +431,7 @@ public class Organization extends Common {
     private String geographicLocation;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/locatedAtFacility",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -439,7 +439,7 @@ public class Organization extends Common {
     private List<String> locatedAtFacilities;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/predecessorOrganization",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -447,7 +447,7 @@ public class Organization extends Common {
     private List<String> predecessorOrganizations;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/successorOrganization",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -455,7 +455,7 @@ public class Organization extends Common {
     private List<String> successorOrganizations;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "organization/governingAuthorityFor",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -471,7 +471,7 @@ public class Organization extends Common {
     )
     private List<String> affiliatedResearchAreas;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "organization/orgId",
         predicate = "http://vivo.library.tamu.edu/ontology/TAMU#OrgID"

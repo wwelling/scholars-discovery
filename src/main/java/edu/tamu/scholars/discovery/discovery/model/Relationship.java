@@ -41,7 +41,7 @@ public class Relationship extends Common {
     private String description;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "relationship/organization",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -49,7 +49,7 @@ public class Relationship extends Common {
     private List<String> organization;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "relationship/receiptOf",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -66,7 +66,7 @@ public class Relationship extends Common {
     )
     private List<String> awardOrHonorFor;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "relationship/awardOrHonorForType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -86,7 +86,7 @@ public class Relationship extends Common {
     )
     private List<String> awardConferredBy;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "relationship/awardConferredByType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -120,7 +120,7 @@ public class Relationship extends Common {
     )
     private List<String> awardedBy;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "relationship/awardedByType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -142,7 +142,7 @@ public class Relationship extends Common {
     )
     private List<String> awardedByPreferredLabel;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "grantSubcontractedThroughType", key = "type")
     })
@@ -152,7 +152,7 @@ public class Relationship extends Common {
     )
     private List<String> grantSubcontractedThrough;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "relationship/grantSubcontractedThroughType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -169,7 +169,7 @@ public class Relationship extends Common {
     private List<String> administeredBy;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "relationship/subGrant",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -177,7 +177,7 @@ public class Relationship extends Common {
     private List<String> subGrant;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "relationship/subGrantOf",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -185,35 +185,35 @@ public class Relationship extends Common {
     private List<String> subGrantOf;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "relationship/providesFundingFor",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> providesFundingFor;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "relationship/totalAwardAmount",
         predicate = "http://vivoweb.org/ontology/core#totalAwardAmount"
     )
     private String totalAwardAmount;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "relationship/directCosts",
         predicate = "http://vivoweb.org/ontology/core#directCosts"
     )
     private String directCosts;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "relationship/sponsorAwardId",
         predicate = "http://vivoweb.org/ontology/core#sponsorAwardId"
     )
     private String sponsorAwardId;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "relationship/localAwardId",
         predicate = "http://vivoweb.org/ontology/core#localAwardId"
@@ -263,7 +263,7 @@ public class Relationship extends Common {
     private List<String> coPrincipalInvestigators;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "relationship/supportedPublicationOrOtherWork",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -300,7 +300,7 @@ public class Relationship extends Common {
     private String yearAwarded;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "relationship/inheresIn",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -308,7 +308,7 @@ public class Relationship extends Common {
     private List<String> inheresIn;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "relationship/isSpecifiedOutputOf",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -316,7 +316,7 @@ public class Relationship extends Common {
     private List<String> specifiedOutputOf;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "relationship/outputOf",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -324,7 +324,7 @@ public class Relationship extends Common {
     private List<String> outputOf;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "relationship/participatesIn",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"

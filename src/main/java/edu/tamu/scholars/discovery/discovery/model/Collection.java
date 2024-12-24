@@ -41,7 +41,7 @@ public class Collection extends Common {
     private String abbreviation;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "collection/publicationVenueFor",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -49,7 +49,7 @@ public class Collection extends Common {
     private List<String> publicationVenueFor;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "collection/editor",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -57,14 +57,14 @@ public class Collection extends Common {
     private List<String> editors;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "collection/translator",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> translators;
 
-    @FieldType(type = "pdate", searchable = false)
+    @FieldType(type = "pdate", indexed = false)
     @FieldSource(
         template = "collection/publicationDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
@@ -89,7 +89,7 @@ public class Collection extends Common {
     private String publisherType;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "collection/hasSubjectArea",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -97,7 +97,7 @@ public class Collection extends Common {
     private List<String> subjectAreas;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "collection/feature",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -105,7 +105,7 @@ public class Collection extends Common {
     private List<String> features;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "collection/outputOfProcessOrEvent",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -148,7 +148,7 @@ public class Collection extends Common {
     private String oclcnum;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "collection/isAbout",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -156,7 +156,7 @@ public class Collection extends Common {
     private List<String> isAbout;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "collection/specifiedOutputOf",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -164,7 +164,7 @@ public class Collection extends Common {
     private List<String> specifiedOutputOf;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "collection/mention",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -172,7 +172,7 @@ public class Collection extends Common {
     private List<String> mentions;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "collection/participatesIn",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -180,7 +180,7 @@ public class Collection extends Common {
     private List<String> participatesIn;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "collection/supportedBy",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"

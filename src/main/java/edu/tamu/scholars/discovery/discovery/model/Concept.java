@@ -90,7 +90,7 @@ public class Concept extends Common {
     )
     private String yearAwarded;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "receiptRecipientName", key = "recipientName")
     })
@@ -100,7 +100,7 @@ public class Concept extends Common {
     )
     private List<String> receipts;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "concept/receiptRecipientName",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -108,7 +108,7 @@ public class Concept extends Common {
     private List<String> receiptRecipientName;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "concept/broaderConcept",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -116,7 +116,7 @@ public class Concept extends Common {
     private List<String> broaderConcepts;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "concept/narrowerConcept",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -124,7 +124,7 @@ public class Concept extends Common {
     private List<String> narrowerConcepts;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "concept/relatedConcept",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"

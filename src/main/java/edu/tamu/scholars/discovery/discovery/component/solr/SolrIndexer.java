@@ -56,7 +56,8 @@ public class SolrIndexer implements Indexer {
                 fieldNode.put("name", name);
                 fieldNode.put("type", fieldType.type());
                 fieldNode.put("stored", fieldType.stored());
-                fieldNode.put("indexed", fieldType.searchable());
+                fieldNode.put("indexed", fieldType.indexed());
+                fieldNode.put("docValues", fieldType.docValues());
                 fieldNode.put("required", fieldType.required());
 
                 if (StringUtils.isNotEmpty(fieldType.defaultValue())) {
@@ -69,6 +70,7 @@ public class SolrIndexer implements Indexer {
 
                 try {
                     solrService.addField(addFieldNode);
+
                     if (fieldType.copyTo().length > 0) {
                         ObjectNode addCopyFieldNode = objectMapper.createObjectNode();
                         ObjectNode copyFieldNode = objectMapper.createObjectNode();
@@ -84,10 +86,14 @@ public class SolrIndexer implements Indexer {
 
                         addCopyFieldNode.set("add-copy-field", copyFieldNode);
 
-                        solrService.addCopyField(addCopyFieldNode);
+                        try {
+                            solrService.addCopyField(addCopyFieldNode);
+                        } catch (Exception e) {
+                            logger.error("Failed to add copy field", e);
+                        }
                     }
                 } catch (Exception e) {
-                    logger.info("Failed to add field", e);
+                    logger.error("Failed to add field", e);
                 }
             }
         }

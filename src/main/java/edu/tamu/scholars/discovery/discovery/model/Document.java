@@ -52,7 +52,7 @@ public class Document extends Common {
     private String publicationVenue;
 
     @NestedObject
-    @FieldType(type = "nested_whole_string", searchable = false)
+    @FieldType(type = "nested_whole_string", indexed = false)
     @FieldSource(
         template = "document/hasPublicationVenueFor",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label",
@@ -102,7 +102,7 @@ public class Document extends Common {
     private List<String> authorOrganization;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/editor",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -110,14 +110,14 @@ public class Document extends Common {
     private List<String> editors;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/translator",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> translators;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "document/status",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -150,14 +150,14 @@ public class Document extends Common {
     )
     private String publisherType;
 
-    @FieldType(type = "pdate", searchable = false)
+    @FieldType(type = "pdate", indexed = false)
     @FieldSource(
         template = "document/dateFiled",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private String dateFiled;
 
-    @FieldType(type = "pdate", searchable = false)
+    @FieldType(type = "pdate", indexed = false)
     @FieldSource(
         template = "document/dateIssued",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
@@ -172,7 +172,7 @@ public class Document extends Common {
     )
     private List<String> subjectAreas;
 
-    @FieldType(type = "whole_strings", searchable = false)
+    @FieldType(type = "whole_strings", indexed = false)
     @FieldSource(
         template = "document/hasRestriction",
         predicate = "http://purl.obolibrary.org/obo/ERO_0000045"
@@ -180,14 +180,14 @@ public class Document extends Common {
     private List<String> restrictions;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/documentPart",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> documentParts;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "document/chapter",
         predicate = "http://purl.org/ontology/bibo/chapter"
@@ -195,14 +195,14 @@ public class Document extends Common {
     private String chapter;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/feature",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> features;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "document/edition",
         predicate = "http://purl.org/ontology/bibo/edition"
@@ -210,7 +210,7 @@ public class Document extends Common {
     private String edition;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/documentationForProjectOrResource",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -218,7 +218,7 @@ public class Document extends Common {
     private List<String> documentationForProjectOrResource;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/outputOfProcessOrEvent",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -226,7 +226,7 @@ public class Document extends Common {
     private List<String> outputOfProcessOrEvent;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/presentedAt",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -339,7 +339,7 @@ public class Document extends Common {
     private String uri;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/citedBy",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -347,7 +347,7 @@ public class Document extends Common {
     private List<String> citedBy;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/cites",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -355,7 +355,7 @@ public class Document extends Common {
     private List<String> cites;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/citesAsDataSource",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -363,7 +363,7 @@ public class Document extends Common {
     private List<String> citesAsDataSource;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/hasTranslation",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -371,7 +371,7 @@ public class Document extends Common {
     private List<String> translations;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/translationOf",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -379,14 +379,14 @@ public class Document extends Common {
     private List<String> translationOf;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/globalCitationFrequency",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> globalCitationFrequency;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "document/iclCode",
         predicate = "http://vivoweb.org/ontology/core#iclCode"
@@ -400,42 +400,42 @@ public class Document extends Common {
     )
     private Integer numberOfPages;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "document/pageStart",
         predicate = "http://purl.org/ontology/bibo/pageStart"
     )
     private String pageStart;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "document/pageEnd",
         predicate = "http://purl.org/ontology/bibo/pageEnd"
     )
     private String pageEnd;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "document/number",
         predicate = "http://purl.org/ontology/bibo/number"
     )
     private String number;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "document/volume",
         predicate = "http://purl.org/ontology/bibo/volume"
     )
     private String volume;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "document/issue",
         predicate = "http://purl.org/ontology/bibo/issue"
     )
     private String issue;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "document/placeOfPublication",
         predicate = "http://vivoweb.org/ontology/core#placeOfPublication"
@@ -443,7 +443,7 @@ public class Document extends Common {
     private String placeOfPublication;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/assignee",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -451,7 +451,7 @@ public class Document extends Common {
     private List<String> assignees;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/reproducedIn",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -459,7 +459,7 @@ public class Document extends Common {
     private List<String> reproducedIn;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/reproduces",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -467,7 +467,7 @@ public class Document extends Common {
     private List<String> reproduces;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/isAbout",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -475,14 +475,14 @@ public class Document extends Common {
     private List<String> isAbout;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/specifiedOutputOf",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> specifiedOutputOf;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "document/isTemplate",
         predicate = "http://purl.obolibrary.org/obo/ARG_0000001"
@@ -490,7 +490,7 @@ public class Document extends Common {
     private String isTemplate;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/mention",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -498,7 +498,7 @@ public class Document extends Common {
     private List<String> mentions;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/participatesIn",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -506,7 +506,7 @@ public class Document extends Common {
     private List<String> participatesIn;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/supportedBy",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -514,7 +514,7 @@ public class Document extends Common {
     private List<String> supportedBy;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/receipt",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -564,7 +564,7 @@ public class Document extends Common {
     private String url;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "document/etdChairedBy",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -594,7 +594,7 @@ public class Document extends Common {
     )
     private List<String> authorList;
 
-    @FieldType(type = "whole_strings", searchable = false)
+    @FieldType(type = "whole_strings", indexed = false)
     @FieldSource(
         template = "document/editorList",
         predicate = "http://vivo.library.tamu.edu/ontology/TAMU#fullEditorList"

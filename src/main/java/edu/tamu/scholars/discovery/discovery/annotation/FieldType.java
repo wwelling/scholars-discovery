@@ -15,7 +15,9 @@ public @interface FieldType {
 
     boolean stored() default true;
 
-    boolean searchable() default true;
+    boolean indexed() default true;
+
+    boolean docValues() default false;
 
     String type() default "";
 

@@ -164,7 +164,7 @@ public class Process extends Common {
     private String note;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "process/occursWithinEvent",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -172,7 +172,7 @@ public class Process extends Common {
     private List<String> occursWithinEvent;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "process/includesEvent",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -180,7 +180,7 @@ public class Process extends Common {
     private List<String> includesEvent;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "process/inEventSeries",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -200,7 +200,7 @@ public class Process extends Common {
     )
     private List<String> participants;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "process/participantId",
         predicate = "http://purl.obolibrary.org/obo/RO_0000052",
@@ -208,7 +208,7 @@ public class Process extends Common {
     )
     private List<String> participantId;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "process/participantRole",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -238,7 +238,7 @@ public class Process extends Common {
     private List<String> subjectAreas;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "process/hasPrerequisite",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -246,14 +246,14 @@ public class Process extends Common {
     private List<String> hasPrerequisite;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "process/prerequisiteFor",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> prerequisiteFor;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "process/credits",
         predicate = "http://vivoweb.org/ontology/core#courseCredits"
@@ -261,7 +261,7 @@ public class Process extends Common {
     private String credits;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "process/outputPublicationOrOtherWork",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -269,14 +269,14 @@ public class Process extends Common {
     private List<String> outputPublicationOrOtherWork;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "process/relatedDocument",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> relatedDocuments;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "process/contactInformation",
         predicate = "http://vivoweb.org/ontology/core#contactInformation"
@@ -284,7 +284,7 @@ public class Process extends Common {
     private String contactInformation;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "process/heldInFacility",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -292,7 +292,7 @@ public class Process extends Common {
     private List<String> heldInFacility;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "process/heldInGeographicLocation",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -300,7 +300,7 @@ public class Process extends Common {
     private List<String> heldInGeographicLocation;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "process/hasOutput",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -308,7 +308,7 @@ public class Process extends Common {
     private List<String> hasOutput;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "process/hasParticipant",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"

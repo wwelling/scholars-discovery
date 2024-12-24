@@ -32,14 +32,14 @@ public class Person extends Common {
     )
     private String primaryEmail;
 
-    @FieldType(type = "whole_strings", searchable = false)
+    @FieldType(type = "whole_strings", indexed = false)
     @FieldSource(
         template = "person/additionalEmail",
         predicate = "http://www.w3.org/2006/vcard/ns#email"
     )
     private List<String> additionalEmails;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "person/phone",
         predicate = "http://www.w3.org/2006/vcard/ns#telephone"
@@ -72,7 +72,7 @@ public class Person extends Common {
     )
     private List<String> positions;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/positionType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -133,7 +133,7 @@ public class Person extends Common {
     )
     private List<String> keywords;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "headOfType", key = "type"),
         @Reference(value = "headOfOrganization", key = "organization"),
@@ -146,7 +146,7 @@ public class Person extends Common {
     )
     private List<String> headOf;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/headOfType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -155,28 +155,28 @@ public class Person extends Common {
     private List<String> headOfType;
 
     @NestedObject(root = false)
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/headOfOrganization",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> headOfOrganization;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/headOfStartDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> headOfStartDate;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/headOfEndDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> headOfEndDate;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "memberOfType", key = "type"),
         @Reference(value = "memberOfOrganization", key = "organization"),
@@ -189,7 +189,7 @@ public class Person extends Common {
     )
     private List<String> memberOf;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/memberOfType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -198,21 +198,21 @@ public class Person extends Common {
     private List<String> memberOfType;
 
     @NestedObject(root = false)
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/memberOfOrganization",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> memberOfOrganization;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/memberOfStartDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> memberOfStartDate;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/memberOfEndDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
@@ -220,14 +220,14 @@ public class Person extends Common {
     private List<String> memberOfEndDate;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/hasCollaborator",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> hasCollaborator;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "clinicalActivityType", key = "type"),
         @Reference(value = "clinicalActivityRole", key = "role"),
@@ -240,7 +240,7 @@ public class Person extends Common {
     )
     private List<String> clinicalActivities;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/clinicalActivityType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -248,28 +248,28 @@ public class Person extends Common {
     )
     private List<String> clinicalActivityType;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/clinicalActivityRole",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> clinicalActivityRole;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/clinicalActivityStartDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> clinicalActivityStartDate;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/clinicalActivityEndDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> clinicalActivityEndDate;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "attendedEventType", key = "type"),
         @Reference(value = "attendedEventStartDate", key = "startDate"),
@@ -281,7 +281,7 @@ public class Person extends Common {
     )
     private List<String> attendedEvents;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/attendedEventType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -289,21 +289,21 @@ public class Person extends Common {
     )
     private List<String> attendedEventType;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/attendedEventStartDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> attendedEventStartDate;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/attendedEventEndDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> attendedEventEndDate;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "educationAndTrainingName", key = "name"),
         @Reference(value = "educationAndTrainingInfo", key = "info"),
@@ -321,14 +321,14 @@ public class Person extends Common {
     )
     private List<String> educationAndTraining;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/educationAndTrainingName",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> educationAndTrainingName;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/educationAndTrainingInfo",
         predicate = "http://vivoweb.org/ontology/core#supplementalInformation"
@@ -336,42 +336,42 @@ public class Person extends Common {
     private List<String> educationAndTrainingInfo;
 
     @NestedObject(root = false)
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/educationAndTrainingOrganization",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> educationAndTrainingOrganization;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/educationAndTrainingMajorField",
         predicate = "http://vivoweb.org/ontology/core#majorField"
     )
     private List<String> educationAndTrainingMajorField;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/educationAndTrainingDegreeAbbreviation",
         predicate = "http://vivoweb.org/ontology/core#abbreviation"
     )
     private List<String> educationAndTrainingDegreeAbbreviation;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/educationAndTrainingStartDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> educationAndTrainingStartDate;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/educationAndTrainingEndDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> educationAndTrainingEndDate;
 
-    @FieldType(type = "nested_whole_string", searchable = false)
+    @FieldType(type = "nested_whole_string", indexed = false)
     @FieldSource(
         template = "person/educationAndTrainingIsDateSuppressed",
         predicate = "http://vivoweb.org/ontology/core#supplementalInformation"
@@ -379,14 +379,14 @@ public class Person extends Common {
     private List<String> educationAndTrainingIsDateSuppressed;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/credentials",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> credentials;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = { @Reference(value = "credentialEligibilityAttainedType", key = "type") })
     @FieldSource(
         template = "person/credentialEligibilityAttained",
@@ -394,7 +394,7 @@ public class Person extends Common {
     )
     private List<String> credentialEligibilityAttained;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/credentialEligibilityAttainedType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -403,14 +403,14 @@ public class Person extends Common {
     private List<String> credentialEligibilityAttainedType;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/awardAndHonor",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> awardsAndHonors;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "adviseeOfType", key = "type"),
         @Reference(value = "adviseeOfCandidacy", key = "candidacy"),
@@ -423,7 +423,7 @@ public class Person extends Common {
     )
     private List<String> adviseeOf;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/adviseeOfType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -431,21 +431,21 @@ public class Person extends Common {
     )
     private List<String> adviseeOfType;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/adviseeOfCandidacy",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> adviseeOfCandidacy;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/adviseeOfStartDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> adviseeOfStartDate;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/adviseeOfEndDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
@@ -527,7 +527,7 @@ public class Person extends Common {
     )
     private List<String> creativeWorkType;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "collectionOrSeriesEditorForType", key = "type"),
         @Reference(value = "collectionOrSeriesEditorForRole", key = "role"),
@@ -540,7 +540,7 @@ public class Person extends Common {
     )
     private List<String> collectionOrSeriesEditorFor;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/collectionOrSeriesEditorForType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -548,28 +548,28 @@ public class Person extends Common {
     )
     private List<String> collectionOrSeriesEditorForType;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/collectionOrSeriesEditorForRole",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> collectionOrSeriesEditorForRole;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/collectionOrSeriesEditorForStartDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> collectionOrSeriesEditorForStartDate;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/collectionOrSeriesEditorForEndDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> collectionOrSeriesEditorForEndDate;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "editorOfType", key = "type"),
         @Reference(value = "editorOfPublisher", key = "publisher"),
@@ -583,7 +583,7 @@ public class Person extends Common {
     )
     private List<String> editorOf;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/editorOfType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -591,7 +591,7 @@ public class Person extends Common {
     )
     private List<String> editorOfType;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/editorOfPublisher",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label",
@@ -599,28 +599,28 @@ public class Person extends Common {
     )
     private List<String> editorOfPublisher;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/editorOfPageStart",
         predicate = "http://purl.org/ontology/bibo/pageStart"
     )
     private List<String> editorOfPageStart;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/editorOfPageEnd",
         predicate = "http://purl.org/ontology/bibo/pageEnd"
     )
     private List<String> editorOfPageEnd;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/editorOfDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> editorOfDate;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "presentationType", key = "type"),
         @Reference(value = "presentationRole", key = "role"),
@@ -634,7 +634,7 @@ public class Person extends Common {
     )
     private List<String> presentations;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/presentationType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -642,14 +642,14 @@ public class Person extends Common {
     )
     private List<String> presentationType;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/presentationRole",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> presentationRole;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/presentationEvent",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label",
@@ -657,14 +657,14 @@ public class Person extends Common {
     )
     private List<String> presentationEvent;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/presentationStartDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> presentationStartDate;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/presentationEndDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
@@ -672,7 +672,7 @@ public class Person extends Common {
     private List<String> presentationEndDate;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/featuredIn",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -680,7 +680,7 @@ public class Person extends Common {
     private List<String> featuredIn;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/assigneeForPatent",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -688,7 +688,7 @@ public class Person extends Common {
     private List<String> assigneeForPatent;
 
     @NestedObject
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/translatorOf",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -702,21 +702,21 @@ public class Person extends Common {
     )
     private String researchOverview;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/principalInvestigatorOn",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> principalInvestigatorOn;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/coPrincipalInvestigatorOn",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> coPrincipalInvestigatorOn;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "researcherOnAwardedBy", key = "awardedBy"),
         @Reference(value = "researcherOnRole", key = "role"),
@@ -729,7 +729,7 @@ public class Person extends Common {
     )
     private List<String> researcherOn;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(
         root = false,
         properties = {
@@ -742,14 +742,14 @@ public class Person extends Common {
     )
     private List<String> researcherOnAwardedBy;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/researcherOnAwardedByPreferredLabel",
         predicate = "http://vivo.library.tamu.edu/ontology/TAMU#awardedBy_label"
     )
     private List<String> researcherOnAwardedByPreferredLabel;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/researcherOnRole",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -757,21 +757,21 @@ public class Person extends Common {
     )
     private List<String> researcherOnRole;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/researcherOnStartDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> researcherOnStartDate;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/researcherOnEndDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> researcherOnEndDate;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "otherResearchActivityRole", key = "role"),
         @Reference(value = "otherResearchActivityStartDate", key = "startDate"),
@@ -783,21 +783,21 @@ public class Person extends Common {
     )
     private List<String> otherResearchActivities;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/otherResearchActivityRole",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> otherResearchActivityRole;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/otherResearchActivityStartDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> otherResearchActivityStartDate;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/otherResearchActivityEndDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
@@ -811,7 +811,7 @@ public class Person extends Common {
     )
     private String teachingOverview;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "teachingActivityRole", key = "role")
     })
@@ -821,7 +821,7 @@ public class Person extends Common {
     )
     private List<String> teachingActivities;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/teachingActivityRole",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
@@ -836,7 +836,7 @@ public class Person extends Common {
     )
     private List<String> teachingMaterials;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "adviseeType", key = "type"),
         @Reference(value = "adviseeCandidacy", key = "candidacy"),
@@ -849,7 +849,7 @@ public class Person extends Common {
     )
     private List<String> advisee;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/adviseeType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -857,21 +857,21 @@ public class Person extends Common {
     )
     private List<String> adviseeType;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/adviseeCandidacy",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> adviseeCandidacy;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/adviseeStartDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> adviseeStartDate;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/adviseeEndDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
@@ -885,7 +885,7 @@ public class Person extends Common {
     )
     private String outreachOverview;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "reviewerOfType", key = "type"),
         @Reference(value = "reviewerOfStartDate", key = "startDate"),
@@ -897,7 +897,7 @@ public class Person extends Common {
     )
     private List<String> reviewerOf;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/reviewerOfType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -905,21 +905,21 @@ public class Person extends Common {
     )
     private List<String> reviewerOfType;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/reviewerOfStartDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> reviewerOfStartDate;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/reviewerOfEndDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> reviewerOfEndDate;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "contactOrProvidorForServiceType", key = "type")
     })
@@ -929,7 +929,7 @@ public class Person extends Common {
     )
     private List<String> contactOrProvidorForService;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/contactOrProvidorForServiceType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -937,7 +937,7 @@ public class Person extends Common {
     )
     private List<String> contactOrProvidorForServiceType;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "organizerOfEventType", key = "type"),
         @Reference(value = "organizerOfEventStartDate", key = "startDate"),
@@ -949,7 +949,7 @@ public class Person extends Common {
     )
     private List<String> organizerOfEvent;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/organizerOfEventType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -957,21 +957,21 @@ public class Person extends Common {
     )
     private List<String> organizerOfEventType;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/organizerOfEventStartDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> organizerOfEventStartDate;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/organizerOfEventEndDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> organizerOfEventEndDate;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "professionalServiceActivityType", key = "type"),
         @Reference(value = "professionalServiceActivityRole", key = "role"),
@@ -984,14 +984,14 @@ public class Person extends Common {
     )
     private List<String> professionalServiceActivities;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/professionalServiceActivityRole",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> professionalServiceActivityRole;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/professionalServiceActivityType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -999,21 +999,21 @@ public class Person extends Common {
     )
     private List<String> professionalServiceActivityType;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/professionalServiceActivityStartDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> professionalServiceActivityStartDate;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/professionalServiceActivityEndDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> professionalServiceActivityEndDate;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "outreachAndCommunityServiceActivityType", key = "type"),
         @Reference(value = "outreachAndCommunityServiceActivityRole", key = "role"),
@@ -1026,7 +1026,7 @@ public class Person extends Common {
     )
     private List<String> outreachAndCommunityServiceActivities;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/professionalServiceActivityType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -1034,28 +1034,28 @@ public class Person extends Common {
     )
     private List<String> outreachAndCommunityServiceActivityType;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/professionalServiceActivityRole",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> outreachAndCommunityServiceActivityRole;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/professionalServiceActivityStartDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> outreachAndCommunityServiceActivityStartDate;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/professionalServiceActivityEndDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private List<String> outreachAndCommunityServiceActivityEndDate;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = { @Reference(value = "performsTechniqueType", key = "type") })
     @FieldSource(
         template = "person/performsTechnique",
@@ -1063,7 +1063,7 @@ public class Person extends Common {
     )
     private List<String> performsTechnique;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/performsTechniqueType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -1071,7 +1071,7 @@ public class Person extends Common {
     )
     private List<String> performsTechniqueType;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = { @Reference(value = "hasExpertiseInTechniqueType", key = "type") })
     @FieldSource(
         template = "person/hasExpertiseInTechnique",
@@ -1079,7 +1079,7 @@ public class Person extends Common {
     )
     private List<String> hasExpertiseInTechnique;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/hasExpertiseInTechniqueType",
         predicate = "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType",
@@ -1143,56 +1143,56 @@ public class Person extends Common {
     )
     private String lastName;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "person/streetAddress",
         predicate = "http://www.w3.org/2006/vcard/ns#streetAddress"
     )
     private String streetAddress;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "person/locality",
         predicate = "http://www.w3.org/2006/vcard/ns#locality"
     )
     private String locality;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "person/region",
         predicate = "http://www.w3.org/2006/vcard/ns#region"
     )
     private String region;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "person/postalCode",
         predicate = "http://www.w3.org/2006/vcard/ns#postalCode"
     )
     private String postalCode;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "person/country",
         predicate = "http://www.w3.org/2006/vcard/ns#country"
     )
     private String country;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "person/geographicLocation",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private String geographicLocation;
 
-    @FieldType(type = "whole_strings", searchable = false)
+    @FieldType(type = "whole_strings", indexed = false)
     @FieldSource(
         template = "person/locatedInFacility",
         predicate = "http://www.w3.org/2000/01/rdf-schema#label"
     )
     private List<String> locatedInFacility;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "person/fax",
         predicate = "http://www.w3.org/2006/vcard/ns#fax"
@@ -1219,49 +1219,49 @@ public class Person extends Common {
     )
     private List<String> schools;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "person/isni",
         predicate = "http://vivo.library.tamu.edu/ontology/TAMU#ISNI"
     )
     private String isni;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "person/netid",
         predicate = "http://vivo.library.tamu.edu/ontology/TAMU#NETID"
     )
     private String netid;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "person/researcherId",
         predicate = "http://vivo.library.tamu.edu/ontology/TAMU#ResearcherId"
     )
     private String researcherId;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "person/twitter",
         predicate = "http://vivo.library.tamu.edu/ontology/TAMU#twitterID"
     )
     private String twitter;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "person/uid",
         predicate = "http://vivo.library.tamu.edu/ontology/TAMU#UID"
     )
     private String uid;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "person/uin",
         predicate = "http://vivo.library.tamu.edu/ontology/TAMU#UIN"
     )
     private String uin;
 
-    @FieldType(type = "whole_string", searchable = false)
+    @FieldType(type = "whole_string", indexed = false)
     @FieldSource(
         template = "person/youtube",
         predicate = "http://vivo.library.tamu.edu/ontology/TAMU#youtube"
@@ -1284,7 +1284,7 @@ public class Person extends Common {
     )
     private List<String> futureResearchIdeas;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @NestedObject(properties = {
         @Reference(value = "etdChairOfUrl", key = "url"),
         @Reference(value = "etdChairOfPublicationDate", key = "publicationDate")
@@ -1295,14 +1295,14 @@ public class Person extends Common {
     )
     private List<String> etdChairOf;
 
-    @FieldType(type = "nested_whole_strings", searchable = false)
+    @FieldType(type = "nested_whole_strings", indexed = false)
     @FieldSource(
         template = "person/etdChairOfUrl",
         predicate = "http://www.w3.org/2006/vcard/ns#url"
     )
     private List<String> etdChairOfUrl;
 
-    @FieldType(type = "nested_dates", searchable = false)
+    @FieldType(type = "nested_dates", indexed = false)
     @FieldSource(
         template = "person/etdChairOfPublicationDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
