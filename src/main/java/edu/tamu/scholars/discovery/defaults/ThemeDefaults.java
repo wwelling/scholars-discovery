@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 import edu.tamu.scholars.discovery.theme.model.Theme;
 import edu.tamu.scholars.discovery.theme.model.repo.ThemeRepo;
 
-/**
- * 
- */
+
 @Service
 public class ThemeDefaults extends AbstractDefaults<Theme, ThemeRepo> {
 

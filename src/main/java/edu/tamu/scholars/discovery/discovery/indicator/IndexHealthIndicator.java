@@ -47,6 +47,7 @@ public class IndexHealthIndicator implements HealthIndicator {
 
         if (statusCode.is2xxSuccessful()) {
             long count = individualRepo.count(DEFAULT_QUERY, Arrays.asList());
+
             details.put("count", count);
 
             status.up();

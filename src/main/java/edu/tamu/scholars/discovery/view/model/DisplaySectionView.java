@@ -16,9 +16,6 @@ import java.util.List;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-/**
- * 
- */
 @Entity
 @Table(name = "display_sections")
 @AttributeOverride(name = "name", column = @Column(nullable = false))
@@ -59,9 +56,9 @@ public class DisplaySectionView extends FieldView {
         shared = false;
         paginated = false;
         pageSize = 5;
-        requiredFields = new ArrayList<String>();
-        lazyReferences = new ArrayList<String>();
-        subsections = new ArrayList<DisplaySubsectionView>();
+        requiredFields = new ArrayList<>();
+        lazyReferences = new ArrayList<>();
+        subsections = new ArrayList<>();
     }
 
     public boolean isHidden() {

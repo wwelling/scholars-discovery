@@ -8,9 +8,6 @@ import jakarta.persistence.Embedded;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 
- */
 @Embeddable
 public class Header {
 
@@ -28,7 +25,7 @@ public class Header {
         super();
         this.navbar = new Navbar();
         this.banner = new Banner();
-        this.variables = new ArrayList<Style>();
+        this.variables = new ArrayList<>();
     }
 
     public Navbar getNavbar() {

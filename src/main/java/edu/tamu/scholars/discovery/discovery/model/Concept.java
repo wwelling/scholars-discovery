@@ -13,9 +13,6 @@ import edu.tamu.scholars.discovery.discovery.annotation.NestedMultiValuedPropert
 import edu.tamu.scholars.discovery.discovery.annotation.NestedObject;
 import edu.tamu.scholars.discovery.discovery.annotation.NestedObject.Reference;
 
-/**
- * 
- */
 @JsonInclude(NON_EMPTY)
 @CollectionSource(name = "concepts", predicate = "http://www.w3.org/2004/02/skos/core#Concept")
 public class Concept extends Common {

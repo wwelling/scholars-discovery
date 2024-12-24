@@ -31,7 +31,6 @@ public class DisplayView extends View {
 
     private static final long serialVersionUID = 7556127622115170597L;
 
-    // TODO: add validation to prevent any given type belonging to multiple display views
     @ElementCollection
     private List<String> types;
 

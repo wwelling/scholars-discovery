@@ -9,7 +9,6 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,9 +35,6 @@ import edu.tamu.scholars.discovery.export.service.Exporter;
 import edu.tamu.scholars.discovery.export.service.ExporterRegistry;
 import edu.tamu.scholars.discovery.export.utility.FilenameUtility;
 
-/**
- * 
- */
 @RestController
 public class IndividualSearchExportController implements RepresentationModelProcessor<RepositorySearchesResource> {
 
@@ -61,7 +57,7 @@ public class IndividualSearchExportController implements RepresentationModelProc
         List<FilterArg> filters,
         List<BoostArg> boosts,
         List<ExportArg> export
-    ) throws UnknownExporterTypeException, InterruptedException, ExecutionException {
+    ) throws UnknownExporterTypeException {
         logger.info("/individual/search/export {} {} {} {} {} {} {}", view, type, query, sort, filters, boosts, export);
         Exporter exporter = exporterRegistry.getExporter(type);
 
@@ -87,11 +83,11 @@ public class IndividualSearchExportController implements RepresentationModelProc
                         Optional.empty()
                     ),
                     Sort.unsorted(),
-                    new ArrayList<FilterArg>(),
-                    new ArrayList<BoostArg>(),
-                    new ArrayList<ExportArg>()
+                    new ArrayList<>(),
+                    new ArrayList<>(),
+                    new ArrayList<>()
                 )).withRel("export").withTitle("Discovery export"));
-            } catch (UnknownExporterTypeException | InterruptedException | ExecutionException e) {
+            } catch (UnknownExporterTypeException e) {
                 e.printStackTrace();
             }
         }

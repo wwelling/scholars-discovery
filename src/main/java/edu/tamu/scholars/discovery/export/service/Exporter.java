@@ -9,9 +9,6 @@ import edu.tamu.scholars.discovery.discovery.model.Individual;
 import edu.tamu.scholars.discovery.export.argument.ExportArg;
 import edu.tamu.scholars.discovery.export.exception.UnsupportedExporterTypeException;
 
-/**
- * 
- */
 public interface Exporter {
 
     public String type();

@@ -1,15 +1,11 @@
 package edu.tamu.scholars.discovery.discovery.model.repo;
 
-import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.ID;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,7 +20,6 @@ import edu.tamu.scholars.discovery.discovery.argument.FacetArg;
 import edu.tamu.scholars.discovery.discovery.argument.FilterArg;
 import edu.tamu.scholars.discovery.discovery.argument.HighlightArg;
 import edu.tamu.scholars.discovery.discovery.argument.QueryArg;
-import edu.tamu.scholars.discovery.discovery.component.solr.SolrQueryBuilder;
 import edu.tamu.scholars.discovery.discovery.component.solr.SolrService;
 import edu.tamu.scholars.discovery.discovery.model.Individual;
 import edu.tamu.scholars.discovery.discovery.response.DiscoveryAcademicAge;
@@ -37,56 +32,35 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
 
     private static final Logger logger = LoggerFactory.getLogger(IndividualRepo.class);
 
-    @Value("${spring.data.solr.parser:edismax}")
-    private String defType;
+    private final SolrService solrService;
 
-    @Value("${spring.data.solr.operator:AND}")
-    private String defaultOperator;
-
-    @Autowired
-    private SolrService solrService;
+    IndividualRepo(SolrService solrService) {
+        this.solrService = solrService;
+    }
 
     @Override
     public long count(QueryArg query, List<FilterArg> filters) {
-        SolrQueryBuilder builder = SolrQueryBuilder.from(defType, defaultOperator)
-            .withQuery(query)
-            .withFilters(filters)
-            .withRows(0);
-
-        return solrService.count(builder.build());
+        return solrService.count(query, filters);
     }
 
     @Override
     public long count(String query, List<FilterArg> filters) {
-        SolrQueryBuilder builder = SolrQueryBuilder.from(defType, defaultOperator)
-            .withQuery(query)
-            .withFilters(filters)
-            .withRows(0);
-
-        return solrService.count(builder.build());
+        return solrService.count(query, filters);
     }
 
     @Override
     public Optional<Individual> findById(String id) {
-        SolrQueryBuilder builder = SolrQueryBuilder.from(defType, defaultOperator)
-            .withQuery(String.format("%s:%s", ID, id))
-            .withRows(1);
-
-        return solrService.findById(builder.build());
+        return solrService.findById(id);
     }
 
     @Override
     public Page<Individual> findAll(Pageable pageable) {
-
-
-        return null;
+        return solrService.findAll(pageable);
     }
 
     @Override
     public List<Individual> findByType(String type) {
-
-
-        return null;
+        return solrService.findByType(type);
     }
 
     @Override
@@ -96,27 +70,17 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
 
     @Override
     public List<Individual> findByIdIn(List<String> ids, List<FilterArg> filters, Sort sort, int limit) {
-
-        return null;
+        return solrService.findByIdIn(ids, filters, sort, limit);
     }
 
     @Override
     public List<Individual> findMostRecentlyUpdate(Integer limit, List<FilterArg> filters) {
-
-        return null;
+        return solrService.findMostRecentlyUpdate(limit, filters);
     }
 
     @Override
-    public DiscoveryFacetAndHighlightPage<Individual> search(
-        QueryArg query,
-        List<FacetArg> facets,
-        List<FilterArg> filters,
-        List<BoostArg> boosts,
-        HighlightArg highlight,
-        Pageable page
-    ) {
-
-        return null;
+    public DiscoveryFacetAndHighlightPage<Individual> search(QueryArg query, List<FacetArg> facets, List<FilterArg> filters, List<BoostArg> boosts, HighlightArg highlight, Pageable page) {
+        return solrService.search(query, facets, filters, boosts, highlight, page);
     }
 
     @Override

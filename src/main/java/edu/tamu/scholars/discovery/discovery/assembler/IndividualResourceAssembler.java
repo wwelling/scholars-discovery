@@ -14,9 +14,7 @@ import edu.tamu.scholars.discovery.discovery.assembler.model.IndividualModel;
 import edu.tamu.scholars.discovery.discovery.controller.IndividualSearchController;
 import edu.tamu.scholars.discovery.discovery.model.Individual;
 
-/**
- * 
- */
+
 @Component
 public class IndividualResourceAssembler extends RepresentationModelAssemblerSupport<Individual, IndividualModel> {
 

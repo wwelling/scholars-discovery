@@ -6,9 +6,7 @@ import reactor.core.publisher.Flux;
 
 import edu.tamu.scholars.discovery.discovery.model.AbstractIndexDocument;
 
-/**
- * 
- */
+
 public interface Harvester {
 
     public Flux<Map<String, Object>> harvest();

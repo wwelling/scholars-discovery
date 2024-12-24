@@ -5,9 +5,7 @@ import org.springframework.hateoas.Link;
 
 import edu.tamu.scholars.discovery.discovery.model.Individual;
 
-/**
- * 
- */
+
 public class IndividualModel extends EntityModel<Individual> {
 
     public IndividualModel(Individual individual, Iterable<Link> links) {

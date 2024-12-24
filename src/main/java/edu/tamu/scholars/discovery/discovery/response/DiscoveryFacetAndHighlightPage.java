@@ -19,9 +19,6 @@ import edu.tamu.scholars.discovery.discovery.DiscoveryConstants;
 import edu.tamu.scholars.discovery.discovery.argument.FacetArg;
 import edu.tamu.scholars.discovery.discovery.argument.HighlightArg;
 
-/**
- * 
- */
 public class DiscoveryFacetAndHighlightPage<T> extends DiscoveryFacetPage<T> {
 
     private static final long serialVersionUID = 1932430579005159735L;
@@ -49,12 +46,12 @@ public class DiscoveryFacetAndHighlightPage<T> extends DiscoveryFacetPage<T> {
         HighlightArg highlightArg,
         Class<T> type
     ) {
-        // List<Facet> facets = buildFacets(response, facetArguments);
-        // List<Highlight> highlights = buildHighlights(response, highlightArg);
-        // JsonNode results = response.getResults();
+        List<Facet> facets = buildFacets(response, facetArguments);
+        List<Highlight> highlights = buildHighlights(response, highlightArg);
+        long numFound = response.get("numFound")
+            .asLong();
 
-        // return new DiscoveryFacetAndHighlightPage<T>(documents, pageable, results.getNumFound(), facets, highlights);
-        return null;
+        return new DiscoveryFacetAndHighlightPage<T>(documents, pageable, numFound, facets, highlights);
     }
 
     public static <T> List<Highlight> buildHighlights(JsonNode response, HighlightArg highlightArg) {

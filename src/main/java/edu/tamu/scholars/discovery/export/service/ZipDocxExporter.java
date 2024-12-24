@@ -27,9 +27,6 @@ import edu.tamu.scholars.discovery.view.model.DisplayView;
 import edu.tamu.scholars.discovery.view.model.ExportFieldView;
 import edu.tamu.scholars.discovery.view.model.ExportView;
 
-/**
- * 
- */
 @Service
 public class ZipDocxExporter extends AbstractDocxExporter {
 

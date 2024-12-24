@@ -3,7 +3,6 @@ package edu.tamu.scholars.discovery.discovery.serializer;
 import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
@@ -12,15 +11,12 @@ import org.springframework.boot.jackson.JsonComponent;
 
 import edu.tamu.scholars.discovery.discovery.model.Individual;
 
-/**
- * 
- */
 @JsonComponent
 public class IndividualSerializer extends StdSerializer<Individual> {
 
     private static final long serialVersionUID = -7465695732226901511L;
 
-    private final JsonSerializer<Individual> delegate = new UnwrappingIndividualSerializer(NameTransformer.NOP);
+    private transient final JsonSerializer<Individual> delegate = new UnwrappingIndividualSerializer(NameTransformer.NOP);
 
     public IndividualSerializer() {
         super(Individual.class);
@@ -31,7 +27,7 @@ public class IndividualSerializer extends StdSerializer<Individual> {
         Individual document,
         JsonGenerator jsonGenerator,
         SerializerProvider serializerProvider
-    ) throws IOException, JsonProcessingException {
+    ) throws IOException {
         jsonGenerator.writeStartObject();
         delegate.serialize(document, jsonGenerator, serializerProvider);
         jsonGenerator.writeEndObject();

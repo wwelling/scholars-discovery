@@ -17,9 +17,7 @@ import edu.tamu.scholars.discovery.view.model.DisplayView;
 import edu.tamu.scholars.discovery.view.model.ExportView;
 import edu.tamu.scholars.discovery.view.model.repo.DisplayViewRepo;
 
-/**
- * 
- */
+
 @Service
 public class DisplayViewDefaults extends AbstractDefaults<DisplayView, DisplayViewRepo> {
 

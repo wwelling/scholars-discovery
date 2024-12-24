@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.tamu.scholars.discovery.discovery.argument.FilterArg;
 import edu.tamu.scholars.discovery.discovery.model.repo.IndividualRepo;
 
-/**
- * 
- */
+
 @RestController
 public class IndividualSearchCountController {
 

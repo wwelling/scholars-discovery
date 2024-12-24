@@ -17,9 +17,6 @@ import edu.tamu.scholars.discovery.export.exception.ExportException;
 import edu.tamu.scholars.discovery.view.model.DisplayView;
 import edu.tamu.scholars.discovery.view.model.ExportView;
 
-/**
- * 
- */
 @Service
 public class DocxExporter extends AbstractDocxExporter {
 

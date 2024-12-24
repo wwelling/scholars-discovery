@@ -12,9 +12,6 @@ import edu.tamu.scholars.discovery.discovery.annotation.FieldType;
 import edu.tamu.scholars.discovery.discovery.annotation.NestedObject;
 import edu.tamu.scholars.discovery.discovery.annotation.NestedObject.Reference;
 
-/**
- * 
- */
 @JsonInclude(NON_EMPTY)
 @CollectionSource(name = "organizations", predicate = "http://xmlns.com/foaf/0.1/Organization")
 public class Organization extends Common {

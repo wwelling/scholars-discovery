@@ -14,9 +14,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import edu.tamu.scholars.discovery.discovery.argument.QueryArg;
 
-/**
- * 
- */
 public class QueryArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override

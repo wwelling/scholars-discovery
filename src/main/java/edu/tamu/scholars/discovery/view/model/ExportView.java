@@ -16,9 +16,6 @@ import java.util.List;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-/**
- * 
- */
 @Entity
 @Table(name = "display_export_views")
 @AttributeOverride(name = "name", column = @Column(nullable = false))
@@ -43,7 +40,7 @@ public class ExportView extends View {
 
     public ExportView() {
         super();
-        lazyReferences = new ArrayList<ExportFieldView>();
+        lazyReferences = new ArrayList<>();
     }
 
     public String getContentTemplate() {

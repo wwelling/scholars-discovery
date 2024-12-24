@@ -18,9 +18,6 @@ import edu.tamu.scholars.discovery.theme.exception.DeleteActiveThemeException;
 import edu.tamu.scholars.discovery.theme.model.Theme;
 import edu.tamu.scholars.discovery.theme.model.repo.ThemeRepo;
 
-/**
- * 
- */
 @RepositoryEventHandler(Theme.class)
 public class ThemeEventHandler {
 

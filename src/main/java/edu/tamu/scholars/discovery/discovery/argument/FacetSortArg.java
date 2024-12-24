@@ -4,9 +4,7 @@ import org.springframework.data.domain.Sort;
 
 import edu.tamu.scholars.discovery.view.model.FacetSort;
 
-/**
- * 
- */
+
 public class FacetSortArg {
 
     private final FacetSort property;

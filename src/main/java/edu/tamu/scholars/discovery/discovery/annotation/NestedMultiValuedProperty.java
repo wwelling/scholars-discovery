@@ -7,9 +7,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-/**
- * 
- */
+
 @Documented
 @Target(FIELD)
 @Retention(RUNTIME)

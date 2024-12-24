@@ -7,9 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import edu.tamu.scholars.discovery.discovery.DiscoveryConstants;
 import edu.tamu.scholars.discovery.discovery.utility.DiscoveryUtility;
 
-/**
- * 
- */
 public class QueryArg {
 
     private final String expression;

@@ -8,9 +8,6 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import edu.tamu.scholars.discovery.model.repo.NamedRepo;
 import edu.tamu.scholars.discovery.theme.model.Theme;
 
-/**
- * 
- */
 @RepositoryRestResource
 public interface ThemeRepo extends NamedRepo<Theme> {
 

@@ -43,15 +43,6 @@ public class DisplayTabView extends View {
     }
 
     /**
-     * Get the name of the display tab.
-     *
-     * @return The name of the display tab.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
      * Check if the display tab is hidden.
      *
      * @return True if hidden, false otherwise.

@@ -21,9 +21,6 @@ import edu.tamu.scholars.discovery.discovery.component.Harvester;
 import edu.tamu.scholars.discovery.discovery.component.Indexer;
 import edu.tamu.scholars.discovery.service.Triplestore;
 
-/**
- * 
- */
 @Service
 public class IndexService {
 

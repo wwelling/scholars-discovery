@@ -55,14 +55,14 @@ public abstract class CollectionView extends View {
 
     public CollectionView() {
         super();
-        templates = new HashMap<String, String>();
-        styles = new ArrayList<String>();
-        fields = new ArrayList<String>();
-        facets = new ArrayList<Facet>();
-        filters = new ArrayList<Filter>();
-        boosts = new ArrayList<Boost>();
-        sort = new ArrayList<Sort>();
-        export = new ArrayList<ExportField>();
+        templates = new HashMap<>();
+        styles = new ArrayList<>();
+        fields = new ArrayList<>();
+        facets = new ArrayList<>();
+        filters = new ArrayList<>();
+        boosts = new ArrayList<>();
+        sort = new ArrayList<>();
+        export = new ArrayList<>();
     }
 
     public Layout getLayout() {

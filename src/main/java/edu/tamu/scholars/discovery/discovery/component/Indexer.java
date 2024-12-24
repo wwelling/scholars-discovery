@@ -5,9 +5,7 @@ import java.util.Map;
 
 import edu.tamu.scholars.discovery.discovery.model.AbstractIndexDocument;
 
-/**
- * 
- */
+
 public interface Indexer {
 
     public void init();

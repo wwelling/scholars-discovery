@@ -16,9 +16,7 @@ import edu.tamu.scholars.discovery.discovery.response.DiscoveryFacetAndHighlight
 import edu.tamu.scholars.discovery.discovery.response.DiscoveryFacetPage;
 import edu.tamu.scholars.discovery.discovery.response.DiscoveryFacetPage.Facet;
 
-/**
- * 
- */
+
 @Component
 public class DiscoveryPagedResourcesAssembler<T> extends PagedResourcesAssembler<T> {
 

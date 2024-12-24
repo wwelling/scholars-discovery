@@ -5,9 +5,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.lang.Nullable;
 
-/**
- * 
- */
+
 public class IndividualCollectionModel extends CollectionModel<IndividualModel> {
 
     public IndividualCollectionModel(

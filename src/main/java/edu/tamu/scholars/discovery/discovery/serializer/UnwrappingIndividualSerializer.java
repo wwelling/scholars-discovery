@@ -36,9 +36,6 @@ import edu.tamu.scholars.discovery.discovery.annotation.NestedObject;
 import edu.tamu.scholars.discovery.discovery.annotation.NestedObject.Reference;
 import edu.tamu.scholars.discovery.discovery.model.Individual;
 
-/**
- * 
- */
 public class UnwrappingIndividualSerializer extends JsonSerializer<Individual> {
 
     private static final ObjectMapper mapper = new ObjectMapper();

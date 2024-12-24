@@ -14,9 +14,6 @@ import edu.tamu.scholars.discovery.discovery.annotation.NestedMultiValuedPropert
 import edu.tamu.scholars.discovery.discovery.annotation.NestedObject;
 import edu.tamu.scholars.discovery.discovery.annotation.NestedObject.Reference;
 
-/**
- * 
- */
 @JsonInclude(NON_EMPTY)
 @CollectionSource(name = "persons", predicate = "http://xmlns.com/foaf/0.1/Person")
 public class Person extends Common {

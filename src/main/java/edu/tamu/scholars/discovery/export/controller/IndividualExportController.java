@@ -6,11 +6,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
-import jakarta.persistence.EntityNotFoundException;
-
 import java.util.Objects;
 import java.util.Optional;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.hateoas.server.RepresentationModelProcessor;
@@ -33,10 +32,6 @@ import edu.tamu.scholars.discovery.export.exception.UnknownExporterTypeException
 import edu.tamu.scholars.discovery.export.service.Exporter;
 import edu.tamu.scholars.discovery.export.service.ExporterRegistry;
 
-
-/**
- * REST controller for exporting
- */
 @RestController
 public class IndividualExportController implements RepresentationModelProcessor<IndividualModel> {
 
@@ -53,7 +48,7 @@ public class IndividualExportController implements RepresentationModelProcessor<
         @PathVariable String id,
         @RequestParam(value = "type", required = false, defaultValue = "docx") String type,
         @RequestParam(value = "name", required = true) String name
-    ) throws UnknownExporterTypeException, IllegalArgumentException, IllegalAccessException {
+    ) throws UnknownExporterTypeException, IllegalArgumentException {
 
         if (type.equals("zip")) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -133,8 +128,7 @@ public class IndividualExportController implements RepresentationModelProcessor<
                 .withTitle(link.getTitle()));
         } catch (NullPointerException
             | UnknownExporterTypeException
-            | IllegalArgumentException
-            | IllegalAccessException e
+            | IllegalArgumentException e
         ) {
             e.printStackTrace();
         }

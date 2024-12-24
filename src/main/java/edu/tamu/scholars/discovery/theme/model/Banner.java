@@ -8,9 +8,6 @@ import jakarta.persistence.Embeddable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 
- */
 @Embeddable
 public class Banner {
 
@@ -26,7 +23,7 @@ public class Banner {
 
     public Banner() {
         super();
-        this.variables = new ArrayList<Style>();
+        this.variables = new ArrayList<>();
     }
 
     public String getImageUri() {

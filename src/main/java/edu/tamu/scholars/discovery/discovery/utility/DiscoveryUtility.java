@@ -28,9 +28,6 @@ import edu.tamu.scholars.discovery.discovery.annotation.FieldType;
 import edu.tamu.scholars.discovery.discovery.annotation.NestedObject;
 import edu.tamu.scholars.discovery.discovery.annotation.NestedObject.Reference;
 
-/**
- * 
- */
 public class DiscoveryUtility {
 
     private static final Map<String, Class<?>> TYPES = new HashMap<>();

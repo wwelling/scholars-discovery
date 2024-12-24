@@ -16,9 +16,6 @@ import edu.tamu.scholars.discovery.export.exception.UnauthorizedExportException;
 import edu.tamu.scholars.discovery.export.exception.UnknownExporterTypeException;
 import edu.tamu.scholars.discovery.export.exception.UnsupportedExporterTypeException;
 
-/**
- * 
- */
 @ControllerAdvice
 public class ExportControllerAdvice {
 

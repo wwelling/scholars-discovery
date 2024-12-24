@@ -1,15 +1,14 @@
 package edu.tamu.scholars.discovery.discovery.utility;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.tamu.scholars.discovery.discovery.argument.BoostArg;
@@ -18,9 +17,6 @@ import edu.tamu.scholars.discovery.discovery.argument.FilterArg;
 import edu.tamu.scholars.discovery.discovery.argument.HighlightArg;
 import edu.tamu.scholars.discovery.discovery.argument.QueryArg;
 
-/**
- * 
- */
 public class ArgumentUtility {
 
     private static final String FACET_QUERY_PARAM_KEY = "facets";
@@ -62,11 +58,12 @@ public class ArgumentUtility {
             .filter(paramName -> paramName.equals(FACET_QUERY_PARAM_KEY))
             .map(request::getParameterValues)
             .map(Arrays::asList)
-            .flatMap(list -> list.stream())
+            .flatMap(Collection::stream)
             .map(s -> s.split(","))
             .map(Arrays::asList)
-            .flatMap(list -> list.stream())
-            .collect(Collectors.toList());
+            .flatMap(Collection::stream)
+            .toList();
+
         return fields.stream().map(field -> {
             final String sortFacet = String.format(FACET_SORT_FORMAT, field);
             final String pageSizeFacet = String.format(FACET_PAGE_SIZE_FORMAT, field);
@@ -107,8 +104,9 @@ public class ArgumentUtility {
                     }
                 }
             }
+
             return FacetArg.of(field, sort, pageSize, pageNumber, type, exclusionTag, rangeStart, rangeEnd, rangeGap);
-        }).collect(Collectors.toList());
+        }).toList();
     }
 
     public static List<FilterArg> getFilterArguments(HttpServletRequest request) {
@@ -117,12 +115,12 @@ public class ArgumentUtility {
             .filter(paramName -> paramName.equals(FILTER_QUERY_PARAM_KEY))
             .map(request::getParameterValues)
             .map(Arrays::asList)
-            .flatMap(list -> list.stream())
+            .flatMap(Collection::stream)
             .map(s -> s.split(","))
             .map(Arrays::asList)
-            .flatMap(list -> list.stream())
-            .collect(Collectors.toList());
-        List<FilterArg> filters = new ArrayList<FilterArg>();
+            .flatMap(Collection::stream)
+            .toList();
+        List<FilterArg> filters = new ArrayList<>();
         fields.stream().forEach(field -> {
             final String valueFilter = String.format(FILTER_VALUE_FORMAT, field);
             final String opKeyFilter = String.format(FILTER_OPKEY_FORMAT, field);
@@ -146,6 +144,7 @@ public class ArgumentUtility {
                 filters.add(FilterArg.of(field, Optional.of(value), opKey, tag));
             }
         });
+
         return filters;
     }
 
@@ -154,27 +153,27 @@ public class ArgumentUtility {
             .filter(paramName -> paramName.equals(BOOST_QUERY_PARAM_KEY))
             .map(request::getParameterValues)
             .map(Arrays::asList) 
-            .flatMap(list -> list.stream())
+            .flatMap(Collection::stream)
             .map(BoostArg::of)
-            .collect(Collectors.toList());
+            .toList();
     }
 
     public static HighlightArg getHightlightArgument(HttpServletRequest request) {
         String fields = request.getParameter(HIGHLIGHT_FIELDS_QUERY_PARAM_KEY);
         Optional<String> prefix = Optional.ofNullable(request.getParameter(HIGHLIGHT_PRE_QUERY_PARAM_KEY));
         Optional<String> postfix = Optional.ofNullable(request.getParameter(HIGHLIGHT_POST_QUERY_PARAM_KEY));
+
         return HighlightArg.of(StringUtils.isNotEmpty(fields) ? fields.split(",") : new String[] {}, prefix, postfix);
     }
 
     public static QueryArg getQueryArgument(HttpServletRequest request) {
         Optional<String> expression = Optional.ofNullable(request.getParameter(QUERY_EXPRESSION_QUERY_PARAM_KEY));
         Optional<String> defaultField = Optional.ofNullable(request.getParameter(DEFAULT_FIELD_QUERY_PARAM_KEY));
-        Optional<String> minimumShouldMatch = Optional.ofNullable(
-            request.getParameter(MINIMUM_SHOULD_MATCH_QUERY_PARAM_KEY)
-        );
+        Optional<String> minimumShouldMatch = Optional.ofNullable(request.getParameter(MINIMUM_SHOULD_MATCH_QUERY_PARAM_KEY));
         Optional<String> queryField = Optional.ofNullable(request.getParameter(QUERY_FIELD_QUERY_PARAM_KEY));
         Optional<String> boostQuery = Optional.ofNullable(request.getParameter(BOOST_QUERY_QUERY_PARAM_KEY));
         Optional<String> fields = Optional.ofNullable(request.getParameter(FIELDS_QUERY_PARAM_KEY));
+
         return QueryArg.of(expression, defaultField, minimumShouldMatch, queryField, boostQuery, fields);
     }
 

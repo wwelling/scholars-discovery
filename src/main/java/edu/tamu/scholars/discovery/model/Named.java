@@ -14,9 +14,6 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-/**
- * 
- */
 @MappedSuperclass
 public abstract class Named implements Serializable {
 
@@ -31,7 +28,7 @@ public abstract class Named implements Serializable {
     @Column(nullable = false, unique = true)
     protected String name;
 
-    public Named() {
+    protected Named() {
         super();
     }
 

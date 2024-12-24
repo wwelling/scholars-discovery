@@ -15,9 +15,6 @@ import edu.tamu.scholars.discovery.discovery.argument.DiscoveryAcademicAgeDescri
 import edu.tamu.scholars.discovery.discovery.argument.DiscoveryAcademicAgeDescriptor.LabeledRange;
 import edu.tamu.scholars.discovery.discovery.utility.DateUtility;
 
-/**
- * 
- */
 public class DiscoveryAcademicAge {
 
     private final String label;

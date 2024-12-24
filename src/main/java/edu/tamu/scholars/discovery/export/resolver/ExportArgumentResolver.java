@@ -14,9 +14,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import edu.tamu.scholars.discovery.export.argument.ExportArg;
 
-/**
- * 
- */
 public final class ExportArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override

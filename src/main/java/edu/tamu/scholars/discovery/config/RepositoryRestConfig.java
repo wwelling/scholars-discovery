@@ -10,9 +10,7 @@ import edu.tamu.scholars.discovery.auth.model.repo.handler.UserEventHandler;
 import edu.tamu.scholars.discovery.theme.model.repo.ThemeRepo;
 import edu.tamu.scholars.discovery.theme.model.repo.handler.ThemeEventHandler;
 
-/**
- * 
- */
+
 @Configuration
 public class RepositoryRestConfig implements RepositoryRestConfigurer {
 

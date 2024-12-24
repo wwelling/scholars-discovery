@@ -8,9 +8,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import edu.tamu.scholars.discovery.discovery.argument.DiscoveryQuantityDistributionDescriptor;
 
-/**
- * 
- */
 public class DiscoveryQuantityDistribution {
 
     private final String label;

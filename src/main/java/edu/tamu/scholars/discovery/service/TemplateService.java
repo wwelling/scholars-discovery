@@ -22,9 +22,7 @@ import org.springframework.stereotype.Service;
 
 import edu.tamu.scholars.discovery.auth.controller.request.Registration;
 
-/**
- * 
- */
+
 @Service
 public class TemplateService {
 

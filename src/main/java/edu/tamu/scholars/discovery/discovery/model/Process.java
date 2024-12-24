@@ -15,9 +15,6 @@ import edu.tamu.scholars.discovery.discovery.annotation.NestedMultiValuedPropert
 import edu.tamu.scholars.discovery.discovery.annotation.NestedObject;
 import edu.tamu.scholars.discovery.discovery.annotation.NestedObject.Reference;
 
-/**
- * 
- */
 @JsonInclude(NON_EMPTY)
 @CollectionSource(name = "processes", predicate = "http://purl.obolibrary.org/obo/BFO_0000015")
 public class Process extends Common {

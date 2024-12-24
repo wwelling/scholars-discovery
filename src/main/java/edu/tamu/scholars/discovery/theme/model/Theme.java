@@ -11,9 +11,6 @@ import java.util.List;
 
 import edu.tamu.scholars.discovery.model.Named;
 
-/**
- * 
- */
 @Entity
 @Table(name = "themes")
 public class Theme extends Named {

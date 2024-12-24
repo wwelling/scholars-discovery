@@ -8,9 +8,6 @@ import jakarta.persistence.Embeddable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 
- */
 @Embeddable
 public class Navbar {
 
@@ -33,8 +30,8 @@ public class Navbar {
 
     public Navbar() {
         super();
-        this.links = new ArrayList<Link>();
-        this.variables = new ArrayList<Style>();
+        this.links = new ArrayList<>();
+        this.variables = new ArrayList<>();
     }
 
     public String getBrandText() {

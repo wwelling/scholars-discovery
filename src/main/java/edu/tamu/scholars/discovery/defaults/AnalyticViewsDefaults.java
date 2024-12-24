@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 import edu.tamu.scholars.discovery.view.model.DataAndAnalyticsView;
 import edu.tamu.scholars.discovery.view.model.repo.DataAndAnalyticsViewRepo;
 
-/**
- * 
- */
+
 @Service
 public class AnalyticViewsDefaults extends AbstractDefaults<DataAndAnalyticsView, DataAndAnalyticsViewRepo> {
 

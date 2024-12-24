@@ -56,9 +56,7 @@ import edu.tamu.scholars.discovery.view.model.ExportFieldView;
 import edu.tamu.scholars.discovery.view.model.ExportView;
 import edu.tamu.scholars.discovery.view.model.repo.DisplayViewRepo;
 
-/**
- * 
- */
+
 public abstract class AbstractDocxExporter implements Exporter {
 
     private static final ContentType HTML_CONTENT_TYPE = new ContentType("text/html");
@@ -161,12 +159,12 @@ public abstract class AbstractDocxExporter implements Exporter {
                 Optional.of(f.getOpKey().getKey()),
                 Optional.empty()
             );
-        }).collect(Collectors.toList());
+        }).toList();
 
         Sort sort = Sort.by(
             lazyReference.getSort().stream().map(s -> {
                 return Order.by(s.getField()).with(s.getDirection());
-            }).collect(Collectors.toList())
+            }).toList()
         );
 
         int limit = lazyReference.getLimit();

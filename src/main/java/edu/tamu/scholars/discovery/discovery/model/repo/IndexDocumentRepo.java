@@ -22,9 +22,6 @@ import edu.tamu.scholars.discovery.discovery.response.DiscoveryFacetAndHighlight
 import edu.tamu.scholars.discovery.discovery.response.DiscoveryNetwork;
 import edu.tamu.scholars.discovery.discovery.response.DiscoveryQuantityDistribution;
 
-/**
- * 
- */
 public interface IndexDocumentRepo<D extends AbstractIndexDocument> {
 
     public long count(QueryArg query, List<FilterArg> filters);

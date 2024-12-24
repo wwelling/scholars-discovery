@@ -1,8 +1,5 @@
 package edu.tamu.scholars.discovery.discovery;
 
-/**
- * 
- */
 public class DiscoveryConstants {
 
     public static final String WILDCARD = "*";
@@ -34,5 +31,9 @@ public class DiscoveryConstants {
     public static final String DISCOVERY_MODEL_PACKAGE = "edu.tamu.scholars.discovery.discovery.model";
 
     public static final String PARENTHESES_TEMPLATE = "(%s)";
+
+    private DiscoveryConstants() {
+
+    }
 
 }

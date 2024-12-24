@@ -8,9 +8,6 @@ import jakarta.persistence.Embeddable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 
- */
 @Embeddable
 public class Home {
 
@@ -27,8 +24,8 @@ public class Home {
     public Home() {
         super();
         this.heroesNavigable = false;
-        this.heroes = new ArrayList<Hero>();
-        this.variables = new ArrayList<Style>();
+        this.heroes = new ArrayList<>();
+        this.variables = new ArrayList<>();
     }
 
     public boolean isHeroesNavigable() {

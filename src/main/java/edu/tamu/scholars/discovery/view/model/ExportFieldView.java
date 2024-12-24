@@ -5,9 +5,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
-/**
- * 
- */
 @Entity
 @Table(name = "export_fields")
 @AttributeOverride(name = "name", column = @Column(nullable = false))

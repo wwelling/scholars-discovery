@@ -1,8 +1,5 @@
 package edu.tamu.scholars.discovery.model;
 
-/**
- * 
- */
 public enum OpKey {
 
     BETWEEN("BETWEEN"),

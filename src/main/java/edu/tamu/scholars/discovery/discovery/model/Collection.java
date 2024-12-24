@@ -14,9 +14,6 @@ import edu.tamu.scholars.discovery.discovery.annotation.FieldType;
 import edu.tamu.scholars.discovery.discovery.annotation.NestedObject;
 import edu.tamu.scholars.discovery.discovery.annotation.NestedObject.Reference;
 
-/**
- * 
- */
 @JsonInclude(NON_EMPTY)
 @CollectionSource(name = "collections", predicate = "http://purl.org/ontology/bibo/Collection")
 public class Collection extends Common {

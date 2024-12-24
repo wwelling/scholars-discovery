@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import reactor.core.publisher.Flux;
@@ -24,9 +23,6 @@ import edu.tamu.scholars.discovery.discovery.model.Individual;
 import edu.tamu.scholars.discovery.export.argument.ExportArg;
 import edu.tamu.scholars.discovery.utility.DateFormatUtility;
 
-/**
- * 
- */
 @Service
 public class CsvExporter implements Exporter {
 
@@ -38,8 +34,11 @@ public class CsvExporter implements Exporter {
 
     private static final String DELIMITER = "||";
 
-    @Autowired
-    private ExportConfig config;
+    private final ExportConfig config;
+
+    CsvExporter(ExportConfig config) {
+        this.config = config;
+    }
 
     @Override
     public String type() {

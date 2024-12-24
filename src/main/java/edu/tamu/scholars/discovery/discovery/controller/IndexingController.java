@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.tamu.scholars.discovery.discovery.service.IndexService;
 
-/**
- * 
- */
+
 @RestController
 @RequestMapping("/index")
 public class IndexingController {

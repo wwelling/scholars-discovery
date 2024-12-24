@@ -22,9 +22,6 @@ import edu.tamu.scholars.discovery.discovery.argument.FacetSortArg;
 import edu.tamu.scholars.discovery.utility.DateFormatUtility;
 import edu.tamu.scholars.discovery.view.model.FacetSort;
 
-/**
- * 
- */
 public class DiscoveryFacetPage<T> extends DiscoveryPage<T> {
 
     private static final long serialVersionUID = 8673698977219588493L;
@@ -44,11 +41,10 @@ public class DiscoveryFacetPage<T> extends DiscoveryPage<T> {
         Class<T> type
     ) {
         List<Facet> facets = buildFacets(response, facetArguments);
-        // JsonNode results = response.getResults();
+        long numFound = response.get("numFound")
+            .asLong();
 
-        // return new DiscoveryFacetPage<T>(documents, pageable, results.getNumFound(), facets);
-
-        return null;
+        return new DiscoveryFacetPage<T>(documents, pageable, numFound, facets);
     }
 
     public static <T> List<Facet> buildFacets(JsonNode response, List<FacetArg> facetArguments) {

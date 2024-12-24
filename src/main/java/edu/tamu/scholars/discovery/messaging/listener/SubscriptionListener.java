@@ -2,7 +2,6 @@ package edu.tamu.scholars.discovery.messaging.listener;
 
 import static org.springframework.messaging.simp.stomp.StompCommand.RECEIPT;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
@@ -11,16 +10,16 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
-/**
- * 
- */
 @Component
 public class SubscriptionListener implements ApplicationListener<SessionSubscribeEvent> {
 
     private static final byte[] EMPTY_PAYLOAD = new byte[0];
 
-    @Autowired
-    private AbstractSubscribableChannel clientOutboundChannel;
+    private final AbstractSubscribableChannel clientOutboundChannel;
+
+    public SubscriptionListener(AbstractSubscribableChannel clientOutboundChannel) {
+        this.clientOutboundChannel = clientOutboundChannel;
+    }
 
     @Override
     public void onApplicationEvent(SessionSubscribeEvent event) {

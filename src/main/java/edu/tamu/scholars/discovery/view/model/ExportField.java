@@ -3,9 +3,6 @@ package edu.tamu.scholars.discovery.view.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
-/**
- * 
- */
 @Embeddable
 public class ExportField {
 

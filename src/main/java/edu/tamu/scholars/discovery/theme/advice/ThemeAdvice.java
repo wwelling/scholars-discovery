@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.tamu.scholars.discovery.theme.exception.CreateActiveThemeException;
 import edu.tamu.scholars.discovery.theme.exception.DeleteActiveThemeException;
 
-/**
- * 
- */
+
 @RestController
 @ControllerAdvice
 public class ThemeAdvice {

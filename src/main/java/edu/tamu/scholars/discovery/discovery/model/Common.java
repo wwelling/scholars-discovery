@@ -7,9 +7,6 @@ import edu.tamu.scholars.discovery.discovery.annotation.FieldType;
 import edu.tamu.scholars.discovery.discovery.annotation.NestedObject;
 import edu.tamu.scholars.discovery.discovery.annotation.NestedObject.Reference;
 
-/**
- * 
- */
 public class Common extends AbstractIndexDocument {
 
     @FieldType(type = "whole_string", searchable = false)

@@ -11,9 +11,6 @@ import java.util.Locale;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-/**
- * 
- */
 public class DateFormatUtility {
 
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";

@@ -12,9 +12,6 @@ import edu.tamu.scholars.discovery.discovery.model.Individual;
 import edu.tamu.scholars.discovery.discovery.model.Organization;
 import edu.tamu.scholars.discovery.discovery.model.Person;
 
-/**
- * 
- */
 public class FilenameUtility {
 
     private static final String UNDERSCORE = "_";

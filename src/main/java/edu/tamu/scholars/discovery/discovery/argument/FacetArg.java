@@ -7,9 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import edu.tamu.scholars.discovery.discovery.utility.DiscoveryUtility;
 import edu.tamu.scholars.discovery.view.model.FacetType;
 
-/**
- * 
- */
+
 public class FacetArg {
 
     private final String field;

@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 
 import edu.tamu.scholars.discovery.config.model.MailConfig;
 
-/**
- * 
- */
+
 @Service
 public class EmailService {
 

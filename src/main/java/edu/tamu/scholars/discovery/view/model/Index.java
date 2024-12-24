@@ -1,12 +1,12 @@
 package edu.tamu.scholars.discovery.view.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-
-import java.util.List;
 
 import edu.tamu.scholars.discovery.model.OpKey;
 

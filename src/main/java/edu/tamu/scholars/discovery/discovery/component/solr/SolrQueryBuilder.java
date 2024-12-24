@@ -7,7 +7,9 @@ import static edu.tamu.scholars.discovery.discovery.DiscoveryConstants.REQUEST_P
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -33,6 +35,12 @@ public class SolrQueryBuilder {
 
     private String expression;
 
+    private Sort sort;
+
+    private int start;
+
+    private int rows;
+
     private SolrQueryBuilder(String defType, String defaultOperator) {
 
         this.id = UUID.randomUUID();
@@ -41,6 +49,11 @@ public class SolrQueryBuilder {
             .queryParam("defType", defType)
             .queryParam("q.op", defaultOperator)
             .queryParam("q", DEFAULT_QUERY);
+
+        this.expression = DEFAULT_QUERY;
+        this.sort = Sort.unsorted();
+        this.start = 0;
+        this.rows = 10;
 
         this.filters = new ArrayList<>();
     }
@@ -68,19 +81,26 @@ public class SolrQueryBuilder {
 
         if (StringUtils.isNotEmpty(query.getFields())) {
             String fields = String.join(REQUEST_PARAM_DELIMETER, ID, CLASS, query.getFields());
-            String fl = String.join(REQUEST_PARAM_DELIMETER,
-                    Arrays.stream(fields.split(REQUEST_PARAM_DELIMETER)).collect(Collectors.toSet()));
+            String fl = String.join(REQUEST_PARAM_DELIMETER, Arrays.stream(fields.split(REQUEST_PARAM_DELIMETER)).collect(Collectors.toSet()));
 
             this.uriBuilder.queryParam("fl", fl);
         }
 
-        this.uriBuilder.replaceQueryParam("q", query.getExpression());
+        if (StringUtils.isNotEmpty(query.getExpression())) {
+            this.expression = query.getExpression();
+
+            this.uriBuilder.replaceQueryParam("q", this.expression);
+        }
 
         return this;
     }
 
     public SolrQueryBuilder withQuery(String query) {
-        this.uriBuilder.replaceQueryParam("q", query);
+        if (StringUtils.isNotEmpty(query)) {
+            this.expression = query;
+
+            this.uriBuilder.replaceQueryParam("q", this.expression);
+        }
 
         return this;
     }
@@ -92,19 +112,25 @@ public class SolrQueryBuilder {
     }
 
     public SolrQueryBuilder withStart(int start) {
+        this.start = start;
+
         this.uriBuilder.queryParam("start", start);
 
         return this;
     }
 
     public SolrQueryBuilder withRows(int rows) {
+        this.rows = rows;
+
         this.uriBuilder.queryParam("rows", rows);
 
         return this;
     }
 
     public SolrQueryBuilder withSort(Sort sort) {
-        String sortParam = sort.stream()
+        this.sort = sort;
+
+        String sortParam = this.sort.stream()
             .map(order -> order.getProperty() + " " + (order.isAscending() ? "asc" : "desc"))
             .collect(Collectors.joining(","));
 
@@ -133,6 +159,7 @@ public class SolrQueryBuilder {
                 }
 
                 this.filters.add(filterQuery.toString());
+
                 this.uriBuilder.queryParam("fq", filterQuery.toString());
             });
 
@@ -140,17 +167,18 @@ public class SolrQueryBuilder {
     }
 
     public SolrQueryBuilder withFacets(List<FacetArg> facets) {
-        facets.forEach(facet -> {
-            if (facet.getType() == FacetType.NUMBER_RANGE) {
-                this.uriBuilder.queryParam("facet.range", facet.getCommand())
-                    .queryParam("facet.range.start", facet.getRangeStart())
-                    .queryParam("facet.range.end", facet.getRangeEnd())
-                    .queryParam("facet.range.gap", facet.getRangeGap());
-            } else {
-                this.uriBuilder.queryParam("facet.field", facet.getCommand());
-            }
-        });
         if (!facets.isEmpty()) {
+            facets.forEach(facet -> {
+                if (facet.getType() == FacetType.NUMBER_RANGE) {
+                    this.uriBuilder.queryParam("facet.range", facet.getCommand())
+                        .queryParam("facet.range.start", facet.getRangeStart())
+                        .queryParam("facet.range.end", facet.getRangeEnd())
+                        .queryParam("facet.range.gap", facet.getRangeGap());
+                } else {
+                    this.uriBuilder.queryParam("facet.field", facet.getCommand());
+                }
+            });
+
             this.uriBuilder.queryParam("facet", true)
                 .queryParam("facet.limit", -1)
                 .queryParam("facet.mincount", 1);
@@ -160,11 +188,13 @@ public class SolrQueryBuilder {
     }
 
     public SolrQueryBuilder withBoosts(List<BoostArg> boosts) {
-        String boostedQuery = boosts.stream()
-            .map(boost -> String.format("(%s:(%s)^%s)", boost.getField(), expression, boost.getValue()))
-            .collect(Collectors.joining(" OR "));
+        if (!boosts.isEmpty()) {
+            String boostedQuery = boosts.stream()
+                .map(boost -> String.format("(%s:(%s)^%s)", boost.getField(), expression, boost.getValue()))
+                .collect(Collectors.joining(" OR "));
 
-        this.uriBuilder.replaceQueryParam("q", boostedQuery);
+            this.uriBuilder.replaceQueryParam("q", boostedQuery);
+        }
 
         return this;
     }
@@ -186,7 +216,39 @@ public class SolrQueryBuilder {
     }
 
     public String build() {
-        return this.uriBuilder.build().toUriString();
+        return this.uriBuilder
+            .build(false)
+            .toUriString();
+    }
+
+    public Map<String, Object> build(List<String> ids) {
+        Map<String, Object> requestMap = new HashMap<>();
+
+        requestMap.put("query", this.expression);
+        requestMap.put("limit", this.rows);
+        requestMap.put("offset", this.start);
+
+        List<String> filter = new ArrayList<>();
+
+        if (ids.size() == 1) {
+            filter.add(String.format("id:%s", ids.get(0)));
+        } else if (ids.size() > 1) {
+            filter.add(String.format("{!terms f=id}:%s", String.join(",", ids)));
+        }
+
+        filter.addAll(this.filters.stream()
+            .map(f -> f.replace(" AND ", " OR "))
+            .toList());
+
+        requestMap.put("filter", filter);
+
+        String sortParam = this.sort.stream()
+            .map(order -> order.getProperty() + " " + (order.isAscending() ? "asc" : "desc"))
+            .collect(Collectors.joining(","));
+
+        requestMap.put("sort", sortParam);
+    
+        return requestMap;
     }
 
     public static SolrQueryBuilder from(String defType, String defaultOperator) {

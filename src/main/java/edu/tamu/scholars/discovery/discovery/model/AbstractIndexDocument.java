@@ -10,9 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.tamu.scholars.discovery.discovery.annotation.FieldSource;
 import edu.tamu.scholars.discovery.discovery.annotation.FieldType;
 
-/**
- * 
- */
 public abstract class AbstractIndexDocument {
 
     @JsonProperty(CLASS)

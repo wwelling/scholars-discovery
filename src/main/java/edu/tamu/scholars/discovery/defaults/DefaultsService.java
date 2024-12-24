@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 
 import edu.tamu.scholars.discovery.config.model.MiddlewareConfig;
 
-/**
- * 
- */
+
 @Service
 public class DefaultsService {
 

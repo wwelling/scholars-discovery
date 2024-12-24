@@ -12,9 +12,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * 
- */
 public class DiscoveryNetwork {
 
     private final String id;
@@ -58,7 +55,7 @@ public class DiscoveryNetwork {
     public List<DirectedData> getData() {
         return data.stream()
             .sorted(Comparator.comparingInt(DirectedData::getCount).reversed())
-            .collect(Collectors.toList());
+            .toList();
     }
 
     public void index(String value) {

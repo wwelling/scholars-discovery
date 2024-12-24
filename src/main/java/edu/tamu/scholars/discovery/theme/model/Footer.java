@@ -8,9 +8,6 @@ import jakarta.persistence.Embeddable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 
- */
 @Embeddable
 public class Footer {
 
@@ -27,8 +24,8 @@ public class Footer {
 
     public Footer() {
         super();
-        this.links = new ArrayList<Link>();
-        this.variables = new ArrayList<Style>();
+        this.links = new ArrayList<>();
+        this.variables = new ArrayList<>();
     }
 
     public List<Link> getLinks() {

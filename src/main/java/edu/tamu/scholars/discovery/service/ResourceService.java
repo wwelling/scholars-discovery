@@ -10,9 +10,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-/**
- * 
- */
+
 @Service
 public class ResourceService {
 

@@ -8,9 +8,6 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.socket.messaging.StompSubProtocolErrorHandler;
 
-/**
- * 
- */
 public class CustomStompSubProtocolErrorHandler extends StompSubProtocolErrorHandler {
 
     @Override
