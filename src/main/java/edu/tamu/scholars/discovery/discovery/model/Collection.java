@@ -64,7 +64,7 @@ public class Collection extends Common {
     )
     private List<String> translators;
 
-    @FieldType(type = "pdate", indexed = false)
+    @FieldType(type = "pdate", docValues = true)
     @FieldSource(
         template = "collection/publicationDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"

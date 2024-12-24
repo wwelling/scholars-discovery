@@ -180,7 +180,7 @@ public class Concept extends Common {
     )
     private String description;
 
-    @FieldType(type = "pdate")
+    @FieldType(type = "pdate", docValues = true)
     @FieldSource(
         template = "concept/createdDate",
         predicate = "http://vivoweb.org/ontology/core#dateTime"

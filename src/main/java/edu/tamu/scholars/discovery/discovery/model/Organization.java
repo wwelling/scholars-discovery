@@ -45,7 +45,7 @@ public class Organization extends Common {
     )
     private String abbreviation;
 
-    @FieldType(type = "pdate", indexed = false)
+    @FieldType(type = "pdate", docValues = true)
     @FieldSource(
         template = "organization/date",
         predicate = "http://vivoweb.org/ontology/core#dateTime"

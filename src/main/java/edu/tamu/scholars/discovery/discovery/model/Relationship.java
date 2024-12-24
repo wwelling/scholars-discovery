@@ -292,7 +292,7 @@ public class Relationship extends Common {
     )
     private List<String> subjectAreas;
 
-    @FieldType(type = "pdate")
+    @FieldType(type = "pdate", docValues = true)
     @FieldSource(
         template = "relationship/yearAwarded",
         predicate = "http://vivoweb.org/ontology/core#dateTime"

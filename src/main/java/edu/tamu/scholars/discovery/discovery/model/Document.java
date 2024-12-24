@@ -150,14 +150,14 @@ public class Document extends Common {
     )
     private String publisherType;
 
-    @FieldType(type = "pdate", indexed = false)
+    @FieldType(type = "pdate", docValues = true)
     @FieldSource(
         template = "document/dateFiled",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
     )
     private String dateFiled;
 
-    @FieldType(type = "pdate", indexed = false)
+    @FieldType(type = "pdate", docValues = true)
     @FieldSource(
         template = "document/dateIssued",
         predicate = "http://vivoweb.org/ontology/core#dateTime"
