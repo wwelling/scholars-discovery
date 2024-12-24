@@ -2,7 +2,7 @@ package edu.tamu.scholars.discovery.index.component.jena;
 
 import static edu.tamu.scholars.discovery.index.DiscoveryConstants.CLASS;
 import static edu.tamu.scholars.discovery.index.DiscoveryConstants.ID;
-// import static edu.tamu.scholars.discovery.index.DiscoveryConstants.NESTED_DELIMITER;
+import static edu.tamu.scholars.discovery.index.DiscoveryConstants.NESTED_DELIMITER;
 import static edu.tamu.scholars.discovery.index.DiscoveryConstants.SYNC_IDS;
 
 import java.lang.annotation.Annotation;
@@ -63,8 +63,8 @@ public class TriplestoreHarvester implements Harvester {
     @Autowired
     private TemplateService templateService;
 
-    // @Autowired
-    // private CacheService cacheService;
+    @Autowired
+    private CacheService cacheService;
 
     private final Class<AbstractIndexDocument> type;
 
@@ -130,45 +130,45 @@ public class TriplestoreHarvester implements Harvester {
                 List<String> values = lookupProperty(source, model);
 
                 // get cacheable lookup
-                // if (source.lookup().length > 0) {
-                //     Set<String> uniqueValues = new HashSet<>();
-                //     boolean isNestedObject = field.isAnnotationPresent(NestedObject.class);
-                //     for (CacheableLookup lookup : source.lookup()) {
-                //         FieldSource cacheableSource = getCacheableSource(source, lookup);
-                //         for (String value : values) {
-                //             if (isNestedObject) {
-                //                 String[] parts = value.split(NESTED_DELIMITER);
-                //                 String[] ids = Arrays.copyOfRange(parts, 1, parts.length);
-                //                 String[] refIds = ids.length > 1 ? Arrays.copyOfRange(ids, 0, ids.length - 1) : new String[] {};
-                //                 String newSubjectId = ids[ids.length - 1];
-                //                 String newSubject = subject.replaceAll("[^/]+$", newSubjectId);
-                //                 for (String cached : queryForValues(cacheableSource, newSubject)) {
-                //                     String[] cachedParts = cached.split(NESTED_DELIMITER, 2);
-                //                     String label = cachedParts[0];
-                //                     StringBuilder result = new StringBuilder(label);
-                //                     if (refIds.length > 0) {
-                //                         result.append(NESTED_DELIMITER);
-                //                         result.append(String.join(NESTED_DELIMITER, refIds));
-                //                     }
-                //                     if (cachedParts.length > 1) {
-                //                         result.append(NESTED_DELIMITER);
-                //                         result.append(cachedParts[1]);
-                //                     }
+                if (source.lookup().length > 0) {
+                    Set<String> uniqueValues = new HashSet<>();
+                    boolean isNestedObject = field.isAnnotationPresent(NestedObject.class);
+                    for (CacheableLookup lookup : source.lookup()) {
+                        FieldSource cacheableSource = getCacheableSource(source, lookup);
+                        for (String value : values) {
+                            if (isNestedObject) {
+                                String[] parts = value.split(NESTED_DELIMITER);
+                                String[] ids = Arrays.copyOfRange(parts, 1, parts.length);
+                                String[] refIds = ids.length > 1 ? Arrays.copyOfRange(ids, 0, ids.length - 1) : new String[] {};
+                                String newSubjectId = ids[ids.length - 1];
+                                String newSubject = subject.replaceAll("[^/]+$", newSubjectId);
+                                for (String cached : queryForValues(cacheableSource, newSubject)) {
+                                    String[] cachedParts = cached.split(NESTED_DELIMITER, 2);
+                                    String label = cachedParts[0];
+                                    StringBuilder result = new StringBuilder(label);
+                                    if (refIds.length > 0) {
+                                        result.append(NESTED_DELIMITER);
+                                        result.append(String.join(NESTED_DELIMITER, refIds));
+                                    }
+                                    if (cachedParts.length > 1) {
+                                        result.append(NESTED_DELIMITER);
+                                        result.append(cachedParts[1]);
+                                    }
 
-                //                     uniqueValues.add(result.toString());
-                //                 }
-                //             } else {
-                //                 for (String cached : queryForValues(cacheableSource, value)) {
-                //                     uniqueValues.add(cached);
-                //                 }
-                //             }
-                //         }
-                //     }
-                //     values = new ArrayList<>(uniqueValues);
-                // }
+                                    uniqueValues.add(result.toString());
+                                }
+                            } else {
+                                for (String cached : queryForValues(cacheableSource, value)) {
+                                    uniqueValues.add(cached);
+                                }
+                            }
+                        }
+                    }
+                    values = new ArrayList<>(uniqueValues);
+                }
 
                 if (!values.isEmpty()) {
-                    populate(document, field, values);
+                    populate(document, field, values.stream().map(v -> v.split(NESTED_DELIMITER)[0]).toList());
                 } else {
                     logger.debug("Could not find values for {}", field.getName());
                 }
@@ -185,21 +185,21 @@ public class TriplestoreHarvester implements Harvester {
         });
     }
 
-    // private List<String> queryForValues(FieldSource source, String subject) {
-    //     String key = toKey(source, subject);
-    //     List<String> values = cacheService.get(key);
-    //     if (Objects.isNull(values)) {
-    //         Model model = queryForModel(source, subject);
-    //         values = lookupProperty(source, model);
-    //         cacheService.put(key, values);
-    //     }
+    private List<String> queryForValues(FieldSource source, String subject) {
+        String key = toKey(source, subject);
+        List<String> values = cacheService.get(key);
+        if (Objects.isNull(values)) {
+            Model model = queryForModel(source, subject);
+            values = lookupProperty(source, model);
+            cacheService.put(key, values);
+        }
 
-    //     return values;
-    // }
+        return values;
+    }
 
-    // private String toKey(FieldSource source, String subject) {
-    //     return String.format("%s::%s::%s", source.predicate(), source.template(), subject);
-    // }
+    private String toKey(FieldSource source, String subject) {
+        return String.format("%s::%s::%s", source.predicate(), source.template(), subject);
+    }
 
     private Model queryForModel(FieldSource source, String subject) {
         String query = templateService.templateSparql(source.template(), subject);
@@ -265,7 +265,7 @@ public class TriplestoreHarvester implements Harvester {
                 }
             }
         }
-    
+
         return values;
     }
 
@@ -324,43 +324,43 @@ public class TriplestoreHarvester implements Harvester {
         return uri.substring(uri.lastIndexOf(uri.contains(HASH_TAG) ? HASH_TAG : FORWARD_SLASH) + 1);
     }
 
-    // private FieldSource getCacheableSource(FieldSource source, CacheableLookup lookup) {
-    //     return new FieldSource() {
-    //         @Override
-    //         public String template() {
-    //             return lookup.template();
-    //         }
+    private FieldSource getCacheableSource(FieldSource source, CacheableLookup lookup) {
+        return new FieldSource() {
+            @Override
+            public String template() {
+                return lookup.template();
+            }
 
-    //         @Override
-    //         public String predicate() {
-    //             return lookup.predicate();
-    //         }
+            @Override
+            public String predicate() {
+                return lookup.predicate();
+            }
 
-    //         @Override
-    //         public boolean parse() {
-    //             return source.parse();
-    //         }
+            @Override
+            public boolean parse() {
+                return source.parse();
+            }
 
-    //         @Override
-    //         public boolean unique() {
-    //             return source.unique();
-    //         }
+            @Override
+            public boolean unique() {
+                return source.unique();
+            }
 
-    //         @Override
-    //         public boolean split() {
-    //             return source.split();
-    //         }
+            @Override
+            public boolean split() {
+                return source.split();
+            }
 
-    //         @Override
-    //         public CacheableLookup[] lookup() {
-    //             return new CacheableLookup[] {};
-    //         }
+            @Override
+            public CacheableLookup[] lookup() {
+                return new CacheableLookup[] {};
+            }
 
-    //         @Override
-    //         public Class<? extends Annotation> annotationType() {
-    //             throw new UnsupportedOperationException("Unimplemented method 'annotationType'");
-    //         }
-    //     };
-    // }
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                throw new UnsupportedOperationException("Unimplemented method 'annotationType'");
+            }
+        };
+    }
 
 }

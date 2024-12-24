@@ -22,7 +22,7 @@ public class DiscoveryConstants {
 
     public static final String DEFAULT_QUERY = WILDCARD + QUERY_DELIMETER + WILDCARD;
 
-    // public static final String NESTED_DELIMITER = "::";
+    public static final String NESTED_DELIMITER = "::";
 
     public static final String REQUEST_PARAM_DELIMETER = ",";
 
