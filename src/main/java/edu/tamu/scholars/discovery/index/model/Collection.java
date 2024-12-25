@@ -26,7 +26,7 @@ public class Collection extends Common {
     private String name;
 
     @JsonProperty(ABSTRACT)
-    @FieldType(type = "text_general", value = ABSTRACT, copyTo = "_text_")
+    @FieldType(type = "text_general", name = ABSTRACT, copyTo = "_text_")
     @FieldSource(
         template = "collection/abstract",
         predicate = "http://purl.org/ontology/bibo/abstract"

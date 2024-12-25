@@ -46,8 +46,8 @@ public class SolrIndexer implements Indexer {
         for (Field field : FieldUtils.getFieldsListWithAnnotation(type, FieldType.class)) {
             FieldType fieldType = field.getAnnotation(FieldType.class);
 
-            String name = StringUtils.isNotEmpty(fieldType.value())
-                ? fieldType.value()
+            String name = StringUtils.isNotEmpty(fieldType.name())
+                ? fieldType.name()
                 : field.getName();
 
             if (!fieldType.readonly() && !addField(name)) {

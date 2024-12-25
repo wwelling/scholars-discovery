@@ -6,6 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.springframework.core.annotation.AliasFor;
+
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD, ElementType.ANNOTATION_TYPE })
@@ -27,7 +29,9 @@ public @interface FieldType {
 
     boolean required() default false;
 
-    String name() default "";
-
+    @AliasFor("name")
     String value() default "";
+
+    @AliasFor("value")
+    String name() default "";
 }

@@ -26,7 +26,7 @@ public class Relationship extends Common {
     private String title;
 
     @JsonProperty(ABSTRACT)
-    @FieldType(type = "string", value = ABSTRACT, copyTo = "_text_")
+    @FieldType(type = "string", name = ABSTRACT, copyTo = "_text_")
     @FieldSource(
         template = "relationship/abstract",
         predicate = "http://purl.org/ontology/bibo/abstract"

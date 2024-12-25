@@ -14,10 +14,10 @@ import edu.tamu.scholars.discovery.index.annotation.FieldType;
 public abstract class AbstractIndexDocument {
 
     @JsonProperty(CLASS)
-    @FieldType(name = CLASS, type = "string", required = true)
+    @FieldType(type = "string", name = CLASS, required = true)
     private String proxy;
 
-    @FieldType(name = ID, required = true, readonly = true)
+    @FieldType(required = true, name = ID, readonly = true)
     private String id;
 
     @FieldType(type = "strings", docValues = true)

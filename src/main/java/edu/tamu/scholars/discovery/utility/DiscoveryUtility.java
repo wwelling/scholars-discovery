@@ -52,8 +52,8 @@ public class DiscoveryUtility {
                         .stream()
                         .collect(Collectors.toMap(field -> {
                             FieldType fieldType = field.getAnnotation(FieldType.class);
-                            return StringUtils.isNotEmpty(fieldType.value())
-                                    ? fieldType.value()
+                            return StringUtils.isNotEmpty(fieldType.name())
+                                    ? fieldType.name()
                                     : field.getName();
                         }, Field::getType));
 
