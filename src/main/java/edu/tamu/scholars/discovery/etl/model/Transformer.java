@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "transformers")
-public class Transformer extends AbstractConfigurable {
+public class Transformer extends ConfigurableProcessor<DataTransformerType> {
 
     private static final long serialVersionUID = -123987654321234987L;
 

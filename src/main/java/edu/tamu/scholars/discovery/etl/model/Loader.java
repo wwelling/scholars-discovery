@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "loaders")
-public class Loader extends AbstractConfigurable {
+public class Loader extends ConfigurableProcessor<DataLoaderType> {
 
     private static final long serialVersionUID = 846236512763254198L;
 

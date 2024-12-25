@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "extractors")
-public class Extractor extends AbstractConfigurable {
+public class Extractor extends ConfigurableProcessor<DataExtractorType> {
 
     private static final long serialVersionUID = -945672019283746384L;
 

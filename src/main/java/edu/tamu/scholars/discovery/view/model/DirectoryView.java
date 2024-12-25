@@ -17,7 +17,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "directory_views")
-//@ValidIndexField(message = "{DirectoryView.validIndexField}")
+// @ValidIndexField(message = "{DirectoryView.validIndexField}")
+// validate in handler before create and save
 public class DirectoryView extends CollectionView {
 
     private static final long serialVersionUID = 112233445566778899L;
