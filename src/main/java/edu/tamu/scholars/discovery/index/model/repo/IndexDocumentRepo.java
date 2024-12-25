@@ -36,9 +36,17 @@ public interface IndexDocumentRepo<D extends AbstractIndexDocument> {
 
     public List<D> findByIdIn(List<String> ids);
 
-    public List<D> findByIdIn(List<String> ids, List<FilterArg> filters, Sort sort, int limit);
+    public List<D> findByIdIn(
+        List<String> ids,
+        List<FilterArg> filters,
+        Sort sort,
+        int limit
+    );
 
-    public List<D> findMostRecentlyUpdate(Integer limit, List<FilterArg> filters);
+    public List<D> findMostRecentlyUpdate(
+        Integer limit,
+        List<FilterArg> filters
+    );
 
     public DiscoveryFacetAndHighlightPage<D> search(
         QueryArg query,
@@ -49,9 +57,16 @@ public interface IndexDocumentRepo<D extends AbstractIndexDocument> {
         Pageable page
     );
 
-    public Flux<D> export(QueryArg query, List<FilterArg> filters, List<BoostArg> boosts, Sort sort);
+    public Flux<D> export(
+        QueryArg query,
+        List<FilterArg> filters,
+        List<BoostArg> boosts,
+        Sort sort
+    );
 
-    public DiscoveryNetwork network(DiscoveryNetworkDescriptor dataNetworkDescriptor);
+    public DiscoveryNetwork network(
+        DiscoveryNetworkDescriptor dataNetworkDescriptor
+    );
 
     public DiscoveryAcademicAge academicAge(
         DiscoveryAcademicAgeDescriptor academicAgeDescriptor,

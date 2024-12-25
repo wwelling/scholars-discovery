@@ -1,6 +1,7 @@
 package edu.tamu.scholars.discovery.index.model;
 
 import static edu.tamu.scholars.discovery.index.DiscoveryConstants.CLASS;
+import static edu.tamu.scholars.discovery.index.DiscoveryConstants.ID;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +14,10 @@ import edu.tamu.scholars.discovery.index.annotation.FieldType;
 public abstract class AbstractIndexDocument {
 
     @JsonProperty(CLASS)
+    @FieldType(name = CLASS, type = "string", required = true)
     private String proxy;
 
-    @FieldType(required = true, readonly = true)
+    @FieldType(name = ID, required = true, readonly = true)
     private String id;
 
     @FieldType(type = "strings", docValues = true)

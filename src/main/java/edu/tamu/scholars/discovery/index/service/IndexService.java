@@ -2,7 +2,6 @@ package edu.tamu.scholars.discovery.index.service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -59,14 +58,8 @@ public class IndexService {
             });
         }
         if (index.isOnStartup()) {
-            threadPoolTaskScheduler.schedule(new Runnable() {
-
-                @Override
-                public void run() {
-                    index();
-                }
-
-            }, new Date(System.currentTimeMillis() + index.getOnStartupDelay()));
+            Instant startTime = Instant.now().plusMillis(index.getOnStartupDelay());
+            threadPoolTaskScheduler.schedule(this::index, startTime);
         }
     }
 
@@ -79,13 +72,11 @@ public class IndexService {
             harvesters.parallelStream().forEach(harvester -> {
                 logger.info("Indexing {} documents.", harvester.type().getSimpleName());
                 if (indexers.stream().anyMatch(indexer -> indexer.type().equals(harvester.type()))) {
-                    harvester.harvest().buffer(index.getBatchSize()).subscribe(batch -> {
-                        indexers.parallelStream()
+                    harvester.harvest()
+                        .buffer(index.getBatchSize())
+                        .subscribe(batch -> indexers.parallelStream()
                             .filter(indexer -> indexer.type().equals(harvester.type()))
-                            .forEach(indexer -> {
-                                indexer.index(batch);
-                            });
-                    });
+                            .forEach(indexer -> indexer.index(batch)));
                 } else {
                     logger.warn("No indexer found for {} documents!", harvester.type().getSimpleName());
                 }

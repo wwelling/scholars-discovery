@@ -94,11 +94,11 @@ public class IndividualSearchController implements RepresentationModelProcessor<
         if (Individual.class.equals(resource.getDomainType())) {
             resource.add(linkTo(methodOn(IndividualSearchCountController.class).count(
                 DEFAULT_QUERY,
-                new ArrayList<FilterArg>()
+                new ArrayList<>()
             )).withRel("count").withTitle("Count query"));
 
             resource.add(linkTo(methodOn(this.getClass()).findByIdIn(
-                new ArrayList<String>()
+                new ArrayList<>()
             )).withRel("findByIdIn").withTitle("Search by ids"));
 
             resource.add(linkTo(methodOn(this.getClass()).findByType(
@@ -107,7 +107,7 @@ public class IndividualSearchController implements RepresentationModelProcessor<
 
             resource.add(linkTo(methodOn(this.getClass()).recentlyUpdated(
                 10,
-                new ArrayList<FilterArg>()
+                new ArrayList<>()
             )).withRel("recentlyUpdated").withTitle("Recently updated query"));
 
             resource.add(linkTo(methodOn(this.getClass()).search(
@@ -119,9 +119,9 @@ public class IndividualSearchController implements RepresentationModelProcessor<
                     Optional.empty(),
                     Optional.empty()
                 ),
-                new ArrayList<FacetArg>(),
-                new ArrayList<FilterArg>(),
-                new ArrayList<BoostArg>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
                 HighlightArg.of(new String[] {}, Optional.empty(), Optional.empty()),
                 PageRequest.of(0, 10)
             )).withRel("advanced").withTitle("Advanced search"));

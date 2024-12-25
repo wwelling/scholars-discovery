@@ -16,7 +16,7 @@ public class IndividualSerializer extends StdSerializer<Individual> {
 
     private static final long serialVersionUID = -7465695732226901511L;
 
-    private transient final JsonSerializer<Individual> delegate = new UnwrappingIndividualSerializer(NameTransformer.NOP);
+    private final transient JsonSerializer<Individual> delegate = new UnwrappingIndividualSerializer(NameTransformer.NOP);
 
     public IndividualSerializer() {
         super(Individual.class);

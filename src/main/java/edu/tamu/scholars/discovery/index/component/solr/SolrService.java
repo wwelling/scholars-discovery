@@ -312,8 +312,6 @@ public class SolrService {
 
         String url = getUrlWithQuery("select", queryParams);
 
-        System.out.println("\n\n" + url + "\n\n");
-
         ResponseEntity<JsonNode> response = restTemplate.getForEntity(url, JsonNode.class);
 
         if (response.getStatusCode().is2xxSuccessful()) {
