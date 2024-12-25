@@ -13,36 +13,36 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import edu.tamu.scholars.discovery.model.OpKey;
 
 @ExtendWith(MockitoExtension.class)
-public class IndexTest {
+public class GroupingTest {
 
     @Test
     public void testDefaultConstructor() {
-        Index index = new Index();
-        assertNotNull(index);
+        Grouping grouping = new Grouping();
+        assertNotNull(grouping);
     }
 
     @Test
     public void testGettersAndSetters() {
-        Index index = new Index();
+        Grouping grouping = new Grouping();
 
-        index.setField("test");
-        index.setOpKey(OpKey.ENDS_WITH);
+        grouping.setField("test");
+        grouping.setOpKey(OpKey.ENDS_WITH);
 
         List<String> options = new ArrayList<String>();
         for (char letter = 'A'; letter <= 'Z'; letter++) {
             options.add(String.valueOf(letter));
         }
 
-        index.setOptions(options);
+        grouping.setOptions(options);
 
-        assertEquals("test", index.getField());
-        assertEquals(OpKey.ENDS_WITH, index.getOpKey());
+        assertEquals("test", grouping.getField());
+        assertEquals(OpKey.ENDS_WITH, grouping.getOpKey());
 
-        assertEquals(26, index.getOptions().size());
+        assertEquals(26, grouping.getOptions().size());
 
         int i = 0;
         for (char letter = 'A'; letter <= 'Z'; letter++, i++) {
-            assertEquals(String.valueOf(letter), index.getOptions().get(i));
+            assertEquals(String.valueOf(letter), grouping.getOptions().get(i));
         }
     }
 

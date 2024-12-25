@@ -48,9 +48,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
+import jakarta.persistence.Version;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -64,7 +66,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = USERS_TABLE_NAME)
+@Table(
+    name = USERS_TABLE_NAME,
+    indexes = {
+        @Index(name = "idx_user_email", columnList = "email")
+})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 987654321012345678L;
@@ -153,6 +159,10 @@ public class User implements Serializable {
         name = USERS_ENABLED_COLUMN_NAME,
         nullable = false)
     private boolean enabled = false;
+
+    @Version
+    @Column(name = "version")
+    private Long version;
 
     public User(User user) {
         this();

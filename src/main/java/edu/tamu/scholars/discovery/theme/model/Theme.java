@@ -3,10 +3,12 @@ package edu.tamu.scholars.discovery.theme.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +20,11 @@ import edu.tamu.scholars.discovery.model.Named;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "themes")
+@Table(
+    name = "themes",
+    indexes = {
+        @Index(name = "idx_theme_name", columnList = "name")
+})
 public class Theme extends Named {
 
     @Column(nullable = false)
@@ -40,12 +46,15 @@ public class Theme extends Named {
     private Footer footer = new Footer();
 
     @ElementCollection
+    @CollectionTable(name = "theme_colors")
     private List<Style> colors = new ArrayList<>();
 
     @ElementCollection
+    @CollectionTable(name = "theme_variants")
     private List<Style> variants = new ArrayList<>();
 
     @ElementCollection
+    @CollectionTable(name = "theme_variables")
     private List<Style> variables = new ArrayList<>();
 
 }

@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +26,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @JsonInclude(NON_EMPTY)
-@Table(name = "discovery_views")
+@Table(
+    name = "discovery_views",
+    indexes = {
+        @Index(name = "idx_discovery_view_name", columnList = "name")
+})
 public class DiscoveryView extends CollectionView {
 
     private static final long serialVersionUID = 785672345676567890L;
@@ -33,6 +39,7 @@ public class DiscoveryView extends CollectionView {
     private String defaultSearchField;
 
     @ElementCollection
+    @CollectionTable(name = "discovery_view_highlight_fields")
     private List<String> highlightFields = new ArrayList<>();
 
     @Column(nullable = true)

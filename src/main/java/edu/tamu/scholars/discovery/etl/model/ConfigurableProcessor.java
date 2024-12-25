@@ -9,16 +9,15 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 
-import edu.tamu.scholars.discovery.model.Named;
+import edu.tamu.scholars.discovery.model.OrderedNamed;
 
 @Getter
 @Setter
 @MappedSuperclass
-public abstract class ConfigurableProcessor<T extends DataProcessorType> extends Named {
+public abstract class ConfigurableProcessor<T extends DataProcessorType> extends OrderedNamed {
 
     @ElementCollection
     @MapKeyColumn(name = "key")
@@ -28,9 +27,5 @@ public abstract class ConfigurableProcessor<T extends DataProcessorType> extends
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private T type;
-
-    @Min(1)
-    @Column(name = "\"order\"", nullable = false)
-    private int order;
 
 }

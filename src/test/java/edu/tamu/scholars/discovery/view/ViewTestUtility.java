@@ -24,7 +24,7 @@ import edu.tamu.scholars.discovery.view.model.Facet;
 import edu.tamu.scholars.discovery.view.model.FacetSort;
 import edu.tamu.scholars.discovery.view.model.FacetType;
 import edu.tamu.scholars.discovery.view.model.Filter;
-import edu.tamu.scholars.discovery.view.model.Index;
+import edu.tamu.scholars.discovery.view.model.Grouping;
 import edu.tamu.scholars.discovery.view.model.Layout;
 import edu.tamu.scholars.discovery.view.model.Side;
 import edu.tamu.scholars.discovery.view.model.Sort;
@@ -197,12 +197,12 @@ public class ViewTestUtility {
 
         directoryView.setSort(sorting);
 
-        Index index = new Index();
+        Grouping grouping = new Grouping();
 
-        index.setField("name");
-        index.setOpKey(OpKey.ENDS_WITH);
+        grouping.setField("name");
+        grouping.setOpKey(OpKey.ENDS_WITH);
 
-        directoryView.setIndex(index);
+        directoryView.setGrouping(grouping);
 
         List<ExportField> exporting = new ArrayList<ExportField>();
 

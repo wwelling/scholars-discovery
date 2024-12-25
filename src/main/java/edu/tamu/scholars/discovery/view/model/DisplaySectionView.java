@@ -5,10 +5,12 @@ import java.util.List;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
@@ -21,7 +23,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "display_sections")
+@Table(
+    name = "display_sections",
+    indexes = {
+        @Index(name = "idx_display_section_name", columnList = "name"),
+        @Index(name = "idx_display_section_order", columnList = "\"order\"")
+})
 @AttributeOverride(name = "name", column = @Column(nullable = false))
 public class DisplaySectionView extends FieldView {
 
@@ -43,9 +50,11 @@ public class DisplaySectionView extends FieldView {
     public String template;
 
     @ElementCollection
+    @CollectionTable(name = "discovery_section_required_fields")
     private List<String> requiredFields = new ArrayList<>();
 
     @ElementCollection
+    @CollectionTable(name = "discovery_section_lazy_references")
     private List<String> lazyReferences = new ArrayList<>();
 
     @OrderBy("order")

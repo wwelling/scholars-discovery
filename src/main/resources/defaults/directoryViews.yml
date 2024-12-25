@@ -67,7 +67,7 @@
       valuePath: positions.organizations
     - columnHeader: Individual
       valuePath: individual
-  index:
+  grouping:
     field: name_t_sort
     opKey: STARTS_WITH
     options:
@@ -127,7 +127,7 @@
       valuePath: name
     - columnHeader: Individual
       valuePath: individual
-  index:
+  grouping:
     field: name_t_sort
     opKey: STARTS_WITH
     options:
@@ -242,7 +242,7 @@
       valuePath: publisher
     - columnHeader: Individual
       valuePath: individual
-  index:
+  grouping:
     field: title_t_sort
     opKey: STARTS_WITH
     options:

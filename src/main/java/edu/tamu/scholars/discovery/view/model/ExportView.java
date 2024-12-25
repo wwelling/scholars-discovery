@@ -8,6 +8,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -21,7 +22,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "display_export_views")
+@Table(
+    name = "display_export_views",
+    indexes = {
+        @Index(name = "idx_display_export_view_name", columnList = "name")
+})
 @AttributeOverride(name = "name", column = @Column(nullable = false))
 public class ExportView extends View {
 

@@ -10,6 +10,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -24,6 +25,10 @@ public abstract class Named implements Serializable {
     @JsonInclude(Include.NON_EMPTY)
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+
+    @Version
+    @Column(name = "version")
+    private Long version;
 
     @Size(min = 2, max = 64, message = "${Named.nameSize}")
     @Column(nullable = false, unique = true)

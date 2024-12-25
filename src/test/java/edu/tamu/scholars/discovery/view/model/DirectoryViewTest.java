@@ -72,9 +72,9 @@ public class DirectoryViewTest {
         assertEquals("name", directoryView.getSort().get(0).getField());
         assertEquals(Direction.ASC, directoryView.getSort().get(0).getDirection());
 
-        assertNotNull(directoryView.getIndex());
-        assertEquals("name", directoryView.getIndex().getField());
-        assertEquals(OpKey.ENDS_WITH, directoryView.getIndex().getOpKey());
+        assertNotNull(directoryView.getGrouping());
+        assertEquals("name", directoryView.getGrouping().getField());
+        assertEquals(OpKey.ENDS_WITH, directoryView.getGrouping().getOpKey());
 
         assertEquals(2, directoryView.getExport().size());
         assertEquals("Id", directoryView.getExport().get(0).getColumnHeader());

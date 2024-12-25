@@ -21,6 +21,7 @@ public class Home {
     private boolean heroesNavigable = false;
 
     @ElementCollection
+    @CollectionTable(name = "theme_home_heroes")
     private List<Hero> heroes = new ArrayList<>();
 
     @ElementCollection

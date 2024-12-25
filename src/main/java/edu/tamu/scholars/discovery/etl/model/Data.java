@@ -3,11 +3,14 @@ package edu.tamu.scholars.discovery.etl.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,31 +22,19 @@ import edu.tamu.scholars.discovery.model.Named;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "data")
+@Table(
+    name = "data",
+    indexes = {
+        @Index(name = "idx_data_name", columnList = "name")
+})
 public class Data extends Named {
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "data_extractors",
-        joinColumns = @JoinColumn(name = "data_id"),
-        inverseJoinColumns = @JoinColumn(name = "extractor_id")
-    )
-    private List<Extractor> extractors = new ArrayList<>();
+    @Embedded
+    private CollectionSource collectionSource = new CollectionSource();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "data_transformers",
-        joinColumns = @JoinColumn(name = "data_id"),
-        inverseJoinColumns = @JoinColumn(name = "transformer_id")
-    )
-    private List<Transformer> transformers = new ArrayList<>();
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "data_loaders",
-        joinColumns = @JoinColumn(name = "data_id"),
-        inverseJoinColumns = @JoinColumn(name = "loader_id")
-    )
-    private List<Loader> loaders = new ArrayList<>();
+    @OrderBy("order")
+    @JoinColumn(name = "data_field_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DataField> fields = new ArrayList<>();
 
 }

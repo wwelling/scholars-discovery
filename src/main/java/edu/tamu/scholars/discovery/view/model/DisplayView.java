@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -30,12 +31,17 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "display_views")
+@Table(
+    name = "display_views",
+    indexes = {
+        @jakarta.persistence.Index(name = "idx_display_view_name", columnList = "name")
+})
 public class DisplayView extends View {
 
     private static final long serialVersionUID = 501234567890987654L;
 
     @ElementCollection
+    @CollectionTable(name = "display_view_types")
     private List<String> types = new ArrayList<>();
 
     @Column(nullable = false, columnDefinition = "TEXT")
