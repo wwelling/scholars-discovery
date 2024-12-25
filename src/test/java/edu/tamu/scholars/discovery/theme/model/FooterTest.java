@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.theme.model;
 
+import static edu.tamu.scholars.discovery.theme.model.ThemeTestHelper.getTestLink;
+import static edu.tamu.scholars.discovery.theme.model.ThemeTestHelper.getTestStyle;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -28,8 +30,8 @@ public class FooterTest {
     public void testGettersAndSetters() {
         Footer footer = new Footer();
         List<Link> footerLinks = new ArrayList<Link>();
-        footerLinks.add(new Link("About", "http://localhost:4200/about"));
-        footerLinks.add(new Link("Test", "http://localhost:4200/test"));
+        footerLinks.add(getTestLink("About", "http://localhost:4200/about"));
+        footerLinks.add(getTestLink("Test", "http://localhost:4200/test"));
 
         footer.setLinks(footerLinks);
 
@@ -41,8 +43,8 @@ public class FooterTest {
         assertEquals("http://localhost:4200/test", footer.getLinks().get(1).getUri());
 
         List<Style> footerVairables = new ArrayList<Style>();
-        footerVairables.add(new Style("--test", "footer"));
-        footerVairables.add(new Style("--variable", "test"));
+        footerVairables.add(getTestStyle("--test", "footer"));
+        footerVairables.add(getTestStyle("--variable", "test"));
 
         footer.setVariables(footerVairables);
 

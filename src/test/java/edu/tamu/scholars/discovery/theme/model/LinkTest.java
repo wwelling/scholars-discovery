@@ -17,14 +17,6 @@ public class LinkTest {
     }
 
     @Test
-    public void testBasicConstructor() {
-        Link link = new Link("Home", "http://localhost:4200");
-        assertNotNull(link);
-        assertEquals("Home", link.getLabel());
-        assertEquals("http://localhost:4200", link.getUri());
-    }
-
-    @Test
     public void testGettersAndSetters() {
         Link link = new Link();
         link.setLabel("Home");

@@ -31,7 +31,7 @@ import edu.tamu.scholars.discovery.view.model.Sort;
 
 public class ViewTestUtility {
 
-    public static String MOCK_VIEW_NAME = "View";
+    public static final String MOCK_VIEW_NAME = "View";
 
     public static DataAndAnalyticsView getMockDataAndAnalyticsView() {
         DataAndAnalyticsView dataAndAnalyticsView = new DataAndAnalyticsView();
@@ -235,8 +235,8 @@ public class ViewTestUtility {
         List<String> highlightFields = new ArrayList<String>();
         highlightFields.add("overview");
         discoveryView.setHighlightFields(highlightFields);
-        discoveryView.setHighlightPre("<em>");
-        discoveryView.setHighlightPost("</em>");
+        discoveryView.setHighlightPrefix("<em>");
+        discoveryView.setHighlightPostfix("</em>");
 
         Map<String, String> templates = new HashMap<String, String>();
         templates.put("default", "<h1>Person template from WSYWIG</h1>");

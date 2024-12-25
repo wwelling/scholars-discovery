@@ -1,128 +1,56 @@
 package edu.tamu.scholars.discovery.view.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "display_sections")
 @AttributeOverride(name = "name", column = @Column(nullable = false))
 public class DisplaySectionView extends FieldView {
 
-    private static final long serialVersionUID = 938457239875938467L;
+    private static final long serialVersionUID = -192837465564738291L;
 
     @Column(nullable = false)
-    private boolean hidden;
+    private boolean hidden = false;
 
     @Column(nullable = false)
-    private boolean shared;
+    private boolean shared = false;
 
     @Column(nullable = false)
-    private boolean paginated;
+    private boolean paginated = false;
 
     @Column(nullable = false)
-    private int pageSize;
+    private int pageSize = 5;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     public String template;
 
     @ElementCollection
-    private List<String> requiredFields;
+    private List<String> requiredFields = new ArrayList<>();
 
     @ElementCollection
-    private List<String> lazyReferences;
+    private List<String> lazyReferences = new ArrayList<>();
 
     @OrderBy("order")
     @JoinColumn(name = "display_tab_section_id")
-    @OneToMany(cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<DisplaySubsectionView> subsections;
-
-    public DisplaySectionView() {
-        super();
-        hidden = false;
-        shared = false;
-        paginated = false;
-        pageSize = 5;
-        requiredFields = new ArrayList<>();
-        lazyReferences = new ArrayList<>();
-        subsections = new ArrayList<>();
-    }
-
-    public boolean isHidden() {
-        return hidden;
-    }
-
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
-    }
-
-    public boolean isShared() {
-        return shared;
-    }
-
-    public void setShared(boolean shared) {
-        this.shared = shared;
-    }
-
-    public boolean isPaginated() {
-        return paginated;
-    }
-
-    public void setPaginated(boolean paginated) {
-        this.paginated = paginated;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public String getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(String template) {
-        this.template = template;
-    }
-
-    public List<String> getRequiredFields() {
-        return requiredFields;
-    }
-
-    public void setRequiredFields(List<String> requiredFields) {
-        this.requiredFields = requiredFields;
-    }
-
-    public List<String> getLazyReferences() {
-        return lazyReferences;
-    }
-
-    public void setLazyReferences(List<String> lazyReferences) {
-        this.lazyReferences = lazyReferences;
-    }
-
-    public List<DisplaySubsectionView> getSubsections() {
-        return subsections;
-    }
-
-    public void setSubsections(List<DisplaySubsectionView> subsections) {
-        this.subsections = subsections;
-    }
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<DisplaySubsectionView> subsections = new ArrayList<>();
 
 }

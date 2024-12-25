@@ -1,21 +1,25 @@
 package edu.tamu.scholars.discovery.theme.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import edu.tamu.scholars.discovery.model.Named;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "themes")
 public class Theme extends Named {
-
-    private static final long serialVersionUID = 3711737239238294248L;
 
     @Column(nullable = false)
     private String organization;
@@ -24,114 +28,24 @@ public class Theme extends Named {
     private String organizationId;
 
     @Column(nullable = false)
-    private boolean active;
+    private boolean active = false;
 
     @Embedded
-    private Home home;
+    private Home home = new Home();
 
     @Embedded
-    private Header header;
+    private Header header = new Header();
 
     @Embedded
-    private Footer footer;
+    private Footer footer = new Footer();
 
     @ElementCollection
-    private List<Style> colors;
+    private List<Style> colors = new ArrayList<>();
 
     @ElementCollection
-    private List<Style> variants;
+    private List<Style> variants = new ArrayList<>();
 
     @ElementCollection
-    private List<Style> variables;
-
-    public Theme() {
-        super();
-        this.active = false;
-        this.home = new Home();
-        this.header = new Header();
-        this.footer = new Footer();
-        this.colors = new ArrayList<>();
-        this.variants = new ArrayList<>();
-        this.variables = new ArrayList<>();
-    }
-
-    public Theme(String name, String organization, String organizationId) {
-        this();
-        setName(name);
-        this.organization = organization;
-        this.organizationId = organizationId;
-    }
-
-    public String getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(String organization) {
-        this.organization = organization;
-    }
-
-    public String getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Home getHome() {
-        return home;
-    }
-
-    public void setHome(Home home) {
-        this.home = home;
-    }
-
-    public Header getHeader() {
-        return header;
-    }
-
-    public void setHeader(Header header) {
-        this.header = header;
-    }
-
-    public Footer getFooter() {
-        return footer;
-    }
-
-    public void setFooter(Footer footer) {
-        this.footer = footer;
-    }
-
-    public List<Style> getColors() {
-        return colors;
-    }
-
-    public void setColors(List<Style> colors) {
-        this.colors = colors;
-    }
-
-    public List<Style> getVariants() {
-        return variants;
-    }
-
-    public void setVariants(List<Style> variants) {
-        this.variants = variants;
-    }
-
-    public List<Style> getVariables() {
-        return variables;
-    }
-
-    public void setVariables(List<Style> variables) {
-        this.variables = variables;
-    }
+    private List<Style> variables = new ArrayList<>();
 
 }

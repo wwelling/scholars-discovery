@@ -1,5 +1,6 @@
 package edu.tamu.scholars.discovery.view.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -7,6 +8,9 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import edu.tamu.scholars.discovery.model.OpKey;
 
@@ -14,45 +18,22 @@ import edu.tamu.scholars.discovery.model.OpKey;
  * {@link DirectoryView} embedded class `Index` to describe collection result
  * navigation.
  */
+@Getter
+@Setter
+@NoArgsConstructor
 @Embeddable
-public class Index {
+public class Index implements Serializable {
+
+    private static final long serialVersionUID = -987654321098765432L;
 
     @Column(nullable = false)
     private String field;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private OpKey opKey;
+    private OpKey opKey = OpKey.STARTS_WITH;
 
     @ElementCollection
     private List<String> options;
-
-    public Index() {
-        opKey = OpKey.STARTS_WITH;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public OpKey getOpKey() {
-        return opKey;
-    }
-
-    public void setOpKey(OpKey opKey) {
-        this.opKey = opKey;
-    }
-
-    public List<String> getOptions() {
-        return options;
-    }
-
-    public void setOptions(List<String> options) {
-        this.options = options;
-    }
 
 }

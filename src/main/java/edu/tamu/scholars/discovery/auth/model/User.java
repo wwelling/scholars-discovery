@@ -54,14 +54,20 @@ import jakarta.persistence.Temporal;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = USERS_TABLE_NAME)
 public class User implements Serializable {
 
-    private static final long serialVersionUID = -7535464109980348619L;
+    private static final long serialVersionUID = 987654321012345678L;
 
     @Id
     @JsonInclude(Include.NON_EMPTY)
@@ -107,14 +113,14 @@ public class User implements Serializable {
         name = USERS_OLD_PASSWORDS_TABLE_NAME,
         joinColumns = @JoinColumn(
             name = USERS_OLD_PASSWORDS_JOIN_COLUMN_NAME))
-    private List<String> oldPasswords;
+    private List<String> oldPasswords = new ArrayList<>();
 
     @NotNull(message = USER_ROLE_REQUIRED_MESSAGE)
     @Enumerated(STRING)
     @Column(
         name = USERS_ROLE_COLUMN_NAME,
         nullable = false)
-    private Role role;
+    private Role role = Role.ROLE_USER;
 
     @JsonIgnore
     @CreationTimestamp
@@ -122,7 +128,7 @@ public class User implements Serializable {
     @Column(
         name = USERS_CREATED_COLUMN_NAME,
         nullable = false)
-    private Calendar created;
+    private Calendar created = Calendar.getInstance();
 
     @JsonIgnore
     @UpdateTimestamp
@@ -130,141 +136,27 @@ public class User implements Serializable {
     @Column(
         name = USERS_TIMESTAMP_COLUMN_NAME,
         nullable = false)
-    private Calendar timestamp;
+    private Calendar timestamp = Calendar.getInstance();
 
     @JsonIgnore
     @Column(
         name = USERS_CONFIRMED_COLUMN_NAME,
         nullable = false)
-    private boolean confirmed;
+    private boolean confirmed = false;
 
     @Column(
         name = USERS_ACTIVE_COLUMN_NAME,
         nullable = false)
-    private boolean active;
+    private boolean active = true;
 
     @Column(
         name = USERS_ENABLED_COLUMN_NAME,
         nullable = false)
-    private boolean enabled;
-
-    public User() {
-        super();
-        this.oldPasswords = new ArrayList<>();
-        this.role = Role.ROLE_USER;
-        this.created = Calendar.getInstance();
-        this.timestamp = Calendar.getInstance();
-        this.confirmed = false;
-        this.active = true;
-        this.enabled = false;
-    }
-
-    public User(String firstName, String lastName, String email) {
-        this();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
+    private boolean enabled = false;
 
     public User(User user) {
         this();
         copyProperties(user, this);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public List<String> getOldPasswords() {
-        return oldPasswords;
-    }
-
-    public void setOldPasswords(List<String> oldPasswords) {
-        this.oldPasswords = oldPasswords;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public Calendar getCreated() {
-        return created;
-    }
-
-    public void setCreated(Calendar created) {
-        this.created = created;
-    }
-
-    public Calendar getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Calendar timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public boolean isConfirmed() {
-        return confirmed;
-    }
-
-    public void setConfirmed(boolean confirmed) {
-        this.confirmed = confirmed;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
 }

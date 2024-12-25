@@ -4,28 +4,21 @@ import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "export_fields")
 @AttributeOverride(name = "name", column = @Column(nullable = false))
 public class ExportFieldView extends FieldView {
 
-    private static final long serialVersionUID = -5336237302881223760L;
+    private static final long serialVersionUID = 334455667788990011L;
 
     @Column(name = "\"limit\"", nullable = false)
-    private int limit;
-
-    public ExportFieldView() {
-        super();
-        limit = Integer.MAX_VALUE;
-    }
-
-    public int getLimit() {
-        return limit;
-    }
-
-    public void setLimit(int limit) {
-        this.limit = limit;
-    }
+    private int limit = Integer.MAX_VALUE;
 
 }

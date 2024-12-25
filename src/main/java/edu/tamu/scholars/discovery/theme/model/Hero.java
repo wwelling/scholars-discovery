@@ -2,7 +2,13 @@ package edu.tamu.scholars.discovery.theme.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Embeddable
 public class Hero {
 
@@ -35,89 +41,5 @@ public class Hero {
 
     @Column
     private int slideInterval;
-
-    public Hero() {
-        super();
-    }
-
-    public String getImageUri() {
-        return imageUri;
-    }
-
-    public void setImageUri(String imageUri) {
-        this.imageUri = imageUri;
-    }
-
-    public String getImageAlt() {
-        return imageAlt;
-    }
-
-    public void setImageAlt(String imageAlt) {
-        this.imageAlt = imageAlt;
-    }
-
-    public String getWatermarkImageUri() {
-        return watermarkImageUri;
-    }
-
-    public void setWatermarkImageUri(String watermarkImageUri) {
-        this.watermarkImageUri = watermarkImageUri;
-    }
-
-    public String getWatermarkText() {
-        return watermarkText;
-    }
-
-    public void setWatermarkText(String watermarkText) {
-        this.watermarkText = watermarkText;
-    }
-
-    public String getHelpText() {
-        return helpText;
-    }
-
-    public void setHelpText(String helpText) {
-        this.helpText = helpText;
-    }
-
-    public String getBaseText() {
-        return baseText;
-    }
-
-    public void setBaseText(String baseText) {
-        this.baseText = baseText;
-    }
-
-    public String getFontColor() {
-        return fontColor;
-    }
-
-    public void setFontColor(String fontColor) {
-        this.fontColor = fontColor;
-    }
-
-    public String getLinkColor() {
-        return linkColor;
-    }
-
-    public void setLinkColor(String linkColor) {
-        this.linkColor = linkColor;
-    }
-
-    public String getLinkHoverColor() {
-        return linkHoverColor;
-    }
-
-    public void setLinkHoverColor(String linkHoverColor) {
-        this.linkHoverColor = linkHoverColor;
-    }
-
-    public int getSlideInterval() {
-        return slideInterval;
-    }
-
-    public void setSlideInterval(int slideInterval) {
-        this.slideInterval = slideInterval;
-    }
 
 }

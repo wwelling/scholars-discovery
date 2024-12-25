@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.theme.model;
 
+import static edu.tamu.scholars.discovery.theme.model.ThemeTestHelper.getTestLink;
+import static edu.tamu.scholars.discovery.theme.model.ThemeTestHelper.getTestStyle;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -29,14 +31,6 @@ public class ThemeTest {
         assertTrue(theme.getColors().isEmpty());
         assertTrue(theme.getVariants().isEmpty());
         assertTrue(theme.getVariables().isEmpty());
-    }
-
-    @Test
-    public void testBasicConstructor() {
-        Theme theme = new Theme("Test", "Testing Unlimited", "n000001");
-        assertEquals("Test", theme.getName());
-        assertEquals("Testing Unlimited", theme.getOrganization());
-        assertEquals("n000001", theme.getOrganizationId());
     }
 
     @Test
@@ -73,8 +67,8 @@ public class ThemeTest {
         home.setHeroes(heroes);
 
         List<Style> homeVairables = new ArrayList<Style>();
-        homeVairables.add(new Style("--test", "home"));
-        homeVairables.add(new Style("--variable", "test"));
+        homeVairables.add(getTestStyle("--test", "home"));
+        homeVairables.add(getTestStyle("--variable", "test"));
 
         home.setVariables(homeVairables);
 
@@ -108,12 +102,12 @@ public class ThemeTest {
         navbar.setLogoUri("/assets/images/logo.png");
 
         List<Link> navbarLinks = new ArrayList<Link>();
-        navbarLinks.add(new Link("Home", "http://localhost:4200"));
+        navbarLinks.add(getTestLink("Home", "http://localhost:4200"));
 
         navbar.setLinks(navbarLinks);
 
         List<Style> navbarVairables = new ArrayList<Style>();
-        navbarVairables.add(new Style("--test", "navbar"));
+        navbarVairables.add(getTestStyle("--test", "navbar"));
 
         navbar.setVariables(navbarVairables);
 
@@ -124,14 +118,14 @@ public class ThemeTest {
         banner.setAltText("Test");
 
         List<Style> bannerVairables = new ArrayList<Style>();
-        bannerVairables.add(new Style("--test", "banner"));
+        bannerVairables.add(getTestStyle("--test", "banner"));
 
         banner.setVariables(bannerVairables);
 
         header.setBanner(banner);
 
         List<Style> headerVairables = new ArrayList<Style>();
-        headerVairables.add(new Style("--test", "header"));
+        headerVairables.add(getTestStyle("--test", "header"));
 
         header.setVariables(headerVairables);
 
@@ -161,12 +155,12 @@ public class ThemeTest {
         Footer footer = new Footer();
 
         List<Link> footerLinks = new ArrayList<Link>();
-        footerLinks.add(new Link("About", "http://localhost:4200/about"));
+        footerLinks.add(getTestLink("About", "http://localhost:4200/about"));
 
         footer.setLinks(footerLinks);
 
         List<Style> footerVairables = new ArrayList<Style>();
-        footerVairables.add(new Style("--test", "footer"));
+        footerVairables.add(getTestStyle("--test", "footer"));
 
         footer.setVariables(footerVairables);
 
@@ -183,9 +177,9 @@ public class ThemeTest {
         assertEquals("footer", theme.getFooter().getVariables().get(0).getValue());
 
         List<Style> colors = new ArrayList<Style>();
-        colors.add(new Style("--red", "#ff0000"));
-        colors.add(new Style("--green", "#00ff00"));
-        colors.add(new Style("--blue", "#0000ff"));
+        colors.add(getTestStyle("--red", "#ff0000"));
+        colors.add(getTestStyle("--green", "#00ff00"));
+        colors.add(getTestStyle("--blue", "#0000ff"));
 
         theme.setColors(colors);
 
@@ -199,9 +193,9 @@ public class ThemeTest {
         assertEquals("#0000ff", theme.getColors().get(2).getValue());
 
         List<Style> variants = new ArrayList<Style>();
-        variants.add(new Style("--primary", "#007bff"));
-        variants.add(new Style("--secondary", "#6c757d"));
-        variants.add(new Style("--success", "#28a745"));
+        variants.add(getTestStyle("--primary", "#007bff"));
+        variants.add(getTestStyle("--secondary", "#6c757d"));
+        variants.add(getTestStyle("--success", "#28a745"));
 
         theme.setVariants(variants);
 
@@ -215,9 +209,9 @@ public class ThemeTest {
         assertEquals("#28a745", theme.getVariants().get(2).getValue());
 
         List<Style> variables = new ArrayList<Style>();
-        variables.add(new Style("--accent", "#ffc222"));
-        variables.add(new Style("--navigation-color", "#3c0000"));
-        variables.add(new Style("--navbar-color", "#ffffff"));
+        variables.add(getTestStyle("--accent", "#ffc222"));
+        variables.add(getTestStyle("--navigation-color", "#3c0000"));
+        variables.add(getTestStyle("--navbar-color", "#ffffff"));
 
         theme.setVariables(variables);
 

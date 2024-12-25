@@ -1,13 +1,19 @@
 package edu.tamu.scholars.discovery.theme.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Getter
+@Setter
+@NoArgsConstructor
 @Embeddable
 public class Navbar {
 
@@ -22,56 +28,10 @@ public class Navbar {
 
     @ElementCollection
     @CollectionTable(name = "theme_navbar_links")
-    private List<Link> links;
+    private List<Link> links = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "theme_navbar_variables")
-    private List<Style> variables;
-
-    public Navbar() {
-        super();
-        this.links = new ArrayList<>();
-        this.variables = new ArrayList<>();
-    }
-
-    public String getBrandText() {
-        return brandText;
-    }
-
-    public void setBrandText(String brandText) {
-        this.brandText = brandText;
-    }
-
-    public String getBrandUri() {
-        return brandUri;
-    }
-
-    public void setBrandUri(String brandUri) {
-        this.brandUri = brandUri;
-    }
-
-    public String getLogoUri() {
-        return logoUri;
-    }
-
-    public void setLogoUri(String logoUri) {
-        this.logoUri = logoUri;
-    }
-
-    public List<Link> getLinks() {
-        return links;
-    }
-
-    public void setLinks(List<Link> links) {
-        this.links = links;
-    }
-
-    public List<Style> getVariables() {
-        return variables;
-    }
-
-    public void setVariables(List<Style> variables) {
-        this.variables = variables;
-    }
+    private List<Style> variables = new ArrayList<>();
 
 }

@@ -17,7 +17,7 @@ public class EntityMessageTest {
 
     @Test
     public void testCreateEntityMessage() {
-        CreateEntityMessage<Theme> createThemeMessage = new CreateEntityMessage<Theme>(new Theme("Test", "Testing Unlimited", "n000001"));
+        CreateEntityMessage<Theme> createThemeMessage = new CreateEntityMessage<Theme>(getTestTeheme());
         assertNotNull(createThemeMessage);
         assertEquals("Test", createThemeMessage.getEntity().getName());
         assertEquals("Testing Unlimited", createThemeMessage.getEntity().getOrganization());
@@ -27,7 +27,7 @@ public class EntityMessageTest {
 
     @Test
     public void testUpdateEntityMessage() {
-        UpdateEntityMessage<Theme> updateThemeMessage = new UpdateEntityMessage<Theme>(new Theme("Test", "Testing Unlimited", "n000001"));
+        UpdateEntityMessage<Theme> updateThemeMessage = new UpdateEntityMessage<Theme>(getTestTeheme());
         assertNotNull(updateThemeMessage);
         assertEquals("Test", updateThemeMessage.getEntity().getName());
         assertEquals("Testing Unlimited", updateThemeMessage.getEntity().getOrganization());
@@ -41,6 +41,15 @@ public class EntityMessageTest {
         assertNotNull(deleteThemeMessage);
         assertEquals("Test", deleteThemeMessage.getIdentifier());
         assertEquals(DELETE, deleteThemeMessage.getAction());
+    }
+
+    private Theme getTestTeheme() {
+        Theme theme = new Theme();
+        theme.setName("Test");
+        theme.setOrganization("Testing Unlimited");
+        theme.setOrganizationId("n000001");
+
+        return theme;
     }
 
 }

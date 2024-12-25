@@ -1,27 +1,31 @@
 package edu.tamu.scholars.discovery.view.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.MappedSuperclass;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * A persistent representation of how a UI should render a collection view and its result set.
  */
+@Getter
+@Setter
+@NoArgsConstructor
 @MappedSuperclass
 // @ValidCollectionFacets(message = "{CollectionView.validCollectionFacets}")
 // @ValidCollectionFilters(message = "{CollectionView.validCollectionFilters}")
 // @ValidCollectionExport(message = "{CollectionView.validCollectionExport}")
 public abstract class CollectionView extends View {
-
-    private static final long serialVersionUID = 6875458024293994230L;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -30,111 +34,27 @@ public abstract class CollectionView extends View {
     @ElementCollection
     @MapKeyColumn(name = "key")
     @Column(name = "template", columnDefinition = "TEXT")
-    private Map<String, String> templates;
+    private Map<String, String> templates = new HashMap<>();
 
     @ElementCollection
-    private List<String> styles;
+    private List<String> styles = new ArrayList<>();
 
     @ElementCollection
-    private List<String> fields;
+    private List<String> fields = new ArrayList<>();
 
     @ElementCollection
-    private List<Facet> facets;
+    private List<Facet> facets = new ArrayList<>();
 
     @ElementCollection
-    private List<Filter> filters;
+    private List<Filter> filters = new ArrayList<>();
 
     @ElementCollection
-    private List<Boost> boosts;
+    private List<Boost> boosts = new ArrayList<>();
 
     @ElementCollection
-    private List<Sort> sort;
+    private List<Sort> sort = new ArrayList<>();
 
     @ElementCollection
-    private List<ExportField> export;
-
-    public CollectionView() {
-        super();
-        templates = new HashMap<>();
-        styles = new ArrayList<>();
-        fields = new ArrayList<>();
-        facets = new ArrayList<>();
-        filters = new ArrayList<>();
-        boosts = new ArrayList<>();
-        sort = new ArrayList<>();
-        export = new ArrayList<>();
-    }
-
-    public Layout getLayout() {
-        return layout;
-    }
-
-    public void setLayout(Layout layout) {
-        this.layout = layout;
-    }
-
-    public Map<String, String> getTemplates() {
-        return templates;
-    }
-
-    public void setTemplates(Map<String, String> templates) {
-        this.templates = templates;
-    }
-
-    public List<String> getStyles() {
-        return styles;
-    }
-
-    public void setStyles(List<String> styles) {
-        this.styles = styles;
-    }
-
-    public List<String> getFields() {
-        return fields;
-    }
-
-    public void setFields(List<String> fields) {
-        this.fields = fields;
-    }
-
-    public List<Facet> getFacets() {
-        return facets;
-    }
-
-    public void setFacets(List<Facet> facets) {
-        this.facets = facets;
-    }
-
-    public List<Filter> getFilters() {
-        return filters;
-    }
-
-    public void setFilters(List<Filter> filters) {
-        this.filters = filters;
-    }
-
-    public List<Boost> getBoosts() {
-        return boosts;
-    }
-
-    public void setBoosts(List<Boost> boosts) {
-        this.boosts = boosts;
-    }
-
-    public List<Sort> getSort() {
-        return sort;
-    }
-
-    public void setSort(List<Sort> sort) {
-        this.sort = sort;
-    }
-
-    public List<ExportField> getExport() {
-        return export;
-    }
-
-    public void setExport(List<ExportField> export) {
-        this.export = export;
-    }
+    private List<ExportField> export = new ArrayList<>();
 
 }

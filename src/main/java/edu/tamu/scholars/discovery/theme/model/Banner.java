@@ -1,13 +1,19 @@
 package edu.tamu.scholars.discovery.theme.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Getter
+@Setter
+@NoArgsConstructor
 @Embeddable
 public class Banner {
 
@@ -19,35 +25,6 @@ public class Banner {
 
     @ElementCollection
     @CollectionTable(name = "theme_banner_variables")
-    private List<Style> variables;
-
-    public Banner() {
-        super();
-        this.variables = new ArrayList<>();
-    }
-
-    public String getImageUri() {
-        return imageUri;
-    }
-
-    public void setImageUri(String imageUri) {
-        this.imageUri = imageUri;
-    }
-
-    public String getAltText() {
-        return altText;
-    }
-
-    public void setAltText(String altText) {
-        this.altText = altText;
-    }
-
-    public List<Style> getVariables() {
-        return variables;
-    }
-
-    public void setVariables(List<Style> variables) {
-        this.variables = variables;
-    }
+    private List<Style> variables = new ArrayList<>();
 
 }

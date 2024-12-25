@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.theme.model;
 
+import static edu.tamu.scholars.discovery.theme.model.ThemeTestHelper.getTestLink;
+import static edu.tamu.scholars.discovery.theme.model.ThemeTestHelper.getTestStyle;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -37,8 +39,8 @@ public class NavbarTest {
         assertEquals("/assets/images/logo.png", navbar.getLogoUri());
 
         List<Link> navbarLinks = new ArrayList<Link>();
-        navbarLinks.add(new Link("About", "http://localhost:4200/about"));
-        navbarLinks.add(new Link("Test", "http://localhost:4200/test"));
+        navbarLinks.add(getTestLink("About", "http://localhost:4200/about"));
+        navbarLinks.add(getTestLink("Test", "http://localhost:4200/test"));
 
         navbar.setLinks(navbarLinks);
 
@@ -50,8 +52,8 @@ public class NavbarTest {
         assertEquals("http://localhost:4200/test", navbar.getLinks().get(1).getUri());
 
         List<Style> navbarVairables = new ArrayList<Style>();
-        navbarVairables.add(new Style("--test", "navbar"));
-        navbarVairables.add(new Style("--variable", "test"));
+        navbarVairables.add(getTestStyle("--test", "navbar"));
+        navbarVairables.add(getTestStyle("--variable", "test"));
 
         navbar.setVariables(navbarVairables);
 

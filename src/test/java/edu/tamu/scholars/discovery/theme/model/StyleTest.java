@@ -17,14 +17,6 @@ public class StyleTest {
     }
 
     @Test
-    public void testBasicConstructor() {
-        Style style = new Style("--variable", "test");
-        assertNotNull(style);
-        assertEquals("--variable", style.getKey());
-        assertEquals("test", style.getValue());
-    }
-
-    @Test
     public void testGettersAndSetters() {
         Style style = new Style();
         style.setKey("--variable");

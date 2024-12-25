@@ -1,5 +1,6 @@
 package edu.tamu.scholars.discovery.theme.model;
 
+import static edu.tamu.scholars.discovery.theme.model.ThemeTestHelper.getTestStyle;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -33,8 +34,8 @@ public class BannerTest {
         assertEquals("Test", banner.getAltText());
 
         List<Style> bannerVairables = new ArrayList<Style>();
-        bannerVairables.add(new Style("--test", "banner"));
-        bannerVairables.add(new Style("--variable", "test"));
+        bannerVairables.add(getTestStyle("--test", "banner"));
+        bannerVairables.add(getTestStyle("--variable", "test"));
 
         banner.setVariables(bannerVairables);
 

@@ -1,17 +1,26 @@
 package edu.tamu.scholars.discovery.view.model;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.domain.Sort.Direction;
 
 /**
  * Embeddable class `Sort` to describe ordering of {@link View} result sets.
  */
+@Getter
+@Setter
+@NoArgsConstructor
 @Embeddable
-public class Sort {
+public class Sort implements Serializable {
+
+    private static final long serialVersionUID = 192837465746382920L;
 
     @Column(nullable = false)
     private String field;
@@ -21,34 +30,6 @@ public class Sort {
     private Direction direction;
 
     @Column(nullable = false)
-    private boolean date;
-
-    public Sort() {
-        date = false;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public Direction getDirection() {
-        return direction;
-    }
-
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
-
-    public boolean isDate() {
-        return date;
-    }
-
-    public void setDate(boolean date) {
-        this.date = date;
-    }
+    private boolean isDate = false;
 
 }

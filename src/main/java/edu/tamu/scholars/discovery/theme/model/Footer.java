@@ -1,54 +1,31 @@
 package edu.tamu.scholars.discovery.theme.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Getter
+@Setter
+@NoArgsConstructor
 @Embeddable
 public class Footer {
 
     @ElementCollection
     @CollectionTable(name = "theme_footer_links")
-    private List<Link> links;
+    private List<Link> links = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "theme_footer_variables")
-    private List<Style> variables;
+    private List<Style> variables = new ArrayList<>();
 
     @Column
     private String copyright;
 
-    public Footer() {
-        super();
-        this.links = new ArrayList<>();
-        this.variables = new ArrayList<>();
-    }
-
-    public List<Link> getLinks() {
-        return links;
-    }
-
-    public void setLinks(List<Link> links) {
-        this.links = links;
-    }
-
-    public List<Style> getVariables() {
-        return variables;
-    }
-
-    public void setVariables(List<Style> variables) {
-        this.variables = variables;
-    }
-
-    public String getCopyright() {
-        return copyright;
-    }
-
-    public void setCopyright(String copyright) {
-        this.copyright = copyright;
-    }
 }

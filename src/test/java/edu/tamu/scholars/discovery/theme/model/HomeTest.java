@@ -1,5 +1,6 @@
 package edu.tamu.scholars.discovery.theme.model;
 
+import static edu.tamu.scholars.discovery.theme.model.ThemeTestHelper.getTestStyle;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -61,8 +62,8 @@ public class HomeTest {
         assertEquals(5000, home.getHeroes().get(0).getSlideInterval());
 
         List<Style> homeVairables = new ArrayList<Style>();
-        homeVairables.add(new Style("--test", "home"));
-        homeVairables.add(new Style("--variable", "test"));
+        homeVairables.add(getTestStyle("--test", "home"));
+        homeVairables.add(getTestStyle("--variable", "test"));
 
         home.setVariables(homeVairables);
 

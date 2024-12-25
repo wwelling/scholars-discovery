@@ -1,21 +1,25 @@
 package edu.tamu.scholars.discovery.view.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Min;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Abstract mapped superclass `FieldView` to order itself and
  * filter and sort its result sets for a given field.
  */
+@Getter
+@Setter
+@NoArgsConstructor
 @MappedSuperclass
 public abstract class FieldView extends View {
-
-    private static final long serialVersionUID = 2384987522208517634L;
 
     @Column(nullable = false)
     public String field;
@@ -25,46 +29,9 @@ public abstract class FieldView extends View {
     private int order;
 
     @ElementCollection
-    private List<Filter> filters;
+    private List<Filter> filters = new ArrayList<>();
 
     @ElementCollection
-    private List<Sort> sort;
-
-    protected FieldView() {
-        filters = new ArrayList<>();
-        sort = new ArrayList<>();
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public int getOrder() {
-        return order;
-    }
-
-    public void setOrder(int order) {
-        this.order = order;
-    }
-
-    public List<Filter> getFilters() {
-        return filters;
-    }
-
-    public void setFilters(List<Filter> filters) {
-        this.filters = filters;
-    }
-
-    public List<Sort> getSort() {
-        return sort;
-    }
-
-    public void setSort(List<Sort> sort) {
-        this.sort = sort;
-    }
+    private List<Sort> sort = new ArrayList<>();
 
 }

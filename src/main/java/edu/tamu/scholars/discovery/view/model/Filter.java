@@ -1,17 +1,27 @@
 package edu.tamu.scholars.discovery.view.model;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import edu.tamu.scholars.discovery.model.OpKey;
 
 /**
  * Embeddable class `Filter` to describe filtering of {@link View} result sets.
  */
+@Getter
+@Setter
+@NoArgsConstructor
 @Embeddable
-public class Filter {
+public class Filter implements Serializable {
+
+    private static final long serialVersionUID = -213456789987654321L;
 
     @Column(nullable = false)
     private String field;
@@ -21,34 +31,6 @@ public class Filter {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private OpKey opKey;
-
-    public Filter() {
-        opKey = OpKey.EQUALS;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public OpKey getOpKey() {
-        return opKey;
-    }
-
-    public void setOpKey(OpKey opKey) {
-        this.opKey = opKey;
-    }
+    private OpKey opKey = OpKey.EQUALS;
 
 }

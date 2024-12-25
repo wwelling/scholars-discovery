@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.theme.model;
 
+import static edu.tamu.scholars.discovery.theme.model.ThemeTestHelper.getTestLink;
+import static edu.tamu.scholars.discovery.theme.model.ThemeTestHelper.getTestStyle;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -34,12 +36,12 @@ public class HeaderTest {
         navbar.setLogoUri("/assets/images/logo.png");
 
         List<Link> navbarLinks = new ArrayList<Link>();
-        navbarLinks.add(new Link("Home", "http://localhost:4200"));
+        navbarLinks.add(getTestLink("Home", "http://localhost:4200"));
 
         navbar.setLinks(navbarLinks);
 
         List<Style> navbarVairables = new ArrayList<Style>();
-        navbarVairables.add(new Style("--test", "navbar"));
+        navbarVairables.add(getTestStyle("--test", "navbar"));
 
         navbar.setVariables(navbarVairables);
 
@@ -60,7 +62,7 @@ public class HeaderTest {
         banner.setAltText("Test");
 
         List<Style> bannerVairables = new ArrayList<Style>();
-        bannerVairables.add(new Style("--test", "banner"));
+        bannerVairables.add(getTestStyle("--test", "banner"));
 
         banner.setVariables(bannerVairables);
 
@@ -73,8 +75,8 @@ public class HeaderTest {
         assertEquals("banner", header.getBanner().getVariables().get(0).getValue());
 
         List<Style> headerVairables = new ArrayList<Style>();
-        headerVairables.add(new Style("--test", "header"));
-        headerVairables.add(new Style("--variable", "test"));
+        headerVairables.add(getTestStyle("--test", "header"));
+        headerVairables.add(getTestStyle("--variable", "test"));
 
         header.setVariables(headerVairables);
 

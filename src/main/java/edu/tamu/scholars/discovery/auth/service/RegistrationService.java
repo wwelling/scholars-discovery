@@ -150,7 +150,10 @@ public class RegistrationService {
     }
 
     private synchronized void createUser(Registration registration) {
-        User user = new User(registration.getFirstName(), registration.getLastName(), registration.getEmail());
+        User user = new User();
+        user.setFirstName(registration.getFirstName());
+        user.setLastName(registration.getLastName());
+        user.setEmail(registration.getEmail());
         if (userService.count() == 0) {
             user.setRole(Role.ROLE_SUPER_ADMIN);
         } else if (userService.count() == 1) {

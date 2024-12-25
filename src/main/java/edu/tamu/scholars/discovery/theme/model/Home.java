@@ -1,55 +1,30 @@
 package edu.tamu.scholars.discovery.theme.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Getter
+@Setter
+@NoArgsConstructor
 @Embeddable
 public class Home {
 
     @Column(nullable = false)
-    private boolean heroesNavigable;
+    private boolean heroesNavigable = false;
 
     @ElementCollection
-    private List<Hero> heroes;
+    private List<Hero> heroes = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "theme_home_variables")
-    private List<Style> variables;
-
-    public Home() {
-        super();
-        this.heroesNavigable = false;
-        this.heroes = new ArrayList<>();
-        this.variables = new ArrayList<>();
-    }
-
-    public boolean isHeroesNavigable() {
-        return heroesNavigable;
-    }
-
-    public void setHeroesNavigable(boolean heroesNavigable) {
-        this.heroesNavigable = heroesNavigable;
-    }
-
-    public List<Hero> getHeroes() {
-        return heroes;
-    }
-
-    public void setHeroes(List<Hero> heroes) {
-        this.heroes = heroes;
-    }
-
-    public List<Style> getVariables() {
-        return variables;
-    }
-
-    public void setVariables(List<Style> variables) {
-        this.variables = variables;
-    }
+    private List<Style> variables = new ArrayList<>();
 
 }
