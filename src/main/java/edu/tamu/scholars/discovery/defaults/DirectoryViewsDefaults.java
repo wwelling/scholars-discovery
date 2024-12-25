@@ -1,10 +1,9 @@
 package edu.tamu.scholars.discovery.defaults;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
@@ -25,15 +24,16 @@ public class DirectoryViewsDefaults extends AbstractDefaults<DirectoryView, Dire
 
     @Override
     public String path() {
-        return "classpath:defaults/directoryViews.yml";
+        return "classpath:defaults/directoryViews/*.{yml,yaml}";
     }
 
     @Override
-    public List<DirectoryView> read(InputStream is) throws IOException {
-        List<DirectoryView> views = mapper.readValue(is, new TypeReference<List<DirectoryView>>() {});
+    public List<DirectoryView> read(Resource[] resources) throws IOException {
+        List<DirectoryView> views = loadResources(resources, DirectoryView.class);
         for (DirectoryView view : views) {
             loadTemplateMap(view.getTemplates());
         }
+
         return views;
     }
 

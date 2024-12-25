@@ -1,0 +1,11 @@
+name: Default
+types:
+  - Default
+mainContentTemplate: "defaults/displayViews/defaults/mainContentTemplate.html"
+metaTemplates:
+  title: "defaults/displayViews/defaults/meta/title.txt"
+  og:type: "defaults/displayViews/defaults/meta/type.txt"
+  og:url: "defaults/displayViews/defaults/meta/url.txt"
+  og:title: "defaults/displayViews/defaults/meta/title.txt"
+embedTemplates:
+  default: "defaults/displayViews/defaults/embed/default.html"

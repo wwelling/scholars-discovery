@@ -1,0 +1,98 @@
+name: People
+layout: LIST
+templates:
+  default: "defaults/directoryViews/people/default.html"
+styles: []
+fields:
+  - type
+  - name
+  - preferredTitle
+  - researchAreas
+  - positions
+  - positions.organizations
+  - thumbnail
+facets:
+  - name: People
+    field: type
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+  - name: Organization
+    field: positionOrganization
+    type: STRING
+    sort: INDEX
+    direction: ASC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+  - name: Research Area
+    field: researchAreas_str
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+  - name: UN Sustainable Development Goals
+    field: selectedPublicationTag
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+filters:
+  - field: class
+    value: Person
+boosts: []
+sort:
+  - field: name_t_sort
+    direction: ASC
+export:
+  - columnHeader: First name
+    valuePath: firstName
+  - columnHeader: Last name
+    valuePath: lastName
+  - columnHeader: Preferred title
+    valuePath: preferredTitle
+  - columnHeader: Overview
+    valuePath: overview
+  - columnHeader: Position
+    valuePath: positions
+  - columnHeader: Department
+    valuePath: positions.organizations
+  - columnHeader: Individual
+    valuePath: individual
+grouping:
+  field: name_t_sort
+  opKey: STARTS_WITH
+  options:
+    - A
+    - B
+    - C
+    - D
+    - E
+    - F
+    - G
+    - H
+    - I
+    - J
+    - K
+    - L
+    - M
+    - N
+    - O
+    - P
+    - Q
+    - R
+    - S
+    - T
+    - U
+    - V
+    - W
+    - X
+    - Y
+    - Z

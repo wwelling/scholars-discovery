@@ -1,0 +1,114 @@
+name: Research
+layout: LIST
+templates:
+  default: "defaults/directoryViews/research/default.html"
+styles: []
+fields:
+  - type
+  - title
+  - publicationDate
+  - authors
+  - authors.organizations
+  - doi
+  - pmcid
+  - uri
+  - tags
+facets:
+  - name: Type
+    field: type
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+  - name: Year
+    field: publicationDate
+    opKey: BETWEEN
+    type: DATE_YEAR
+    sort: INDEX
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+  - name: Author Organization
+    field: authorOrganization
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+  - name: UN Sustainable Development Goals
+    field: tags
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+filters:
+  - field: class
+    value: Document
+  - field: title
+    value: '*'
+    opKey: EXPRESSION
+boosts: []
+sort:
+  - field: title_t_sort
+    direction: ASC
+export:
+  - columnHeader: Publication type
+    valuePath: type
+  - columnHeader: Publication title
+    valuePath: title
+  - columnHeader: Publication date
+    valuePath: publicationDate
+  - columnHeader: Journal title
+    valuePath: publicationVenue
+  - columnHeader: Book title
+    valuePath: bookTitle
+  - columnHeader: Author
+    valuePath: authors
+  - columnHeader: Author's department
+    valuePath: authors.organizations
+  - columnHeader: DOI
+    valuePath: doi
+  - columnHeader: PubMed ID
+    valuePath: pmcid
+  - columnHeader: Open Access Link
+    valuePath: uri
+  - columnHeader: Publisher
+    valuePath: publisher
+  - columnHeader: Individual
+    valuePath: individual
+grouping:
+  field: title_t_sort
+  opKey: STARTS_WITH
+  options:
+    - A
+    - B
+    - C
+    - D
+    - E
+    - F
+    - G
+    - H
+    - I
+    - J
+    - K
+    - L
+    - M
+    - N
+    - O
+    - P
+    - Q
+    - R
+    - S
+    - T
+    - U
+    - V
+    - W
+    - X
+    - Y
+    - Z

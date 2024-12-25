@@ -1,0 +1,181 @@
+name: Relationships
+types:
+  - AwardReceipt
+  - Grant
+mainContentTemplate: "defaults/displayViews/relationships/mainContentTemplate.html"
+metaTemplates:
+  title: "defaults/displayViews/relationships/meta/title.txt"
+  og:type: "defaults/displayViews/relationships/meta/type.txt"
+  og:url: "defaults/displayViews/relationships/meta/url.txt"
+  og:title: "defaults/displayViews/relationships/meta/title.txt"
+embedTemplates:
+  default: "defaults/displayViews/defaults/embed/default.html"
+tabs:
+  - name: Overview
+    sections:
+      - name: description
+        template: "defaults/displayViews/relationships/overview/description.html"
+        field: description
+        order: 1
+      - name: receipt of
+        template: "defaults/displayViews/relationships/overview/receiptOf.html"
+        field: receiptOf
+        order: 2
+      - name: award or honor for
+        template: "defaults/displayViews/relationships/overview/awardOrHonorFor.html"
+        field: awardOrHonorFor
+        order: 3
+      - name: date/time interval
+        template: "defaults/displayViews/relationships/overview/dateTimeInterval.html"
+        field: startDateTime
+        order: 4
+        requiredFields:
+          - endDateTime
+      - name: year awarded
+        template: "defaults/displayViews/relationships/overview/yearAwarded.html"
+        field: yearAwarded
+        order: 5
+      - name: abstract
+        template: "defaults/displayViews/relationships/overview/abstract.html"
+        field: abstract
+        order: 6
+      - name: has subject area
+        template: "defaults/displayViews/relationships/overview/hasSubjectArea.html"
+        field: subjectAreas
+        order: 7
+      - name: awarded by
+        template: "defaults/displayViews/relationships/overview/awardedBy.html"
+        field: awardedBy
+        order: 8
+      - name: awarded by (preferred label)
+        template: "defaults/displayViews/relationships/overview/awardedByPreferredLabel.html"
+        field: awardedByPreferredLabel
+        order: 9
+      - name: award conferred by
+        template: "defaults/displayViews/relationships/overview/awardConferredBy.html"
+        field: awardConferredBy
+        order: 10
+      - name: award conferred by (preferred label)
+        template: "defaults/displayViews/relationships/overview/awardConferredByPreferredLabel.html"
+        field: awardConferredByPreferredLabel
+        order: 11
+      - name: administered by
+        template: "defaults/displayViews/relationships/overview/administeredBy.html"
+        field: administeredBy
+        order: 12
+      - name: subcontracted through
+        template: "defaults/displayViews/relationships/overview/subcontractedThrough.html"
+        field: grantSubcontractedThrough
+        order: 13
+      - name: geographic focus
+        template: "defaults/displayViews/relationships/overview/geographicFocus.html"
+        field: geographicFocus
+        order: 14
+      - name: has sub grant
+        template: "defaults/displayViews/relationships/overview/hasSubGrant.html"
+        field: subGrant
+        order: 15
+      - name: sub grant of
+        template: "defaults/displayViews/relationships/overview/subGrantOf.html"
+        field: subGrantOf
+        order: 16
+      - name: provides funding for
+        template: "defaults/displayViews/relationships/overview/providesFundingFor.html"
+        field: providesFundingFor
+        order: 17
+      - name: total award amount
+        template: "defaults/displayViews/relationships/overview/totalAwardAmount.html"
+        field: totalAwardAmount
+        order: 18
+      - name: direct costs
+        template: "defaults/displayViews/relationships/overview/directCosts.html"
+        field: directCosts
+        order: 19
+      - name: sponsor award ID
+        template: "defaults/displayViews/relationships/overview/sponsorAwardId.html"
+        field: sponsorAwardId
+        order: 20
+      - name: local award ID
+        template: "defaults/displayViews/relationships/overview/localAwardId.html"
+        field: localAwardId
+        order: 21
+  - name: Affiliation
+    sections:
+      - name: contributor
+        template: "defaults/displayViews/relationships/affiliation/contributor.html"
+        field: contributors
+        order: 1
+  - name: Publications
+    sections:
+      - name: supported publications or other works
+        template: "defaults/displayViews/relationships/publications/supportedPublicationsOrOtherWorks.html"
+        field: supportedPublicationOrOtherWork
+        order: 1
+  - name: Identity
+    sections:
+      - name: same as
+        template: "defaults/displayViews/relationships/identity/sameAs.html"
+        field: sameAs
+        order: 1
+  - name: Other
+    sections:
+      - name: assigned by
+        template: "defaults/displayViews/relationships/other/assignedBy.html"
+        field: assignedBy
+        order: 1
+      - name: inheres in
+        template: "defaults/displayViews/relationships/other/inheresIn.html"
+        field: inheresIn
+        order: 2
+      - name: is specified output of
+        template: "defaults/displayViews/relationships/other/isSpecifiedOutputOf.html"
+        field: specifiedOutputOf
+        order: 3
+      - name: output of
+        template: "defaults/displayViews/relationships/other/outputOf.html"
+        field: outputOf
+        order: 4
+      - name: participates in
+        template: "defaults/displayViews/relationships/other/participatesIn.html"
+        field: participatesIn
+        order: 5
+      - name: relates
+        template: "defaults/displayViews/relationships/other/relates.html"
+        field: relates
+        order: 6
+  - name: Identity
+    sections:
+      - name: same as
+        template: "defaults/displayViews/relationships/identity/sameAs.html"
+        field: sameAs
+        order: 1
+  - name: Other
+    sections:
+      - name: assigned by
+        template: "defaults/displayViews/relationships/other/assignedBy.html"
+        field: assignedBy
+        order: 1
+      - name: inheres in
+        template: "defaults/displayViews/relationships/other/inheresIn.html"
+        field: inheresIn
+        order: 2
+      - name: is specified output of
+        template: "defaults/displayViews/relationships/other/isSpecifiedOutputOf.html"
+        field: specifiedOutputOf
+        order: 3
+      - name: output of
+        template: "defaults/displayViews/relationships/other/outputOf.html"
+        field: outputOf
+        order: 4
+      - name: participates in
+        template: "defaults/displayViews/relationships/other/participatesIn.html"
+        field: participatesIn
+        order: 5
+      - name: relates
+        template: "defaults/displayViews/relationships/other/relates.html"
+        field: relates
+        order: 6
+      - name: date/time value
+        template: "defaults/displayViews/relationships/other/dateTimeValue.html"
+        field: dateTimeValue
+        order: 7

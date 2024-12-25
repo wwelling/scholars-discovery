@@ -1,0 +1,120 @@
+name: Grants
+layout: LIST
+templates:
+  default: "defaults/discoveryViews/grants/default.html"
+styles: []
+highlightFields:
+  - title
+  - awardedBy
+  - contributors
+fields:
+  - type
+  - title
+  - startDateTime
+  - endDateTime
+  - awardedBy
+  - contributors
+  - contributors.role
+  - contributors.organizations
+facets:
+  - name: Grants
+    field: type
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: true
+  - name: Principal Investigator
+    field: principalInvestigators
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+  - name: Co-Principal Investigator
+    field: coPrincipalInvestigators
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+  - name: Contributor Organization
+    field: contributorOrganization
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+  - name: Awarded By
+    field: awardedBy_str
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+  - name: Administered By
+    field: administeredBy
+    type: STRING
+    sort: INDEX
+    direction: ASC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+  - name: Year Start
+    field: startDateTime
+    opKey: BETWEEN
+    type: DATE_YEAR
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+  - name: Year End
+    field: endDateTime
+    opKey: BETWEEN
+    type: DATE_YEAR
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+filters:
+  - field: class
+    value: Relationship AND type:Grant
+    opKey: EXPRESSION
+boosts:
+  - field: title
+    value: 2
+  - field: awardedBy
+    value: 2
+  - field: contributors
+    value: 2
+  - field: abstract
+    value: 4
+sort:
+  - field: score
+    direction: DESC
+  - field: title_t_sort
+    direction: ASC
+export:
+  - columnHeader: Grant title
+    valuePath: title
+  - columnHeader: Grant date start
+    valuePath: startDateTime
+  - columnHeader: Grant date end
+    valuePath: endDateTime
+  - columnHeader: Awarded by
+    valuePath: awardedBy
+  - columnHeader: Principal investigators
+    valuePath: principalInvestigators
+  - columnHeader: Co-Principal investigators
+    valuePath: coPrincipalInvestigators
+  - columnHeader: Administered by
+    valuePath: administeredBy
+  - columnHeader: Individual
+    valuePath: individual

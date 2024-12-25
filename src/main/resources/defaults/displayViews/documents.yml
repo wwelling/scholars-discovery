@@ -1,0 +1,309 @@
+name: Documents
+types:
+  - AcademicArticle
+  - Book
+  - Capstone
+  - Chapter
+  - ConferencePaper
+  - Dataset
+  - GreyLiterature
+  - NewsRelease
+  - Patent
+  - Report
+  - Review
+  - TeachingMaterial
+  - Thesis
+  - Webpage
+  - WorkingPaper
+  - ERO_0000071
+mainContentTemplate: "defaults/displayViews/documents/mainContentTemplate.html"
+rightScanTemplate: "defaults/displayViews/documents/rightScanTemplate.html"
+metaTemplates:
+  title: "defaults/displayViews/documents/meta/title.txt"
+  description: "defaults/displayViews/documents/meta/description.txt"
+  keywords: "defaults/displayViews/documents/meta/keywords.txt"
+  og:type: "defaults/displayViews/documents/meta/type.txt"
+  og:url: "defaults/displayViews/documents/meta/url.txt"
+  og:title: "defaults/displayViews/documents/meta/title.txt"
+  og:description: "defaults/displayViews/documents/meta/description.txt"
+embedTemplates:
+  default: "defaults/displayViews/defaults/embed/default.html"
+tabs:
+  - name: Overview
+    sections:
+      - name: abstract
+        template: "defaults/displayViews/documents/overview/abstract.html"
+        field: abstract
+        order: 1
+      - name: name of conference
+        template: "defaults/displayViews/documents/overview/nameOfConference.html"
+        field: nameOfConference
+        order: 2
+      - name: book title
+        template: "defaults/displayViews/documents/overview/bookTitle.html"
+        field: bookTitle
+        order: 3
+      - name: authors
+        template: "defaults/displayViews/documents/overview/authors.html"
+        field: authors
+        order: 4
+      - name: publication outlet
+        template: "defaults/displayViews/documents/overview/publicationOutlet.html"
+        field: publicationOutlet
+        order: 5
+      - name: author list (cited authors)
+        template: "defaults/displayViews/documents/overview/authorList.html"
+        field: authorList
+        order: 6
+      - name: editors
+        template: "defaults/displayViews/documents/overview/editors.html"
+        field: editors
+        order: 7
+      - name: editor list (cited editors)
+        template: "defaults/displayViews/documents/overview/editorList.html"
+        field: editorList
+        order: 8
+      - name: etd chair
+        template: "defaults/displayViews/documents/overview/etdChair.html"
+        field: etdChairedBy
+        order: 9
+        lazyReferences:
+          - etdChairedBy
+      - name: capstone (non-thesis) advisor
+        template: "defaults/displayViews/documents/overview/advisor.html"
+        field: advisedBy
+        order: 10
+        lazyReferences:
+          - advisedBy
+      - name: translator
+        template: "defaults/displayViews/documents/overview/translator.html"
+        field: translators
+        order: 11
+      - name: status
+        template: "defaults/displayViews/documents/overview/status.html"
+        field: status
+        order: 12
+      - name: publication date
+        template: "defaults/displayViews/documents/overview/publicationDate.html"
+        field: publicationDate
+        order: 13
+      - name: publisher
+        template: "defaults/displayViews/documents/overview/publisher.html"
+        field: publisher
+        order: 14
+      - name: has subject area
+        template: "defaults/displayViews/documents/overview/hasSubjectArea.html"
+        field: subjectAreas
+        order: 15
+      - name: has restriction
+        template: "defaults/displayViews/documents/overview/hasRestriction.html"
+        field: restrictions
+        order: 16
+      - name: has document part
+        template: "defaults/displayViews/documents/overview/hasDocumentPart.html"
+        field: documentParts
+        order: 17
+      - name: features
+        template: "defaults/displayViews/documents/overview/features.html"
+        field: features
+        order: 18
+      - name: geographic focus
+        template: "defaults/displayViews/documents/overview/geographicFocus.html"
+        field: geographicFocus
+        order: 19
+      - name: documentation for project or resource
+        template: "defaults/displayViews/documents/overview/documentationForProjectOrResource.html"
+        field: documentationForProjectOrResource
+        order: 20
+      - name: output of process or event
+        template: "defaults/displayViews/documents/overview/outputOfProcessOrEvent.html"
+        field: outputOfProcessOrEvent
+        order: 21
+      - name: open educational resource for
+        template: "defaults/displayViews/documents/overview/presentedAtEvent.html"
+        field: presentedAt
+        order: 22
+        lazyReferences:
+          - presentedAt
+      - name: keywords
+        template: "defaults/displayViews/documents/overview/keywords.html"
+        field: keywords
+        order: 23
+      - name: altmetric score
+        template: "defaults/displayViews/documents/overview/altmetricScore.html"
+        field: altmetricScore
+        order: 24
+      - name: citation count
+        template: "defaults/displayViews/documents/overview/citationCount.html"
+        field: citationCount
+        order: 25
+      - name: news outlet
+        template: "defaults/displayViews/documents/overview/newsOutlet.html"
+        field: newsOutlet
+        order: 26
+  - name: Identity
+    sections:
+      - name: EAN International-Uniform Code Council (EAN-UCC) 13
+        template: "defaults/displayViews/documents/identity/eanInternationalUniformCodeCouncil.html"
+        field: eanucc13
+        order: 1
+      - name: NIH Manuscript Submission System ID
+        template: "defaults/displayViews/documents/identity/nihManuscriptSubmissionSystemId.html"
+        field: nihmsid
+        order: 2
+      - name: PubMed ID
+        template: "defaults/displayViews/documents/identity/pubMedCentralId.html"
+        field: pmcid
+        order: 3
+      - name: identifier
+        template: "defaults/displayViews/documents/identity/identifier.html"
+        field: identifier
+        order: 4
+      - name: same as
+        template: "defaults/displayViews/documents/identity/sameAs.html"
+        field: sameAs
+        order: 5
+      - name: Digital Object Identifier (DOI)
+        template: "defaults/displayViews/documents/identity/digitalObjectIdentifier.html"
+        field: doi
+        order: 6
+      - name: URI
+        template: "defaults/displayViews/documents/identity/uri.html"
+        field: uri
+        order: 7
+      - name: Online Computer Library Center (OCLC) number
+        template: "defaults/displayViews/documents/identity/onlineComputerLibraryCenter.html"
+        field: oclcnum
+        order: 8
+      - name: PubMed ID
+        template: "defaults/displayViews/documents/identity/pubMedId.html"
+        field: pmid
+        order: 9
+      - name: International Standard Book Number (ISBN) 10
+        template: "defaults/displayViews/documents/identity/isbn10.html"
+        field: isbn10
+        order: 10
+      - name: International Standard Book Number (ISBN) 13
+        template: "defaults/displayViews/documents/identity/isbn13.html"
+        field: isbn13
+        order: 11
+  - name: Related Documents
+    sections:
+      - name: cited by
+        template: "defaults/displayViews/documents/relatedDocuments/citedBy.html"
+        field: citedBy
+        order: 1
+      - name: cites
+        template: "defaults/displayViews/documents/relatedDocuments/cites.html"
+        field: cites
+        order: 2
+      - name: cites as data source
+        template: "defaults/displayViews/documents/relatedDocuments/citesAsDataSource.html"
+        field: citesAsDataSource
+        order: 3
+      - name: has translation
+        template: "defaults/displayViews/documents/relatedDocuments/hasTranslation.html"
+        field: translations
+        order: 4
+      - name: translation of
+        template: "defaults/displayViews/documents/relatedDocuments/translationOf.html"
+        field: translationOf
+        order: 5
+  - name: Additional Document Info
+    sections:
+      - name: has global citation frequency
+        template: "defaults/displayViews/documents/additionalDocumentInfo/hasGlobalCitationFrequency.html"
+        field: hasGlobalCitationFrequency
+        order: 1
+      - name: number of pages
+        template: "defaults/displayViews/documents/additionalDocumentInfo/numberOfPages.html"
+        field: numberOfPages
+        order: 2
+      - name: start page
+        template: "defaults/displayViews/documents/additionalDocumentInfo/startPage.html"
+        field: pageStart
+        order: 3
+      - name: end page
+        template: "defaults/displayViews/documents/additionalDocumentInfo/endPage.html"
+        field: pageEnd
+        order: 4
+      - name: number
+        template: "defaults/displayViews/documents/additionalDocumentInfo/number.html"
+        field: number
+        order: 5
+      - name: volume
+        template: "defaults/displayViews/documents/additionalDocumentInfo/volume.html"
+        field: volume
+        order: 6
+      - name: issue
+        template: "defaults/displayViews/documents/additionalDocumentInfo/issue.html"
+        field: issue
+        order: 7
+      - name: assignees
+        template: "defaults/displayViews/documents/additionalDocumentInfo/assignees.html"
+        field: assignees
+        order: 8
+      - name: reproduced in
+        template: "defaults/displayViews/documents/additionalDocumentInfo/reproducedIn.html"
+        field: reproducedIn
+        order: 9
+      - name: reproduces
+        template: "defaults/displayViews/documents/additionalDocumentInfo/reproduces.html"
+        field: reproduces
+        order: 10
+  - name: Other
+    sections:
+      - name: is about
+        template: "defaults/displayViews/documents/other/isAbout.html"
+        field: isAbout
+        order: 1
+      - name: is specified output of
+        template: "defaults/displayViews/documents/other/isSpecifiedOutputOf.html"
+        field: specifiedOutputOf
+        order: 2
+      - name: is template
+        template: "defaults/displayViews/documents/other/isTemplate.html"
+        field: isTemplate
+        order: 3
+      - name: mentions
+        template: "defaults/displayViews/documents/other/mentions.html"
+        field: mentions
+        order: 4
+        lazyReferences:
+          - mentions
+      - name: output of
+        template: "defaults/displayViews/documents/other/outputOf.html"
+        field: outputOf
+        order: 5
+      - name: participates in
+        template: "defaults/displayViews/documents/other/participatesIn.html"
+        field: participatesIn
+        order: 6
+      - name: related by
+        template: "defaults/displayViews/documents/other/relatedBy.html"
+        field: relatedBy
+        order: 7
+      - name: supported by
+        template: "defaults/displayViews/documents/other/supportedBy.html"
+        field: supportedBy
+        order: 8
+      - name: date/time value
+        template: "defaults/displayViews/documents/other/dateTimeValue.html"
+        field: dateTimeValue
+        order: 9
+      - name: UN Sustainable Development Goals
+        template: "defaults/displayViews/documents/other/tags.html"
+        field: tags
+        order: 10
+      - name: key
+        template: "defaults/displayViews/documents/other/key.html"
+        field: key
+        order: 11
+      - name: note
+        template: "defaults/displayViews/documents/other/note.html"
+        field: note
+        order: 12
+      - name: URL
+        template: "defaults/displayViews/documents/other/url.html"
+        field: url
+        order: 13

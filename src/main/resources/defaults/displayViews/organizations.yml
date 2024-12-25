@@ -1,0 +1,528 @@
+name: Organizations
+types:
+  - Publisher
+  - otherUniversity
+  - Organization
+  - AcademicDepartment
+  - Center
+  - Institute
+  - College
+  - AdministrativeUnit
+  - AffiliatedAgency
+  - School
+  - BranchCampus
+  - Centerv
+  - Laboratory
+  - Association
+  - Department
+  - Library
+  - University
+mainContentTemplate: "defaults/displayViews/organizations/mainContentTemplate.html"
+asideTemplate: "defaults/displayViews/organizations/asideTemplate.html"
+asideLocation: RIGHT
+exportViews:
+- name: Last 5 Years
+  contentTemplate: "defaults/displayViews/persons/5YearPublicationsContentTemplate.html"
+  headerTemplate: "defaults/displayViews/defaults/emptyHeaderTemplate.html"
+  multipleReference:
+    name: Personnel
+    field: people
+    order: 1
+    sort:
+    - field: name
+      direction: ASC
+  lazyReferences:
+  - name: Publications
+    field: publications
+    order: 1
+    sort:
+      - field: publicationDate
+        direction: DESC
+        date: true
+      - field: title
+        direction: ASC
+    filters:
+      - field: type
+        value: AcademicArticle
+      - field: type
+        value: Book
+      - field: type
+        value: Chapter
+      - field: type
+        value: ConferencePaper
+      - field: type
+        value: GreyLiterature
+      - field: type
+        value: Thesis
+      - field: type
+        value: WorkingPaper
+      - field: type
+        value: Webpage
+      - field: type
+        value: Report
+      - field: type
+        value: Review
+      - field: type
+        value: Patent
+      - field: publicationDate
+        value: "[NOW/YEAR-5YEARS TO NOW/YEAR+1YEARS]"
+        opKey: EXPRESSION
+  - name: Grants
+    field: awardsAndHonors
+    order: 2
+    sort:
+      - field: yearAwarded
+        direction: DESC
+        date: true
+    filters:
+      - field: class
+        value: Relationship AND type:Grant
+        opKey: EXPRESSION
+- name: Last 8 Years
+  contentTemplate: "defaults/displayViews/persons/8YearPublicationsContentTemplate.html"
+  headerTemplate: "defaults/displayViews/defaults/emptyHeaderTemplate.html"
+  multipleReference:
+    name: Personnel
+    field: people
+    order: 1
+    sort:
+    - field: name
+      direction: ASC
+  lazyReferences:
+  - name: Publications
+    field: publications
+    order: 1
+    sort:
+      - field: publicationDate
+        direction: DESC
+        date: true
+      - field: title
+        direction: ASC
+    filters:
+      - field: type
+        value: AcademicArticle
+      - field: type
+        value: Book
+      - field: type
+        value: Chapter
+      - field: type
+        value: ConferencePaper
+      - field: type
+        value: GreyLiterature
+      - field: type
+        value: Thesis
+      - field: type
+        value: WorkingPaper
+      - field: type
+        value: Webpage
+      - field: type
+        value: Report
+      - field: type
+        value: Review
+      - field: type
+        value: Patent
+      - field: publicationDate
+        value: "[NOW/YEAR-8YEARS TO NOW/YEAR+1YEARS]"
+        opKey: EXPRESSION
+  - name: Grants
+    field: awardsAndHonors
+    order: 2
+    sort:
+      - field: yearAwarded
+        direction: DESC
+        date: true
+    filters:
+      - field: class
+        value: Relationship AND type:Grant
+        opKey: EXPRESSION
+metaTemplates:
+  title: "defaults/displayViews/organizations/meta/title.txt"
+  description: "defaults/displayViews/organizations/meta/description.txt"
+  keywords: "defaults/displayViews/organizations/meta/keywords.txt"
+  og:type: "defaults/displayViews/organizations/meta/type.txt"
+  og:url: "defaults/displayViews/organizations/meta/url.txt"
+  og:title: "defaults/displayViews/organizations/meta/title.txt"
+  og:description: "defaults/displayViews/organizations/meta/description.txt"
+embedTemplates:
+  default: "defaults/displayViews/defaults/embed/default.html"
+tabs:
+  - name: Grants/Awards
+    sections:
+      - name: awards grant
+        paginated: true
+        template: "defaults/displayViews/organizations/grantsAwards/awardsGrant.html"
+        field: awardsGrant
+        order: 1
+        sort:
+          - field: date
+            direction: DESC
+            date: true
+      - name: administers grant
+        paginated: true
+        template: "defaults/displayViews/organizations/grantsAwards/administersGrant.html"
+        field: administersGrant
+        order: 2
+        sort:
+          - field: date
+            direction: DESC
+            date: true
+      - name: subcontracts grant
+        paginated: true
+        template: "defaults/displayViews/organizations/grantsAwards/subcontractsGrant.html"
+        field: subcontractsGrant
+        order: 3
+        sort:
+          - field: date
+            direction: DESC
+            date: true
+      - name: performs human study
+        paginated: true
+        template: "defaults/displayViews/organizations/grantsAwards/performsHumanStudy.html"
+        field: performsHumanStudy
+        order: 4
+        sort:
+          - field: date
+            direction: DESC
+            date: true
+  - name: Overview
+    sections:
+      - name: offers degree
+        template: "defaults/displayViews/organizations/overview/offersDegree.html"
+        field: degrees
+        order: 1
+      - name: abbreviation
+        template: "defaults/displayViews/organizations/overview/abbreviation.html"
+        field: abbreviation
+        order: 2
+      - name: sponsors award or honor
+        paginated: true
+        template: "defaults/displayViews/organizations/overview/sponsorsAwardOrHonor.html"
+        field: sponsorsAwardOrHonor
+        order: 3
+        lazyReferences:
+          - sponsorsAwardOrHonor
+      - name: award or honor given
+        paginated: true
+        template: "defaults/displayViews/organizations/overview/awardOrHonorGiven.html"
+        field: awardOrHonorGiven
+        order: 4
+        sort:
+          - field: yearAwarded
+            direction: DESC
+            date: true
+        lazyReferences:
+          - awardOrHonorGiven
+      - name: awards and honors received
+        template: "defaults/displayViews/organizations/overview/awardsAndHonorsReceived.html"
+        field: awardsAndHonorsReceived
+        order: 5
+        lazyReferences:
+          - awardsAndHonorsReceived
+      - name: keywords
+        template: "defaults/displayViews/organizations/overview/keywords.html"
+        field: keywords
+        order: 6
+      - name: geographic focus
+        template: "defaults/displayViews/organizations/overview/geographicFocus.html"
+        field: geographicFocus
+        order: 7
+  - name: Affiliation
+    sections:
+      - name: organization for training
+        template: "defaults/displayViews/organizations/affiliation/organizationForTraining.html"
+        field: organizationForTraining
+        order: 1
+        subsections:
+          - name: Organization For Training
+            field: organizationForTraining
+            order: 1
+            sort:
+              - field: trainee.label
+                direction: ASC
+              - field: endDate
+                direction: DESC
+            template: "defaults/displayViews/organizations/affiliation/organizationForTraining/default.html"
+      - name: people
+        template: "defaults/displayViews/organizations/affiliation/people.html"
+        field: people
+        order: 2
+        subsections:
+          - name: People
+            field: people
+            order: 1
+            sort:
+              - field: label
+                direction: ASC
+            template: "defaults/displayViews/organizations/affiliation/people/default.html"
+      - name: has sub-organization
+        template: "defaults/displayViews/organizations/affiliation/hasSubOrganization.html"
+        field: hasSubOrganizations
+        order: 3
+      - name: organization within
+        template: "defaults/displayViews/organizations/affiliation/organizationWithin.html"
+        field: organizationWithin
+        order: 4
+      - name: lead organization of
+        template: "defaults/displayViews/organizations/affiliation/leadOrganizationOf.html"
+        field: leadOrganizationOf
+        order: 5
+      - name: has collaborating organization or group
+        template: "defaults/displayViews/organizations/affiliation/hasCollaboratingOrganizationOrGroup.html"
+        field: hasCollaboratingOrganizationOrGroup
+        order: 6
+      - name: has affiliated organization
+        template: "defaults/displayViews/organizations/affiliation/hasAffiliatedOrganization.html"
+        field: hasAffiliatedOrganizations
+        order: 7
+      - name: member of
+        template: "defaults/displayViews/organizations/affiliation/memberOf.html"
+        field: memberOf
+        order: 8
+      - name: clinical activities
+        template: "defaults/displayViews/organizations/affiliation/clinicalActivities.html"
+        field: clinicalActivities
+        order: 9
+      - name: convener of event
+        template: "defaults/displayViews/organizations/affiliation/convenerOfEvent.html"
+        field: convenerOfEvent
+        order: 10
+      - name: attended event
+        template: "defaults/displayViews/organizations/affiliation/attendedEvent.html"
+        field: attendedEvents
+        order: 11
+  - name: Publications
+    sections:
+      - name: selected publications
+        template: "defaults/displayViews/organizations/publications/selectedPublications.html"
+        field: publications
+        order: 1
+        lazyReferences:
+          - publications
+        subsections:
+          - name: Academic Articles
+            field: publications
+            order: 1
+            filters:
+              - field: type
+                value: AcademicArticle
+            sort:
+              - field: publicationDate
+                direction: DESC
+                date: true
+              - field: title
+                direction: ASC
+            template: "defaults/displayViews/organizations/publications/selectedPublications/default.html"
+          - name: Books
+            field: publications
+            order: 2
+            filters:
+              - field: type
+                value: Book
+            sort:
+              - field: publicationDate
+                direction: DESC
+                date: true
+              - field: title
+                direction: ASC
+            template: "defaults/displayViews/organizations/publications/selectedPublications/book.html"
+          - name: Chapters
+            field: publications
+            order: 3
+            filters:
+              - field: type
+                value: Chapter
+            sort:
+              - field: publicationDate
+                direction: DESC
+                date: true
+              - field: title
+                direction: ASC
+            template: "defaults/displayViews/organizations/publications/selectedPublications/chapter.html"
+      - name: publisher of
+        template: "defaults/displayViews/organizations/publications/publisherOf.html"
+        field: publisherOf
+        order: 2
+        lazyReferences:
+          - publisherOf
+        subsections:
+          - name: Academic Articles
+            field: publisherOf
+            order: 1
+            filters:
+              - field: type
+                value: AcademicArticle
+            sort:
+              - field: publicationDate
+                direction: DESC
+                date: true
+              - field: title
+                direction: ASC
+            template: "defaults/displayViews/organizations/publications/publisherOf/default.html"
+          - name: Books
+            field: publisherOf
+            order: 2
+            filters:
+              - field: type
+                value: Book
+            sort:
+              - field: publicationDate
+                direction: DESC
+                date: true
+              - field: title
+                direction: ASC
+            template: "defaults/displayViews/organizations/publications/publisherOf/book.html"
+          - name: Chapters
+            field: publisherOf
+            order: 3
+            filters:
+              - field: type
+                value: Chapter
+            sort:
+              - field: publicationDate
+                direction: DESC
+                date: true
+              - field: title
+                direction: ASC
+            template: "defaults/displayViews/organizations/publications/publisherOf/chapter.html"
+      - name: presentations
+        template: "defaults/displayViews/organizations/publications/presentations.html"
+        field: presentations
+        order: 3
+      - name: featured in
+        template: "defaults/displayViews/organizations/publications/featuredIn.html"
+        field: featuredIn
+        order: 4
+        lazyReferences:
+          - featuredIn
+      - name: assignee for patent
+        template: "defaults/displayViews/organizations/publications/assigneeForPatent.html"
+        field: assigneeForPatent
+        order: 5
+        lazyReferences:
+          - assigneeForPatent
+      - name: translator of
+        template: "defaults/displayViews/organizations/publications/translatorOf.html"
+        field: translatorOf
+        order: 6
+        lazyReferences:
+          - translatorOf
+  - name: Service
+    sections:
+      - name: contract or provider for service
+        template: "defaults/displayViews/organizations/service/contractOrProviderForService.html"
+        field: contractOrProviderForService
+        order: 1
+      - name: outreach and community service activities
+        template: "defaults/displayViews/organizations/service/outreachAndCommunityServiceActivities.html"
+        field: outreachAndCommunityServiceActivities
+        order: 2
+      - name: has equipment
+        template: "defaults/displayViews/organizations/service/hasEquipment.html"
+        field: hasEquipment
+        order: 3
+      - name: offers course
+        template: "defaults/displayViews/organizations/service/offersCourse.html"
+        field: courses
+        order: 4
+        paginated: true
+        sort:
+          - field: label
+            direction: ASC
+  - name: Identity
+    sections:
+      - name: OrgID
+        template: "defaults/displayViews/organizations/identity/orgID.html"
+        field: orgId
+        order: 1
+      - name: same as
+        template: "defaults/displayViews/organizations/identity/sameAs.html"
+        field: sameAs
+        order: 2
+  - name: Contact
+    sections:
+      - name: phone
+        template: "defaults/displayViews/organizations/contact/phone.html"
+        field: phone
+        order: 1
+      - name: fax
+        template: "defaults/displayViews/organizations/contact/fax.html"
+        field: fax
+        order: 2
+      - name: email address
+        template: "defaults/displayViews/organizations/contact/emailAddress.html"
+        field: emailAddress
+        order: 3
+      - name: mailing address
+        template: "defaults/displayViews/organizations/contact/mailingAddress.html"
+        field: mailingAddress
+        order: 4
+      - name: geographic location
+        template: "defaults/displayViews/organizations/contact/geographicLocation.html"
+        field: geographicLocation
+        order: 5
+      - name: located in facility
+        template: "defaults/displayViews/organizations/contact/locatedInFacility.html"
+        field: locatedAtFacilities
+        order: 6
+      - name: predecessor organization
+        template: "defaults/displayViews/organizations/contact/predecessorOrganization.html"
+        field: predecessorOrganizations
+        order: 7
+      - name: successor organization
+        template: "defaults/displayViews/organizations/contact/successorOrganization.html"
+        field: successorOrganizations
+        order: 8
+      - name: governing authority for
+        template: "defaults/displayViews/organizations/contact/governingAuthorityFor.html"
+        field: governingAuthorityFor
+        order: 9
+  - name: Other
+    sections:
+      - name: bearer of
+        template: "defaults/displayViews/organizations/other/bearerOf.html"
+        field: bearerOf
+        order: 1
+      - name: has collaborator
+        template: "defaults/displayViews/organizations/other/hasCollaborator.html"
+        field: hasCollaborator
+        order: 2
+      - name: has contact info
+        template: "defaults/displayViews/organizations/other/hasContactInfo.html"
+        field: hasContactInfo
+        order: 3
+      - name: has part
+        template: "defaults/displayViews/organizations/other/hasPart.html"
+        field: hasPart
+        order: 4
+      - name: is specific output of
+        template: "defaults/displayViews/organizations/other/isSpecificOutputOf.html"
+        field: isSpecificOutputOf
+        order: 5
+      - name: located in
+        template: "defaults/displayViews/organizations/other/locatedIn.html"
+        field: locatedIn
+        order: 6
+      - name: output of
+        template: "defaults/displayViews/organizations/other/outputOf.html"
+        field: outputOf
+        order: 7
+      - name: part of
+        template: "defaults/displayViews/organizations/other/partOf.html"
+        field: partOf
+        order: 8
+      - name: participates in
+        template: "defaults/displayViews/organizations/other/participatesIn.html"
+        field: participatesIn
+        order: 9
+      - name: related by
+        template: "defaults/displayViews/organizations/other/relatedBy.html"
+        field: relatedBy
+        order: 10
+      - name: relates
+        template: "defaults/displayViews/organizations/other/relates.html"
+        field: relates
+        order: 11
+      - name: uses
+        template: "defaults/displayViews/organizations/other/uses.html"
+        field: uses
+        order: 12

@@ -1,0 +1,40 @@
+name: Publications by Academic Age Group
+layout: CONTAINER
+type: ACADEMIC_AGE_GROUP
+filters:
+  - field: class
+    value: Person
+facets:
+  - name: Position Titles
+    field: positions_facets
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    expandable: false
+    collapsible: false
+    collapsed: false
+    useDialog: true
+    hidden: false
+  - name: Journal Titles
+    field: selectedPublicationVenue
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    expandable: false
+    collapsible: false
+    collapsed: false
+    useDialog: true
+    hidden: false
+  - name: Publishers
+    field: selectedPublicationPublisher
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    expandable: false
+    collapsible: false
+    collapsed: false
+    useDialog: true
+    hidden: false

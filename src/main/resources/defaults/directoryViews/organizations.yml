@@ -1,0 +1,59 @@
+name: Organizations
+layout: LIST
+templates:
+  default: "defaults/directoryViews/organizations/default.html"
+styles: []
+fields:
+  - type
+  - name
+facets:
+  - name: Type
+    field: type
+    type: STRING
+    sort: INDEX
+    direction: ASC
+    pageSize: 10
+    collapsed: false
+    hidden: false
+filters:
+  - field: class
+    value: Organization
+boosts: []
+sort:
+  - field: name_t_sort
+    direction: ASC
+export:
+  - columnHeader: Name
+    valuePath: name
+  - columnHeader: Individual
+    valuePath: individual
+grouping:
+  field: name_t_sort
+  opKey: STARTS_WITH
+  options:
+    - A
+    - B
+    - C
+    - D
+    - E
+    - F
+    - G
+    - H
+    - I
+    - J
+    - K
+    - L
+    - M
+    - N
+    - O
+    - P
+    - Q
+    - R
+    - S
+    - T
+    - U
+    - V
+    - W
+    - X
+    - Y
+    - Z

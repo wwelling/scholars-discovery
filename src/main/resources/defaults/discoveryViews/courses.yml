@@ -1,0 +1,52 @@
+name: Courses
+layout: LIST
+templates:
+  default: "defaults/discoveryViews/courses/default.html"
+highlightFields:
+  - title
+  - participants
+styles: []
+fields:
+  - type
+  - title
+  - participants
+facets:
+  - name: Courses
+    field: type
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: true
+  - name: Offered By
+    field: offeredBy
+    type: STRING
+    sort: INDEX
+    direction: ASC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+  - name: Participants
+    field: participants_str
+    type: STRING
+    sort: INDEX
+    direction: ASC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+filters:
+  - field: class
+    value: Process AND type:Course
+    opKey: EXPRESSION
+boosts:
+  - field: title
+    value: 2
+sort:
+  - field: score
+    direction: DESC
+  - field: title_t_sort
+    direction: ASC
+export:
+  - columnHeader: Course number and title
+    valuePath: title

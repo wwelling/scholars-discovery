@@ -1,0 +1,69 @@
+name: Awards
+layout: LIST
+templates:
+  default: "defaults/discoveryViews/awards/default.html"
+styles: []
+highlightFields:
+  - name
+  - awardConferredBy
+fields:
+  - type
+  - name
+  - awardConferredBy
+facets:
+  - name: Awards
+    field: type
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: true
+  - name: Year
+    field: yearAwarded
+    opKey: BETWEEN
+    type: DATE_YEAR
+    sort: INDEX
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+  - name: Recipient
+    field: awardOrHonorFor
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+  - name: Conferred By
+    field: awardConferredBy_str
+    type: STRING
+    sort: COUNT
+    direction: DESC
+    pageSize: 10
+    collapsed: true
+    hidden: false
+filters:
+  - field: class
+    value: Concept AND type:Award
+    opKey: EXPRESSION
+boosts:
+  - field: name
+    value: 2
+sort:
+  - field: score
+    direction: DESC
+  - field: name_t_sort
+    direction: ASC
+export:
+  - columnHeader: Award title
+    valuePath: name
+  - columnHeader: Conferred by
+    valuePath: awardConferredBy
+  - columnHeader: Recipient
+    valuePath: awardOrHonorFor
+  - columnHeader: Year awarded
+    valuePath: yearAwarded
+  - columnHeader: Individual
+    valuePath: individual

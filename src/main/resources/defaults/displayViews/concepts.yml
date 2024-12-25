@@ -1,0 +1,82 @@
+name: Concepts
+types:
+  - Concept
+  - Award
+  - FutureResearchIdea
+mainContentTemplate: "defaults/displayViews/concepts/mainContentTemplate.html"
+metaTemplates:
+  title: "defaults/displayViews/concepts/meta/title.txt"
+  og:type: "defaults/displayViews/concepts/meta/type.txt"
+  og:url: "defaults/displayViews/concepts/meta/url.txt"
+  og:title: "defaults/displayViews/concepts/meta/title.txt"
+embedTemplates:
+  default: "defaults/displayViews/defaults/embed/default.html"
+tabs:
+  - name: Overview
+    sections:
+      - name: research area of
+        template: "defaults/displayViews/concepts/overview/researchAreaOf.html"
+        field: researchAreaOf
+        order: 1
+        lazyReferences:
+          - researchAreaOf
+      - name: award conferred by
+        template: "defaults/displayViews/concepts/overview/awardConferredBy.html"
+        field: awardConferredBy
+        order: 2
+      - name: award conferred by (preferred label)
+        template: "defaults/displayViews/concepts/overview/awardConferredByPreferredLabel.html"
+        field: awardConferredByPreferredLabel
+        order: 3
+      - name: year awarded
+        template: "defaults/displayViews/concepts/overview/yearAwarded.html"
+        field: yearAwarded
+        order: 4
+      - name: broader concept
+        template: "defaults/displayViews/concepts/overview/broaderConcept.html"
+        field: broaderConcepts
+        order: 5
+      - name: narrower concept
+        template: "defaults/displayViews/concepts/overview/narrowerConcept.html"
+        field: narrowerConcepts
+        order: 6
+      - name: related concept
+        template: "defaults/displayViews/concepts/overview/relatedConcept.html"
+        field: relatedConcepts
+        order: 7
+      - name: receipts
+        paginated: true
+        template: "defaults/displayViews/concepts/overview/receipts.html"
+        field: receipts
+        order: 8
+        sort:
+          - field: recipientName
+            direction: ASC
+      - name: idea of
+        template: "defaults/displayViews/concepts/overview/futureResearchIdeaOf.html"
+        field: futureResearchIdeaOf
+        order: 9
+        requiredFields:
+          - futureResearchIdeaOf
+      - name: creation date
+        template: "defaults/displayViews/concepts/overview/createdDate.html"
+        field: createdDate
+        order: 10
+      - name: description
+        template: "defaults/displayViews/concepts/overview/description.html"
+        field: description
+        order: 11
+      - name: keywords
+        template: "defaults/displayViews/concepts/overview/keywords.html"
+        field: keywords
+        order: 12
+      - name: geographic focus
+        template: "defaults/displayViews/concepts/overview/geographicFocus.html"
+        field: geographicFocus
+        order: 13
+  - name: Identity
+    sections:
+      - name: same as
+        template: "defaults/displayViews/concepts/identity/sameAs.html"
+        field: sameAs
+        order: 1

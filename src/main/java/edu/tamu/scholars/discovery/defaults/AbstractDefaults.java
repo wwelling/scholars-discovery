@@ -5,6 +5,7 @@ import static edu.tamu.scholars.discovery.index.IndexConstants.VERSION;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -54,12 +55,10 @@ public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> 
 
     @Override
     public void load() throws IOException {
-        Resource resource = resolver.getResource(path());
-        if (resource.exists()) {
-            List<E> entities = read(resource.getInputStream());
-            for (E entity : entities) {
-                process(entity);
-            }
+        Resource[] resources = resolver.getResources(path());
+        List<E> entities = read(resources);
+        for (E entity : entities) {
+            process(entity);
         }
     }
 
@@ -81,6 +80,17 @@ public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> 
             repo.save(existingEntity);
             logger.info(UPDATED_DEFAULTS, this.getClass().getSimpleName(), entity.getName());
         }
+    }
+
+    protected <N extends Named> List<N> loadResources(Resource[] resources, Class<N> type) throws IOException {
+        List<N> entities = new ArrayList<>();
+        for (Resource resource : resources) {
+            if (resource.exists() && resource.isFile()) {
+                entities.add(mapper.readValue(resource.getInputStream(), type));
+            }
+        }
+
+        return entities;
     }
 
     protected void loadTemplateMap(Map<String, String> templateMap) throws IOException {

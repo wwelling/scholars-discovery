@@ -1,10 +1,9 @@
 package edu.tamu.scholars.discovery.defaults;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +24,12 @@ public class DiscoveryViewsDefaults extends AbstractDefaults<DiscoveryView, Disc
 
     @Override
     public String path() {
-        return "classpath:defaults/discoveryViews.yml";
+        return "classpath:defaults/discoveryViews/*.{yml,yaml}";
     }
 
     @Override
-    public List<DiscoveryView> read(InputStream is) throws IOException {
-        List<DiscoveryView> views = mapper.readValue(is, new TypeReference<List<DiscoveryView>>() {});
+    public List<DiscoveryView> read(Resource[] resources) throws IOException {
+        List<DiscoveryView> views = loadResources(resources, DiscoveryView.class);
         for (DiscoveryView view : views) {
             loadTemplateMap(view.getTemplates());
         }
