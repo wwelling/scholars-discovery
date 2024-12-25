@@ -19,7 +19,8 @@ public abstract class ConfigurableProcessorHandler<T extends DataProcessorType, 
     }
 
     public void validateRequiredAttribute(P processor) {
-        // check enum required attributes to validate configurable processor attributes
+        // validate configurable processor before create or save
+        // check configurable processor attributes have all required attributes from enum
     }
 
 }
