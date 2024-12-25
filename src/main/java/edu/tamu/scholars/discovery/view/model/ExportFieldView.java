@@ -6,12 +6,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(
     name = "export_fields",
@@ -20,11 +18,17 @@ import lombok.Setter;
         @Index(name = "idx_export_field_order", columnList = "\"order\"")
 })
 @AttributeOverride(name = "name", column = @Column(nullable = false))
+@SuppressWarnings("java:S2160") // the inherited equals is of id
 public class ExportFieldView extends FieldView {
 
     private static final long serialVersionUID = 334455667788990011L;
 
     @Column(name = "\"limit\"", nullable = false)
-    private int limit = Integer.MAX_VALUE;
+    private int limit;
+
+    public ExportFieldView() {
+        super();
+        this.limit = Integer.MAX_VALUE;
+    }
 
 }

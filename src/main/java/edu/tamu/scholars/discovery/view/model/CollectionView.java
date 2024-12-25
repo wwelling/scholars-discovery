@@ -24,6 +24,7 @@ import lombok.Setter;
 // @ValidCollectionFilters(message = "{CollectionView.validCollectionFilters}")
 // @ValidCollectionExport(message = "{CollectionView.validCollectionExport}")
 // TODO: validate in handler before create and save
+@SuppressWarnings("java:S2160") // the inherited equals is of id
 public abstract class CollectionView extends View {
 
     @Column(nullable = false)
@@ -33,27 +34,38 @@ public abstract class CollectionView extends View {
     @ElementCollection
     @MapKeyColumn(name = "key")
     @Column(name = "template", columnDefinition = "TEXT")
-    private Map<String, String> templates = new HashMap<>();
+    private Map<String, String> templates;
 
     @ElementCollection
-    private List<String> styles = new ArrayList<>();
+    private List<String> styles;
 
     @ElementCollection
-    private List<String> fields = new ArrayList<>();
+    private List<String> fields;
 
     @ElementCollection
-    private List<Facet> facets = new ArrayList<>();
+    private List<Facet> facets;
 
     @ElementCollection
-    private List<Filter> filters = new ArrayList<>();
+    private List<Filter> filters;
 
     @ElementCollection
-    private List<Boost> boosts = new ArrayList<>();
+    private List<Boost> boosts;
 
     @ElementCollection
-    private List<Sort> sort = new ArrayList<>();
+    private List<Sort> sort;
 
     @ElementCollection
-    private List<ExportField> export = new ArrayList<>();
+    private List<ExportField> export;
+
+    protected CollectionView() {
+        this.templates = new HashMap<>();
+        this.styles = new ArrayList<>();
+        this.fields = new ArrayList<>();
+        this.facets = new ArrayList<>();
+        this.filters = new ArrayList<>();
+        this.boosts = new ArrayList<>();
+        this.sort = new ArrayList<>();
+        this.export = new ArrayList<>();
+    }
 
 }

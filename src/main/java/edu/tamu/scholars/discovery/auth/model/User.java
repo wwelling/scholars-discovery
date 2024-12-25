@@ -56,15 +56,17 @@ import jakarta.persistence.Version;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = { "password", "oldPasswords" })
 @Entity
 @Table(
     name = USERS_TABLE_NAME,
@@ -163,6 +165,16 @@ public class User implements Serializable {
     @Version
     @Column(name = "version")
     private Long version;
+
+    public User() {
+        super();
+        this.role = Role.ROLE_USER;
+        this.created = Calendar.getInstance();
+        this.timestamp = Calendar.getInstance();
+        this.confirmed = false;
+        this.active = true;
+        this.enabled = false;
+    }
 
     public User(User user) {
         this();

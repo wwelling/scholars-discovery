@@ -1,5 +1,6 @@
 package edu.tamu.scholars.discovery.theme.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,14 +9,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Embeddable
-public class Navbar {
+public class Navbar implements Serializable {
+
+    private static final long serialVersionUID = 340985692834598345L;
 
     @Column(name = "navbar_brand_text")
     private String brandText;
@@ -28,10 +29,16 @@ public class Navbar {
 
     @ElementCollection
     @CollectionTable(name = "theme_navbar_links")
-    private List<Link> links = new ArrayList<>();
+    private List<Link> links;
 
     @ElementCollection
     @CollectionTable(name = "theme_navbar_variables")
-    private List<Style> variables = new ArrayList<>();
+    private List<Style> variables;
+
+    public Navbar() {
+        super();
+        this.links = new ArrayList<>();
+        this.variables = new ArrayList<>();
+    }
 
 }

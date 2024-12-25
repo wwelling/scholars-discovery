@@ -13,7 +13,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -23,7 +22,6 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @JsonInclude(NON_EMPTY)
 @Table(
@@ -31,6 +29,7 @@ import lombok.Setter;
     indexes = {
         @Index(name = "idx_discovery_view_name", columnList = "name")
 })
+@SuppressWarnings("java:S2160") // the inherited equals is of id
 public class DiscoveryView extends CollectionView {
 
     private static final long serialVersionUID = 785672345676567890L;
@@ -40,12 +39,17 @@ public class DiscoveryView extends CollectionView {
 
     @ElementCollection
     @CollectionTable(name = "discovery_view_highlight_fields")
-    private List<String> highlightFields = new ArrayList<>();
+    private List<String> highlightFields;
 
     @Column(nullable = true)
     private String highlightPrefix;
 
     @Column(nullable = true)
     private String highlightPostfix;
+
+    public DiscoveryView() {
+        super();
+        this.highlightFields = new ArrayList<>();
+    }
 
 }

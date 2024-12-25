@@ -17,15 +17,21 @@ import edu.tamu.scholars.discovery.model.OrderedNamed;
 @Getter
 @Setter
 @MappedSuperclass
+@SuppressWarnings("java:S2160") // the inherited equals is of id
 public abstract class ConfigurableProcessor<T extends DataProcessorType> extends OrderedNamed {
 
     @ElementCollection
     @MapKeyColumn(name = "key")
     @Column(name = "attribute", columnDefinition = "TEXT")
-    private Map<String, String> attributes = new HashMap<>();
+    private Map<String, String> attributes;
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private T type;
+
+    protected ConfigurableProcessor() {
+        super();
+        this.attributes = new HashMap<>();
+    }
 
 }

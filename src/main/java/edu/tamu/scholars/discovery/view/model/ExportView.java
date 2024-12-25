@@ -15,12 +15,10 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(
     name = "display_export_views",
@@ -28,6 +26,7 @@ import lombok.Setter;
         @Index(name = "idx_display_export_view_name", columnList = "name")
 })
 @AttributeOverride(name = "name", column = @Column(nullable = false))
+@SuppressWarnings("java:S2160") // the inherited equals is of id
 public class ExportView extends View {
 
     private static final long serialVersionUID = -654321098765432109L;
@@ -44,6 +43,11 @@ public class ExportView extends View {
     @OrderBy("order")
     @JoinColumn(name = "export_field_id")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<ExportFieldView> lazyReferences = new ArrayList<>();
+    private List<ExportFieldView> lazyReferences;
+
+    public ExportView() {
+        super();
+        this.lazyReferences = new ArrayList<>();
+    }
 
 }

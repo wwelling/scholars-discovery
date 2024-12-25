@@ -11,20 +11,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import edu.tamu.scholars.discovery.model.Named;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(
     name = "themes",
     indexes = {
         @Index(name = "idx_theme_name", columnList = "name")
 })
+@SuppressWarnings("java:S2160") // the inherited equals is of id
 public class Theme extends Named {
 
     @Column(nullable = false)
@@ -34,27 +33,38 @@ public class Theme extends Named {
     private String organizationId;
 
     @Column(nullable = false)
-    private boolean active = false;
+    private boolean active;
 
     @Embedded
-    private Home home = new Home();
+    private Home home;
 
     @Embedded
-    private Header header = new Header();
+    private Header header;
 
     @Embedded
-    private Footer footer = new Footer();
+    private Footer footer;
 
     @ElementCollection
     @CollectionTable(name = "theme_colors")
-    private List<Style> colors = new ArrayList<>();
+    private List<Style> colors;
 
     @ElementCollection
     @CollectionTable(name = "theme_variants")
-    private List<Style> variants = new ArrayList<>();
+    private List<Style> variants;
 
     @ElementCollection
     @CollectionTable(name = "theme_variables")
-    private List<Style> variables = new ArrayList<>();
+    private List<Style> variables;
+
+    public Theme() {
+        super();
+        this.active = false;
+        this.home = new Home();
+        this.header = new Header();
+        this.footer = new Footer();
+        this.colors = new ArrayList<>();
+        this.variants = new ArrayList<>();
+        this.variables = new ArrayList<>();
+    }
 
 }

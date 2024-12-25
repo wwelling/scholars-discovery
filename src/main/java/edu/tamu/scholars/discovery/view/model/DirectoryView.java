@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -18,18 +17,22 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "directory_views", indexes = {
         @Index(name = "idx_directory_view_name", columnList = "name")
 })
 // @ValidIndexField(message = "{DirectoryView.validIndexField}")
 // TODO: validate in handler before create and save
+@SuppressWarnings("java:S2160") // the inherited equals is of id
 public class DirectoryView extends CollectionView {
 
     private static final long serialVersionUID = 112233445566778899L;
 
     @Embedded
     private Grouping grouping;
+
+    public DirectoryView() {
+        super();
+    }
 
 }

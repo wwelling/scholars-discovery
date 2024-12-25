@@ -74,7 +74,7 @@ public class DocxExporter extends AbstractDocxExporter {
 
                 pkg.save(outputStream);
 
-            } catch (IOException | JAXBException | Docx4JException e) {
+            } catch (JAXBException | Docx4JException e) {
                 throw new ExportException(e.getMessage());
             }
         };

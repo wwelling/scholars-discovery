@@ -13,28 +13,33 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import edu.tamu.scholars.discovery.model.Named;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(
     name = "data",
     indexes = {
         @Index(name = "idx_data_name", columnList = "name")
 })
+@SuppressWarnings("java:S2160") // the inherited equals is of id
 public class Data extends Named {
 
     @Embedded
-    private CollectionSource collectionSource = new CollectionSource();
+    private CollectionSource collectionSource;
 
     @OrderBy("order")
     @JoinColumn(name = "data_field_id")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<DataField> fields = new ArrayList<>();
+    private List<DataField> fields;
+
+    public Data() {
+        super();
+        this.collectionSource = new CollectionSource();
+        this.fields = new ArrayList<>();
+    }
 
 }

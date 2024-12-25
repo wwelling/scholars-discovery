@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -15,7 +14,6 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(
     name = "display_subsections",
@@ -24,6 +22,7 @@ import lombok.Setter;
         @Index(name = "idx_display_subsection_order", columnList = "\"order\"")
 })
 @AttributeOverride(name = "name", column = @Column(nullable = false))
+@SuppressWarnings("java:S2160") // the inherited equals is of id
 public class DisplaySubsectionView extends FieldView {
 
     private static final long serialVersionUID = 140302030405060708L;
@@ -33,6 +32,10 @@ public class DisplaySubsectionView extends FieldView {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String template;
+
+    public DisplaySubsectionView() {
+        super();
+    }
 
 }
 

@@ -1,5 +1,6 @@
 package edu.tamu.scholars.discovery.theme.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,23 +9,30 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Embeddable
-public class Header {
+public class Header implements Serializable {
+
+    private static final long serialVersionUID = 309523945723094857L;
 
     @Embedded
-    private Navbar navbar = new Navbar();
+    private Navbar navbar;
 
     @Embedded
-    private Banner banner = new Banner();
+    private Banner banner;
 
     @ElementCollection
     @CollectionTable(name = "theme_header_variables")
-    private List<Style> variables = new ArrayList<>();
+    private List<Style> variables;
+
+    public Header() {
+        super();
+        this.navbar = new Navbar();
+        this.banner = new Banner();
+        this.variables = new ArrayList<>();
+    }
 
 }

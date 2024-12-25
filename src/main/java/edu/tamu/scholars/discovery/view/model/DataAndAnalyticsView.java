@@ -7,7 +7,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -17,13 +16,13 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(
     name = "data_and_analytics_views",
     indexes = {
         @Index(name = "idx_data_and_analytics_view_name", columnList = "name")
 })
+@SuppressWarnings("java:S2160") // the inherited equals is of id
 public class DataAndAnalyticsView extends CollectionView {
 
     private static final long serialVersionUID = -234567890123456789L;
@@ -31,5 +30,9 @@ public class DataAndAnalyticsView extends CollectionView {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ContainerType type;
+
+    public DataAndAnalyticsView() {
+        super();
+    }
 
 }

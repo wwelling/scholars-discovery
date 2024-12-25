@@ -14,7 +14,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -22,7 +21,6 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(
     name = "display_tabs",
@@ -30,16 +28,23 @@ import lombok.Setter;
         @Index(name = "idx_display_tab_name", columnList = "name")
 })
 @AttributeOverride(name = "name", column = @Column(nullable = false))
+@SuppressWarnings("java:S2160") // the inherited equals is of id
 public class DisplayTabView extends View {
 
     private static final long serialVersionUID = -987654321098765432L;
 
     @Column(nullable = false)
-    private boolean hidden = false;
+    private boolean hidden;
 
     @OrderBy("order")
     @JoinColumn(name = "display_tab_view_id")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    public List<DisplaySectionView> sections = new ArrayList<>();
+    public List<DisplaySectionView> sections; // NOSONAR
+
+    public DisplayTabView() {
+        super();
+        this.hidden = false;
+        this.sections = new ArrayList<>();
+    }
 
 }

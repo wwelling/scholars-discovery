@@ -8,8 +8,10 @@ import java.util.List;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
+import edu.tamu.scholars.discovery.config.model.MiddlewareConfig;
 import edu.tamu.scholars.discovery.view.model.DisplaySectionView;
 import edu.tamu.scholars.discovery.view.model.DisplaySubsectionView;
 import edu.tamu.scholars.discovery.view.model.DisplayTabView;
@@ -20,8 +22,12 @@ import edu.tamu.scholars.discovery.view.model.repo.DisplayViewRepo;
 @Service
 public class DisplayViewDefaults extends AbstractDefaults<DisplayView, DisplayViewRepo> {
 
-    public DisplayViewDefaults() {
-        super();
+    public DisplayViewDefaults(
+        MiddlewareConfig config,
+        ResourcePatternResolver resolver,
+        DisplayViewRepo repo
+    ) {
+        super(config, resolver, repo);
     }
 
     @Override

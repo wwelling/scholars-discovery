@@ -9,7 +9,6 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.Sort.Direction;
 
@@ -20,7 +19,6 @@ import edu.tamu.scholars.discovery.model.OpKey;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @Embeddable
 @JsonInclude(Include.NON_NULL)
 public class Facet implements Serializable {
@@ -35,11 +33,11 @@ public class Facet implements Serializable {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private OpKey opKey = OpKey.EQUALS;
+    private OpKey opKey;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private FacetType type = FacetType.STRING;
+    private FacetType type;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -47,28 +45,28 @@ public class Facet implements Serializable {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Direction direction = Direction.DESC;
+    private Direction direction;
 
     @Column(nullable = false)
-    private int pageSize = 10;
+    private int pageSize;
 
     @Column(nullable = false)
-    private int pageNumber = 1;
+    private int pageNumber;
 
     @Column(nullable = false)
-    private boolean expandable = true;
+    private boolean expandable;
 
     @Column(nullable = false)
-    private boolean collapsible = true;
+    private boolean collapsible;
 
     @Column(nullable = false)
-    private boolean collapsed = true;
+    private boolean collapsed;
 
     @Column(nullable = false)
-    private boolean useDialog = false;
+    private boolean useDialog;
 
     @Column(nullable = false)
-    private boolean hidden = false;
+    private boolean hidden;
 
     @Column(nullable = true)
     private String rangeStart;
@@ -78,5 +76,19 @@ public class Facet implements Serializable {
 
     @Column(nullable = true)
     private String rangeGap;
+
+    public Facet() {
+        super();
+        this.opKey = OpKey.EQUALS;
+        this.type = FacetType.STRING;
+        this.direction = Direction.DESC;
+        this.pageSize = 10;
+        this.pageNumber = 1;
+        this.expandable = true;
+        this.collapsible = true;
+        this.collapsed = true;
+        this.useDialog = false;
+        this.hidden = false;
+    }
 
 }

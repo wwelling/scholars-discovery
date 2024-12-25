@@ -1,5 +1,6 @@
 package edu.tamu.scholars.discovery.theme.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,14 +9,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Embeddable
-public class Banner {
+public class Banner implements Serializable {
+
+    private static final long serialVersionUID = 786598734589732465L;
 
     @Column(name = "banner_image_uri")
     private String imageUri;
@@ -25,6 +26,11 @@ public class Banner {
 
     @ElementCollection
     @CollectionTable(name = "theme_banner_variables")
-    private List<Style> variables = new ArrayList<>();
+    private List<Style> variables;
+
+    public Banner() {
+        super();
+        this.variables = new ArrayList<>();
+    }
 
 }

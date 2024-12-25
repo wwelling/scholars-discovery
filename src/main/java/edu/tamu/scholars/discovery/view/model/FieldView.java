@@ -16,15 +16,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @MappedSuperclass
+@SuppressWarnings("java:S2160") // the inherited equals is of id
 public abstract class FieldView extends OrderedView {
 
     @Column(nullable = false)
     public String field;
 
     @ElementCollection
-    private List<Filter> filters = new ArrayList<>();
+    private List<Filter> filters;
 
     @ElementCollection
-    private List<Sort> sort = new ArrayList<>();
+    private List<Sort> sort;
+
+    protected FieldView() {
+        this.filters = new ArrayList<>();
+        this.sort = new ArrayList<>();
+    }
 
 }

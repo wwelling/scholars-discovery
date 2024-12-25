@@ -1,8 +1,11 @@
 package edu.tamu.scholars.discovery.view.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -10,7 +13,6 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import edu.tamu.scholars.discovery.model.OpKey;
@@ -21,8 +23,8 @@ import edu.tamu.scholars.discovery.model.OpKey;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @Embeddable
+@JsonInclude(Include.NON_NULL)
 public class Grouping implements Serializable {
 
     private static final long serialVersionUID = -987654321098765432L;
@@ -32,10 +34,16 @@ public class Grouping implements Serializable {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private OpKey opKey = OpKey.STARTS_WITH;
+    private OpKey opKey;
 
     @ElementCollection
     @CollectionTable(name = "index_options")
     private List<String> options;
+
+    public Grouping() {
+        super();
+        this.opKey = OpKey.STARTS_WITH;
+        this.options = new ArrayList<>();
+    }
 
 }

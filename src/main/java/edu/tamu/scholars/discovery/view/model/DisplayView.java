@@ -14,12 +14,12 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -29,20 +29,20 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(
     name = "display_views",
     indexes = {
-        @jakarta.persistence.Index(name = "idx_display_view_name", columnList = "name")
+        @Index(name = "idx_display_view_name", columnList = "name")
 })
+@SuppressWarnings("java:S2160") // the inherited equals is of id
 public class DisplayView extends View {
 
     private static final long serialVersionUID = 501234567890987654L;
 
     @ElementCollection
     @CollectionTable(name = "display_view_types")
-    private List<String> types = new ArrayList<>();
+    private List<String> types;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String mainContentTemplate;
@@ -58,24 +58,34 @@ public class DisplayView extends View {
 
     @Enumerated(STRING)
     @Column(nullable = false)
-    private Side asideLocation = Side.RIGHT;
+    private Side asideLocation;
 
     @JoinColumn(name = "export_view_id")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<ExportView> exportViews = new ArrayList<>();
+    private List<ExportView> exportViews;
 
     @ElementCollection
     @MapKeyColumn(name = "name")
     @Column(name = "meta_template", columnDefinition = "TEXT")
-    private Map<String, String> metaTemplates = new HashMap<>();
+    private Map<String, String> metaTemplates;
 
     @ElementCollection
     @MapKeyColumn(name = "name")
     @Column(name = "embed_template", columnDefinition = "TEXT")
-    private Map<String, String> embedTemplates = new HashMap<>();
+    private Map<String, String> embedTemplates;
 
     @JoinColumn(name = "display_view_id")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<DisplayTabView> tabs = new ArrayList<>();
+    private List<DisplayTabView> tabs;
+
+    public DisplayView() {
+        super();
+        this.types = new ArrayList<>();
+        this.asideLocation = Side.RIGHT;
+        this.exportViews = new ArrayList<>();
+        this.metaTemplates = new HashMap<>();
+        this.embedTemplates = new HashMap<>();
+        this.tabs = new ArrayList<>();
+    }
 
 }

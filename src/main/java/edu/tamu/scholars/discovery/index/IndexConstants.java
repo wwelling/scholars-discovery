@@ -6,6 +6,8 @@ public class IndexConstants {
 
     public static final String ID = "id";
 
+    public static final String VERSION = "version";
+
     public static final String CLASS = "class";
 
     public static final String ABSTRACT = "abstract";

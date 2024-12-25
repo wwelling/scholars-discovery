@@ -9,12 +9,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Embeddable
 public class FieldDestination implements Serializable {
 
@@ -50,5 +48,14 @@ public class FieldDestination implements Serializable {
     @JoinColumn(name = "loader_id", nullable = false)
     @JsonIdentityReference(alwaysAsId = true)
     private Loader loader;
+
+    public FieldDestination() {
+        super();
+        this.required = false;
+        this.readonly = false;
+        this.stored = true;
+        this.indexed = true;
+        this.docValues = false;
+    }
 
 }

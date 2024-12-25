@@ -7,7 +7,6 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.Sort.Direction;
 
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Sort.Direction;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @Embeddable
 public class Sort implements Serializable {
 
@@ -30,6 +28,10 @@ public class Sort implements Serializable {
     private Direction direction;
 
     @Column(nullable = false)
-    private boolean isDate = false;
+    private boolean isDate;
+
+    public Sort() {
+        this.isDate = false;
+    }
 
 }

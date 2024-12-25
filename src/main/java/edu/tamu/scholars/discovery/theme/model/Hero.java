@@ -1,5 +1,6 @@
 package edu.tamu.scholars.discovery.theme.model;
 
+import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
@@ -10,7 +11,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Embeddable
-public class Hero {
+public class Hero implements Serializable {
+
+    private static final long serialVersionUID = 349052349572340955L;
 
     @Column
     private String imageUri;

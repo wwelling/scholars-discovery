@@ -1,6 +1,7 @@
 package edu.tamu.scholars.discovery.defaults;
 
 import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
+import static edu.tamu.scholars.discovery.index.IndexConstants.VERSION;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -14,7 +15,6 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
@@ -22,7 +22,7 @@ import edu.tamu.scholars.discovery.config.model.MiddlewareConfig;
 import edu.tamu.scholars.discovery.model.Named;
 import edu.tamu.scholars.discovery.model.repo.NamedRepo;
 
-public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> implements Defaults<E, R> {
+public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> implements Defaults<E> {
 
     private static final String CREATED_DEFAULTS = "Created {} {} defaults.";
 
@@ -36,17 +36,20 @@ public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> 
 
     protected final ObjectMapper mapper;
 
-    @Autowired
-    private MiddlewareConfig discovery;
+    private final MiddlewareConfig config;
 
-    @Autowired
-    protected ResourcePatternResolver resolver;
+    protected final ResourcePatternResolver resolver;
 
-    @Autowired
-    protected R repo;
+    protected final R repo;
 
-    public AbstractDefaults() {
+    protected AbstractDefaults(
+        MiddlewareConfig config,
+        ResourcePatternResolver resolver,
+        R repo) {
         mapper = new ObjectMapper(new YAMLFactory());
+        this.config = config;
+        this.resolver = resolver;
+        this.repo = repo;
     }
 
     @Override
@@ -73,8 +76,8 @@ public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> 
 
     @Override
     public void update(E entity, E existingEntity) {
-        if (discovery.isUpdateDefaults()) {
-            BeanUtils.copyProperties(entity, existingEntity, ID);
+        if (config.isUpdateDefaults()) {
+            BeanUtils.copyProperties(entity, existingEntity, ID, VERSION);
             repo.save(existingEntity);
             logger.info(UPDATED_DEFAULTS, this.getClass().getSimpleName(), entity.getName());
         }

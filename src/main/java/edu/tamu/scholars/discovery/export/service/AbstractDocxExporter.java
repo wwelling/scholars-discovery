@@ -3,9 +3,6 @@ package edu.tamu.scholars.discovery.export.service;
 import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
-import jakarta.servlet.ServletContext;
-import jakarta.xml.bind.JAXBException;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -20,6 +17,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import jakarta.servlet.ServletContext;
+import jakarta.xml.bind.JAXBException;
 import org.docx4j.jaxb.Context;
 import org.docx4j.model.structure.SectionWrapper;
 import org.docx4j.openpackaging.contenttype.ContentType;
@@ -48,7 +47,6 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.web.util.UriComponents;
 
 import edu.tamu.scholars.discovery.controller.argument.FilterArg;
-import edu.tamu.scholars.discovery.index.model.AbstractIndexDocument;
 import edu.tamu.scholars.discovery.index.model.Individual;
 import edu.tamu.scholars.discovery.index.model.repo.IndividualRepo;
 import edu.tamu.scholars.discovery.service.TemplateService;
@@ -86,7 +84,7 @@ public abstract class AbstractDocxExporter implements Exporter {
     protected WordprocessingMLPackage createDocx(
         ObjectNode node,
         ExportView exportView
-    ) throws IOException, JAXBException, Docx4JException {
+    ) throws JAXBException, Docx4JException {
         final WordprocessingMLPackage pkg = WordprocessingMLPackage.createPackage();
         final MainDocumentPart mdp = pkg.getMainDocumentPart();
 
@@ -109,7 +107,7 @@ public abstract class AbstractDocxExporter implements Exporter {
         return pkg;
     }
 
-    protected <D extends AbstractIndexDocument> ObjectNode processDocument(final ObjectNode node, ExportView view) {
+    protected ObjectNode processDocument(final ObjectNode node, ExportView view) {
         final UriComponents uriComponents = fromCurrentRequest()
             .replacePath(context.getContextPath())
             .replaceQuery(null)
@@ -138,7 +136,7 @@ public abstract class AbstractDocxExporter implements Exporter {
     }
 
     protected List<String> extractIds(JsonNode reference) {
-        List<String> ids = new ArrayList<String>();
+        List<String> ids = new ArrayList<>();
         if (reference.isArray()) {
             ids = StreamSupport.stream(reference.spliterator(), true)
                 .map(rn -> rn.get(ID).asText())
@@ -150,23 +148,23 @@ public abstract class AbstractDocxExporter implements Exporter {
         return ids;
     }
 
-    protected List<Individual> fetchLazyReference(ExportFieldView lazyReference, List<String> ids) {
-        List<FilterArg> filters = lazyReference.getFilters().stream().map(f -> {
-            return FilterArg.of(
+    protected List<Individual> fetchLazyReference(ExportFieldView exportFieldView, List<String> ids) {
+        List<FilterArg> filters = exportFieldView.getFilters()
+            .stream()
+            .map(f -> FilterArg.of(
                 f.getField(),
                 Optional.of(f.getValue()),
                 Optional.of(f.getOpKey().getKey()),
-                Optional.empty()
-            );
-        }).toList();
+                Optional.empty()))
+                    .toList();
 
         Sort sort = Sort.by(
-            lazyReference.getSort().stream().map(s -> {
+            exportFieldView.getSort().stream().map(s -> {
                 return Order.by(s.getField()).with(s.getDirection());
             }).toList()
         );
 
-        int limit = lazyReference.getLimit();
+        int limit = exportFieldView.getLimit();
 
         return individualRepo.findByIdIn(ids, filters, sort, limit);
     }
@@ -208,24 +206,20 @@ public abstract class AbstractDocxExporter implements Exporter {
     ) throws InvalidFormatException {
         final Hdr hdr = WML_OBJECT_FACTORY.createHdr();
         headerPart.setJaxbElement(hdr);
-        try {
-            final AlternativeFormatInputPart targetpart = createHeaderHtml(
-                new PartName("/word/htmlheader.html"),
-                html
-            );
-            final Relationship rel = headerPart.addTargetPart(targetpart);
-            final CTAltChunk ac = WML_OBJECT_FACTORY.createCTAltChunk();
-            ac.setId(rel.getId());
-            hdr.getContent().add(ac);
-        } catch (final UnsupportedEncodingException e) {
-            throw new InvalidFormatException(e.getMessage(), e);
-        }
+        final AlternativeFormatInputPart targetpart = createHeaderHtml(
+            new PartName("/word/htmlheader.html"),
+            html
+        );
+        final Relationship rel = headerPart.addTargetPart(targetpart);
+        final CTAltChunk ac = WML_OBJECT_FACTORY.createCTAltChunk();
+        ac.setId(rel.getId());
+        hdr.getContent().add(ac);
     }
 
     protected AlternativeFormatInputPart createHeaderHtml(
         final PartName partName,
         final String html
-    ) throws InvalidFormatException, UnsupportedEncodingException {
+    ) throws InvalidFormatException {
         final AlternativeFormatInputPart afiPart = new AlternativeFormatInputPart(partName);
         afiPart.setBinaryData(html.getBytes(Charset.defaultCharset()));
         afiPart.setContentType(HTML_CONTENT_TYPE);

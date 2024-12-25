@@ -4,12 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(
     name = "transformers",
@@ -19,5 +17,9 @@ import lombok.Setter;
 public class Transformer extends ConfigurableProcessor<DataTransformerType> {
 
     private static final long serialVersionUID = -123987654321234987L;
+
+    public Transformer() {
+        super();
+    }
 
 }
