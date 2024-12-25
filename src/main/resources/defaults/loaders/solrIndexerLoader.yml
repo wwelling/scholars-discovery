@@ -1,0 +1,5 @@
+name: Solr Index Loader
+type: SOLR_INDEXER
+attributes:
+  host: http://localhost:8983/solr
+  collection: scholars-discovery

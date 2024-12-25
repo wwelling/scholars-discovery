@@ -44,10 +44,10 @@ public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> 
     protected final R repo;
 
     protected AbstractDefaults(
-        MiddlewareConfig config,
-        ResourcePatternResolver resolver,
-        R repo) {
-        mapper = new ObjectMapper(new YAMLFactory());
+            MiddlewareConfig config,
+            ResourcePatternResolver resolver,
+            R repo) {
+        this.mapper = new ObjectMapper(new YAMLFactory());
         this.config = config;
         this.resolver = resolver;
         this.repo = repo;

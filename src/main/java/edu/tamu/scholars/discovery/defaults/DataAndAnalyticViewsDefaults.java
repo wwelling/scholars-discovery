@@ -15,10 +15,9 @@ import edu.tamu.scholars.discovery.view.model.repo.DataAndAnalyticsViewRepo;
 public class DataAndAnalyticViewsDefaults extends AbstractDefaults<DataAndAnalyticsView, DataAndAnalyticsViewRepo> {
 
     public DataAndAnalyticViewsDefaults(
-        MiddlewareConfig config,
-        ResourcePatternResolver resolver,
-        DataAndAnalyticsViewRepo repo
-    ) {
+            MiddlewareConfig config,
+            ResourcePatternResolver resolver,
+            DataAndAnalyticsViewRepo repo) {
         super(config, resolver, repo);
     }
 

@@ -21,10 +21,9 @@ import edu.tamu.scholars.discovery.view.model.repo.DisplayViewRepo;
 public class DisplayViewDefaults extends AbstractDefaults<DisplayView, DisplayViewRepo> {
 
     public DisplayViewDefaults(
-        MiddlewareConfig config,
-        ResourcePatternResolver resolver,
-        DisplayViewRepo repo
-    ) {
+            MiddlewareConfig config,
+            ResourcePatternResolver resolver,
+            DisplayViewRepo repo) {
         super(config, resolver, repo);
     }
 

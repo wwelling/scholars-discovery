@@ -15,10 +15,9 @@ import edu.tamu.scholars.discovery.view.model.repo.DiscoveryViewRepo;
 public class DiscoveryViewsDefaults extends AbstractDefaults<DiscoveryView, DiscoveryViewRepo> {
 
     public DiscoveryViewsDefaults(
-        MiddlewareConfig config,
-        ResourcePatternResolver resolver,
-        DiscoveryViewRepo repo
-    ) {
+            MiddlewareConfig config,
+            ResourcePatternResolver resolver,
+            DiscoveryViewRepo repo) {
         super(config, resolver, repo);
     }
 

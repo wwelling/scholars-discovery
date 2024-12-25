@@ -1,6 +1,7 @@
 package edu.tamu.scholars.discovery.defaults.service;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import jakarta.annotation.PostConstruct;
@@ -13,6 +14,7 @@ import edu.tamu.scholars.discovery.defaults.Defaults;
 public class DefaultsService {
 
     private final MiddlewareConfig discovery;
+
     private final List<Defaults<?>> defaults;
 
     DefaultsService(MiddlewareConfig discovery, List<Defaults<?>> defaults) {
@@ -23,6 +25,8 @@ public class DefaultsService {
     @PostConstruct
     public void init() throws IOException {
         if (discovery.isLoadDefaults()) {
+            // TODO: implement dependency between defaults run in order of dependency first
+            Collections.reverse(defaults);
             for (Defaults<?> service : defaults) {
                 service.load();
             }

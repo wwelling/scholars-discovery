@@ -15,10 +15,9 @@ import edu.tamu.scholars.discovery.view.model.repo.DirectoryViewRepo;
 public class DirectoryViewsDefaults extends AbstractDefaults<DirectoryView, DirectoryViewRepo> {
 
     public DirectoryViewsDefaults(
-        MiddlewareConfig config,
-        ResourcePatternResolver resolver,
-        DirectoryViewRepo repo
-    ) {
+            MiddlewareConfig config,
+            ResourcePatternResolver resolver,
+            DirectoryViewRepo repo) {
         super(config, resolver, repo);
     }
 

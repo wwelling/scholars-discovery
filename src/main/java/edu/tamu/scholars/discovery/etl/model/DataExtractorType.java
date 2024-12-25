@@ -4,14 +4,14 @@ import edu.tamu.scholars.discovery.etl.DataProcessor;
 
 public enum DataExtractorType implements DataProcessorType {
 
-    TDB_SPARQL_HARVESTER("directory") {
+    TDB_SPARQL("directory") {
         @Override
         public DataProcessor getDataProcessor() {
             // return implemented extractor
             return null;
         }
     },
-    HTTP_SPARQL_HARVESTER("url") {
+    HTTP_SPARQL("url") {
         @Override
         public DataProcessor getDataProcessor() {
             // return implemented extractor

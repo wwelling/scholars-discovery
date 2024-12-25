@@ -8,27 +8,27 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.scholars.discovery.config.model.MiddlewareConfig;
-import edu.tamu.scholars.discovery.theme.model.Theme;
-import edu.tamu.scholars.discovery.theme.model.repo.ThemeRepo;
+import edu.tamu.scholars.discovery.etl.model.Data;
+import edu.tamu.scholars.discovery.etl.model.repo.DataRepo;
 
 @Service
-public class ThemeDefaults extends AbstractDefaults<Theme, ThemeRepo> {
+public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
 
-    public ThemeDefaults(
+    public DataDefaults(
             MiddlewareConfig config,
             ResourcePatternResolver resolver,
-            ThemeRepo repo) {
+            DataRepo repo) {
         super(config, resolver, repo);
     }
 
     @Override
     public String path() {
-        return "classpath:defaults/themes/*.{yml,yaml}";
+        return "classpath:defaults/data/*.{yml,yaml}";
     }
 
     @Override
-    public List<Theme> read(Resource[] resources) throws IOException {
-        return loadResources(resources, Theme.class);
+    public List<Data> read(Resource[] resources) throws IOException {
+        return loadResources(resources, Data.class);
     }
 
 }

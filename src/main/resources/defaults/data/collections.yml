@@ -1,0 +1,815 @@
+name: Collection
+collectionSource:
+  template: collection.sparql
+  predicate: http://purl.org/ontology/bibo/Collection
+fields:
+  - name: name
+    order: 1
+    descriptor:
+      name: name
+      order: 1
+      destination:
+        type: text_general
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/name
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: abstract
+    order: 2
+    descriptor:
+      name: abstract
+      order: 1
+      destination:
+        type: text_general
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/abstract
+        predicate: http://purl.org/ontology/bibo/abstract
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: abbreviation
+    order: 3
+    descriptor:
+      name: abbreviation
+      order: 1
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/abbreviation
+        predicate: http://vivoweb.org/ontology/core#abbreviation
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: publicationVenueFor
+    order: 4
+    descriptor:
+      name: publicationVenueFor
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/publicationVenueFor
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: editors
+    order: 5
+    descriptor:
+      name: editors
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/editor
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: translators
+    order: 6
+    descriptor:
+      name: translators
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/translator
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: publicationDate
+    order: 7
+    descriptor:
+      name: publicationDate
+      order: 1
+      destination:
+        type: pdate
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: true
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/publicationDate
+        predicate: http://vivoweb.org/ontology/core#dateTime
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: publisher
+    order: 8
+    descriptor:
+      name: publisher
+      order: 1
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/publisher
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: true
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: publisherType
+    order: 9
+    descriptor:
+      name: publisherType
+      order: 1
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/publisherType
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        unique: false
+        parse: true
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: subjectAreas
+    order: 10
+    descriptor:
+      name: subjectAreas
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/hasSubjectArea
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: features
+    order: 11
+    descriptor:
+      name: features
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/feature
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: outputOfProcessOrEvent
+    order: 12
+    descriptor:
+      name: outputOfProcessOrEvent
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/outputOfProcessOrEvent
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: keywords
+    order: 13
+    descriptor:
+      name: keywords
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/keyword
+        predicate: http://vivoweb.org/ontology/core#freetextKeyword
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: issn
+    order: 14
+    descriptor:
+      name: issn
+      order: 1
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/issn
+        predicate: http://purl.org/ontology/bibo/issn
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: eissn
+    order: 15
+    descriptor:
+      name: eissn
+      order: 1
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/eissn
+        predicate: http://purl.org/ontology/bibo/eissn
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: doi
+    order: 16
+    descriptor:
+      name: doi
+      order: 1
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/doi
+        predicate: http://purl.org/ontology/bibo/doi
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: oclcnum
+    order: 17
+    descriptor:
+      name: oclcnum
+      order: 1
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/oclcnum
+        predicate: http://purl.org/ontology/bibo/oclcnum
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: isAbout
+    order: 18
+    descriptor:
+      name: isAbout
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/isAbout
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: specifiedOutputOf
+    order: 19
+    descriptor:
+      name: specifiedOutputOf
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/specifiedOutputOf
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: mentions
+    order: 20
+    descriptor:
+      name: mentions
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/mention
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: participatesIn
+    order: 21
+    descriptor:
+      name: participatesIn
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/participatesIn
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: supportedBy
+    order: 22
+    descriptor:
+      name: supportedBy
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: collection/supportedBy
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: image
+    order: 23
+    descriptor:
+      name: image
+      order: 1
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: common/image
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: thumbnail
+    order: 24
+    descriptor:
+      name: thumbnail
+      order: 1
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: common/thumbnail
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: websites
+    order: 25
+    descriptor:
+      name: websites
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: common/website
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: websiteUrl
+    order: 26
+    descriptor:
+      name: websiteUrl
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: common/websiteUrl
+        predicate: http://www.w3.org/2006/vcard/ns#url
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: geographicFocus
+    order: 27
+    descriptor:
+      name: geographicFocus
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: common/geographicFocus
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: sameAs
+    order: 28
+    descriptor:
+      name: sameAs
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: common/sameAs
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: modTime
+    order: 29
+    descriptor:
+      name: modTime
+      order: 1
+      destination:
+        type: pdate
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: true
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: common/modTime
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - name: type
+    order: 30
+    descriptor:
+      name: type
+      order: 1
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: true
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: common/type
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        unique: false
+        parse: true
+        split: false
+        extractor:
+          id: 1
+          version: 1

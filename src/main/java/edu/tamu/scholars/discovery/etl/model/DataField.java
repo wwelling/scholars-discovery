@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -34,11 +35,11 @@ public class DataField extends OrderedNamed {
 
     private static final long serialVersionUID = -284562394634567551L;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private DataFieldDescriptor descriptor;
 
     @OrderBy("order")
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
         name = "data_field_nested_fields",
         joinColumns = @JoinColumn(name = "data_field_id"),

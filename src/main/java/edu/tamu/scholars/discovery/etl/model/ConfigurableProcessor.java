@@ -12,13 +12,13 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
-import edu.tamu.scholars.discovery.model.OrderedNamed;
+import edu.tamu.scholars.discovery.model.Named;
 
 @Getter
 @Setter
 @MappedSuperclass
 @SuppressWarnings("java:S2160") // the inherited equals is of id
-public abstract class ConfigurableProcessor<T extends DataProcessorType> extends OrderedNamed {
+public abstract class ConfigurableProcessor<T extends DataProcessorType> extends Named {
 
     @ElementCollection
     @MapKeyColumn(name = "key")
