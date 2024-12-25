@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import edu.tamu.scholars.discovery.controller.argument.DiscoveryQuantityDistributionDescriptor;
+import edu.tamu.scholars.discovery.controller.argument.QuantityDistributionDescriptorArg;
 
 public class DiscoveryQuantityDistribution {
 
@@ -60,7 +60,7 @@ public class DiscoveryQuantityDistribution {
     }
 
     public static DiscoveryQuantityDistribution from(
-        DiscoveryQuantityDistributionDescriptor quantityDistributionDescriptor
+        QuantityDistributionDescriptorArg quantityDistributionDescriptor
     ) {
         return new DiscoveryQuantityDistribution(
             quantityDistributionDescriptor.getLabel(),

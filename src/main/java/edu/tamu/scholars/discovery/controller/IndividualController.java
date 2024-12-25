@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.tamu.scholars.discovery.controller.argument.DiscoveryNetworkDescriptor;
+import edu.tamu.scholars.discovery.controller.argument.NetworkDescriptorArg;
 import edu.tamu.scholars.discovery.controller.assembler.DiscoveryPagedResourcesAssembler;
 import edu.tamu.scholars.discovery.controller.assembler.IndividualResourceAssembler;
 import edu.tamu.scholars.discovery.controller.assembler.model.IndividualModel;
@@ -94,7 +94,8 @@ public class IndividualController implements RepresentationModelProcessor<Indivi
         @RequestParam(name = "dataFields", defaultValue = "authors") List<String> dataFields,
         @RequestParam(name = "typeFilter", defaultValue = "class:Document") String typeFilter
     ) {
-        return ResponseEntity.ok(repo.network(DiscoveryNetworkDescriptor.of(id, dateField, dataFields, typeFilter)));
+        // TODO: add argument resolver for NetworkDescriptorArg
+        return ResponseEntity.ok(repo.network(NetworkDescriptorArg.of(id, dateField, dataFields, typeFilter)));
     }
 
     @Override

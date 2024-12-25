@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.tamu.scholars.discovery.controller.argument.DiscoveryAcademicAgeDescriptor;
-import edu.tamu.scholars.discovery.controller.argument.DiscoveryQuantityDistributionDescriptor;
+import edu.tamu.scholars.discovery.controller.argument.AcademicAgeDescriptorArg;
+import edu.tamu.scholars.discovery.controller.argument.QuantityDistributionDescriptorArg;
 import edu.tamu.scholars.discovery.controller.argument.FilterArg;
 import edu.tamu.scholars.discovery.controller.argument.QueryArg;
 import edu.tamu.scholars.discovery.controller.response.DiscoveryAcademicAge;
@@ -42,7 +42,8 @@ public class IndividualAnalyticsController {
 
         return ResponseEntity.ok(
             repo.academicAge(
-                DiscoveryAcademicAgeDescriptor.of(
+                // TODO: add argument resolver for AcademicAgeDescriptorArg
+                AcademicAgeDescriptorArg.of(
                     label,
                     dateField,
                     accumulateMultivaluedDate,
@@ -66,7 +67,8 @@ public class IndividualAnalyticsController {
 
         return ResponseEntity.ok(
             repo.quantityDistribution(
-                DiscoveryQuantityDistributionDescriptor.of(label, field),
+                // TODO: add argument resolver for QuantityDistributionDescriptorArg
+                QuantityDistributionDescriptorArg.of(label, field),
                 query,
                 filters
             )

@@ -6,8 +6,7 @@ import java.util.List;
 
 import edu.tamu.scholars.discovery.utility.DiscoveryUtility;
 
-// TODO: refactor to DiscoveryAcademicAgeDescriptorArg and add argument resolver
-public class DiscoveryAcademicAgeDescriptor {
+public class AcademicAgeDescriptorArg {
 
     private final String label;
 
@@ -21,7 +20,7 @@ public class DiscoveryAcademicAgeDescriptor {
 
     private final Integer groupingIntervalInYears;
 
-    private DiscoveryAcademicAgeDescriptor(
+    private AcademicAgeDescriptorArg(
             String label,
             String dateField,
             Boolean accumulateMultivaluedDate,
@@ -135,14 +134,14 @@ public class DiscoveryAcademicAgeDescriptor {
         return labeledRanges;
     }
 
-    public static DiscoveryAcademicAgeDescriptor of(
+    public static AcademicAgeDescriptorArg of(
             String label,
             String dateField,
             Boolean accumulateMultivaluedDate,
             Boolean averageOverInterval,
             Integer upperLimitInYears,
             Integer groupingIntervalInYears) {
-        return new DiscoveryAcademicAgeDescriptor(
+        return new AcademicAgeDescriptorArg(
                 label,
                 dateField,
                 accumulateMultivaluedDate,

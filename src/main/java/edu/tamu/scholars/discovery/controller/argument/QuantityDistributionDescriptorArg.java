@@ -2,14 +2,13 @@ package edu.tamu.scholars.discovery.controller.argument;
 
 import edu.tamu.scholars.discovery.utility.DiscoveryUtility;
 
-// TODO: refactor to DiscoveryQuantityDistributionDescriptorArg and add argument resolver
-public class DiscoveryQuantityDistributionDescriptor {
+public class QuantityDistributionDescriptorArg {
 
     private final String label;
 
     private final String field;
 
-    private DiscoveryQuantityDistributionDescriptor(String label, String field) {
+    private QuantityDistributionDescriptorArg(String label, String field) {
         super();
         this.label = label;
         this.field = DiscoveryUtility.findProperty(field);
@@ -23,8 +22,8 @@ public class DiscoveryQuantityDistributionDescriptor {
         return field;
     }
 
-    public static DiscoveryQuantityDistributionDescriptor of(String label, String field) {
-        return new DiscoveryQuantityDistributionDescriptor(label, field);
+    public static QuantityDistributionDescriptorArg of(String label, String field) {
+        return new QuantityDistributionDescriptorArg(label, field);
     }
 
 }

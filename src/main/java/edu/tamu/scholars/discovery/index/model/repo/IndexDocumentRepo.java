@@ -9,9 +9,9 @@ import org.springframework.data.domain.Sort;
 import reactor.core.publisher.Flux;
 
 import edu.tamu.scholars.discovery.controller.argument.BoostArg;
-import edu.tamu.scholars.discovery.controller.argument.DiscoveryAcademicAgeDescriptor;
-import edu.tamu.scholars.discovery.controller.argument.DiscoveryNetworkDescriptor;
-import edu.tamu.scholars.discovery.controller.argument.DiscoveryQuantityDistributionDescriptor;
+import edu.tamu.scholars.discovery.controller.argument.AcademicAgeDescriptorArg;
+import edu.tamu.scholars.discovery.controller.argument.NetworkDescriptorArg;
+import edu.tamu.scholars.discovery.controller.argument.QuantityDistributionDescriptorArg;
 import edu.tamu.scholars.discovery.controller.argument.FacetArg;
 import edu.tamu.scholars.discovery.controller.argument.FilterArg;
 import edu.tamu.scholars.discovery.controller.argument.HighlightArg;
@@ -65,17 +65,17 @@ public interface IndexDocumentRepo<D extends AbstractIndexDocument> {
     );
 
     public DiscoveryNetwork network(
-        DiscoveryNetworkDescriptor dataNetworkDescriptor
+        NetworkDescriptorArg networkDescriptor
     );
 
     public DiscoveryAcademicAge academicAge(
-        DiscoveryAcademicAgeDescriptor academicAgeDescriptor,
+        AcademicAgeDescriptorArg academicAgeDescriptor,
         QueryArg query,
         List<FilterArg> filters
     );
 
     public DiscoveryQuantityDistribution quantityDistribution(
-        DiscoveryQuantityDistributionDescriptor quantityDistributionDescriptor,
+        QuantityDistributionDescriptorArg quantityDistributionDescriptor,
         QueryArg query,
         List<FilterArg> filters
     );

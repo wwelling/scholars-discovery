@@ -11,8 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import edu.tamu.scholars.discovery.controller.argument.DiscoveryAcademicAgeDescriptor;
-import edu.tamu.scholars.discovery.controller.argument.DiscoveryAcademicAgeDescriptor.LabeledRange;
+import edu.tamu.scholars.discovery.controller.argument.AcademicAgeDescriptorArg;
+import edu.tamu.scholars.discovery.controller.argument.AcademicAgeDescriptorArg.LabeledRange;
 import edu.tamu.scholars.discovery.utility.DateUtility;
 
 public class DiscoveryAcademicAge {
@@ -43,7 +43,7 @@ public class DiscoveryAcademicAge {
         }
     }
 
-    public void from(DiscoveryAcademicAgeDescriptor academicAgeDescriptor, JsonNode results) {
+    public void from(AcademicAgeDescriptorArg academicAgeDescriptor, JsonNode results) {
         String dateField = academicAgeDescriptor.getDateField();
         String ageField = academicAgeDescriptor.getAgeField();
 

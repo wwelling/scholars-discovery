@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
 import edu.tamu.scholars.discovery.controller.argument.BoostArg;
-import edu.tamu.scholars.discovery.controller.argument.DiscoveryAcademicAgeDescriptor;
-import edu.tamu.scholars.discovery.controller.argument.DiscoveryNetworkDescriptor;
-import edu.tamu.scholars.discovery.controller.argument.DiscoveryQuantityDistributionDescriptor;
+import edu.tamu.scholars.discovery.controller.argument.AcademicAgeDescriptorArg;
+import edu.tamu.scholars.discovery.controller.argument.NetworkDescriptorArg;
+import edu.tamu.scholars.discovery.controller.argument.QuantityDistributionDescriptorArg;
 import edu.tamu.scholars.discovery.controller.argument.FacetArg;
 import edu.tamu.scholars.discovery.controller.argument.FilterArg;
 import edu.tamu.scholars.discovery.controller.argument.HighlightArg;
@@ -137,8 +137,8 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
     }
 
     @Override
-    public DiscoveryNetwork network(DiscoveryNetworkDescriptor dataNetworkDescriptor) {
-        final String id = dataNetworkDescriptor.getId();
+    public DiscoveryNetwork network(NetworkDescriptorArg networkDescriptor) {
+        final String id = networkDescriptor.getId();
         final DiscoveryNetwork dataNetwork = DiscoveryNetwork.to(id);
 
         try {
@@ -185,7 +185,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
 
     @Override
     public DiscoveryAcademicAge academicAge(
-        DiscoveryAcademicAgeDescriptor academicAgeDescriptor,
+        AcademicAgeDescriptorArg academicAgeDescriptor,
         QueryArg query,
         List<FilterArg> filters
     ) {
@@ -223,7 +223,7 @@ public class IndividualRepo implements IndexDocumentRepo<Individual> {
 
     @Override
     public DiscoveryQuantityDistribution quantityDistribution(
-        DiscoveryQuantityDistributionDescriptor quantityDistributionDescriptor,
+        QuantityDistributionDescriptorArg quantityDistributionDescriptor,
         QueryArg query,
         List<FilterArg> filters
     ) {

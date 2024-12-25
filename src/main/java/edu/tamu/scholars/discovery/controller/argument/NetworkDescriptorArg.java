@@ -10,8 +10,7 @@ import java.util.Map;
 
 import edu.tamu.scholars.discovery.utility.DiscoveryUtility;
 
-// TODO: refactor to DiscoveryNetworkDescriptorArg and add argument resolver
-public class DiscoveryNetworkDescriptor {
+public class NetworkDescriptorArg {
 
     private final String id;
 
@@ -21,7 +20,7 @@ public class DiscoveryNetworkDescriptor {
 
     private final String typeFilter;
 
-    private DiscoveryNetworkDescriptor(String id, String dateField, List<String> dataFields, String typeFilter) {
+    private NetworkDescriptorArg(String id, String dateField, List<String> dataFields, String typeFilter) {
         super();
         this.id = id;
         this.dateField = DiscoveryUtility.findProperty(dateField);
@@ -71,13 +70,13 @@ public class DiscoveryNetworkDescriptor {
         return queryParamMap;
     }
 
-    public static DiscoveryNetworkDescriptor of(
+    public static NetworkDescriptorArg of(
         String id,
         String dateField,
         List<String> dataFields,
         String typeFilter
     ) {
-        return new DiscoveryNetworkDescriptor(id, dateField, dataFields, typeFilter);
+        return new NetworkDescriptorArg(id, dateField, dataFields, typeFilter);
     }
 
 }
