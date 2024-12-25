@@ -1,7 +1,7 @@
 package edu.tamu.scholars.discovery.index.model;
 
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.CLASS;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.ID;
+import static edu.tamu.scholars.discovery.index.IndexConstants.CLASS;
+import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
 
 import java.util.ArrayList;
 import java.util.List;

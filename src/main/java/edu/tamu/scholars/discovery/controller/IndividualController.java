@@ -1,6 +1,6 @@
 package edu.tamu.scholars.discovery.controller;
 
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.ID;
+import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;

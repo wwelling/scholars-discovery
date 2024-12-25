@@ -1,6 +1,6 @@
 package edu.tamu.scholars.discovery.index.component.solr;
 
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.QUERY_DELIMETER;
+import static edu.tamu.scholars.discovery.index.IndexConstants.QUERY_DELIMETER;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

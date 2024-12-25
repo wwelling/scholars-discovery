@@ -1,6 +1,6 @@
 package edu.tamu.scholars.discovery.defaults;
 
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.ID;
+import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.tamu.scholars.discovery.index.DiscoveryConstants;
+import edu.tamu.scholars.discovery.index.IndexConstants;
 import edu.tamu.scholars.discovery.utility.DiscoveryUtility;
 
 public class QueryArg {
@@ -69,7 +69,7 @@ public class QueryArg {
         Optional<String> bq,
         Optional<String> fl
     ) {
-        String expression = q.isPresent() ? q.get() : DiscoveryConstants.DEFAULT_QUERY;
+        String expression = q.isPresent() ? q.get() : IndexConstants.DEFAULT_QUERY;
         String defaultField = df.isPresent() ? df.get() : StringUtils.EMPTY;
         String minimumShouldMatch = mm.isPresent() ? mm.get() : StringUtils.EMPTY;
         String queryField = qf.isPresent() ? qf.get() : StringUtils.EMPTY;

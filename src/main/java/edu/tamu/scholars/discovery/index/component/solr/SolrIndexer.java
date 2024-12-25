@@ -1,6 +1,6 @@
 package edu.tamu.scholars.discovery.index.component.solr;
 
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.ID;
+import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
 import static edu.tamu.scholars.discovery.utility.DiscoveryUtility.addField;
 
 import java.lang.reflect.Field;

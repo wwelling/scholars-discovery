@@ -1,9 +1,9 @@
 package edu.tamu.scholars.discovery.index.component.jena;
 
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.CLASS;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.ID;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.NESTED_DELIMITER;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.SYNC_IDS;
+import static edu.tamu.scholars.discovery.index.IndexConstants.CLASS;
+import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
+import static edu.tamu.scholars.discovery.index.IndexConstants.NESTED_DELIMITER;
+import static edu.tamu.scholars.discovery.index.IndexConstants.SYNC_IDS;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

@@ -17,7 +17,7 @@ import org.springframework.data.domain.Pageable;
 
 import edu.tamu.scholars.discovery.controller.argument.FacetArg;
 import edu.tamu.scholars.discovery.controller.argument.HighlightArg;
-import edu.tamu.scholars.discovery.index.DiscoveryConstants;
+import edu.tamu.scholars.discovery.index.IndexConstants;
 
 public class DiscoveryFacetAndHighlightPage<T> extends DiscoveryFacetPage<T> {
 

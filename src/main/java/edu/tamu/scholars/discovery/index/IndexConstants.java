@@ -1,6 +1,6 @@
 package edu.tamu.scholars.discovery.index;
 
-public class DiscoveryConstants {
+public class IndexConstants {
 
     public static final String WILDCARD = "*";
 
@@ -32,7 +32,7 @@ public class DiscoveryConstants {
 
     public static final String PARENTHESES_TEMPLATE = "(%s)";
 
-    private DiscoveryConstants() {
+    private IndexConstants() {
 
     }
 

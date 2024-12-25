@@ -1,6 +1,6 @@
 package edu.tamu.scholars.discovery.export.service;
 
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.ID;
+import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 import jakarta.servlet.ServletContext;

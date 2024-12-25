@@ -1,6 +1,6 @@
 package edu.tamu.scholars.discovery.export.controller;
 
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.DEFAULT_QUERY;
+import static edu.tamu.scholars.discovery.index.IndexConstants.DEFAULT_QUERY;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;

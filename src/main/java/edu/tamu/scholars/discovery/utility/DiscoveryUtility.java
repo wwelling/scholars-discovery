@@ -1,9 +1,9 @@
 package edu.tamu.scholars.discovery.utility;
 
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.CLASS;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.DISCOVERY_MODEL_PACKAGE;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.PATH_DELIMETER_REGEX;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.REQUEST_PARAM_DELIMETER;
+import static edu.tamu.scholars.discovery.index.IndexConstants.CLASS;
+import static edu.tamu.scholars.discovery.index.IndexConstants.DISCOVERY_MODEL_PACKAGE;
+import static edu.tamu.scholars.discovery.index.IndexConstants.PATH_DELIMETER_REGEX;
+import static edu.tamu.scholars.discovery.index.IndexConstants.REQUEST_PARAM_DELIMETER;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

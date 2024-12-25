@@ -1,8 +1,8 @@
 package edu.tamu.scholars.discovery.index.component.solr;
 
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.ID;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.MOD_TIME;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.TYPE;
+import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
+import static edu.tamu.scholars.discovery.index.IndexConstants.MOD_TIME;
+import static edu.tamu.scholars.discovery.index.IndexConstants.TYPE;
 import static java.lang.String.format;
 import static java.lang.String.join;
 import static org.apache.commons.lang3.StringUtils.removeEnd;

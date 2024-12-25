@@ -1,10 +1,10 @@
 package edu.tamu.scholars.discovery.index.model;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.CLASS;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.ID;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.SYNC_IDS;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.TYPE;
+import static edu.tamu.scholars.discovery.index.IndexConstants.CLASS;
+import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
+import static edu.tamu.scholars.discovery.index.IndexConstants.SYNC_IDS;
+import static edu.tamu.scholars.discovery.index.IndexConstants.TYPE;
 
 import java.util.ArrayList;
 import java.util.Collection;

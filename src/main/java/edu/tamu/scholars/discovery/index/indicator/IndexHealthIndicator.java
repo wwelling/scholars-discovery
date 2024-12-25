@@ -1,6 +1,6 @@
 package edu.tamu.scholars.discovery.index.indicator;
 
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.DEFAULT_QUERY;
+import static edu.tamu.scholars.discovery.index.IndexConstants.DEFAULT_QUERY;
 
 import java.util.Arrays;
 import java.util.HashMap;

@@ -1,7 +1,7 @@
 package edu.tamu.scholars.discovery.controller.argument;
 
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.DEFAULT_QUERY;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.ID;
+import static edu.tamu.scholars.discovery.index.IndexConstants.DEFAULT_QUERY;
+import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
 
 import java.util.ArrayList;
 import java.util.HashMap;

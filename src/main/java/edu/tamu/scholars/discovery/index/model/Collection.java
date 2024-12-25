@@ -1,7 +1,7 @@
 package edu.tamu.scholars.discovery.index.model;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.ABSTRACT;
+import static edu.tamu.scholars.discovery.index.IndexConstants.ABSTRACT;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
 package edu.tamu.scholars.discovery.index.component.solr;
 
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.CLASS;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.DEFAULT_QUERY;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.ID;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.REQUEST_PARAM_DELIMETER;
+import static edu.tamu.scholars.discovery.index.IndexConstants.CLASS;
+import static edu.tamu.scholars.discovery.index.IndexConstants.DEFAULT_QUERY;
+import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
+import static edu.tamu.scholars.discovery.index.IndexConstants.REQUEST_PARAM_DELIMETER;
 
 import java.util.ArrayList;
 import java.util.Arrays;

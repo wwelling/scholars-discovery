@@ -1,7 +1,7 @@
 package edu.tamu.scholars.discovery.index.serializer;
 
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.CLASS;
-import static edu.tamu.scholars.discovery.index.DiscoveryConstants.ID;
+import static edu.tamu.scholars.discovery.index.IndexConstants.CLASS;
+import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
 // import static edu.tamu.scholars.discovery.index.DiscoveryConstants.NESTED_DELIMITER;
 import static edu.tamu.scholars.discovery.utility.DiscoveryUtility.getDiscoveryDocumentType;
 

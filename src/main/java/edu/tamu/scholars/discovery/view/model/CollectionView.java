@@ -23,7 +23,7 @@ import lombok.Setter;
 // @ValidCollectionFacets(message = "{CollectionView.validCollectionFacets}")
 // @ValidCollectionFilters(message = "{CollectionView.validCollectionFilters}")
 // @ValidCollectionExport(message = "{CollectionView.validCollectionExport}")
-// validate in handler before create and save
+// TODO: validate in handler before create and save
 public abstract class CollectionView extends View {
 
     @Column(nullable = false)
