@@ -1,0 +1,1667 @@
+name: Organization
+collectionSource:
+  template: collection.sparql
+  predicate: http://xmlns.com/foaf/0.1/Organization
+  extractor:
+    id: 1
+    version: 1
+fields:
+  - descriptor:
+      name: name
+      destination:
+        type: text_general
+        copyTo:
+        - _text_
+        - name_t_sort
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/name
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: overview
+      destination:
+        type: text_general
+        copyTo:
+        - _text_
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/overview
+        predicate: http://vivoweb.org/ontology/core#overview
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: degrees
+      nested: true
+      destination:
+        type: strings
+        copyTo:
+        - _text_
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/offersDegree
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: abbreviation
+      destination:
+        type: string
+        copyTo:
+        - _text_
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/abbreviation
+        predicate: http://vivoweb.org/ontology/core#abbreviation
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: date
+      destination:
+        type: pdate
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: true
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/date
+        predicate: http://vivoweb.org/ontology/core#dateTime
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: sponsorsAwardOrHonor
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/sponsorsAwardOrHonor
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: awardOrHonorGiven
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/awardOrHonorGiven
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: awardOrHonorReceived
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/awardOrHonorReceived
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: keywords
+      destination:
+        type: strings
+        copyTo:
+        - _text_
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/keyword
+        predicate: http://vivoweb.org/ontology/core#freetextKeyword
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: organizationForTraining
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/organizationForTraining
+        predicate: http://vivoweb.org/ontology/core#majorField
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+    nestedDescriptors:
+      - name: organizationForTrainingTrainee
+        nested: true
+        destination:
+          type: strings
+          required: false
+          readonly: false
+          stored: true
+          indexed: false
+          docValues: false
+          transformer:
+            id: 1
+            version: 1
+          loader:
+            id: 1
+            version: 1
+        source:
+          template: organization/organizationForTrainingTrainee
+          predicate: http://www.w3.org/2000/01/rdf-schema#label
+          unique: false
+          parse: false
+          split: false
+          extractor:
+            id: 1
+            version: 1
+    nestedDescriptors:
+      - name: organizationForTrainingDegree
+        destination:
+          type: strings
+          required: false
+          readonly: false
+          stored: true
+          indexed: false
+          docValues: false
+          transformer:
+            id: 1
+            version: 1
+          loader:
+            id: 1
+            version: 1
+        source:
+          template: organization/organizationForTrainingDegree
+          predicate: http://vivoweb.org/ontology/core#abbreviation
+          unique: false
+          parse: false
+          split: false
+          extractor:
+            id: 1
+            version: 1
+    nestedDescriptors:
+      - name: organizationForTrainingStartDate
+        destination:
+          type: pdates
+          required: false
+          readonly: false
+          stored: true
+          indexed: false
+          docValues: false
+          transformer:
+            id: 1
+            version: 1
+          loader:
+            id: 1
+            version: 1
+        source:
+          template: organization/organizationForTrainingStartDate
+          predicate: http://vivoweb.org/ontology/core#dateTime
+          unique: false
+          parse: false
+          split: false
+          extractor:
+            id: 1
+            version: 1
+    nestedDescriptors:
+      - name: organizationForTrainingEndDate
+        destination:
+          type: pdates
+          required: false
+          readonly: false
+          stored: true
+          indexed: false
+          docValues: false
+          transformer:
+            id: 1
+            version: 1
+          loader:
+            id: 1
+            version: 1
+        source:
+          template: organization/organizationForTrainingEndDate
+          predicate: http://vivoweb.org/ontology/core#dateTime
+          unique: false
+          parse: false
+          split: false
+          extractor:
+            id: 1
+            version: 1
+  - descriptor:
+      name: people
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/people
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+    nestedDescriptors:
+      - name: peopleType
+        destination:
+          type: strings
+          required: false
+          readonly: false
+          stored: true
+          indexed: false
+          docValues: false
+          transformer:
+            id: 1
+            version: 1
+          loader:
+            id: 1
+            version: 1
+        source:
+          template: organization/peopleType
+          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+          unique: false
+          parse: true
+          split: false
+          extractor:
+            id: 1
+            version: 1
+    nestedDescriptors:
+      - name: peopleTitle
+        destination:
+          type: strings
+          required: false
+          readonly: false
+          stored: true
+          indexed: true
+          docValues: false
+          transformer:
+            id: 1
+            version: 1
+          loader:
+            id: 1
+            version: 1
+        source:
+          template: organization/peopleTitle
+          predicate: http://www.w3.org/2000/01/rdf-schema#label
+          unique: false
+          parse: false
+          split: false
+          extractor:
+            id: 1
+            version: 1
+  - descriptor:
+      name: hasSubOrganizations
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/hasSubOrganization
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+    nestedDescriptors:
+      - name: hasSubOrganizationType
+        destination:
+          type: strings
+          required: false
+          readonly: false
+          stored: true
+          indexed: false
+          docValues: false
+          transformer:
+            id: 1
+            version: 1
+          loader:
+            id: 1
+            version: 1
+        source:
+          template: organization/hasSubOrganizationType
+          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+          unique: false
+          parse: true
+          split: false
+          extractor:
+            id: 1
+            version: 1
+  - descriptor:
+      name: organizationWithin
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: true
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/organizationWithin
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: leadOrganizationOf
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/leadOrganizationOf
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: hasCollaboratingOrganizationOrGroup
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/hasCollaboratingOrganizationOrGroup
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: hasAffiliatedOrganizations
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/hasAffiliatedOrganization
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: memberOf
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/memberOf
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: clinicalActivities
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/clinicalActivity
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: convenerOfEvents
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/convenerOfEvent
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: attendedEvents
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/attendedEvent
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: publications
+      nested: true
+      destination:
+        type: text_general
+        copyTo:
+        - _text_
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/publication
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: publisherOf
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/publisherOf
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: true
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: presentations
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/presentation
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: featuredIn
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/featuredIn
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: assigneeForPatent
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/assigneeForPatent
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: translatorOf
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/translatorOf
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: awardsGrant
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/awardsGrant
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+    nestedDescriptors:
+      - name: awardsGrantDate
+        destination:
+          type: pdates
+          required: false
+          readonly: false
+          stored: true
+          indexed: false
+          docValues: false
+          transformer:
+            id: 1
+            version: 1
+          loader:
+            id: 1
+            version: 1
+        source:
+          template: organization/awardsGrantDate
+          predicate: http://vivoweb.org/ontology/core#dateTime
+          unique: false
+          parse: false
+          split: false
+          extractor:
+            id: 1
+            version: 1
+  - descriptor:
+      name: administersGrant
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/administersGrant
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+    nestedDescriptors:
+      - name: administersGrantDate
+        destination:
+          type: pdates
+          required: false
+          readonly: false
+          stored: true
+          indexed: false
+          docValues: false
+          transformer:
+            id: 1
+            version: 1
+          loader:
+            id: 1
+            version: 1
+        source:
+          template: organization/administersGrantDate
+          predicate: http://vivoweb.org/ontology/core#dateTime
+          unique: false
+          parse: false
+          split: false
+          extractor:
+            id: 1
+            version: 1
+  - descriptor:
+      name: subcontractsGrant
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/subcontractsGrant
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+    nestedDescriptors:
+      - name: subcontractsGrantDate
+        destination:
+          type: pdates
+          required: false
+          readonly: false
+          stored: true
+          indexed: false
+          docValues: false
+          transformer:
+            id: 1
+            version: 1
+          loader:
+            id: 1
+            version: 1
+        source:
+          template: organization/subcontractsGrantDate
+          predicate: http://vivoweb.org/ontology/core#dateTime
+          unique: false
+          parse: false
+          split: false
+          extractor:
+            id: 1
+            version: 1
+  - descriptor:
+      name: performsHumanStudy
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/performsHumanStudy
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: contractOrProviderForService
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/contractOrProviderForService
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: outreachAndCommunityServiceActivities
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/outreachAndCommunityServiceActivity
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: hasEquipment
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/hasEquipment
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: courses
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/offersCourse
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: phone
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/phone
+        predicate: http://www.w3.org/2006/vcard/ns#telephone
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: fax
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/fax
+        predicate: http://www.w3.org/2006/vcard/ns#fax
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: emailAddress
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/emailAddress
+        predicate: http://www.w3.org/2006/vcard/ns#email
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: streetAddress
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/streetAddress
+        predicate: organization.streetAddress
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: locality
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/locality
+        predicate: organization.locality
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: region
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/region
+        predicate: organization.region
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: postalCode
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/postalCode
+        predicate: organization.postalCode
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: country
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/country
+        predicate: organization.country
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: geographicLocation
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/geographicLocation
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: locatedAtFacilities
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/locatedAtFacility
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: predecessorOrganizations
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/predecessorOrganization
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: successorOrganizations
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/successorOrganization
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: governingAuthorityFor
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/governingAuthorityFor
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: affiliatedResearchAreas
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: true
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/affiliatedResearchArea
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: true
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: orgId
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: organization/orgId
+        predicate: http://vivo.library.tamu.edu/ontology/TAMU#OrgID
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: image
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: common/image
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: thumbnail
+      destination:
+        type: string
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: common/thumbnail
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: websites
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: common/website
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+    nestedDescriptors:
+      - name: websiteUrl
+        destination:
+          type: strings
+          required: false
+          readonly: false
+          stored: true
+          indexed: false
+          docValues: false
+          transformer:
+            id: 1
+            version: 1
+          loader:
+            id: 1
+            version: 1
+        source:
+          template: common/websiteUrl
+          predicate: http://www.w3.org/2006/vcard/ns#url
+          unique: false
+          parse: false
+          split: false
+          extractor:
+            id: 1
+            version: 1
+  - descriptor:
+      name: geographicFocus
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: common/geographicFocus
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: sameAs
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: common/sameAs
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: modTime
+      destination:
+        type: pdate
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: true
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: common/modTime
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: type
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: true
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: common/type
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        unique: false
+        parse: true
+        split: false
+        extractor:
+          id: 1
+          version: 1

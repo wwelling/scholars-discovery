@@ -21,6 +21,7 @@ import edu.tamu.scholars.discovery.index.model.Concept;
 import edu.tamu.scholars.discovery.index.model.Document;
 import edu.tamu.scholars.discovery.index.model.Organization;
 import edu.tamu.scholars.discovery.index.model.Person;
+import edu.tamu.scholars.discovery.index.model.Process;
 import edu.tamu.scholars.discovery.index.model.Relationship;
 
 @EnableScheduling
@@ -43,7 +44,7 @@ public class MiddlewareApplication {
         // echo(Document.class);
         // echo(Organization.class);
         // echo(Person.class);
-        // echo(edu.tamu.scholars.discovery.index.model.Process.class);
+        // echo(Process.class);
         // echo(Relationship.class);
     }
 
