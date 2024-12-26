@@ -19,4 +19,6 @@ public interface Defaults<E extends Named> {
 
     public void update(E entity, E existingEntity);
 
+    public List<Class<?>> getDefaultDependencies();
+
 }

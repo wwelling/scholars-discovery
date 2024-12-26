@@ -82,6 +82,10 @@ public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> 
         }
     }
 
+    public List<Class<?>> getDefaultDependencies() {
+        return List.of();
+    }
+
     protected <N extends Named> List<N> loadResources(Resource[] resources, Class<N> type) throws IOException {
         List<N> entities = new ArrayList<>();
         for (Resource resource : resources) {

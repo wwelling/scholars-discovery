@@ -42,6 +42,11 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
     }
 
     @Override
+    public List<Class<?>> getDefaultDependencies() {
+        return List.of(ExtractorDefaults.class, TransformerDefaults.class, LoaderDefaults.class);
+    }
+
+    @Override
     protected void copyProperties(Data source, Data target) {
         target.setName(source.getName());
         target.setCollectionSource(source.getCollectionSource());

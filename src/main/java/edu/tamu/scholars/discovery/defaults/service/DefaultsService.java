@@ -1,8 +1,9 @@
 package edu.tamu.scholars.discovery.defaults.service;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
@@ -23,14 +24,45 @@ public class DefaultsService {
     }
 
     @PostConstruct
-    public void init() throws IOException {
+    public void load() throws IOException {
         if (discovery.isLoadDefaults()) {
-            // TODO: implement dependency between defaults run in order of dependency first
-            Collections.reverse(defaults);
-            for (Defaults<?> service : defaults) {
-                service.load();
+
+            final Set<Class<?>> loadedDefaults = new HashSet<>();
+
+            while (!defaults.isEmpty()) {
+
+                boolean progress = false;
+
+                for (Defaults<?> service : defaults) {
+                    boolean dependenciesLoaded = areDependenciesLoaded(service, loadedDefaults);
+
+                    if (dependenciesLoaded) {
+                        service.load();
+                        loadedDefaults.add(service.getClass());
+                        defaults.remove(service);
+                        progress = true;
+                        break;
+                    }
+                }
+
+                if (!progress) {
+                    throw new IllegalStateException("Cyclic dependencies detected or unable to resolve all defaults.");
+                }
+
             }
         }
+    }
+
+    private boolean areDependenciesLoaded(Defaults<?> service, Set<Class<?>> loadedDefaults) {
+        boolean dependenciesLoaded = true;
+
+        for (Class<?> defaultsClass : service.getDefaultDependencies()) {
+            if (!loadedDefaults.contains(defaultsClass)) {
+                dependenciesLoaded = false;
+            }
+        }
+
+        return dependenciesLoaded;
     }
 
 }
