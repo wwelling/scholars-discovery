@@ -31,10 +31,27 @@ public class DataField extends Named {
 
     private static final long serialVersionUID = -284562394634567551L;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @OneToOne(
+        cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH,
+        },
+        fetch = FetchType.EAGER,
+        optional = false
+    )
     private DataFieldDescriptor descriptor;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(
+        cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH,
+        },
+        fetch = FetchType.EAGER
+    )
     @JoinTable(
         name = "data_field_nested_fields",
         joinColumns = @JoinColumn(name = "data_field_id"),

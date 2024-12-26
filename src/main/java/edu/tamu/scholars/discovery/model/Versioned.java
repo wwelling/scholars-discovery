@@ -2,8 +2,7 @@ package edu.tamu.scholars.discovery.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.Version;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,16 +12,11 @@ import lombok.ToString;
 @ToString(callSuper = true, onlyExplicitlyIncluded = true)
 @MappedSuperclass
 @SuppressWarnings("java:S2160") // the inherited equals is of id
-public abstract class Named extends Versioned {
+public abstract class Versioned extends Identified {
 
-    @Size(min = 2, max = 64, message = "${Named.nameSize}")
-    @Column(nullable = false, unique = true)
+    @Version
+    @Column(name = "version")
     @ToString.Include
-    protected String name;
-
-    @NotNull(message = "${Named.nameRequired}")
-    public String getName() {
-        return name;
-    }
+    private Long version;
 
 }

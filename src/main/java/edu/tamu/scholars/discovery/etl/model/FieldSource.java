@@ -1,11 +1,7 @@
 package edu.tamu.scholars.discovery.etl.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,11 +20,6 @@ public class FieldSource extends Source {
 
     @Column(nullable = false)
     private boolean split;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "extractor_id", nullable = false)
-    @JsonIdentityReference(alwaysAsId = true)
-    private Extractor extractor;
 
     public FieldSource() {
         super();
