@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import edu.tamu.scholars.discovery.config.model.MiddlewareConfig;
 import edu.tamu.scholars.discovery.defaults.Defaults;
 
-@Service
+@Service("defaultsService")
 public class DefaultsService implements ApplicationListener<ContextRefreshedEvent> {
 
     private final MiddlewareConfig discovery;
@@ -27,34 +27,37 @@ public class DefaultsService implements ApplicationListener<ContextRefreshedEven
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (discovery.isLoadDefaults()) {
+            loadDefaults();
+        }
+    }
 
-            final Set<Class<?>> loadedDefaults = new HashSet<>();
+    private void loadDefaults() {
+        final Set<Class<?>> loadedDefaults = new HashSet<>();
 
-            while (!defaults.isEmpty()) {
+        while (!defaults.isEmpty()) {
 
-                boolean progress = false;
+            boolean progress = false;
 
-                for (Defaults<?> service : defaults) {
-                    boolean dependenciesLoaded = areDependenciesLoaded(service, loadedDefaults);
+            for (Defaults<?> service : defaults) {
+                boolean dependenciesLoaded = areDependenciesLoaded(service, loadedDefaults);
 
-                    if (dependenciesLoaded) {
-                        try {
-                            service.load();
-                            loadedDefaults.add(service.getClass());
-                            defaults.remove(service);
-                            progress = true;
-                            break;
-                        } catch (IOException e) {
-                            throw new IllegalStateException("Failed to load defaults.", e);
-                        }
+                if (dependenciesLoaded) {
+                    try {
+                        service.load();
+                        loadedDefaults.add(service.getClass());
+                        defaults.remove(service);
+                        progress = true;
+                        break;
+                    } catch (IOException e) {
+                        throw new IllegalStateException("Failed to load defaults.", e);
                     }
                 }
-
-                if (!progress) {
-                    throw new IllegalStateException("Cyclic dependencies detected or unable to resolve all defaults.");
-                }
-
             }
+
+            if (!progress) {
+                throw new IllegalStateException("Cyclic dependencies detected or unable to resolve all defaults.");
+            }
+
         }
     }
 

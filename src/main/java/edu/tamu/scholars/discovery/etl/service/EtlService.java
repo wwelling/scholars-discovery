@@ -24,14 +24,13 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         for (Data data : dataRepo.findAll()) {
-
             System.out.println("\n" + data.getName());
 
             for (DataField field : data.getFields()) {
                 initializeDescriptor(field.getDescriptor());
 
                 field.getNestedDescriptors()
-                        .forEach(this::initializeDescriptor);
+                    .forEach(this::initializeDescriptor);
             }
         }
 
