@@ -1,5 +1,6 @@
 package edu.tamu.scholars.discovery.etl.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
@@ -23,6 +24,9 @@ public class DataFieldDescriptor extends Named {
 
     private static final long serialVersionUID = 875973459875978634L;
 
+    @Column(nullable = false)
+    public boolean nested;
+
     @Embedded
     private FieldDestination destination;
 
@@ -31,6 +35,7 @@ public class DataFieldDescriptor extends Named {
 
     public DataFieldDescriptor() {
         super();
+        this.nested = false;
         this.destination = new FieldDestination();
         this.source = new FieldSource();
     }

@@ -40,12 +40,12 @@ public class DataField extends Named {
         joinColumns = @JoinColumn(name = "data_field_id"),
         inverseJoinColumns = @JoinColumn(name = "data_field_descriptor_id")
     )
-    private List<DataFieldDescriptor> nestedFields;
+    private List<DataFieldDescriptor> nestedDescriptors;
 
     public DataField() {
         super();
         this.descriptor = new DataFieldDescriptor();
-        this.nestedFields = new ArrayList<>();
+        this.nestedDescriptors = new ArrayList<>();
     }
 
 }

@@ -82,8 +82,8 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
             BeanUtils.copyProperties(source.getDescriptor(), target.getDescriptor(), ID, VERSION);
         }
 
-        List<DataFieldDescriptor> sourceDescriptors = source.getNestedFields();
-        List<DataFieldDescriptor> targetDescriptors = target.getNestedFields();
+        List<DataFieldDescriptor> sourceDescriptors = source.getNestedDescriptors();
+        List<DataFieldDescriptor> targetDescriptors = target.getNestedDescriptors();
 
         Map<String, DataFieldDescriptor> targetDescriptorsMap = targetDescriptors.stream()
             .collect(Collectors.toMap(DataFieldDescriptor::getName, Function.identity()));

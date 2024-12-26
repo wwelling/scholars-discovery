@@ -1,9 +1,12 @@
 package edu.tamu.scholars.discovery.etl.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -23,6 +26,9 @@ public class FieldDestination implements Serializable {
 
     @Column(nullable = true)
     private String defaultValue;
+
+    @ElementCollection
+    private List<String> copyTo;
 
     @Column(nullable = false)
     private boolean required = false;
@@ -51,6 +57,7 @@ public class FieldDestination implements Serializable {
 
     public FieldDestination() {
         super();
+        this.copyTo = new ArrayList<>();
         this.required = false;
         this.readonly = false;
         this.stored = true;
