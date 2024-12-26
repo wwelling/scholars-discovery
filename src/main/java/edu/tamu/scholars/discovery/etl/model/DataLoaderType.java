@@ -1,14 +1,14 @@
 package edu.tamu.scholars.discovery.etl.model;
 
-import edu.tamu.scholars.discovery.etl.DataProcessor;
+import edu.tamu.scholars.discovery.etl.load.DataLoader;
+import edu.tamu.scholars.discovery.etl.load.SolrIndexLoader;
 
-public enum DataLoaderType implements DataProcessorType {
+public enum DataLoaderType implements DataProcessorType<DataLoader<?>> {
 
     SOLR_INDEXER("host", "collection") {
         @Override
-        public DataProcessor getDataProcessor() {
-            // return implemented loaders
-            return null;
+        public DataLoader<?> getDataProcessor() {
+            return new SolrIndexLoader();
         }
     };
 

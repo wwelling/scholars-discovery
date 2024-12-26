@@ -1,21 +1,21 @@
 package edu.tamu.scholars.discovery.etl.model;
 
-import edu.tamu.scholars.discovery.etl.DataProcessor;
+import edu.tamu.scholars.discovery.etl.extract.DataExtractor;
+import edu.tamu.scholars.discovery.etl.extract.HttpSparqlExtractor;
+import edu.tamu.scholars.discovery.etl.extract.TdbSparqlExtractor;
 
-public enum DataExtractorType implements DataProcessorType {
+public enum DataExtractorType implements DataProcessorType<DataExtractor<?>> {
 
     TDB_SPARQL("directory") {
         @Override
-        public DataProcessor getDataProcessor() {
-            // return implemented extractor
-            return null;
+        public DataExtractor<?> getDataProcessor() {
+            return new TdbSparqlExtractor();
         }
     },
     HTTP_SPARQL("url") {
         @Override
-        public DataProcessor getDataProcessor() {
-            // return implemented extractor
-            return null;
+        public DataExtractor<?> getDataProcessor() {
+            return new HttpSparqlExtractor();
         }
     };
 

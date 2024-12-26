@@ -1,14 +1,14 @@
 package edu.tamu.scholars.discovery.etl.model;
 
-import edu.tamu.scholars.discovery.etl.DataProcessor;
+import edu.tamu.scholars.discovery.etl.transform.DataTransformer;
+import edu.tamu.scholars.discovery.etl.transform.RdfToSolrDocumentTransformer;
 
-public enum DataTransformerType implements DataProcessorType {
+public enum DataTransformerType implements DataProcessorType<DataTransformer<?, ?>> {
 
     RDF_TO_SOLR_DOCUMENT() {
         @Override
-        public DataProcessor getDataProcessor() {
-            // return implemented transformer
-            return null;
+        public DataTransformer<?, ?> getDataProcessor() {
+            return new RdfToSolrDocumentTransformer();
         }
     };
 
