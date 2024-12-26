@@ -5,14 +5,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import jakarta.annotation.PostConstruct;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.scholars.discovery.config.model.MiddlewareConfig;
 import edu.tamu.scholars.discovery.defaults.Defaults;
 
 @Service
-public class DefaultsService {
+public class DefaultsService implements ApplicationListener<ContextRefreshedEvent> {
 
     private final MiddlewareConfig discovery;
 
@@ -23,8 +24,8 @@ public class DefaultsService {
         this.defaults = defaults;
     }
 
-    @PostConstruct
-    public void load() throws IOException {
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
         if (discovery.isLoadDefaults()) {
 
             final Set<Class<?>> loadedDefaults = new HashSet<>();
@@ -37,11 +38,15 @@ public class DefaultsService {
                     boolean dependenciesLoaded = areDependenciesLoaded(service, loadedDefaults);
 
                     if (dependenciesLoaded) {
-                        service.load();
-                        loadedDefaults.add(service.getClass());
-                        defaults.remove(service);
-                        progress = true;
-                        break;
+                        try {
+                            service.load();
+                            loadedDefaults.add(service.getClass());
+                            defaults.remove(service);
+                            progress = true;
+                            break;
+                        } catch (IOException e) {
+                            throw new IllegalStateException("Failed to load defaults.", e);
+                        }
                     }
                 }
 
