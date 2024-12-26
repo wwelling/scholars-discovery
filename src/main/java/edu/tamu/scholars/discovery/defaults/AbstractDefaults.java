@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.data.domain.Example;
 
 import edu.tamu.scholars.discovery.config.model.MiddlewareConfig;
 import edu.tamu.scholars.discovery.model.Named;
@@ -65,12 +64,11 @@ public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> 
 
     @Override
     public void process(E entity) {
-        Example<E> example = getUniqueExample(entity);
-        Optional<E> existingEntity = repo.findOne(example);
+        Optional<E> existingEntity = repo.findByName(entity.getName());
         if (existingEntity.isPresent()) {
             update(entity, existingEntity.get());
         } else {
-            repo.save(entity);
+            save(entity);
             logger.info(CREATED_DEFAULTS, this.getClass().getSimpleName(), entity.getName());
         }
     }
@@ -89,8 +87,8 @@ public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> 
         return List.of();
     }
 
-    protected Example<E> getUniqueExample(E entity) {
-        return Example.of(entity);
+    protected void save(E entity) {
+        repo.save(entity);
     }
 
     protected <N extends Named> List<N> loadResources(Resource[] resources, Class<N> type) throws IOException {

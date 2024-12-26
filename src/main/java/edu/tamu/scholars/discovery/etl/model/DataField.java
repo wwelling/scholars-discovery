@@ -6,36 +6,29 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import edu.tamu.scholars.discovery.model.Named;
+import edu.tamu.scholars.discovery.model.Versioned;
 
 @Getter
 @Setter
 @Entity
-@Table(
-    name = "data_fields",
-    indexes = {
-        @Index(name = "idx_data_field_name", columnList = "name")
-    }
-)
+@Table(name = "data_fields")
 @SuppressWarnings("java:S2160") // the inherited equals is of id
-public class DataField extends Named {
+public class DataField extends Versioned {
 
     private static final long serialVersionUID = -284562394634567551L;
 
-    @OneToOne(
+    @ManyToOne(
         cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,
-            CascadeType.PERSIST,
             CascadeType.REFRESH,
         },
         fetch = FetchType.EAGER,
@@ -43,11 +36,10 @@ public class DataField extends Named {
     )
     private DataFieldDescriptor descriptor;
 
-    @OneToMany(
+    @ManyToMany(
         cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,
-            CascadeType.PERSIST,
             CascadeType.REFRESH,
         },
         fetch = FetchType.EAGER

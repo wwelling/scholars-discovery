@@ -1,7 +1,7 @@
-name: Collection
+name: Concept
 collectionSource:
   template: collection.sparql
-  predicate: http://purl.org/ontology/bibo/Collection
+  predicate: http://www.w3.org/2004/02/skos/core#Concept
   extractor:
     id: 1
     version: 1
@@ -25,7 +25,7 @@ fields:
           id: 1
           version: 1
       source:
-        template: collection/name
+        template: concept/name
         predicate: http://www.w3.org/2000/01/rdf-schema#label
         unique: false
         parse: false
@@ -34,7 +34,337 @@ fields:
           id: 1
           version: 1
   - descriptor:
-      name: abstract
+      name: associatedDepartments
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: true
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: concept/associatedDepartment
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: researchAreaOf
+      nested: true
+      destination:
+        type: strings
+        copyTo:
+        - _text_
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: true
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: concept/researchAreaOf
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: awardOrHonorFor
+      nested: true
+      destination:
+        type: strings
+        copyTo:
+        - _text_
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: true
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: concept/awardOrHonorFor
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+    nestedDescriptors:
+      - name: awardOrHonorForType
+        destination:
+          type: strings
+          required: false
+          readonly: false
+          stored: true
+          indexed: true
+          docValues: false
+          transformer:
+            id: 1
+            version: 1
+          loader:
+            id: 1
+            version: 1
+        source:
+          template: concept/awardOrHonorForType
+          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+          unique: false
+          parse: true
+          split: false
+          extractor:
+            id: 1
+            version: 1
+  - descriptor:
+      name: awardConferredBy
+      nested: true
+      destination:
+        type: text_general
+        copyTo:
+        - _text_
+        - awardConferredBy_str
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: concept/awardConferredBy
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+    nestedDescriptors:
+      - name: awardConferredByType
+        destination:
+          type: strings
+          required: false
+          readonly: false
+          stored: true
+          indexed: true
+          docValues: false
+          transformer:
+            id: 1
+            version: 1
+          loader:
+            id: 1
+            version: 1
+        source:
+          template: concept/awardConferredByType
+          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+          unique: false
+          parse: true
+          split: false
+          extractor:
+            id: 1
+            version: 1
+  - descriptor:
+      name: awardConferredByPreferredLabel
+      destination:
+        type: strings
+        copyTo:
+        - _text_
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: concept/awardConferredByPreferredLabel
+        predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardConferredBy_label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: yearAwarded
+      destination:
+        type: pdate
+        required: false
+        readonly: false
+        stored: true
+        indexed: true
+        docValues: true
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: concept/yearAwarded
+        predicate: http://vivoweb.org/ontology/core#dateTime
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: receipts
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: concept/receipts
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+    nestedDescriptors:
+      - name: receiptRecipientName
+        destination:
+          type: strings
+          required: false
+          readonly: false
+          stored: true
+          indexed: false
+          docValues: false
+          transformer:
+            id: 1
+            version: 1
+          loader:
+            id: 1
+            version: 1
+        source:
+          template: concept/receiptRecipientName
+          predicate: http://www.w3.org/2000/01/rdf-schema#label
+          unique: false
+          parse: false
+          split: false
+          extractor:
+            id: 1
+            version: 1
+  - descriptor:
+      name: broaderConcepts
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: concept/broaderConcept
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: narrowerConcepts
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: concept/narrowerConcept
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: relatedConcepts
+      nested: true
+      destination:
+        type: strings
+        required: false
+        readonly: false
+        stored: true
+        indexed: false
+        docValues: false
+        transformer:
+          id: 1
+          version: 1
+        loader:
+          id: 1
+          version: 1
+      source:
+        template: concept/relatedConcept
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: false
+        parse: false
+        split: false
+        extractor:
+          id: 1
+          version: 1
+  - descriptor:
+      name: futureResearchIdeaOf
+      nested: true
       destination:
         type: text_general
         copyTo:
@@ -51,164 +381,16 @@ fields:
           id: 1
           version: 1
       source:
-        template: collection/abstract
-        predicate: http://purl.org/ontology/bibo/abstract
-        unique: false
-        parse: false
-        split: false
-        extractor:
-          id: 1
-          version: 1
-  - descriptor:
-      name: abbreviation
-      destination:
-        type: string
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
-      source:
-        template: collection/abbreviation
-        predicate: http://vivoweb.org/ontology/core#abbreviation
-        unique: false
-        parse: false
-        split: false
-        extractor:
-          id: 1
-          version: 1
-  - descriptor:
-      name: publicationVenueFor
-      nested: true
-      destination:
-        type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: false
-        docValues: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
-      source:
-        template: collection/publicationVenueFor
+        template: concept/futureResearchIdeaOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
         unique: false
-        parse: false
-        split: false
-        extractor:
-          id: 1
-          version: 1
-  - descriptor:
-      name: editors
-      nested: true
-      destination:
-        type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: false
-        docValues: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
-      source:
-        template: collection/editor
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
-        extractor:
-          id: 1
-          version: 1
-  - descriptor:
-      name: translators
-      nested: true
-      destination:
-        type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: false
-        docValues: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
-      source:
-        template: collection/translator
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
-        extractor:
-          id: 1
-          version: 1
-  - descriptor:
-      name: publicationDate
-      destination:
-        type: pdate
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
-      source:
-        template: collection/publicationDate
-        predicate: http://vivoweb.org/ontology/core#dateTime
-        unique: false
-        parse: false
-        split: false
-        extractor:
-          id: 1
-          version: 1
-  - descriptor:
-      name: publisher
-      nested: true
-      destination:
-        type: string
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
-      source:
-        template: collection/publisher
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: true
         parse: false
         split: false
         extractor:
           id: 1
           version: 1
     nestedDescriptors:
-      - name: publisherType
+      - name: futureResearchIdeaOfEmail
         destination:
           type: string
           required: false
@@ -223,89 +405,63 @@ fields:
             id: 1
             version: 1
         source:
-          template: collection/publisherType
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+          template: concept/futureResearchIdeaOfEmail
+          predicate: http://www.w3.org/2006/vcard/ns#email
           unique: false
-          parse: true
+          parse: false
           split: false
           extractor:
             id: 1
             version: 1
-  - descriptor:
-      name: subjectAreas
-      nested: true
-      destination:
-        type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: false
-        docValues: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
-      source:
-        template: collection/hasSubjectArea
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
-        extractor:
-          id: 1
-          version: 1
-  - descriptor:
-      name: features
-      nested: true
-      destination:
-        type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: false
-        docValues: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
-      source:
-        template: collection/feature
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
-        extractor:
-          id: 1
-          version: 1
-  - descriptor:
-      name: outputOfProcessOrEvent
-      nested: true
-      destination:
-        type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: false
-        docValues: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
-      source:
-        template: collection/outputOfProcessOrEvent
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
-        extractor:
-          id: 1
-          version: 1
+    nestedDescriptors:
+      - name: futureResearchIdeaOfTitle
+        destination:
+          type: string
+          required: false
+          readonly: false
+          stored: true
+          indexed: true
+          docValues: false
+          transformer:
+            id: 1
+            version: 1
+          loader:
+            id: 1
+            version: 1
+        source:
+          template: concept/futureResearchIdeaOfTitle
+          predicate: http://www.w3.org/2000/01/rdf-schema#label
+          unique: false
+          parse: false
+          split: false
+          extractor:
+            id: 1
+            version: 1
+    nestedDescriptors:
+      - name: futureResearchIdeaOfOrganization
+        nested: true
+        destination:
+          type: strings
+          required: false
+          readonly: false
+          stored: true
+          indexed: true
+          docValues: false
+          transformer:
+            id: 1
+            version: 1
+          loader:
+            id: 1
+            version: 1
+        source:
+          template: concept/futureResearchIdeaOfOrganization
+          predicate: http://www.w3.org/2000/01/rdf-schema#label
+          unique: false
+          parse: false
+          split: false
+          extractor:
+            id: 1
+            version: 1
   - descriptor:
       name: keywords
       destination:
@@ -324,7 +480,7 @@ fields:
           id: 1
           version: 1
       source:
-        template: collection/keyword
+        template: concept/keyword
         predicate: http://vivoweb.org/ontology/core#freetextKeyword
         unique: false
         parse: false
@@ -333,9 +489,11 @@ fields:
           id: 1
           version: 1
   - descriptor:
-      name: issn
+      name: description
       destination:
-        type: string
+        type: text_general
+        copyTo:
+        - _text_
         required: false
         readonly: false
         stored: true
@@ -348,8 +506,8 @@ fields:
           id: 1
           version: 1
       source:
-        template: collection/issn
-        predicate: http://purl.org/ontology/bibo/issn
+        template: concept/description
+        predicate: http://vivoweb.org/ontology/core#description
         unique: false
         parse: false
         split: false
@@ -357,14 +515,14 @@ fields:
           id: 1
           version: 1
   - descriptor:
-      name: eissn
+      name: createdDate
       destination:
-        type: string
+        type: pdate
         required: false
         readonly: false
         stored: true
         indexed: true
-        docValues: false
+        docValues: true
         transformer:
           id: 1
           version: 1
@@ -372,181 +530,8 @@ fields:
           id: 1
           version: 1
       source:
-        template: collection/eissn
-        predicate: http://purl.org/ontology/bibo/eissn
-        unique: false
-        parse: false
-        split: false
-        extractor:
-          id: 1
-          version: 1
-  - descriptor:
-      name: doi
-      destination:
-        type: string
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
-      source:
-        template: collection/doi
-        predicate: http://purl.org/ontology/bibo/doi
-        unique: false
-        parse: false
-        split: false
-        extractor:
-          id: 1
-          version: 1
-  - descriptor:
-      name: oclcnum
-      destination:
-        type: string
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
-      source:
-        template: collection/oclcnum
-        predicate: http://purl.org/ontology/bibo/oclcnum
-        unique: false
-        parse: false
-        split: false
-        extractor:
-          id: 1
-          version: 1
-  - descriptor:
-      name: isAbout
-      nested: true
-      destination:
-        type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: false
-        docValues: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
-      source:
-        template: collection/isAbout
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
-        extractor:
-          id: 1
-          version: 1
-  - descriptor:
-      name: specifiedOutputOf
-      nested: true
-      destination:
-        type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: false
-        docValues: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
-      source:
-        template: collection/specifiedOutputOf
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
-        extractor:
-          id: 1
-          version: 1
-  - descriptor:
-      name: mentions
-      nested: true
-      destination:
-        type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: false
-        docValues: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
-      source:
-        template: collection/mention
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
-        extractor:
-          id: 1
-          version: 1
-  - descriptor:
-      name: participatesIn
-      nested: true
-      destination:
-        type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: false
-        docValues: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
-      source:
-        template: collection/participatesIn
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
-        extractor:
-          id: 1
-          version: 1
-  - descriptor:
-      name: supportedBy
-      nested: true
-      destination:
-        type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: false
-        docValues: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
-      source:
-        template: collection/supportedBy
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        template: concept/createdDate
+        predicate: http://vivoweb.org/ontology/core#dateTime
         unique: false
         parse: false
         split: false

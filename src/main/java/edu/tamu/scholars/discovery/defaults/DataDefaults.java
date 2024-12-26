@@ -1,13 +1,8 @@
 package edu.tamu.scholars.discovery.defaults;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -50,51 +45,42 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
     }
 
     @Override
+    protected void save(Data source) {
+        updateSourceFields(source);
+
+        repo.save(source);
+    }
+
+    @Override
     protected void copyProperties(Data source, Data target) {
+        updateSourceFields(source);
+
         target.setName(source.getName());
         target.setCollectionSource(source.getCollectionSource());
+        target.setFields(source.getFields());
+    }
 
+    private void updateSourceFields(Data source) {
         List<DataField> sourceFields = Optional.ofNullable(source.getFields())
             .orElse(List.of());
 
-        List<DataField> targetFields = Optional.ofNullable(target.getFields())
-            .orElse(new ArrayList<>());
+        sourceFields.forEach(field -> {
+            field.setDescriptor(findOrCreate(field.getDescriptor()));
 
-        Map<String, DataField> existingFieldsByName = targetFields.stream()
-            .collect(Collectors.toMap(DataField::getName, Function.identity()));
+            List<DataFieldDescriptor> sourceDescriptors = Optional.ofNullable(field.getNestedDescriptors())
+                .orElse(List.of());
 
-        sourceFields.forEach(sourceField -> {
-            DataField targetField = existingFieldsByName.remove(sourceField.getName());
-            if (targetField != null) {
-                copyProperties(sourceField, targetField);
-            } else {
-                targetFields.add(sourceField);
-            }
+            List<DataFieldDescriptor> targetDescriptors = sourceDescriptors.stream()
+                .map(this::findOrCreate)
+                .toList();
+
+            field.setNestedDescriptors(targetDescriptors);
         });
-
-        targetFields.removeIf(field -> existingFieldsByName.containsKey(field.getName()));
-    }
-
-    private void copyProperties(DataField source, DataField target) {
-        target.setName(source.getName());
-
-        if (Objects.nonNull(source.getDescriptor())) {
-            target.setDescriptor(findOrCreate(source.getDescriptor()));
-        }
-
-        List<DataFieldDescriptor> sourceNestedDescriptors = Optional.ofNullable(source.getNestedDescriptors())
-            .orElse(List.of());
-
-        List<DataFieldDescriptor> targetNestedDescriptors = sourceNestedDescriptors.stream()
-            .map(this::findOrCreate)
-            .toList();
-
-        target.setNestedDescriptors(targetNestedDescriptors);
     }
 
     private DataFieldDescriptor findOrCreate(DataFieldDescriptor sourceDescriptor) {
         return dataFieldDescriptorRepo.findByName(sourceDescriptor.getName())
-            .orElseGet(() -> sourceDescriptor);
+            .orElseGet(() -> dataFieldDescriptorRepo.save(sourceDescriptor));
     }
 
 }

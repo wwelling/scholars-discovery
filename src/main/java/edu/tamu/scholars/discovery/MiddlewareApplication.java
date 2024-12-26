@@ -114,8 +114,7 @@ public class MiddlewareApplication {
 
                 if (nestedProperty == null) {
 
-                    System.out.println("  - name: " + name);
-                    System.out.println("    descriptor:");
+                    System.out.println("  - descriptor:");
 
                     System.out.println("      name: " + name);
 
