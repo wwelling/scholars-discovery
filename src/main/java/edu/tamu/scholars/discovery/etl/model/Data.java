@@ -3,12 +3,12 @@ package edu.tamu.scholars.discovery.etl.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToMany;
@@ -39,8 +39,13 @@ public class Data extends Named {
     @Embedded
     private CollectionSource collectionSource;
 
-    @JoinColumn(name = "data_id")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(
+        cascade = CascadeType.ALL,
+        fetch = FetchType.LAZY,
+        orphanRemoval = true,
+        mappedBy = "data"
+    )
+    @JsonManagedReference
     private List<DataField> fields;
 
     public Data() {

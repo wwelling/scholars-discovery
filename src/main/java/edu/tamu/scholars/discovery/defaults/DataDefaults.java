@@ -18,15 +18,15 @@ import edu.tamu.scholars.discovery.etl.model.repo.DataRepo;
 @Service
 public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
 
-    private final DataFieldDescriptorRepo dataFieldDescriptorRepo;
+    private final DataFieldDescriptorRepo descriptorRepo;
 
     public DataDefaults(
             MiddlewareConfig config,
             ResourcePatternResolver resolver,
             DataRepo repo,
-            DataFieldDescriptorRepo dataFieldDescriptorRepo) {
+            DataFieldDescriptorRepo descriptorRepo) {
         super(config, resolver, repo);
-        this.dataFieldDescriptorRepo = dataFieldDescriptorRepo;
+        this.descriptorRepo = descriptorRepo;
     }
 
     @Override
@@ -46,31 +46,32 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
 
     @Override
     protected void save(Data source) {
-        updateSourceFields(source);
+        updateFields(source, source);
 
         repo.save(source);
     }
 
     @Override
     protected void copyProperties(Data source, Data target) {
-        updateSourceFields(source);
+        updateFields(source, target);
 
         target.setName(source.getName());
         target.setCollectionSource(source.getCollectionSource());
         target.setFields(source.getFields());
     }
 
-    private void updateSourceFields(Data source) {
-        List<DataField> sourceFields = Optional.ofNullable(source.getFields())
+    private void updateFields(Data source, Data target) {
+        List<DataField> fields = Optional.ofNullable(source.getFields())
             .orElse(List.of());
 
-        sourceFields.forEach(field -> {
+        fields.forEach(field -> {
+            field.setData(target);
+
             field.setDescriptor(findOrCreate(field.getDescriptor()));
 
-            List<DataFieldDescriptor> sourceDescriptors = Optional.ofNullable(field.getNestedDescriptors())
-                .orElse(List.of());
-
-            List<DataFieldDescriptor> targetDescriptors = sourceDescriptors.stream()
+            List<DataFieldDescriptor> targetDescriptors = Optional.ofNullable(field.getNestedDescriptors())
+                .orElse(List.of())
+                .stream()
                 .map(this::findOrCreate)
                 .toList();
 
@@ -79,8 +80,8 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
     }
 
     private DataFieldDescriptor findOrCreate(DataFieldDescriptor sourceDescriptor) {
-        return dataFieldDescriptorRepo.findByName(sourceDescriptor.getName())
-            .orElseGet(() -> dataFieldDescriptorRepo.save(sourceDescriptor));
+        return descriptorRepo.findByName(sourceDescriptor.getName())
+            .orElseGet(() -> descriptorRepo.save(sourceDescriptor));
     }
 
 }

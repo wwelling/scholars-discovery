@@ -3,6 +3,7 @@ package edu.tamu.scholars.discovery.etl.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,6 +25,11 @@ import edu.tamu.scholars.discovery.model.Versioned;
 public class DataField extends Versioned {
 
     private static final long serialVersionUID = -284562394634567551L;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "data_id", nullable = false)
+    @JsonBackReference
+    private Data data;
 
     @ManyToOne(
         cascade = {
