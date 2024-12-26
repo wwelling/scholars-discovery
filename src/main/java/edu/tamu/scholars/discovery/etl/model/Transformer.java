@@ -13,7 +13,8 @@ import lombok.Setter;
     name = "transformers",
     indexes = {
         @Index(name = "idx_transformer_name", columnList = "name")
-})
+    }
+)
 public class Transformer extends ConfigurableProcessor<DataTransformerType> {
 
     private static final long serialVersionUID = -123987654321234987L;

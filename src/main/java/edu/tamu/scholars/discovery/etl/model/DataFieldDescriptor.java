@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import edu.tamu.scholars.discovery.model.OrderedNamed;
+import edu.tamu.scholars.discovery.model.Named;
 
 @Getter
 @Setter
@@ -15,11 +15,11 @@ import edu.tamu.scholars.discovery.model.OrderedNamed;
 @Table(
     name = "data_field_descriptors",
     indexes = {
-        @Index(name = "idx_data_field_descriptor_name", columnList = "name"),
-        @Index(name = "idx_data_field_descriptor_order", columnList = "\"order\"")
-})
+        @Index(name = "idx_data_field_descriptor_name", columnList = "name")
+    }
+)
 @SuppressWarnings("java:S2160") // the inherited equals is of id
-public class DataFieldDescriptor extends OrderedNamed {
+public class DataFieldDescriptor extends Named {
 
     private static final long serialVersionUID = 875973459875978634L;
 

@@ -26,7 +26,8 @@ import lombok.Setter;
     name = "display_tabs",
     indexes = {
         @Index(name = "idx_display_tab_name", columnList = "name")
-})
+    }
+)
 @AttributeOverride(name = "name", column = @Column(nullable = false))
 @SuppressWarnings("java:S2160") // the inherited equals is of id
 public class DisplayTabView extends View {

@@ -9,8 +9,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.NamedSubgraph;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,18 +22,32 @@ import edu.tamu.scholars.discovery.model.Named;
 @Getter
 @Setter
 @Entity
+@NamedEntityGraph(
+    name = "data-with-fields",
+    attributeNodes = {
+        @NamedAttributeNode(value = "fields", subgraph = "fields-subgraph")
+    },
+    subgraphs = {
+        @NamedSubgraph(
+            name = "fields-subgraph",
+            attributeNodes = {
+                @NamedAttributeNode("descriptor")
+            }
+        )
+    }
+)
 @Table(
     name = "data",
     indexes = {
         @Index(name = "idx_data_name", columnList = "name")
-})
+    }
+)
 @SuppressWarnings("java:S2160") // the inherited equals is of id
 public class Data extends Named {
 
     @Embedded
     private CollectionSource collectionSource;
 
-    @OrderBy("order")
     @JoinColumn(name = "data_field_id")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DataField> fields;

@@ -34,7 +34,8 @@ import lombok.Setter;
     name = "display_views",
     indexes = {
         @Index(name = "idx_display_view_name", columnList = "name")
-})
+    }
+)
 @SuppressWarnings("java:S2160") // the inherited equals is of id
 public class DisplayView extends View {
 

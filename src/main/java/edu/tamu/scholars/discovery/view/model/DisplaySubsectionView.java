@@ -20,7 +20,8 @@ import lombok.Setter;
     indexes = {
         @Index(name = "idx_display_subsection_name", columnList = "name"),
         @Index(name = "idx_display_subsection_order", columnList = "\"order\"")
-})
+    }
+)
 @AttributeOverride(name = "name", column = @Column(nullable = false))
 @SuppressWarnings("java:S2160") // the inherited equals is of id
 public class DisplaySubsectionView extends FieldView {

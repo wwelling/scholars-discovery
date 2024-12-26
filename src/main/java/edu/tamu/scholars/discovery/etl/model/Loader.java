@@ -13,7 +13,8 @@ import lombok.Setter;
     name = "loaders",
     indexes = {
         @Index(name = "idx_loader_name", columnList = "name")
-})
+    }
+)
 public class Loader extends ConfigurableProcessor<DataLoaderType> {
 
     private static final long serialVersionUID = 846236512763254198L;

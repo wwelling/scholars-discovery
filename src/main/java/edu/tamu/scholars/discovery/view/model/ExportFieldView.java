@@ -16,7 +16,8 @@ import lombok.Setter;
     indexes = {
         @Index(name = "idx_export_field_name", columnList = "name"),
         @Index(name = "idx_export_field_order", columnList = "\"order\"")
-})
+    }
+)
 @AttributeOverride(name = "name", column = @Column(nullable = false))
 @SuppressWarnings("java:S2160") // the inherited equals is of id
 public class ExportFieldView extends FieldView {

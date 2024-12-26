@@ -24,7 +24,8 @@ import lombok.Setter;
     name = "display_export_views",
     indexes = {
         @Index(name = "idx_display_export_view_name", columnList = "name")
-})
+    }
+)
 @AttributeOverride(name = "name", column = @Column(nullable = false))
 @SuppressWarnings("java:S2160") // the inherited equals is of id
 public class ExportView extends View {

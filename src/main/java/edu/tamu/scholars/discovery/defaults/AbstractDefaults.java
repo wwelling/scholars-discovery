@@ -76,7 +76,7 @@ public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> 
     @Override
     public void update(E entity, E existingEntity) {
         if (config.isUpdateDefaults()) {
-            BeanUtils.copyProperties(entity, existingEntity, ID, VERSION);
+            copyProperties(entity, existingEntity);
             repo.save(existingEntity);
             logger.info(UPDATED_DEFAULTS, this.getClass().getSimpleName(), entity.getName());
         }
@@ -103,6 +103,10 @@ public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> 
                 throw new IOException(String.format(IO_EXCEPTION_MESSAGE, path));
             }
         }
+    }
+
+    protected void copyProperties(E source, E target) {
+        BeanUtils.copyProperties(source, target, ID, VERSION);
     }
 
 }

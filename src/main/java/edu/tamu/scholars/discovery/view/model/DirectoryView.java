@@ -20,7 +20,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "directory_views", indexes = {
         @Index(name = "idx_directory_view_name", columnList = "name")
-})
+    }
+)
 // @ValidIndexField(message = "{DirectoryView.validIndexField}")
 // TODO: validate in handler before create and save
 @SuppressWarnings("java:S2160") // the inherited equals is of id

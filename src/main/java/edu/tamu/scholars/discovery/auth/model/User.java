@@ -72,7 +72,8 @@ import org.hibernate.annotations.UpdateTimestamp;
     name = USERS_TABLE_NAME,
     indexes = {
         @Index(name = "idx_user_email", columnList = "email")
-})
+    }
+)
 public class User implements Serializable {
 
     private static final long serialVersionUID = 987654321012345678L;

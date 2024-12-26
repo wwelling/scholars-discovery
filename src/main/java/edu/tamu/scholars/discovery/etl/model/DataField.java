@@ -3,22 +3,19 @@ package edu.tamu.scholars.discovery.etl.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import edu.tamu.scholars.discovery.model.OrderedNamed;
+import edu.tamu.scholars.discovery.model.Named;
 
 @Getter
 @Setter
@@ -26,20 +23,18 @@ import edu.tamu.scholars.discovery.model.OrderedNamed;
 @Table(
     name = "data_fields",
     indexes = {
-        @Index(name = "idx_data_field_order", columnList = "\"order\""),
-        @Index(name = "idx_data_field_descriptor_id", columnList = "descriptor_id")
-})
-@AttributeOverride(name = "name", column = @Column(nullable = false))
+        @Index(name = "idx_data_field_name", columnList = "name")
+    }
+)
 @SuppressWarnings("java:S2160") // the inherited equals is of id
-public class DataField extends OrderedNamed {
+public class DataField extends Named {
 
     private static final long serialVersionUID = -284562394634567551L;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private DataFieldDescriptor descriptor;
 
-    @OrderBy("order")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
         name = "data_field_nested_fields",
         joinColumns = @JoinColumn(name = "data_field_id"),

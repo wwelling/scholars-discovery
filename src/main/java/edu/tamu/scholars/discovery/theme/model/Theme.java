@@ -22,7 +22,8 @@ import edu.tamu.scholars.discovery.model.Named;
     name = "themes",
     indexes = {
         @Index(name = "idx_theme_name", columnList = "name")
-})
+    }
+)
 @SuppressWarnings("java:S2160") // the inherited equals is of id
 public class Theme extends Named {
 

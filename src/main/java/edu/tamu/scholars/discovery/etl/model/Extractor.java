@@ -13,7 +13,8 @@ import lombok.Setter;
     name = "extractors",
     indexes = {
         @Index(name = "idx_extractor_name", columnList = "name")
-})
+    }
+)
 public class Extractor extends ConfigurableProcessor<DataExtractorType> {
 
     private static final long serialVersionUID = -945672019283746384L;
