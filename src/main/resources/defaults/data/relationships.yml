@@ -2,9 +2,15 @@ name: Relationship
 collectionSource:
   template: collection.sparql
   predicate: http://vivoweb.org/ontology/core#Relationship
-  extractor:
-    id: 1
-    version: 1
+extractor:
+  id: 1
+  version: 1
+transformer:
+  id: 1
+  version: 1
+loader:
+  id: 1
+  version: 1
 fields:
   - descriptor:
       name: title
@@ -13,123 +19,60 @@ fields:
         copyTo:
         - _text_
         - title_t_sort
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/title
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: abstract
       destination:
         type: string
         copyTo:
         - _text_
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/abstract
         predicate: http://purl.org/ontology/bibo/abstract
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: description
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/description
         predicate: http://vivoweb.org/ontology/core#description
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: organization
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/organization
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: receiptOf
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/receiptOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: awardOrHonorFor
       nested: true
       destination:
         type: strings
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/awardOrHonorFor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: awardOrHonorForType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: relationship/awardOrHonorForType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: awardConferredBy
       nested: true
@@ -137,72 +80,36 @@ fields:
         type: strings
         copyTo:
         - _text_
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/awardConferredBy
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: awardConferredByType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: relationship/awardConferredByType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: awardConferredByAbbreviation
         destination:
           type: strings
           copyTo:
           - _text_
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: relationship/awardConferredByAbbreviation
           predicate: http://vivoweb.org/ontology/core#abbreviation
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: awardConferredByPreferredLabel
         destination:
           type: strings
           copyTo:
           - _text_
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: relationship/awardConferredByPreferredLabel
           predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardConferredBy_label
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: awardedBy
       nested: true
@@ -211,248 +118,122 @@ fields:
         copyTo:
         - _text_
         - awardedBy_str
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/awardedBy
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: awardedByType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: relationship/awardedByType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: awardedByAbbreviation
         destination:
           type: strings
           copyTo:
           - _text_
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: relationship/awardedByAbbreviation
           predicate: http://vivoweb.org/ontology/core#abbreviation
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: awardedByPreferredLabel
         destination:
           type: strings
           copyTo:
           - _text_
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: relationship/awardedByPreferredLabel
           predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardedBy_label
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: grantSubcontractedThrough
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/grantSubcontractedThrough
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: grantSubcontractedThroughType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: relationship/grantSubcontractedThroughType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: administeredBy
       nested: true
       destination:
         type: strings
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/administeredBy
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: subGrant
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/subGrant
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: subGrantOf
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/subGrantOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: providesFundingFor
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/providesFundingFor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: totalAwardAmount
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/totalAwardAmount
         predicate: http://vivoweb.org/ontology/core#totalAwardAmount
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: directCosts
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/directCosts
         predicate: http://vivoweb.org/ontology/core#directCosts
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: sponsorAwardId
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/sponsorAwardId
         predicate: http://vivoweb.org/ontology/core#sponsorAwardId
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: localAwardId
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/localAwardId
         predicate: http://vivoweb.org/ontology/core#localAwardId
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: contributors
       nested: true
@@ -460,52 +241,25 @@ fields:
         type: text_general
         copyTo:
         - _text_
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/contributor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: contributorRole
         destination:
           type: strings
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: relationship/contributorRole
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: contributorOrganization
         destination:
           type: strings
           docValues: true
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: relationship/contributorOrganization
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: principalInvestigators
       nested: true
@@ -514,18 +268,9 @@ fields:
         copyTo:
         - _text_
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/principalInvestigator
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: coPrincipalInvestigators
       nested: true
@@ -534,313 +279,151 @@ fields:
         copyTo:
         - _text_
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/coPrincipalInvestigator
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: supportedPublicationOrOtherWork
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/supportedPublicationOrOtherWork
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: startDateTime
       destination:
         type: pdate
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/startDateTime
         predicate: http://vivoweb.org/ontology/core#dateTime
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: endDateTime
       destination:
         type: pdate
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/endDateTime
         predicate: http://vivoweb.org/ontology/core#dateTime
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: subjectAreas
       nested: true
       destination:
         type: strings
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/hasSubjectArea
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: yearAwarded
       destination:
         type: pdate
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/yearAwarded
         predicate: http://vivoweb.org/ontology/core#dateTime
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: inheresIn
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/inheresIn
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: specifiedOutputOf
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/isSpecifiedOutputOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: outputOf
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/outputOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: participatesIn
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: relationship/participatesIn
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: image
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/image
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: thumbnail
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/thumbnail
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: websites
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/website
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: websiteUrl
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: common/websiteUrl
           predicate: http://www.w3.org/2006/vcard/ns#url
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: geographicFocus
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/geographicFocus
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: sameAs
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/sameAs
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: modTime
       destination:
         type: pdate
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/modTime
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: type
       destination:
         type: strings
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/type
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
         parse: true
-        extractor:
-          id: 1
-          version: 1

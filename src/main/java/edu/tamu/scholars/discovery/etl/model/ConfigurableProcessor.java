@@ -18,7 +18,7 @@ import edu.tamu.scholars.discovery.model.Named;
 @Setter
 @MappedSuperclass
 @SuppressWarnings("java:S2160") // the inherited equals is of id
-public abstract class ConfigurableProcessor<T extends DataProcessorType> extends Named {
+public abstract class ConfigurableProcessor<T extends DataProcessorType<?>> extends Named {
 
     @ElementCollection
     @MapKeyColumn(name = "key")

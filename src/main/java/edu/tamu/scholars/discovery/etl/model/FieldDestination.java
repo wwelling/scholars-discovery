@@ -4,13 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,16 +40,6 @@ public class FieldDestination implements Serializable {
 
     @Column(nullable = false)
     private boolean docValues;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "transformer_id", nullable = false)
-    @JsonIdentityReference(alwaysAsId = true)
-    private Transformer transformer;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "loader_id", nullable = false)
-    @JsonIdentityReference(alwaysAsId = true)
-    private Loader loader;
 
     public FieldDestination() {
         super();

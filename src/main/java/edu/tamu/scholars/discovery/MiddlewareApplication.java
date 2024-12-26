@@ -39,13 +39,13 @@ public class MiddlewareApplication {
 
     @PostConstruct
     public void echo() {
-        // echo(Collection.class);
-        // echo(Concept.class);
-        // echo(Document.class);
-        // echo(Organization.class);
-        // echo(Person.class);
-        // echo(Process.class);
-        // echo(Relationship.class);
+        echo(Collection.class);
+        echo(Concept.class);
+        echo(Document.class);
+        echo(Organization.class);
+        echo(Person.class);
+        echo(Process.class);
+        echo(Relationship.class);
     }
 
     public void echo(Class<?> clazz) {
@@ -56,9 +56,15 @@ public class MiddlewareApplication {
         System.out.println("collectionSource:");
         System.out.println("  template: collection.sparql");
         System.out.println("  predicate: " + collectionSource.predicate());
-        System.out.println("  extractor:");
-        System.out.println("    id: 1");
-        System.out.println("    version: 1");
+        System.out.println("extractor:");
+        System.out.println("  id: 1");
+        System.out.println("  version: 1");
+        System.out.println("transformer:");
+        System.out.println("  id: 1");
+        System.out.println("  version: 1");
+        System.out.println("loader:");
+        System.out.println("  id: 1");
+        System.out.println("  version: 1");
 
         System.out.println("fields:");
 
@@ -103,7 +109,6 @@ public class MiddlewareApplication {
                 String[] copyTo = fieldType.copyTo();
                 String defaultValue = fieldType.defaultValue();
                 boolean required = fieldType.required();
-
 
                 String template = fieldSource.template();
                 String predicate = fieldSource.predicate();
@@ -150,12 +155,6 @@ public class MiddlewareApplication {
                     System.out.println("        stored: " + stored);
                     System.out.println("        indexed: " + indexed);
                     System.out.println("        docValues: " + docValues);
-                    System.out.println("        transformer:");
-                    System.out.println("          id: 1");
-                    System.out.println("          version: 1");
-                    System.out.println("        loader:");
-                    System.out.println("          id: 1");
-                    System.out.println("          version: 1");
 
                     System.out.println("      source:");
                     System.out.println("        template: " + template);
@@ -163,9 +162,6 @@ public class MiddlewareApplication {
                     System.out.println("        unique: " + unique);
                     System.out.println("        parse: " + parse);
                     System.out.println("        split: " + split);
-                    System.out.println("        extractor:");
-                    System.out.println("          id: 1");
-                    System.out.println("          version: 1");
 
                 } else {
 
@@ -204,12 +200,6 @@ public class MiddlewareApplication {
                     System.out.println("          stored: " + stored);
                     System.out.println("          indexed: " + indexed);
                     System.out.println("          docValues: " + docValues);
-                    System.out.println("          transformer:");
-                    System.out.println("            id: 1");
-                    System.out.println("            version: 1");
-                    System.out.println("          loader:");
-                    System.out.println("            id: 1");
-                    System.out.println("            version: 1");
 
                     System.out.println("        source:");
                     System.out.println("          template: " + template);
@@ -217,11 +207,7 @@ public class MiddlewareApplication {
                     System.out.println("          unique: " + unique);
                     System.out.println("          parse: " + parse);
                     System.out.println("          split: " + split);
-                    System.out.println("          extractor:");
-                    System.out.println("            id: 1");
-                    System.out.println("            version: 1");
                 }
-
             }
 
             cc = cc.getSuperclass();

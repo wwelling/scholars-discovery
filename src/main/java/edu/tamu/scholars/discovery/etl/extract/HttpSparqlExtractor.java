@@ -6,8 +6,10 @@ import reactor.core.publisher.Flux;
 
 public class HttpSparqlExtractor implements DataExtractor<Map<String, Object>> {
 
-    public HttpSparqlExtractor() {
+    private final Map<String, String> properties;
 
+    public HttpSparqlExtractor(Map<String, String> properties) {
+        this.properties = properties;
     }
 
     @Override

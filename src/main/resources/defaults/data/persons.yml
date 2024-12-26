@@ -2,9 +2,15 @@ name: Person
 collectionSource:
   template: collection.sparql
   predicate: http://xmlns.com/foaf/0.1/Person
-  extractor:
-    id: 1
-    version: 1
+extractor:
+  id: 1
+  version: 1
+transformer:
+  id: 1
+  version: 1
+loader:
+  id: 1
+  version: 1
 fields:
   - descriptor:
       name: name
@@ -13,191 +19,92 @@ fields:
         copyTo:
         - _text_
         - name_t_sort
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/name
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: primaryEmail
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/primaryEmail
         predicate: http://www.w3.org/2006/vcard/ns#email
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: additionalEmails
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/additionalEmail
         predicate: http://www.w3.org/2006/vcard/ns#email
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: phone
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/phone
         predicate: http://www.w3.org/2006/vcard/ns#telephone
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: orcidId
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/orcidId
         predicate: http://vivoweb.org/ontology/core#orcidId
         parse: true
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: preferredTitle
       destination:
         type: text_general
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/preferredTitle
         predicate: http://www.w3.org/2006/vcard/ns#title
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: positions
       nested: true
       destination:
         type: strings
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/position
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: positionType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/positionType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: positionOrganization
         nested: true
         destination:
           type: strings
           docValues: true
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/positionOrganization
           predicate: http://www.w3.org/2000/01/rdf-schema#label
           unique: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: positionOrganizationParent
         nested: true
         destination:
           type: strings
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/positionOrganizationParent
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: overview
       destination:
         type: text_general
         copyTo:
         - _text_
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/overview
         predicate: http://vivoweb.org/ontology/core#overview
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: researchAreas
       nested: true
@@ -206,717 +113,348 @@ fields:
         copyTo:
         - _text_
         - researchAreas_str
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/researchArea
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: hrJobTitle
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/hrJobTitle
         predicate: http://vivoweb.org/ontology/core#hrJobTitle
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: keywords
       destination:
         type: strings
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/keyword
         predicate: http://vivoweb.org/ontology/core#freetextKeyword
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: headOf
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/headOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: headOfType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/headOfType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: headOfOrganization
         nested: true
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/headOfOrganization
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: headOfStartDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/headOfStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: headOfEndDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/headOfEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: memberOf
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/memberOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: memberOfType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/memberOfType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: memberOfOrganization
         nested: true
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/memberOfOrganization
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: memberOfStartDate
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/memberOfStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: memberOfEndDate
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/memberOfEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: hasCollaborator
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/hasCollaborator
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: clinicalActivities
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/clinicalActivity
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: clinicalActivityType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/clinicalActivityType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: clinicalActivityRole
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/clinicalActivityRole
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: clinicalActivityStartDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/clinicalActivityStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: clinicalActivityEndDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/clinicalActivityEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: attendedEvents
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/attendedEvent
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: attendedEventType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/attendedEventType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: attendedEventStartDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/attendedEventStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: attendedEventEndDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/attendedEventEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: educationAndTraining
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/educationAndTraining
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
         parse: true
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: educationAndTrainingName
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/educationAndTrainingName
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: educationAndTrainingInfo
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/educationAndTrainingInfo
           predicate: http://vivoweb.org/ontology/core#supplementalInformation
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: educationAndTrainingOrganization
         nested: true
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/educationAndTrainingOrganization
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: educationAndTrainingMajorField
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/educationAndTrainingMajorField
           predicate: http://vivoweb.org/ontology/core#majorField
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: educationAndTrainingDegreeAbbreviation
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/educationAndTrainingDegreeAbbreviation
           predicate: http://vivoweb.org/ontology/core#abbreviation
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: educationAndTrainingStartDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/educationAndTrainingStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: educationAndTrainingEndDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/educationAndTrainingEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: educationAndTrainingIsDateSuppressed
         destination:
           type: string
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/educationAndTrainingIsDateSuppressed
           predicate: http://vivoweb.org/ontology/core#supplementalInformation
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: credentials
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/credentials
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: credentialEligibilityAttained
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/credentialEligibilityAttained
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: credentialEligibilityAttainedType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/credentialEligibilityAttainedType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: awardsAndHonors
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/awardAndHonor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: adviseeOf
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/adviseeOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: adviseeOfType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/adviseeOfType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: adviseeOfCandidacy
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/adviseeOfCandidacy
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: adviseeOfStartDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/adviseeOfStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: adviseeOfEndDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/adviseeOfEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: publications
       nested: true
@@ -924,120 +462,57 @@ fields:
         type: text_general
         copyTo:
         - _text_
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/selectedPublications
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: publicationDates
       destination:
         type: pdates
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/publicationDates
         predicate: http://vivoweb.org/ontology/core#dateTime
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: selectedPublicationType
         destination:
           type: strings
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/selectedPublicationType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: selectedPublicationDate
         destination:
           type: pdates
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/selectedPublicationDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: selectedPublicationPublisher
         destination:
           type: strings
           docValues: true
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/selectedPublicationPublisher
           predicate: http://www.w3.org/2000/01/rdf-schema#label
           unique: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: selectedPublicationVenue
         destination:
           type: strings
           docValues: true
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/selectedPublicationVenue
           predicate: http://www.w3.org/2000/01/rdf-schema#label
           unique: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: selectedPublicationTag
         destination:
           type: strings
           docValues: true
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/selectedPublicationTag
           predicate: http://purl.obolibrary.org/obo/ARG_0000015
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: creativeWorks
       nested: true
@@ -1045,1921 +520,913 @@ fields:
         type: text_general
         copyTo:
         - _text_
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/creativeWorks
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: creativeWorkType
         destination:
           type: strings
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/creativeWorkType
           predicate: http://vivo.library.tamu.edu/ontology/TAMU#subtype
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: collectionOrSeriesEditorFor
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/collectionOrSeriesEditorFor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: collectionOrSeriesEditorForType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/collectionOrSeriesEditorForType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: collectionOrSeriesEditorForRole
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/collectionOrSeriesEditorForRole
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: collectionOrSeriesEditorForStartDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/collectionOrSeriesEditorForStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: collectionOrSeriesEditorForEndDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/collectionOrSeriesEditorForEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: editorOf
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/editorOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: editorOfType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/editorOfType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: editorOfPublisher
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/editorOfPublisher
           predicate: http://www.w3.org/2000/01/rdf-schema#label
           unique: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: editorOfPageStart
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/editorOfPageStart
           predicate: http://purl.org/ontology/bibo/pageStart
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: editorOfPageEnd
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/editorOfPageEnd
           predicate: http://purl.org/ontology/bibo/pageEnd
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: editorOfDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/editorOfDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: presentations
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/presentation
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: presentationType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/presentationType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: presentationRole
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/presentationRole
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: presentationEvent
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/presentationEvent
           predicate: http://www.w3.org/2000/01/rdf-schema#label
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: presentationStartDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/presentationStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: presentationEndDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/presentationEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: featuredIn
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/featuredIn
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: assigneeForPatent
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/assigneeForPatent
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: translatorOf
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/translatorOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: researchOverview
       destination:
         type: text_general
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/researchOverview
         predicate: http://vivoweb.org/ontology/core#researchOverview
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: principalInvestigatorOn
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/principalInvestigatorOn
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: coPrincipalInvestigatorOn
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/coPrincipalInvestigatorOn
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: researcherOn
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/researcherOn
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: researcherOnAwardedBy
         nested: true
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/researcherOnAwardedBy
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: researcherOnAwardedByPreferredLabel
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/researcherOnAwardedByPreferredLabel
           predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardedBy_label
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: researcherOnRole
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/researcherOnRole
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: researcherOnStartDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/researcherOnStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: researcherOnEndDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/researcherOnEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: otherResearchActivities
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/otherResearchActivity
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: otherResearchActivityRole
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/otherResearchActivityRole
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: otherResearchActivityStartDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/otherResearchActivityStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: otherResearchActivityEndDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/otherResearchActivityEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: teachingOverview
       destination:
         type: text_general
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/teachingOverview
         predicate: http://vivoweb.org/ontology/core#teachingOverview
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: teachingActivities
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/teachingActivity
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: teachingActivityRole
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/teachingActivityRole
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: teachingMaterials
       nested: true
       destination:
         type: strings
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/teachingMaterials
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: advisee
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/advisee
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: adviseeType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/adviseeType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: adviseeCandidacy
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/adviseeCandidacy
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: adviseeStartDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/adviseeStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: adviseeEndDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/adviseeEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: outreachOverview
       destination:
         type: text_general
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/outreachOverview
         predicate: http://vivoweb.org/ontology/core#outreachOverview
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: reviewerOf
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/reviewerOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: reviewerOfType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/reviewerOfType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: reviewerOfStartDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/reviewerOfStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: reviewerOfEndDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/reviewerOfEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: contactOrProvidorForService
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/contactOrProvidorForService
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: contactOrProvidorForServiceType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/contactOrProvidorForServiceType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: organizerOfEvent
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/organizerOfEvent
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: organizerOfEventType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/organizerOfEventType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: organizerOfEventStartDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/organizerOfEventStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: organizerOfEventEndDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/organizerOfEventEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: professionalServiceActivities
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/professionalServiceActivity
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: professionalServiceActivityRole
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/professionalServiceActivityRole
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: professionalServiceActivityType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/professionalServiceActivityType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: professionalServiceActivityStartDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/professionalServiceActivityStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: professionalServiceActivityEndDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/professionalServiceActivityEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: outreachAndCommunityServiceActivities
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/outreachAndCommunityServiceActivity
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: outreachAndCommunityServiceActivityType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/professionalServiceActivityType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: outreachAndCommunityServiceActivityRole
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/professionalServiceActivityRole
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: outreachAndCommunityServiceActivityStartDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/professionalServiceActivityStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: outreachAndCommunityServiceActivityEndDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/professionalServiceActivityEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: performsTechnique
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/performsTechnique
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: performsTechniqueType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/performsTechniqueType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: hasExpertiseInTechnique
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/hasExpertiseInTechnique
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: hasExpertiseInTechniqueType
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/hasExpertiseInTechniqueType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: eraCommonsId
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/eraCommonsId
         predicate: http://vivoweb.org/ontology/core#eRACommonsId
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: isiResearcherId
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/isiResearcherId
         predicate: http://vivoweb.org/ontology/core#researcherId
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: scopusId
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/scopusId
         predicate: http://vivoweb.org/ontology/core#scopusId
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: healthCareProviderId
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/healthCareProviderId
         predicate: http://purl.obolibrary.org/obo/ARG_0000197
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: email
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/email
         predicate: http://www.w3.org/2006/vcard/ns#email
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: firstName
       destination:
         type: text_general
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/firstName
         predicate: http://www.w3.org/2006/vcard/ns#givenName
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: middleName
       destination:
         type: text_general
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/middleName
         predicate: http://www.w3.org/2006/vcard/ns#middleName
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: lastName
       destination:
         type: text_general
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/lastName
         predicate: http://www.w3.org/2006/vcard/ns#familyName
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: streetAddress
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/streetAddress
         predicate: http://www.w3.org/2006/vcard/ns#streetAddress
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: locality
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/locality
         predicate: http://www.w3.org/2006/vcard/ns#locality
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: region
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/region
         predicate: http://www.w3.org/2006/vcard/ns#region
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: postalCode
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/postalCode
         predicate: http://www.w3.org/2006/vcard/ns#postalCode
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: country
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/country
         predicate: http://www.w3.org/2006/vcard/ns#country
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: geographicLocation
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/geographicLocation
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: locatedInFacility
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/locatedInFacility
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: fax
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/fax
         predicate: http://www.w3.org/2006/vcard/ns#fax
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: organizations
       destination:
         type: strings
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/organization
         predicate: http://vivoweb.org/ontology/core#relates
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: schools
       destination:
         type: strings
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/school
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: isni
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/isni
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#ISNI
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: netid
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/netid
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#NETID
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: researcherId
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/researcherId
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#ResearcherId
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: twitter
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/twitter
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#twitterID
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: uid
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/uid
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#UID
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: uin
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/uin
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#UIN
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: youtube
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/youtube
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#youtube
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: inTheNews
       nested: true
       destination:
         type: strings
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/inTheNews
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: futureResearchIdeas
       nested: true
       destination:
         type: strings
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/futureResearchIdeas
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: etdChairOf
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/etdChairOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: etdChairOfUrl
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/etdChairOfUrl
           predicate: http://www.w3.org/2006/vcard/ns#url
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: etdChairOfPublicationDate
         destination:
           type: pdates
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/etdChairOfPublicationDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: capstoneAdvisedOf
       nested: true
       destination:
         type: strings
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/capstoneAdvisedOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: capstoneAdvisedOfUrl
         destination:
           type: strings
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/capstoneAdvisedOfUrl
           predicate: http://www.w3.org/2006/vcard/ns#url
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: capstoneAdvisedOfPublicationDate
         destination:
           type: pdates
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: person/capstoneAdvisedOfPublicationDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: featuredProfileDisplay
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/featuredProfileDisplay
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#FeaturedProfileDisplay
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: publicationToInterfolio
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: person/publicationToInterfolio
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#PublicationToInterfolio
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: image
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/image
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: thumbnail
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/thumbnail
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: websites
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/website
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: websiteUrl
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: common/websiteUrl
           predicate: http://www.w3.org/2006/vcard/ns#url
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: geographicFocus
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/geographicFocus
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: sameAs
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/sameAs
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: modTime
       destination:
         type: pdate
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/modTime
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: type
       destination:
         type: strings
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/type
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
         parse: true
-        extractor:
-          id: 1
-          version: 1

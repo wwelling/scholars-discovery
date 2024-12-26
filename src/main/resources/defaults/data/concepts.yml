@@ -2,9 +2,15 @@ name: Concept
 collectionSource:
   template: collection.sparql
   predicate: http://www.w3.org/2004/02/skos/core#Concept
-  extractor:
-    id: 1
-    version: 1
+extractor:
+  id: 1
+  version: 1
+transformer:
+  id: 1
+  version: 1
+loader:
+  id: 1
+  version: 1
 fields:
   - descriptor:
       name: name
@@ -13,36 +19,18 @@ fields:
         copyTo:
         - _text_
         - name_t_sort
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: concept/name
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: associatedDepartments
       nested: true
       destination:
         type: strings
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: concept/associatedDepartment
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: researchAreaOf
       nested: true
@@ -51,18 +39,9 @@ fields:
         copyTo:
         - _text_
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: concept/researchAreaOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: awardOrHonorFor
       nested: true
@@ -71,35 +50,17 @@ fields:
         copyTo:
         - _text_
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: concept/awardOrHonorFor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: awardOrHonorForType
         destination:
           type: strings
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: concept/awardOrHonorForType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: awardConferredBy
       nested: true
@@ -108,159 +69,78 @@ fields:
         copyTo:
         - _text_
         - awardConferredBy_str
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: concept/awardConferredBy
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: awardConferredByType
         destination:
           type: strings
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: concept/awardConferredByType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: awardConferredByPreferredLabel
       destination:
         type: strings
         copyTo:
         - _text_
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: concept/awardConferredByPreferredLabel
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardConferredBy_label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: yearAwarded
       destination:
         type: pdate
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: concept/yearAwarded
         predicate: http://vivoweb.org/ontology/core#dateTime
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: receipts
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: concept/receipts
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: receiptRecipientName
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: concept/receiptRecipientName
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: broaderConcepts
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: concept/broaderConcept
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: narrowerConcepts
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: concept/narrowerConcept
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: relatedConcepts
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: concept/relatedConcept
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: futureResearchIdeaOf
       nested: true
@@ -268,257 +148,122 @@ fields:
         type: text_general
         copyTo:
         - _text_
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: concept/futureResearchIdeaOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: futureResearchIdeaOfEmail
         destination:
           type: string
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: concept/futureResearchIdeaOfEmail
           predicate: http://www.w3.org/2006/vcard/ns#email
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: futureResearchIdeaOfTitle
         destination:
           type: string
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: concept/futureResearchIdeaOfTitle
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
     nestedDescriptors:
       - name: futureResearchIdeaOfOrganization
         nested: true
         destination:
           type: strings
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: concept/futureResearchIdeaOfOrganization
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: keywords
       destination:
         type: strings
         copyTo:
         - _text_
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: concept/keyword
         predicate: http://vivoweb.org/ontology/core#freetextKeyword
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: description
       destination:
         type: text_general
         copyTo:
         - _text_
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: concept/description
         predicate: http://vivoweb.org/ontology/core#description
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: createdDate
       destination:
         type: pdate
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: concept/createdDate
         predicate: http://vivoweb.org/ontology/core#dateTime
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: image
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/image
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: thumbnail
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/thumbnail
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: websites
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/website
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: websiteUrl
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: common/websiteUrl
           predicate: http://www.w3.org/2006/vcard/ns#url
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: geographicFocus
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/geographicFocus
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: sameAs
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/sameAs
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: modTime
       destination:
         type: pdate
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/modTime
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: type
       destination:
         type: strings
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/type
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
         parse: true
-        extractor:
-          id: 1
-          version: 1

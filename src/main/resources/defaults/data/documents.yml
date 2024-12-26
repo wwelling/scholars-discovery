@@ -2,9 +2,15 @@ name: Document
 collectionSource:
   template: collection.sparql
   predicate: http://purl.org/ontology/bibo/Document
-  extractor:
-    id: 1
-    version: 1
+extractor:
+  id: 1
+  version: 1
+transformer:
+  id: 1
+  version: 1
+loader:
+  id: 1
+  version: 1
 fields:
   - descriptor:
       name: title
@@ -13,54 +19,27 @@ fields:
         copyTo:
         - _text_
         - title_t_sort
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/title
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: abstract
       destination:
         type: text_general
         copyTo:
         - _text_
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/abstract
         predicate: http://purl.org/ontology/bibo/abstract
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: abbreviation
       destination:
         type: string
         copyTo:
         - _text_
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/abbreviation
         predicate: http://vivoweb.org/ontology/core#abbreviation
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: publicationVenue
       nested: true
@@ -69,76 +48,40 @@ fields:
         copyTo:
         - _text_
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/publicationVenue
         predicate: http://www.w3.org/2000/01/rdf-schema#label
         unique: true
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: hasPublicationVenueFor
       nested: true
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/hasPublicationVenueFor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
         unique: true
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: publicationOutlet
       destination:
         type: string
         copyTo:
         - _text_
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/publicationOutlet
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#publishedProceedings
         unique: true
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: nameOfConference
       destination:
         type: string
         copyTo:
         - _text_
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/nameOfConference
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#nameOfConference
         unique: true
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: authors
       nested: true
@@ -147,334 +90,163 @@ fields:
         copyTo:
         - _text_
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/author
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: authorOrganization
         nested: true
         destination:
           type: strings
           docValues: true
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: document/authorOrganization
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: editors
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/editor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: translators
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/translator
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: status
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/status
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: publicationDate
       destination:
         type: pdate
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/publicationDate
         predicate: http://vivoweb.org/ontology/core#dateTime
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: publisher
       nested: true
       destination:
         type: string
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/publisher
         predicate: http://www.w3.org/2000/01/rdf-schema#label
         unique: true
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: publisherType
         destination:
           type: string
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: document/publisherType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: dateFiled
       destination:
         type: pdate
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/dateFiled
         predicate: http://vivoweb.org/ontology/core#dateTime
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: dateIssued
       destination:
         type: pdate
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/dateIssued
         predicate: http://vivoweb.org/ontology/core#dateTime
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: subjectAreas
       nested: true
       destination:
         type: strings
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/hasSubjectArea
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: restrictions
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/hasRestriction
         predicate: http://purl.obolibrary.org/obo/ERO_0000045
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: documentParts
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/documentPart
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: chapter
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/chapter
         predicate: http://purl.org/ontology/bibo/chapter
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: features
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/feature
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: edition
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/edition
         predicate: http://purl.org/ontology/bibo/edition
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: documentationForProjectOrResource
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/documentationForProjectOrResource
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: outputOfProcessOrEvent
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/outputOfProcessOrEvent
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: presentedAt
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/presentedAt
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: keywords
       destination:
@@ -482,1019 +254,479 @@ fields:
         copyTo:
         - _text_
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/keyword
         predicate: http://vivoweb.org/ontology/core#freetextKeyword
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: eanucc13
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/eanucc13
         predicate: http://purl.org/ontology/bibo/eanucc13
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: nihmsid
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/nihmsid
         predicate: http://vivoweb.org/ontology/core#nihmsid
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: pmcid
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/pmcid
         predicate: http://vivoweb.org/ontology/core#pmcid
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: identifier
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/identifier
         predicate: http://purl.org/ontology/bibo/identifier
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: patentNumber
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/patentNumber
         predicate: http://vivoweb.org/ontology/core#patentNumber
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: doi
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/doi
         predicate: http://purl.org/ontology/bibo/doi
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: oclcnum
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/oclcnum
         predicate: http://purl.org/ontology/bibo/oclcnum
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: isbn10
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/isbn10
         predicate: http://purl.org/ontology/bibo/isbn10
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: isbn13
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/isbn13
         predicate: http://purl.org/ontology/bibo/isbn13
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: pmid
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/pmid
         predicate: http://purl.org/ontology/bibo/pmid
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: lccn
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/lccn
         predicate: http://purl.org/ontology/bibo/lccn
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: issn
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/issn
         predicate: http://purl.org/ontology/bibo/issn
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: eissn
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/eissn
         predicate: http://purl.org/ontology/bibo/eissn
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: uri
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/uri
         predicate: http://purl.org/ontology/bibo/uri
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: citedBy
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/citedBy
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: cites
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/cites
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: citesAsDataSource
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/citesAsDataSource
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: translations
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/hasTranslation
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: translationOf
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/translationOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: globalCitationFrequency
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/globalCitationFrequency
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: iclCode
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/iclCode
         predicate: http://vivoweb.org/ontology/core#iclCode
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: numberOfPages
       destination:
         type: pint
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/numberOfPages
         predicate: http://purl.org/ontology/bibo/numPages
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: pageStart
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/pageStart
         predicate: http://purl.org/ontology/bibo/pageStart
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: pageEnd
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/pageEnd
         predicate: http://purl.org/ontology/bibo/pageEnd
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: number
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/number
         predicate: http://purl.org/ontology/bibo/number
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: volume
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/volume
         predicate: http://purl.org/ontology/bibo/volume
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: issue
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/issue
         predicate: http://purl.org/ontology/bibo/issue
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: placeOfPublication
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/placeOfPublication
         predicate: http://vivoweb.org/ontology/core#placeOfPublication
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: assignees
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/assignee
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: reproducedIn
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/reproducedIn
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: reproduces
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/reproduces
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: isAbout
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/isAbout
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: specifiedOutputOf
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/specifiedOutputOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: isTemplate
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/isTemplate
         predicate: http://purl.obolibrary.org/obo/ARG_0000001
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: mentions
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/mention
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: participatesIn
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/participatesIn
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: supportedBy
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/supportedBy
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: receipts
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/receipt
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: altmetricScore
       destination:
         type: pfloat
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/altmetricScore
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#AltmetricScore
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: citationCount
       destination:
         type: pint
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/citationCount
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#CitationCount
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: tags
       destination:
         type: strings
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/tag
         predicate: http://purl.obolibrary.org/obo/ARG_0000015
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: note
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/note
         predicate: http://www.w3.org/2006/vcard/ns#note
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: key
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/key
         predicate: http://www.w3.org/2006/vcard/ns#key
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: url
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/url
         predicate: http://www.w3.org/2006/vcard/ns#url
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: etdChairedBy
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/etdChairedBy
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: advisedBy
       nested: true
       destination:
         type: strings
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/advisedBy
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: completeAuthorList
       destination:
         type: strings
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/completeAuthorList
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#completeAuthorList
         split: true
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: authorList
       destination:
         type: strings
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/authorList
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#fullAuthorList
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: editorList
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/editorList
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#fullEditorList
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: bookTitle
       destination:
         type: text_general
         copyTo:
         - _text_
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/bookTitle
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#bookTitleForChapter
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: newsOutlet
       destination:
         type: string
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: document/newsOutlet
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#NewsOutlet
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: image
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/image
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: thumbnail
       destination:
         type: string
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/thumbnail
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: websites
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/website
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
     nestedDescriptors:
       - name: websiteUrl
         destination:
           type: strings
           indexed: false
-          transformer:
-            id: 1
-            version: 1
-          loader:
-            id: 1
-            version: 1
         source:
           template: common/websiteUrl
           predicate: http://www.w3.org/2006/vcard/ns#url
-          extractor:
-            id: 1
-            version: 1
   - descriptor:
       name: geographicFocus
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/geographicFocus
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: sameAs
       nested: true
       destination:
         type: strings
         indexed: false
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/sameAs
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: modTime
       destination:
         type: pdate
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/modTime
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime
-        extractor:
-          id: 1
-          version: 1
   - descriptor:
       name: type
       destination:
         type: strings
         docValues: true
-        transformer:
-          id: 1
-          version: 1
-        loader:
-          id: 1
-          version: 1
       source:
         template: common/type
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
         parse: true
-        extractor:
-          id: 1
-          version: 1

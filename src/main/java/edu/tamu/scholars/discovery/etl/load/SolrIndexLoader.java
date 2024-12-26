@@ -5,8 +5,10 @@ import java.util.Map;
 
 public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
 
-    public SolrIndexLoader() {
+    private final Map<String, String> properties;
 
+    public SolrIndexLoader(Map<String, String> properties) {
+        this.properties = properties;
     }
 
     @Override

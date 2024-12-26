@@ -4,8 +4,10 @@ import java.util.Map;
 
 public class RdfToSolrDocumentTransformer implements DataTransformer<Map<String, Object>, Map<String, Object>> {
 
-    public RdfToSolrDocumentTransformer() {
+    private final Map<String, String> properties;
 
+    public RdfToSolrDocumentTransformer(Map<String, String> properties) {
+        this.properties = properties;
     }
 
     @Override

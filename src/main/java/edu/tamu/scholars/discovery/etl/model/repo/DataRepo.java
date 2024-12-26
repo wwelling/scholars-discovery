@@ -1,5 +1,6 @@
 package edu.tamu.scholars.discovery.etl.model.repo;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -16,5 +17,10 @@ public interface DataRepo extends NamedRepo<Data> {
     @RestResource(exported = false)
     @EntityGraph(value = "data-with-fields", type = EntityGraph.EntityGraphType.LOAD)
     public Optional<Data> findByName(String name);
+
+    @Override
+    @RestResource(exported = false)
+    @EntityGraph(value = "data-with-fields-and-processors", type = EntityGraph.EntityGraphType.LOAD)
+    public List<Data> findAll();
 
 }
