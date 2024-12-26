@@ -39,7 +39,7 @@ public class Data extends Named {
     @Embedded
     private CollectionSource collectionSource;
 
-    @JoinColumn(name = "data_field_id")
+    @JoinColumn(name = "data_id")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DataField> fields;
 
