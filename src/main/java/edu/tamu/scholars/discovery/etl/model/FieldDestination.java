@@ -31,19 +31,19 @@ public class FieldDestination implements Serializable {
     private List<String> copyTo;
 
     @Column(nullable = false)
-    private boolean required = false;
+    private boolean required;
 
     @Column(nullable = false)
-    private boolean readonly = false;
+    private boolean readonly;
 
     @Column(nullable = false)
-    private boolean stored = true;
+    private boolean stored;
 
     @Column(nullable = false)
-    private boolean indexed = true;
+    private boolean indexed;
 
     @Column(nullable = false)
-    private boolean docValues = false;
+    private boolean docValues;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transformer_id", nullable = false)

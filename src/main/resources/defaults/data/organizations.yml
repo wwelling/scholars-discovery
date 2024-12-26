@@ -13,11 +13,6 @@ fields:
         copyTo:
         - _text_
         - name_t_sort
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -27,9 +22,6 @@ fields:
       source:
         template: organization/name
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -39,11 +31,6 @@ fields:
         type: text_general
         copyTo:
         - _text_
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -53,9 +40,6 @@ fields:
       source:
         template: organization/overview
         predicate: http://vivoweb.org/ontology/core#overview
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -66,11 +50,6 @@ fields:
         type: strings
         copyTo:
         - _text_
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -80,9 +59,6 @@ fields:
       source:
         template: organization/offersDegree
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -92,11 +68,6 @@ fields:
         type: string
         copyTo:
         - _text_
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -106,9 +77,6 @@ fields:
       source:
         template: organization/abbreviation
         predicate: http://vivoweb.org/ontology/core#abbreviation
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -116,10 +84,6 @@ fields:
       name: date
       destination:
         type: pdate
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
         docValues: true
         transformer:
           id: 1
@@ -130,9 +94,6 @@ fields:
       source:
         template: organization/date
         predicate: http://vivoweb.org/ontology/core#dateTime
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -141,11 +102,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -155,9 +112,6 @@ fields:
       source:
         template: organization/sponsorsAwardOrHonor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -166,11 +120,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -180,9 +130,6 @@ fields:
       source:
         template: organization/awardOrHonorGiven
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -191,11 +138,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -205,9 +148,6 @@ fields:
       source:
         template: organization/awardOrHonorReceived
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -217,11 +157,6 @@ fields:
         type: strings
         copyTo:
         - _text_
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -231,9 +166,6 @@ fields:
       source:
         template: organization/keyword
         predicate: http://vivoweb.org/ontology/core#freetextKeyword
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -242,11 +174,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -256,9 +184,6 @@ fields:
       source:
         template: organization/organizationForTraining
         predicate: http://vivoweb.org/ontology/core#majorField
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -267,11 +192,7 @@ fields:
         nested: true
         destination:
           type: strings
-          required: false
-          readonly: false
-          stored: true
           indexed: false
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -281,9 +202,6 @@ fields:
         source:
           template: organization/organizationForTrainingTrainee
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          unique: false
-          parse: false
-          split: false
           extractor:
             id: 1
             version: 1
@@ -291,11 +209,7 @@ fields:
       - name: organizationForTrainingDegree
         destination:
           type: strings
-          required: false
-          readonly: false
-          stored: true
           indexed: false
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -305,9 +219,6 @@ fields:
         source:
           template: organization/organizationForTrainingDegree
           predicate: http://vivoweb.org/ontology/core#abbreviation
-          unique: false
-          parse: false
-          split: false
           extractor:
             id: 1
             version: 1
@@ -315,11 +226,7 @@ fields:
       - name: organizationForTrainingStartDate
         destination:
           type: pdates
-          required: false
-          readonly: false
-          stored: true
           indexed: false
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -329,9 +236,6 @@ fields:
         source:
           template: organization/organizationForTrainingStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          unique: false
-          parse: false
-          split: false
           extractor:
             id: 1
             version: 1
@@ -339,11 +243,7 @@ fields:
       - name: organizationForTrainingEndDate
         destination:
           type: pdates
-          required: false
-          readonly: false
-          stored: true
           indexed: false
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -353,9 +253,6 @@ fields:
         source:
           template: organization/organizationForTrainingEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          unique: false
-          parse: false
-          split: false
           extractor:
             id: 1
             version: 1
@@ -364,11 +261,6 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -378,9 +270,6 @@ fields:
       source:
         template: organization/people
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -388,11 +277,7 @@ fields:
       - name: peopleType
         destination:
           type: strings
-          required: false
-          readonly: false
-          stored: true
           indexed: false
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -402,9 +287,7 @@ fields:
         source:
           template: organization/peopleType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          unique: false
           parse: true
-          split: false
           extractor:
             id: 1
             version: 1
@@ -412,11 +295,6 @@ fields:
       - name: peopleTitle
         destination:
           type: strings
-          required: false
-          readonly: false
-          stored: true
-          indexed: true
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -426,9 +304,6 @@ fields:
         source:
           template: organization/peopleTitle
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          unique: false
-          parse: false
-          split: false
           extractor:
             id: 1
             version: 1
@@ -437,11 +312,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -451,9 +322,6 @@ fields:
       source:
         template: organization/hasSubOrganization
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -461,11 +329,7 @@ fields:
       - name: hasSubOrganizationType
         destination:
           type: strings
-          required: false
-          readonly: false
-          stored: true
           indexed: false
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -475,9 +339,7 @@ fields:
         source:
           template: organization/hasSubOrganizationType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          unique: false
           parse: true
-          split: false
           extractor:
             id: 1
             version: 1
@@ -486,10 +348,6 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
         docValues: true
         transformer:
           id: 1
@@ -500,9 +358,6 @@ fields:
       source:
         template: organization/organizationWithin
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -511,11 +366,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -525,9 +376,6 @@ fields:
       source:
         template: organization/leadOrganizationOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -536,11 +384,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -550,9 +394,6 @@ fields:
       source:
         template: organization/hasCollaboratingOrganizationOrGroup
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -561,11 +402,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -575,9 +412,6 @@ fields:
       source:
         template: organization/hasAffiliatedOrganization
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -586,11 +420,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -600,9 +430,6 @@ fields:
       source:
         template: organization/memberOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -611,11 +438,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -625,9 +448,6 @@ fields:
       source:
         template: organization/clinicalActivity
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -636,11 +456,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -650,9 +466,6 @@ fields:
       source:
         template: organization/convenerOfEvent
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -661,11 +474,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -675,9 +484,6 @@ fields:
       source:
         template: organization/attendedEvent
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -688,11 +494,6 @@ fields:
         type: text_general
         copyTo:
         - _text_
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -702,9 +503,6 @@ fields:
       source:
         template: organization/publication
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -713,11 +511,6 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -728,8 +521,6 @@ fields:
         template: organization/publisherOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
         unique: true
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -738,11 +529,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -752,9 +539,6 @@ fields:
       source:
         template: organization/presentation
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -763,11 +547,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -777,9 +557,6 @@ fields:
       source:
         template: organization/featuredIn
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -788,11 +565,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -802,9 +575,6 @@ fields:
       source:
         template: organization/assigneeForPatent
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -813,11 +583,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -827,9 +593,6 @@ fields:
       source:
         template: organization/translatorOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -838,11 +601,6 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -852,9 +610,6 @@ fields:
       source:
         template: organization/awardsGrant
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -862,11 +617,7 @@ fields:
       - name: awardsGrantDate
         destination:
           type: pdates
-          required: false
-          readonly: false
-          stored: true
           indexed: false
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -876,9 +627,6 @@ fields:
         source:
           template: organization/awardsGrantDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          unique: false
-          parse: false
-          split: false
           extractor:
             id: 1
             version: 1
@@ -887,11 +635,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -901,9 +645,6 @@ fields:
       source:
         template: organization/administersGrant
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -911,11 +652,7 @@ fields:
       - name: administersGrantDate
         destination:
           type: pdates
-          required: false
-          readonly: false
-          stored: true
           indexed: false
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -925,9 +662,6 @@ fields:
         source:
           template: organization/administersGrantDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          unique: false
-          parse: false
-          split: false
           extractor:
             id: 1
             version: 1
@@ -936,11 +670,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -950,9 +680,6 @@ fields:
       source:
         template: organization/subcontractsGrant
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -960,11 +687,7 @@ fields:
       - name: subcontractsGrantDate
         destination:
           type: pdates
-          required: false
-          readonly: false
-          stored: true
           indexed: false
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -974,9 +697,6 @@ fields:
         source:
           template: organization/subcontractsGrantDate
           predicate: http://vivoweb.org/ontology/core#dateTime
-          unique: false
-          parse: false
-          split: false
           extractor:
             id: 1
             version: 1
@@ -985,11 +705,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -999,9 +715,6 @@ fields:
       source:
         template: organization/performsHumanStudy
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1010,11 +723,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1024,9 +733,6 @@ fields:
       source:
         template: organization/contractOrProviderForService
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1035,11 +741,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1049,9 +751,6 @@ fields:
       source:
         template: organization/outreachAndCommunityServiceActivity
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1060,11 +759,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1074,9 +769,6 @@ fields:
       source:
         template: organization/hasEquipment
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1085,11 +777,6 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1099,9 +786,6 @@ fields:
       source:
         template: organization/offersCourse
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1109,11 +793,7 @@ fields:
       name: phone
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1123,9 +803,6 @@ fields:
       source:
         template: organization/phone
         predicate: http://www.w3.org/2006/vcard/ns#telephone
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1133,11 +810,7 @@ fields:
       name: fax
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1147,9 +820,6 @@ fields:
       source:
         template: organization/fax
         predicate: http://www.w3.org/2006/vcard/ns#fax
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1157,11 +827,7 @@ fields:
       name: emailAddress
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1171,9 +837,6 @@ fields:
       source:
         template: organization/emailAddress
         predicate: http://www.w3.org/2006/vcard/ns#email
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1181,11 +844,7 @@ fields:
       name: streetAddress
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1195,9 +854,6 @@ fields:
       source:
         template: organization/streetAddress
         predicate: organization.streetAddress
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1205,11 +861,7 @@ fields:
       name: locality
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1219,9 +871,6 @@ fields:
       source:
         template: organization/locality
         predicate: organization.locality
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1229,11 +878,7 @@ fields:
       name: region
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1243,9 +888,6 @@ fields:
       source:
         template: organization/region
         predicate: organization.region
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1253,11 +895,7 @@ fields:
       name: postalCode
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1267,9 +905,6 @@ fields:
       source:
         template: organization/postalCode
         predicate: organization.postalCode
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1277,11 +912,7 @@ fields:
       name: country
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1291,9 +922,6 @@ fields:
       source:
         template: organization/country
         predicate: organization.country
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1301,11 +929,7 @@ fields:
       name: geographicLocation
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1315,9 +939,6 @@ fields:
       source:
         template: organization/geographicLocation
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1326,11 +947,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1340,9 +957,6 @@ fields:
       source:
         template: organization/locatedAtFacility
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1351,11 +965,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1365,9 +975,6 @@ fields:
       source:
         template: organization/predecessorOrganization
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1376,11 +983,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1390,9 +993,6 @@ fields:
       source:
         template: organization/successorOrganization
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1401,11 +1001,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1415,9 +1011,6 @@ fields:
       source:
         template: organization/governingAuthorityFor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1426,10 +1019,6 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
         docValues: true
         transformer:
           id: 1
@@ -1441,8 +1030,6 @@ fields:
         template: organization/affiliatedResearchArea
         predicate: http://www.w3.org/2000/01/rdf-schema#label
         unique: true
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1450,11 +1037,7 @@ fields:
       name: orgId
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1464,9 +1047,6 @@ fields:
       source:
         template: organization/orgId
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#OrgID
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1474,11 +1054,7 @@ fields:
       name: image
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1488,9 +1064,6 @@ fields:
       source:
         template: common/image
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1498,11 +1071,7 @@ fields:
       name: thumbnail
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1512,9 +1081,6 @@ fields:
       source:
         template: common/thumbnail
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1523,11 +1089,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1537,9 +1099,6 @@ fields:
       source:
         template: common/website
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1547,11 +1106,7 @@ fields:
       - name: websiteUrl
         destination:
           type: strings
-          required: false
-          readonly: false
-          stored: true
           indexed: false
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -1561,9 +1116,6 @@ fields:
         source:
           template: common/websiteUrl
           predicate: http://www.w3.org/2006/vcard/ns#url
-          unique: false
-          parse: false
-          split: false
           extractor:
             id: 1
             version: 1
@@ -1572,11 +1124,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1586,9 +1134,6 @@ fields:
       source:
         template: common/geographicFocus
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1597,11 +1142,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -1611,9 +1152,6 @@ fields:
       source:
         template: common/sameAs
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1621,10 +1159,6 @@ fields:
       name: modTime
       destination:
         type: pdate
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
         docValues: true
         transformer:
           id: 1
@@ -1635,9 +1169,6 @@ fields:
       source:
         template: common/modTime
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -1645,10 +1176,6 @@ fields:
       name: type
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
         docValues: true
         transformer:
           id: 1
@@ -1659,9 +1186,7 @@ fields:
       source:
         template: common/type
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-        unique: false
         parse: true
-        split: false
         extractor:
           id: 1
           version: 1

@@ -13,11 +13,6 @@ fields:
         copyTo:
         - _text_
         - name_t_sort
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -27,9 +22,6 @@ fields:
       source:
         template: concept/name
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -38,10 +30,6 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
         docValues: true
         transformer:
           id: 1
@@ -52,9 +40,6 @@ fields:
       source:
         template: concept/associatedDepartment
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -65,10 +50,6 @@ fields:
         type: strings
         copyTo:
         - _text_
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
         docValues: true
         transformer:
           id: 1
@@ -79,9 +60,6 @@ fields:
       source:
         template: concept/researchAreaOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -92,10 +70,6 @@ fields:
         type: strings
         copyTo:
         - _text_
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
         docValues: true
         transformer:
           id: 1
@@ -106,9 +80,6 @@ fields:
       source:
         template: concept/awardOrHonorFor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -116,11 +87,6 @@ fields:
       - name: awardOrHonorForType
         destination:
           type: strings
-          required: false
-          readonly: false
-          stored: true
-          indexed: true
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -130,9 +96,7 @@ fields:
         source:
           template: concept/awardOrHonorForType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          unique: false
           parse: true
-          split: false
           extractor:
             id: 1
             version: 1
@@ -144,11 +108,6 @@ fields:
         copyTo:
         - _text_
         - awardConferredBy_str
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -158,9 +117,6 @@ fields:
       source:
         template: concept/awardConferredBy
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -168,11 +124,6 @@ fields:
       - name: awardConferredByType
         destination:
           type: strings
-          required: false
-          readonly: false
-          stored: true
-          indexed: true
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -182,9 +133,7 @@ fields:
         source:
           template: concept/awardConferredByType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          unique: false
           parse: true
-          split: false
           extractor:
             id: 1
             version: 1
@@ -194,11 +143,6 @@ fields:
         type: strings
         copyTo:
         - _text_
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -208,9 +152,6 @@ fields:
       source:
         template: concept/awardConferredByPreferredLabel
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardConferredBy_label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -218,10 +159,6 @@ fields:
       name: yearAwarded
       destination:
         type: pdate
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
         docValues: true
         transformer:
           id: 1
@@ -232,9 +169,6 @@ fields:
       source:
         template: concept/yearAwarded
         predicate: http://vivoweb.org/ontology/core#dateTime
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -243,11 +177,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -257,9 +187,6 @@ fields:
       source:
         template: concept/receipts
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -267,11 +194,7 @@ fields:
       - name: receiptRecipientName
         destination:
           type: strings
-          required: false
-          readonly: false
-          stored: true
           indexed: false
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -281,9 +204,6 @@ fields:
         source:
           template: concept/receiptRecipientName
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          unique: false
-          parse: false
-          split: false
           extractor:
             id: 1
             version: 1
@@ -292,11 +212,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -306,9 +222,6 @@ fields:
       source:
         template: concept/broaderConcept
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -317,11 +230,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -331,9 +240,6 @@ fields:
       source:
         template: concept/narrowerConcept
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -342,11 +248,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -356,9 +258,6 @@ fields:
       source:
         template: concept/relatedConcept
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -369,11 +268,6 @@ fields:
         type: text_general
         copyTo:
         - _text_
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -383,9 +277,6 @@ fields:
       source:
         template: concept/futureResearchIdeaOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -393,11 +284,6 @@ fields:
       - name: futureResearchIdeaOfEmail
         destination:
           type: string
-          required: false
-          readonly: false
-          stored: true
-          indexed: true
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -407,9 +293,6 @@ fields:
         source:
           template: concept/futureResearchIdeaOfEmail
           predicate: http://www.w3.org/2006/vcard/ns#email
-          unique: false
-          parse: false
-          split: false
           extractor:
             id: 1
             version: 1
@@ -417,11 +300,6 @@ fields:
       - name: futureResearchIdeaOfTitle
         destination:
           type: string
-          required: false
-          readonly: false
-          stored: true
-          indexed: true
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -431,9 +309,6 @@ fields:
         source:
           template: concept/futureResearchIdeaOfTitle
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          unique: false
-          parse: false
-          split: false
           extractor:
             id: 1
             version: 1
@@ -442,11 +317,6 @@ fields:
         nested: true
         destination:
           type: strings
-          required: false
-          readonly: false
-          stored: true
-          indexed: true
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -456,9 +326,6 @@ fields:
         source:
           template: concept/futureResearchIdeaOfOrganization
           predicate: http://www.w3.org/2000/01/rdf-schema#label
-          unique: false
-          parse: false
-          split: false
           extractor:
             id: 1
             version: 1
@@ -468,11 +335,6 @@ fields:
         type: strings
         copyTo:
         - _text_
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -482,9 +344,6 @@ fields:
       source:
         template: concept/keyword
         predicate: http://vivoweb.org/ontology/core#freetextKeyword
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -494,11 +353,6 @@ fields:
         type: text_general
         copyTo:
         - _text_
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -508,9 +362,6 @@ fields:
       source:
         template: concept/description
         predicate: http://vivoweb.org/ontology/core#description
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -518,10 +369,6 @@ fields:
       name: createdDate
       destination:
         type: pdate
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
         docValues: true
         transformer:
           id: 1
@@ -532,9 +379,6 @@ fields:
       source:
         template: concept/createdDate
         predicate: http://vivoweb.org/ontology/core#dateTime
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -542,11 +386,7 @@ fields:
       name: image
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -556,9 +396,6 @@ fields:
       source:
         template: common/image
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -566,11 +403,7 @@ fields:
       name: thumbnail
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -580,9 +413,6 @@ fields:
       source:
         template: common/thumbnail
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -591,11 +421,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -605,9 +431,6 @@ fields:
       source:
         template: common/website
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -615,11 +438,7 @@ fields:
       - name: websiteUrl
         destination:
           type: strings
-          required: false
-          readonly: false
-          stored: true
           indexed: false
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -629,9 +448,6 @@ fields:
         source:
           template: common/websiteUrl
           predicate: http://www.w3.org/2006/vcard/ns#url
-          unique: false
-          parse: false
-          split: false
           extractor:
             id: 1
             version: 1
@@ -640,11 +456,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -654,9 +466,6 @@ fields:
       source:
         template: common/geographicFocus
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -665,11 +474,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -679,9 +484,6 @@ fields:
       source:
         template: common/sameAs
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -689,10 +491,6 @@ fields:
       name: modTime
       destination:
         type: pdate
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
         docValues: true
         transformer:
           id: 1
@@ -703,9 +501,6 @@ fields:
       source:
         template: common/modTime
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -713,10 +508,6 @@ fields:
       name: type
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
         docValues: true
         transformer:
           id: 1
@@ -727,9 +518,7 @@ fields:
       source:
         template: common/type
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-        unique: false
         parse: true
-        split: false
         extractor:
           id: 1
           version: 1

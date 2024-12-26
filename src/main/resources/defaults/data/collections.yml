@@ -13,11 +13,6 @@ fields:
         copyTo:
         - _text_
         - name_t_sort
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -27,9 +22,6 @@ fields:
       source:
         template: collection/name
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -39,11 +31,6 @@ fields:
         type: text_general
         copyTo:
         - _text_
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -53,9 +40,6 @@ fields:
       source:
         template: collection/abstract
         predicate: http://purl.org/ontology/bibo/abstract
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -63,11 +47,6 @@ fields:
       name: abbreviation
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -77,9 +56,6 @@ fields:
       source:
         template: collection/abbreviation
         predicate: http://vivoweb.org/ontology/core#abbreviation
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -88,11 +64,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -102,9 +74,6 @@ fields:
       source:
         template: collection/publicationVenueFor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -113,11 +82,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -127,9 +92,6 @@ fields:
       source:
         template: collection/editor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -138,11 +100,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -152,9 +110,6 @@ fields:
       source:
         template: collection/translator
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -162,10 +117,6 @@ fields:
       name: publicationDate
       destination:
         type: pdate
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
         docValues: true
         transformer:
           id: 1
@@ -176,9 +127,6 @@ fields:
       source:
         template: collection/publicationDate
         predicate: http://vivoweb.org/ontology/core#dateTime
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -187,11 +135,6 @@ fields:
       nested: true
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -202,8 +145,6 @@ fields:
         template: collection/publisher
         predicate: http://www.w3.org/2000/01/rdf-schema#label
         unique: true
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -211,11 +152,6 @@ fields:
       - name: publisherType
         destination:
           type: string
-          required: false
-          readonly: false
-          stored: true
-          indexed: true
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -225,9 +161,7 @@ fields:
         source:
           template: collection/publisherType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          unique: false
           parse: true
-          split: false
           extractor:
             id: 1
             version: 1
@@ -236,11 +170,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -250,9 +180,6 @@ fields:
       source:
         template: collection/hasSubjectArea
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -261,11 +188,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -275,9 +198,6 @@ fields:
       source:
         template: collection/feature
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -286,11 +206,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -300,9 +216,6 @@ fields:
       source:
         template: collection/outputOfProcessOrEvent
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -312,11 +225,6 @@ fields:
         type: strings
         copyTo:
         - _text_
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -326,9 +234,6 @@ fields:
       source:
         template: collection/keyword
         predicate: http://vivoweb.org/ontology/core#freetextKeyword
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -336,11 +241,6 @@ fields:
       name: issn
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -350,9 +250,6 @@ fields:
       source:
         template: collection/issn
         predicate: http://purl.org/ontology/bibo/issn
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -360,11 +257,6 @@ fields:
       name: eissn
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -374,9 +266,6 @@ fields:
       source:
         template: collection/eissn
         predicate: http://purl.org/ontology/bibo/eissn
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -384,11 +273,6 @@ fields:
       name: doi
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -398,9 +282,6 @@ fields:
       source:
         template: collection/doi
         predicate: http://purl.org/ontology/bibo/doi
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -408,11 +289,6 @@ fields:
       name: oclcnum
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -422,9 +298,6 @@ fields:
       source:
         template: collection/oclcnum
         predicate: http://purl.org/ontology/bibo/oclcnum
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -433,11 +306,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -447,9 +316,6 @@ fields:
       source:
         template: collection/isAbout
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -458,11 +324,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -472,9 +334,6 @@ fields:
       source:
         template: collection/specifiedOutputOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -483,11 +342,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -497,9 +352,6 @@ fields:
       source:
         template: collection/mention
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -508,11 +360,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -522,9 +370,6 @@ fields:
       source:
         template: collection/participatesIn
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -533,11 +378,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -547,9 +388,6 @@ fields:
       source:
         template: collection/supportedBy
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -557,11 +395,7 @@ fields:
       name: image
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -571,9 +405,6 @@ fields:
       source:
         template: common/image
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -581,11 +412,7 @@ fields:
       name: thumbnail
       destination:
         type: string
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -595,9 +422,6 @@ fields:
       source:
         template: common/thumbnail
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -606,11 +430,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -620,9 +440,6 @@ fields:
       source:
         template: common/website
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -630,11 +447,7 @@ fields:
       - name: websiteUrl
         destination:
           type: strings
-          required: false
-          readonly: false
-          stored: true
           indexed: false
-          docValues: false
           transformer:
             id: 1
             version: 1
@@ -644,9 +457,6 @@ fields:
         source:
           template: common/websiteUrl
           predicate: http://www.w3.org/2006/vcard/ns#url
-          unique: false
-          parse: false
-          split: false
           extractor:
             id: 1
             version: 1
@@ -655,11 +465,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -669,9 +475,6 @@ fields:
       source:
         template: common/geographicFocus
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -680,11 +483,7 @@ fields:
       nested: true
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
         indexed: false
-        docValues: false
         transformer:
           id: 1
           version: 1
@@ -694,9 +493,6 @@ fields:
       source:
         template: common/sameAs
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -704,10 +500,6 @@ fields:
       name: modTime
       destination:
         type: pdate
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
         docValues: true
         transformer:
           id: 1
@@ -718,9 +510,6 @@ fields:
       source:
         template: common/modTime
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime
-        unique: false
-        parse: false
-        split: false
         extractor:
           id: 1
           version: 1
@@ -728,10 +517,6 @@ fields:
       name: type
       destination:
         type: strings
-        required: false
-        readonly: false
-        stored: true
-        indexed: true
         docValues: true
         transformer:
           id: 1
@@ -742,9 +527,7 @@ fields:
       source:
         template: common/type
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-        unique: false
         parse: true
-        split: false
         extractor:
           id: 1
           version: 1
