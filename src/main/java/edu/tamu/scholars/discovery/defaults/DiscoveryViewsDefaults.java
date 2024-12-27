@@ -32,6 +32,7 @@ public class DiscoveryViewsDefaults extends AbstractDefaults<DiscoveryView, Disc
         for (DiscoveryView view : views) {
             loadTemplateMap(view.getTemplates());
         }
+
         return views;
     }
 

@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.jena.query.Dataset;
-import org.apache.jena.tdb2.TDB2;
 import org.apache.jena.tdb2.TDB2Factory;
 import reactor.core.publisher.Flux;
 
@@ -35,7 +34,6 @@ public class TdbSparqlExtractor implements DataExtractor<Map<String, Object>> {
                 ? properties.get("directory")
                 : "triplestore";
 
-        TDB2.getContext().setTrue(TDB2.symUnionDefaultGraph);
         dataset = TDB2Factory.connectDataset(directory);
     }
 

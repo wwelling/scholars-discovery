@@ -25,9 +25,9 @@ import edu.tamu.scholars.discovery.model.repo.NamedRepo;
 
 public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> implements Defaults<E> {
 
-    private static final String CREATED_DEFAULTS = "Created {} {} defaults.";
+    private static final String CREATED_DEFAULTS = "Created {} defaults.";
 
-    private static final String UPDATED_DEFAULTS = "Updated {} {} defaults.";
+    private static final String UPDATED_DEFAULTS = "Updated {} defaults.";
 
     protected static final String CLASSPATH = "classpath:%s";
 
@@ -69,7 +69,7 @@ public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> 
             update(entity, existingEntity.get());
         } else {
             save(entity);
-            logger.info(CREATED_DEFAULTS, this.getClass().getSimpleName(), entity.getName());
+            logger.info(CREATED_DEFAULTS, entity.getName());
         }
     }
 
@@ -78,7 +78,7 @@ public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> 
         if (config.isUpdateDefaults()) {
             copyProperties(entity, existingEntity);
             repo.save(existingEntity);
-            logger.info(UPDATED_DEFAULTS, this.getClass().getSimpleName(), entity.getName());
+            logger.info(UPDATED_DEFAULTS, entity.getName());
         }
     }
 

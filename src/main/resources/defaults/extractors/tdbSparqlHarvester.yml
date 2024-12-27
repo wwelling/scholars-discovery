@@ -1,4 +1,4 @@
 name: TDB SPARQL Extractor
 type: TDB_SPARQL
 attributes:
-  directory: "triplestore"
+  directory: triplestore

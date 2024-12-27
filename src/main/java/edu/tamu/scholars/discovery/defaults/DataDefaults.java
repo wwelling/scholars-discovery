@@ -2,7 +2,10 @@ package edu.tamu.scholars.discovery.defaults;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -47,41 +50,51 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
     @Override
     protected void save(Data source) {
         updateFields(source, source);
-
         repo.save(source);
     }
 
     @Override
     protected void copyProperties(Data source, Data target) {
-        updateFields(source, target);
-
         target.setName(source.getName());
         target.setCollectionSource(source.getCollectionSource());
-        target.setFields(source.getFields());
+        target.setExtractor(source.getExtractor());
+        target.setTransformer(source.getTransformer());
+        target.setLoader(source.getLoader());
+
+        updateFields(source, target);
     }
 
     private void updateFields(Data source, Data target) {
-        List<DataField> fields = Optional.ofNullable(source.getFields())
-            .orElse(List.of());
+        List<DataField> sourceFields = Optional.ofNullable(source.getFields()).orElse(List.of());
+        List<DataField> targetFields = Optional.ofNullable(target.getFields()).orElse(List.of());
 
-        fields.forEach(field -> {
-            field.setData(target);
+        Map<String, DataField> existingFieldsMap = targetFields.stream()
+            .collect(Collectors.toMap(field -> field.getDescriptor().getName(), Function.identity()));
 
-            field.setDescriptor(findOrCreate(field.getDescriptor()));
+        List<DataField> updatedFields = sourceFields.stream()
+            .map(sourceField -> {
+                DataField targetField = existingFieldsMap.getOrDefault(sourceField.getDescriptor().getName(), new DataField());
 
-            List<DataFieldDescriptor> targetDescriptors = Optional.ofNullable(field.getNestedDescriptors())
-                .orElse(List.of())
-                .stream()
-                .map(this::findOrCreate)
-                .toList();
+                targetField.setData(target);
+                targetField.setDescriptor(resolveDescriptor(sourceField.getDescriptor()));
+                targetField.setNestedDescriptors(resolveNestedDescriptors(sourceField.getNestedDescriptors()));
 
-            field.setNestedDescriptors(targetDescriptors);
-        });
+                return targetField;
+            }).toList();
+
+        target.setFields(updatedFields);
     }
 
-    private DataFieldDescriptor findOrCreate(DataFieldDescriptor sourceDescriptor) {
-        return descriptorRepo.findByName(sourceDescriptor.getName())
-            .orElseGet(() -> descriptorRepo.save(sourceDescriptor));
+    private DataFieldDescriptor resolveDescriptor(DataFieldDescriptor descriptor) {
+        return descriptorRepo.findByName(descriptor.getName())
+            .orElseGet(() -> descriptorRepo.save(descriptor));
     }
 
+    private List<DataFieldDescriptor> resolveNestedDescriptors(List<DataFieldDescriptor> descriptors) {
+        return Optional.ofNullable(descriptors)
+            .orElse(List.of())
+            .stream()
+            .map(this::resolveDescriptor)
+            .toList();
+    }
 }
