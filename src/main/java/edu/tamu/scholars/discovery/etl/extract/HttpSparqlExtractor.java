@@ -24,26 +24,6 @@ public class HttpSparqlExtractor implements DataExtractor<Map<String, Object>> {
     }
 
     @Override
-    public void init() {
-
-    }
-
-    @Override
-    public void preProcess() {
-
-    }
-
-    @Override
-    public void postProcess() {
-
-    }
-
-    @Override
-    public void destroy() {
-
-    }
-
-    @Override
     public Flux<Map<String, Object>> extract() {
         return Flux.empty();
     }

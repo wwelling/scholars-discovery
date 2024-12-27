@@ -2,12 +2,20 @@ package edu.tamu.scholars.discovery.etl;
 
 public interface DataProcessor {
 
-    public void init();
+    default void init() {
 
-    public void preProcess();
+    }
 
-    public void postProcess();
+    default void preProcess() {
 
-    public void destroy();
+    }
+
+    default void postProcess() {
+
+    }
+
+    default void destroy() {
+
+    }
 
 }

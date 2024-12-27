@@ -38,16 +38,6 @@ public class TdbSparqlExtractor implements DataExtractor<Map<String, Object>> {
     }
 
     @Override
-    public void preProcess() {
-
-    }
-
-    @Override
-    public void postProcess() {
-
-    }
-
-    @Override
     public void destroy() {
         if (Objects.nonNull(dataset)) {
             dataset.close();
