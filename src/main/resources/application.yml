@@ -41,8 +41,8 @@ discovery:
     name: scholars-discovery
     cron: 0 0 0 * * SUN
     zone: America/Chicago
-    schematize: true
-    onStartup: true
+    schematize: false
+    onStartup: false
     enableIndividualOnBatchFail: true
     onStartupDelay: 10000
     batchSize: 10000

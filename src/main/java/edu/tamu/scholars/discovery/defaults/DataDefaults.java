@@ -13,9 +13,11 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.scholars.discovery.config.model.MiddlewareConfig;
+import edu.tamu.scholars.discovery.etl.model.CollectionSource;
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
+import edu.tamu.scholars.discovery.etl.model.FieldSource;
 import edu.tamu.scholars.discovery.etl.model.repo.DataFieldDescriptorRepo;
 import edu.tamu.scholars.discovery.etl.model.repo.DataRepo;
 
@@ -40,7 +42,25 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
 
     @Override
     public List<Data> read(Resource[] resources) throws IOException {
-        return loadResources(resources, Data.class);
+        List<Data> data = loadResources(resources, Data.class);
+        for (Data datum : data) {
+            CollectionSource collectionSource = datum.getCollectionSource();
+            if (collectionSource.getTemplate() != null && !collectionSource.getTemplate().isEmpty()) {
+                try {
+                    collectionSource.setTemplate(getTemplate(collectionSource.getTemplate()));
+                } catch (IOException e) {
+                    logger.warn(String.format(IO_EXCEPTION_MESSAGE, collectionSource.getTemplate()));
+                }
+            }
+            for (DataField dataField : datum.getFields()) {
+                setFieldSourceTemplate(dataField.getDescriptor());
+                for (DataFieldDescriptor descriptor : dataField.getNestedDescriptors()) {
+                    setFieldSourceTemplate(descriptor);
+                }
+            }
+        }
+
+        return data;
     }
 
     @Override
@@ -51,6 +71,7 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
     @Override
     protected void save(Data source) {
         updateFields(source, source);
+
         repo.save(source);
     }
 
@@ -98,4 +119,14 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
             .map(this::resolveDescriptor)
             .collect(Collectors.toSet());
     }
+
+    private void setFieldSourceTemplate(DataFieldDescriptor descriptor) {
+        FieldSource fieldSource = descriptor.getSource();
+        try {
+            fieldSource.setTemplate(getTemplate(fieldSource.getTemplate()));
+        } catch (IOException e) {
+            logger.warn(String.format(IO_EXCEPTION_MESSAGE, fieldSource.getTemplate()));
+        }
+    }
+
 }

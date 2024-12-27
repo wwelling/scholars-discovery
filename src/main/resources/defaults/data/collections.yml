@@ -1,6 +1,6 @@
 name: Collection
 collectionSource:
-  template: collection.sparql
+  template: defaults/data/common/collection.sparql
   predicate: http://purl.org/ontology/bibo/Collection
 extractor:
   id: 2
@@ -17,26 +17,26 @@ fields:
       destination:
         type: text_general
         copyTo:
-        - _text_
-        - name_t_sort
+          - _text_
+          - name_t_sort
       source:
-        template: collection/name
+        template: defaults/data/collections/name.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: abstract
       destination:
         type: text_general
         copyTo:
-        - _text_
+          - _text_
       source:
-        template: collection/abstract
+        template: defaults/data/collections/abstract.sparql
         predicate: http://purl.org/ontology/bibo/abstract
   - descriptor:
       name: abbreviation
       destination:
         type: string
       source:
-        template: collection/abbreviation
+        template: defaults/data/collections/abbreviation.sparql
         predicate: http://vivoweb.org/ontology/core#abbreviation
   - descriptor:
       name: publicationVenueFor
@@ -46,7 +46,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: collection/publicationVenueFor
+        template: defaults/data/collections/publicationVenueFor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: editors
@@ -56,7 +56,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: collection/editor
+        template: defaults/data/collections/editor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: translators
@@ -66,7 +66,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: collection/translator
+        template: defaults/data/collections/translator.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: publicationDate
@@ -74,7 +74,7 @@ fields:
         type: pdate
         docValues: true
       source:
-        template: collection/publicationDate
+        template: defaults/data/collections/publicationDate.sparql
         predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: publisher
@@ -82,7 +82,7 @@ fields:
       destination:
         type: string
       source:
-        template: collection/publisher
+        template: defaults/data/collections/publisher.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
         unique: true
     nestedDescriptors:
@@ -90,7 +90,7 @@ fields:
         destination:
           type: string
         source:
-          template: collection/publisherType
+          template: defaults/data/collections/publisherType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
   - descriptor:
@@ -101,7 +101,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: collection/hasSubjectArea
+        template: defaults/data/collections/hasSubjectArea.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: features
@@ -111,7 +111,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: collection/feature
+        template: defaults/data/collections/feature.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: outputOfProcessOrEvent
@@ -121,45 +121,45 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: collection/outputOfProcessOrEvent
+        template: defaults/data/collections/outputOfProcessOrEvent.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: keywords
       destination:
         type: strings
         copyTo:
-        - _text_
+          - _text_
         multiValued: true
       source:
-        template: collection/keyword
+        template: defaults/data/collections/keyword.sparql
         predicate: http://vivoweb.org/ontology/core#freetextKeyword
   - descriptor:
       name: issn
       destination:
         type: string
       source:
-        template: collection/issn
+        template: defaults/data/collections/issn.sparql
         predicate: http://purl.org/ontology/bibo/issn
   - descriptor:
       name: eissn
       destination:
         type: string
       source:
-        template: collection/eissn
+        template: defaults/data/collections/eissn.sparql
         predicate: http://purl.org/ontology/bibo/eissn
   - descriptor:
       name: doi
       destination:
         type: string
       source:
-        template: collection/doi
+        template: defaults/data/collections/doi.sparql
         predicate: http://purl.org/ontology/bibo/doi
   - descriptor:
       name: oclcnum
       destination:
         type: string
       source:
-        template: collection/oclcnum
+        template: defaults/data/collections/oclcnum.sparql
         predicate: http://purl.org/ontology/bibo/oclcnum
   - descriptor:
       name: isAbout
@@ -169,7 +169,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: collection/isAbout
+        template: defaults/data/collections/isAbout.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: specifiedOutputOf
@@ -179,7 +179,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: collection/specifiedOutputOf
+        template: defaults/data/collections/specifiedOutputOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: mentions
@@ -189,7 +189,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: collection/mention
+        template: defaults/data/collections/mention.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: participatesIn
@@ -199,7 +199,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: collection/participatesIn
+        template: defaults/data/collections/participatesIn.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: supportedBy
@@ -209,7 +209,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: collection/supportedBy
+        template: defaults/data/collections/supportedBy.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: image
@@ -217,7 +217,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: common/image
+        template: defaults/data/common/image.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
   - descriptor:
       name: thumbnail
@@ -225,7 +225,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: common/thumbnail
+        template: defaults/data/common/thumbnail.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
   - descriptor:
       name: websites
@@ -235,7 +235,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: common/website
+        template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: websiteUrl
@@ -244,7 +244,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: common/websiteUrl
+          template: defaults/data/common/websiteUrl.sparql
           predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
       name: geographicFocus
@@ -254,7 +254,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: common/geographicFocus
+        template: defaults/data/common/geographicFocus.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: sameAs
@@ -264,7 +264,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: common/sameAs
+        template: defaults/data/common/sameAs.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: modTime
@@ -272,7 +272,7 @@ fields:
         type: pdate
         docValues: true
       source:
-        template: common/modTime
+        template: defaults/data/common/modTime.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime
   - descriptor:
       name: type
@@ -281,6 +281,6 @@ fields:
         multiValued: true
         docValues: true
       source:
-        template: common/type
+        template: defaults/data/common/type.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
         parse: true

@@ -1,6 +1,6 @@
 name: Concept
 collectionSource:
-  template: collection.sparql
+  template: defaults/data/common/collection.sparql
   predicate: http://www.w3.org/2004/02/skos/core#Concept
 extractor:
   id: 2
@@ -17,10 +17,10 @@ fields:
       destination:
         type: text_general
         copyTo:
-        - _text_
-        - name_t_sort
+          - _text_
+          - name_t_sort
       source:
-        template: concept/name
+        template: defaults/data/concepts/name.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: associatedDepartments
@@ -30,7 +30,7 @@ fields:
         multiValued: true
         docValues: true
       source:
-        template: concept/associatedDepartment
+        template: defaults/data/concepts/associatedDepartment.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: researchAreaOf
@@ -38,11 +38,11 @@ fields:
       destination:
         type: strings
         copyTo:
-        - _text_
+          - _text_
         multiValued: true
         docValues: true
       source:
-        template: concept/researchAreaOf
+        template: defaults/data/concepts/researchAreaOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: awardOrHonorFor
@@ -50,11 +50,11 @@ fields:
       destination:
         type: strings
         copyTo:
-        - _text_
+          - _text_
         multiValued: true
         docValues: true
       source:
-        template: concept/awardOrHonorFor
+        template: defaults/data/concepts/awardOrHonorFor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: awardOrHonorForType
@@ -62,7 +62,7 @@ fields:
           type: strings
           multiValued: true
         source:
-          template: concept/awardOrHonorForType
+          template: defaults/data/concepts/awardOrHonorForType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
   - descriptor:
@@ -71,11 +71,11 @@ fields:
       destination:
         type: text_general
         copyTo:
-        - _text_
-        - awardConferredBy_str
+          - _text_
+          - awardConferredBy_str
         multiValued: true
       source:
-        template: concept/awardConferredBy
+        template: defaults/data/concepts/awardConferredBy.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: awardConferredByType
@@ -83,7 +83,7 @@ fields:
           type: strings
           multiValued: true
         source:
-          template: concept/awardConferredByType
+          template: defaults/data/concepts/awardConferredByType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
   - descriptor:
@@ -91,10 +91,10 @@ fields:
       destination:
         type: strings
         copyTo:
-        - _text_
+          - _text_
         multiValued: true
       source:
-        template: concept/awardConferredByPreferredLabel
+        template: defaults/data/concepts/awardConferredByPreferredLabel.sparql
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardConferredBy_label
   - descriptor:
       name: yearAwarded
@@ -102,7 +102,7 @@ fields:
         type: pdate
         docValues: true
       source:
-        template: concept/yearAwarded
+        template: defaults/data/concepts/yearAwarded.sparql
         predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: receipts
@@ -112,7 +112,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: concept/receipts
+        template: defaults/data/concepts/receipts.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: receiptRecipientName
@@ -121,7 +121,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: concept/receiptRecipientName
+          template: defaults/data/concepts/receiptRecipientName.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: broaderConcepts
@@ -131,7 +131,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: concept/broaderConcept
+        template: defaults/data/concepts/broaderConcept.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: narrowerConcepts
@@ -141,7 +141,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: concept/narrowerConcept
+        template: defaults/data/concepts/narrowerConcept.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: relatedConcepts
@@ -151,7 +151,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: concept/relatedConcept
+        template: defaults/data/concepts/relatedConcept.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: futureResearchIdeaOf
@@ -159,23 +159,23 @@ fields:
       destination:
         type: text_general
         copyTo:
-        - _text_
+          - _text_
       source:
-        template: concept/futureResearchIdeaOf
+        template: defaults/data/concepts/futureResearchIdeaOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: futureResearchIdeaOfEmail
         destination:
           type: string
         source:
-          template: concept/futureResearchIdeaOfEmail
+          template: defaults/data/concepts/futureResearchIdeaOfEmail.sparql
           predicate: http://www.w3.org/2006/vcard/ns#email
     nestedDescriptors:
       - name: futureResearchIdeaOfTitle
         destination:
           type: string
         source:
-          template: concept/futureResearchIdeaOfTitle
+          template: defaults/data/concepts/futureResearchIdeaOfTitle.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: futureResearchIdeaOfOrganization
@@ -184,26 +184,26 @@ fields:
           type: strings
           multiValued: true
         source:
-          template: concept/futureResearchIdeaOfOrganization
+          template: defaults/data/concepts/futureResearchIdeaOfOrganization.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: keywords
       destination:
         type: strings
         copyTo:
-        - _text_
+          - _text_
         multiValued: true
       source:
-        template: concept/keyword
+        template: defaults/data/concepts/keyword.sparql
         predicate: http://vivoweb.org/ontology/core#freetextKeyword
   - descriptor:
       name: description
       destination:
         type: text_general
         copyTo:
-        - _text_
+          - _text_
       source:
-        template: concept/description
+        template: defaults/data/concepts/description.sparql
         predicate: http://vivoweb.org/ontology/core#description
   - descriptor:
       name: createdDate
@@ -211,7 +211,7 @@ fields:
         type: pdate
         docValues: true
       source:
-        template: concept/createdDate
+        template: defaults/data/concepts/createdDate.sparql
         predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: image
@@ -219,7 +219,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: common/image
+        template: defaults/data/common/image.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
   - descriptor:
       name: thumbnail
@@ -227,7 +227,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: common/thumbnail
+        template: defaults/data/common/thumbnail.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
   - descriptor:
       name: websites
@@ -237,7 +237,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: common/website
+        template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: websiteUrl
@@ -246,7 +246,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: common/websiteUrl
+          template: defaults/data/common/websiteUrl.sparql
           predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
       name: geographicFocus
@@ -256,7 +256,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: common/geographicFocus
+        template: defaults/data/common/geographicFocus.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: sameAs
@@ -266,7 +266,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: common/sameAs
+        template: defaults/data/common/sameAs.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: modTime
@@ -274,7 +274,7 @@ fields:
         type: pdate
         docValues: true
       source:
-        template: common/modTime
+        template: defaults/data/common/modTime.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime
   - descriptor:
       name: type
@@ -283,6 +283,6 @@ fields:
         multiValued: true
         docValues: true
       source:
-        template: common/type
+        template: defaults/data/common/type.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
         parse: true

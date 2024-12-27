@@ -104,14 +104,17 @@ public abstract class AbstractDefaults<E extends Named, R extends NamedRepo<E>> 
 
     protected void loadTemplateMap(Map<String, String> templateMap) throws IOException {
         for (Map.Entry<String, String> entry : templateMap.entrySet()) {
-            String path = entry.getValue();
-            Resource resource = resolver.getResource(String.format(CLASSPATH, path));
-            if (resource.exists()) {
-                entry.setValue(IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8));
-            } else {
-                throw new IOException(String.format(IO_EXCEPTION_MESSAGE, path));
-            }
+            entry.setValue(getTemplate(entry.getValue()));
         }
+    }
+
+    protected String getTemplate(String path) throws IOException {
+        Resource resource = resolver.getResource(String.format(CLASSPATH, path));
+        if (!resource.exists()) {
+            throw new IOException(String.format(IO_EXCEPTION_MESSAGE, path));
+        }
+
+        return IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8);
     }
 
     protected void copyProperties(E source, E target) {

@@ -145,7 +145,7 @@ public class MiddlewareApplication {
                     if (copyTo.length > 0) {
                         System.out.println("        copyTo:");
                         for (String ct : copyTo) {
-                            System.out.println("        - " + ct);
+                            System.out.println("          - " + ct);
                         }
                     }
 
@@ -190,7 +190,7 @@ public class MiddlewareApplication {
                     if (copyTo.length > 0) {
                         System.out.println("          copyTo:");
                         for (String ct : copyTo) {
-                            System.out.println("          - " + ct);
+                            System.out.println("            - " + ct);
                         }
                     }
 

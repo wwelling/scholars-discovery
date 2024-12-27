@@ -1,10 +1,8 @@
 package edu.tamu.scholars.discovery.defaults;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
@@ -100,14 +98,6 @@ public class DisplayViewDefaults extends AbstractDefaults<DisplayView, DisplayVi
         }
 
         return views;
-    }
-
-    private String getTemplate(String path) throws IOException {
-        Resource resource = resolver.getResource(String.format(CLASSPATH, path));
-        if (resource.exists()) {
-            return IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8);
-        }
-        throw new IOException(String.format(IO_EXCEPTION_MESSAGE, path));
     }
 
 }

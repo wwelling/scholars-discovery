@@ -3,17 +3,23 @@ package edu.tamu.scholars.discovery.etl.model;
 import java.io.Serializable;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@MappedSuperclass
 public abstract class Source implements Serializable {
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String template;
 
     @Column(nullable = false)
     private String predicate;
+
+    protected Source() {
+        super();
+    }
 
 }

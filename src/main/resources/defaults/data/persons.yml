@@ -1,6 +1,6 @@
 name: Person
 collectionSource:
-  template: collection.sparql
+  template: defaults/data/common/collection.sparql
   predicate: http://xmlns.com/foaf/0.1/Person
 extractor:
   id: 2
@@ -17,17 +17,17 @@ fields:
       destination:
         type: text_general
         copyTo:
-        - _text_
-        - name_t_sort
+          - _text_
+          - name_t_sort
       source:
-        template: person/name
+        template: defaults/data/persons/name.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: primaryEmail
       destination:
         type: string
       source:
-        template: person/primaryEmail
+        template: defaults/data/persons/primaryEmail.sparql
         predicate: http://www.w3.org/2006/vcard/ns#email
   - descriptor:
       name: additionalEmails
@@ -36,7 +36,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/additionalEmail
+        template: defaults/data/persons/additionalEmail.sparql
         predicate: http://www.w3.org/2006/vcard/ns#email
   - descriptor:
       name: phone
@@ -44,14 +44,14 @@ fields:
         type: string
         indexed: false
       source:
-        template: person/phone
+        template: defaults/data/persons/phone.sparql
         predicate: http://www.w3.org/2006/vcard/ns#telephone
   - descriptor:
       name: orcidId
       destination:
         type: string
       source:
-        template: person/orcidId
+        template: defaults/data/persons/orcidId.sparql
         predicate: http://vivoweb.org/ontology/core#orcidId
         parse: true
   - descriptor:
@@ -59,7 +59,7 @@ fields:
       destination:
         type: text_general
       source:
-        template: person/preferredTitle
+        template: defaults/data/persons/preferredTitle.sparql
         predicate: http://www.w3.org/2006/vcard/ns#title
   - descriptor:
       name: positions
@@ -69,7 +69,7 @@ fields:
         multiValued: true
         docValues: true
       source:
-        template: person/position
+        template: defaults/data/persons/position.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: positionType
@@ -78,7 +78,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/positionType
+          template: defaults/data/persons/positionType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
     nestedDescriptors:
@@ -89,7 +89,7 @@ fields:
           multiValued: true
           docValues: true
         source:
-          template: person/positionOrganization
+          template: defaults/data/persons/positionOrganization.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
           unique: true
     nestedDescriptors:
@@ -99,16 +99,16 @@ fields:
           type: strings
           multiValued: true
         source:
-          template: person/positionOrganizationParent
+          template: defaults/data/persons/positionOrganizationParent.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: overview
       destination:
         type: text_general
         copyTo:
-        - _text_
+          - _text_
       source:
-        template: person/overview
+        template: defaults/data/persons/overview.sparql
         predicate: http://vivoweb.org/ontology/core#overview
   - descriptor:
       name: researchAreas
@@ -116,18 +116,18 @@ fields:
       destination:
         type: text_general
         copyTo:
-        - _text_
-        - researchAreas_str
+          - _text_
+          - researchAreas_str
         multiValued: true
       source:
-        template: person/researchArea
+        template: defaults/data/persons/researchArea.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: hrJobTitle
       destination:
         type: string
       source:
-        template: person/hrJobTitle
+        template: defaults/data/persons/hrJobTitle.sparql
         predicate: http://vivoweb.org/ontology/core#hrJobTitle
   - descriptor:
       name: keywords
@@ -136,7 +136,7 @@ fields:
         multiValued: true
         docValues: true
       source:
-        template: person/keyword
+        template: defaults/data/persons/keyword.sparql
         predicate: http://vivoweb.org/ontology/core#freetextKeyword
   - descriptor:
       name: headOf
@@ -146,7 +146,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/headOf
+        template: defaults/data/persons/headOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: headOfType
@@ -155,7 +155,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/headOfType
+          template: defaults/data/persons/headOfType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
     nestedDescriptors:
@@ -166,7 +166,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/headOfOrganization
+          template: defaults/data/persons/headOfOrganization.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: headOfStartDate
@@ -175,7 +175,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/headOfStartDate
+          template: defaults/data/persons/headOfStartDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: headOfEndDate
@@ -184,7 +184,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/headOfEndDate
+          template: defaults/data/persons/headOfEndDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: memberOf
@@ -194,7 +194,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/memberOf
+        template: defaults/data/persons/memberOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: memberOfType
@@ -203,7 +203,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/memberOfType
+          template: defaults/data/persons/memberOfType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
     nestedDescriptors:
@@ -214,7 +214,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/memberOfOrganization
+          template: defaults/data/persons/memberOfOrganization.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: memberOfStartDate
@@ -223,7 +223,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/memberOfStartDate
+          template: defaults/data/persons/memberOfStartDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: memberOfEndDate
@@ -232,7 +232,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/memberOfEndDate
+          template: defaults/data/persons/memberOfEndDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: hasCollaborator
@@ -242,7 +242,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/hasCollaborator
+        template: defaults/data/persons/hasCollaborator.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: clinicalActivities
@@ -252,7 +252,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/clinicalActivity
+        template: defaults/data/persons/clinicalActivity.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: clinicalActivityType
@@ -261,7 +261,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/clinicalActivityType
+          template: defaults/data/persons/clinicalActivityType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
     nestedDescriptors:
@@ -271,7 +271,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/clinicalActivityRole
+          template: defaults/data/persons/clinicalActivityRole.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: clinicalActivityStartDate
@@ -280,7 +280,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/clinicalActivityStartDate
+          template: defaults/data/persons/clinicalActivityStartDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: clinicalActivityEndDate
@@ -289,7 +289,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/clinicalActivityEndDate
+          template: defaults/data/persons/clinicalActivityEndDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: attendedEvents
@@ -299,7 +299,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/attendedEvent
+        template: defaults/data/persons/attendedEvent.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: attendedEventType
@@ -308,7 +308,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/attendedEventType
+          template: defaults/data/persons/attendedEventType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
     nestedDescriptors:
@@ -318,7 +318,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/attendedEventStartDate
+          template: defaults/data/persons/attendedEventStartDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: attendedEventEndDate
@@ -327,7 +327,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/attendedEventEndDate
+          template: defaults/data/persons/attendedEventEndDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: educationAndTraining
@@ -337,7 +337,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/educationAndTraining
+        template: defaults/data/persons/educationAndTraining.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
         parse: true
     nestedDescriptors:
@@ -347,7 +347,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/educationAndTrainingName
+          template: defaults/data/persons/educationAndTrainingName.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: educationAndTrainingInfo
@@ -356,7 +356,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/educationAndTrainingInfo
+          template: defaults/data/persons/educationAndTrainingInfo.sparql
           predicate: http://vivoweb.org/ontology/core#supplementalInformation
     nestedDescriptors:
       - name: educationAndTrainingOrganization
@@ -366,7 +366,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/educationAndTrainingOrganization
+          template: defaults/data/persons/educationAndTrainingOrganization.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: educationAndTrainingMajorField
@@ -375,7 +375,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/educationAndTrainingMajorField
+          template: defaults/data/persons/educationAndTrainingMajorField.sparql
           predicate: http://vivoweb.org/ontology/core#majorField
     nestedDescriptors:
       - name: educationAndTrainingDegreeAbbreviation
@@ -384,7 +384,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/educationAndTrainingDegreeAbbreviation
+          template: defaults/data/persons/educationAndTrainingDegreeAbbreviation.sparql
           predicate: http://vivoweb.org/ontology/core#abbreviation
     nestedDescriptors:
       - name: educationAndTrainingStartDate
@@ -393,7 +393,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/educationAndTrainingStartDate
+          template: defaults/data/persons/educationAndTrainingStartDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: educationAndTrainingEndDate
@@ -402,7 +402,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/educationAndTrainingEndDate
+          template: defaults/data/persons/educationAndTrainingEndDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: educationAndTrainingIsDateSuppressed
@@ -411,7 +411,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/educationAndTrainingIsDateSuppressed
+          template: defaults/data/persons/educationAndTrainingIsDateSuppressed.sparql
           predicate: http://vivoweb.org/ontology/core#supplementalInformation
   - descriptor:
       name: credentials
@@ -421,7 +421,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/credentials
+        template: defaults/data/persons/credentials.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: credentialEligibilityAttained
@@ -431,7 +431,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/credentialEligibilityAttained
+        template: defaults/data/persons/credentialEligibilityAttained.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: credentialEligibilityAttainedType
@@ -440,7 +440,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/credentialEligibilityAttainedType
+          template: defaults/data/persons/credentialEligibilityAttainedType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
   - descriptor:
@@ -451,7 +451,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/awardAndHonor
+        template: defaults/data/persons/awardAndHonor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: adviseeOf
@@ -461,7 +461,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/adviseeOf
+        template: defaults/data/persons/adviseeOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: adviseeOfType
@@ -470,7 +470,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/adviseeOfType
+          template: defaults/data/persons/adviseeOfType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
     nestedDescriptors:
@@ -480,7 +480,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/adviseeOfCandidacy
+          template: defaults/data/persons/adviseeOfCandidacy.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: adviseeOfStartDate
@@ -489,7 +489,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/adviseeOfStartDate
+          template: defaults/data/persons/adviseeOfStartDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: adviseeOfEndDate
@@ -498,7 +498,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/adviseeOfEndDate
+          template: defaults/data/persons/adviseeOfEndDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: publications
@@ -506,10 +506,10 @@ fields:
       destination:
         type: text_general
         copyTo:
-        - _text_
+          - _text_
         multiValued: true
       source:
-        template: person/selectedPublications
+        template: defaults/data/persons/selectedPublications.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: publicationDates
@@ -517,7 +517,7 @@ fields:
         type: pdates
         multiValued: true
       source:
-        template: person/publicationDates
+        template: defaults/data/persons/publicationDates.sparql
         predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: selectedPublicationType
@@ -525,7 +525,7 @@ fields:
           type: strings
           multiValued: true
         source:
-          template: person/selectedPublicationType
+          template: defaults/data/persons/selectedPublicationType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
     nestedDescriptors:
@@ -534,7 +534,7 @@ fields:
           type: pdates
           multiValued: true
         source:
-          template: person/selectedPublicationDate
+          template: defaults/data/persons/selectedPublicationDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: selectedPublicationPublisher
@@ -543,7 +543,7 @@ fields:
           multiValued: true
           docValues: true
         source:
-          template: person/selectedPublicationPublisher
+          template: defaults/data/persons/selectedPublicationPublisher.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
           unique: true
     nestedDescriptors:
@@ -553,7 +553,7 @@ fields:
           multiValued: true
           docValues: true
         source:
-          template: person/selectedPublicationVenue
+          template: defaults/data/persons/selectedPublicationVenue.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
           unique: true
     nestedDescriptors:
@@ -563,7 +563,7 @@ fields:
           multiValued: true
           docValues: true
         source:
-          template: person/selectedPublicationTag
+          template: defaults/data/persons/selectedPublicationTag.sparql
           predicate: http://purl.obolibrary.org/obo/ARG_0000015
   - descriptor:
       name: creativeWorks
@@ -571,10 +571,10 @@ fields:
       destination:
         type: text_general
         copyTo:
-        - _text_
+          - _text_
         multiValued: true
       source:
-        template: person/creativeWorks
+        template: defaults/data/persons/creativeWorks.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: creativeWorkType
@@ -582,7 +582,7 @@ fields:
           type: strings
           multiValued: true
         source:
-          template: person/creativeWorkType
+          template: defaults/data/persons/creativeWorkType.sparql
           predicate: http://vivo.library.tamu.edu/ontology/TAMU#subtype
   - descriptor:
       name: collectionOrSeriesEditorFor
@@ -592,7 +592,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/collectionOrSeriesEditorFor
+        template: defaults/data/persons/collectionOrSeriesEditorFor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: collectionOrSeriesEditorForType
@@ -601,7 +601,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/collectionOrSeriesEditorForType
+          template: defaults/data/persons/collectionOrSeriesEditorForType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
     nestedDescriptors:
@@ -611,7 +611,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/collectionOrSeriesEditorForRole
+          template: defaults/data/persons/collectionOrSeriesEditorForRole.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: collectionOrSeriesEditorForStartDate
@@ -620,7 +620,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/collectionOrSeriesEditorForStartDate
+          template: defaults/data/persons/collectionOrSeriesEditorForStartDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: collectionOrSeriesEditorForEndDate
@@ -629,7 +629,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/collectionOrSeriesEditorForEndDate
+          template: defaults/data/persons/collectionOrSeriesEditorForEndDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: editorOf
@@ -639,7 +639,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/editorOf
+        template: defaults/data/persons/editorOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: editorOfType
@@ -648,7 +648,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/editorOfType
+          template: defaults/data/persons/editorOfType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
     nestedDescriptors:
@@ -658,7 +658,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/editorOfPublisher
+          template: defaults/data/persons/editorOfPublisher.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
           unique: true
     nestedDescriptors:
@@ -668,7 +668,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/editorOfPageStart
+          template: defaults/data/persons/editorOfPageStart.sparql
           predicate: http://purl.org/ontology/bibo/pageStart
     nestedDescriptors:
       - name: editorOfPageEnd
@@ -677,7 +677,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/editorOfPageEnd
+          template: defaults/data/persons/editorOfPageEnd.sparql
           predicate: http://purl.org/ontology/bibo/pageEnd
     nestedDescriptors:
       - name: editorOfDate
@@ -686,7 +686,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/editorOfDate
+          template: defaults/data/persons/editorOfDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: presentations
@@ -696,7 +696,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/presentation
+        template: defaults/data/persons/presentation.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: presentationType
@@ -705,7 +705,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/presentationType
+          template: defaults/data/persons/presentationType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
     nestedDescriptors:
@@ -715,7 +715,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/presentationRole
+          template: defaults/data/persons/presentationRole.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: presentationEvent
@@ -724,7 +724,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/presentationEvent
+          template: defaults/data/persons/presentationEvent.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
           parse: true
     nestedDescriptors:
@@ -734,7 +734,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/presentationStartDate
+          template: defaults/data/persons/presentationStartDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: presentationEndDate
@@ -743,7 +743,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/presentationEndDate
+          template: defaults/data/persons/presentationEndDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: featuredIn
@@ -753,7 +753,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/featuredIn
+        template: defaults/data/persons/featuredIn.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: assigneeForPatent
@@ -763,7 +763,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/assigneeForPatent
+        template: defaults/data/persons/assigneeForPatent.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: translatorOf
@@ -773,14 +773,14 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/translatorOf
+        template: defaults/data/persons/translatorOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: researchOverview
       destination:
         type: text_general
       source:
-        template: person/researchOverview
+        template: defaults/data/persons/researchOverview.sparql
         predicate: http://vivoweb.org/ontology/core#researchOverview
   - descriptor:
       name: principalInvestigatorOn
@@ -789,7 +789,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/principalInvestigatorOn
+        template: defaults/data/persons/principalInvestigatorOn.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: coPrincipalInvestigatorOn
@@ -798,7 +798,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/coPrincipalInvestigatorOn
+        template: defaults/data/persons/coPrincipalInvestigatorOn.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: researcherOn
@@ -808,7 +808,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/researcherOn
+        template: defaults/data/persons/researcherOn.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: researcherOnAwardedBy
@@ -818,7 +818,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/researcherOnAwardedBy
+          template: defaults/data/persons/researcherOnAwardedBy.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: researcherOnAwardedByPreferredLabel
@@ -827,7 +827,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/researcherOnAwardedByPreferredLabel
+          template: defaults/data/persons/researcherOnAwardedByPreferredLabel.sparql
           predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardedBy_label
     nestedDescriptors:
       - name: researcherOnRole
@@ -836,7 +836,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/researcherOnRole
+          template: defaults/data/persons/researcherOnRole.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
     nestedDescriptors:
@@ -846,7 +846,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/researcherOnStartDate
+          template: defaults/data/persons/researcherOnStartDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: researcherOnEndDate
@@ -855,7 +855,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/researcherOnEndDate
+          template: defaults/data/persons/researcherOnEndDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: otherResearchActivities
@@ -865,7 +865,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/otherResearchActivity
+        template: defaults/data/persons/otherResearchActivity.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: otherResearchActivityRole
@@ -874,7 +874,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/otherResearchActivityRole
+          template: defaults/data/persons/otherResearchActivityRole.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: otherResearchActivityStartDate
@@ -883,7 +883,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/otherResearchActivityStartDate
+          template: defaults/data/persons/otherResearchActivityStartDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: otherResearchActivityEndDate
@@ -892,14 +892,14 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/otherResearchActivityEndDate
+          template: defaults/data/persons/otherResearchActivityEndDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: teachingOverview
       destination:
         type: text_general
       source:
-        template: person/teachingOverview
+        template: defaults/data/persons/teachingOverview.sparql
         predicate: http://vivoweb.org/ontology/core#teachingOverview
   - descriptor:
       name: teachingActivities
@@ -909,7 +909,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/teachingActivity
+        template: defaults/data/persons/teachingActivity.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: teachingActivityRole
@@ -918,7 +918,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/teachingActivityRole
+          template: defaults/data/persons/teachingActivityRole.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: teachingMaterials
@@ -927,7 +927,7 @@ fields:
         type: strings
         multiValued: true
       source:
-        template: person/teachingMaterials
+        template: defaults/data/persons/teachingMaterials.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: advisee
@@ -937,7 +937,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/advisee
+        template: defaults/data/persons/advisee.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: adviseeType
@@ -946,7 +946,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/adviseeType
+          template: defaults/data/persons/adviseeType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
     nestedDescriptors:
@@ -956,7 +956,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/adviseeCandidacy
+          template: defaults/data/persons/adviseeCandidacy.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: adviseeStartDate
@@ -965,7 +965,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/adviseeStartDate
+          template: defaults/data/persons/adviseeStartDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: adviseeEndDate
@@ -974,14 +974,14 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/adviseeEndDate
+          template: defaults/data/persons/adviseeEndDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: outreachOverview
       destination:
         type: text_general
       source:
-        template: person/outreachOverview
+        template: defaults/data/persons/outreachOverview.sparql
         predicate: http://vivoweb.org/ontology/core#outreachOverview
   - descriptor:
       name: reviewerOf
@@ -991,7 +991,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/reviewerOf
+        template: defaults/data/persons/reviewerOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: reviewerOfType
@@ -1000,7 +1000,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/reviewerOfType
+          template: defaults/data/persons/reviewerOfType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
     nestedDescriptors:
@@ -1010,7 +1010,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/reviewerOfStartDate
+          template: defaults/data/persons/reviewerOfStartDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: reviewerOfEndDate
@@ -1019,7 +1019,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/reviewerOfEndDate
+          template: defaults/data/persons/reviewerOfEndDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: contactOrProvidorForService
@@ -1029,7 +1029,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/contactOrProvidorForService
+        template: defaults/data/persons/contactOrProvidorForService.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: contactOrProvidorForServiceType
@@ -1038,7 +1038,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/contactOrProvidorForServiceType
+          template: defaults/data/persons/contactOrProvidorForServiceType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
   - descriptor:
@@ -1049,7 +1049,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/organizerOfEvent
+        template: defaults/data/persons/organizerOfEvent.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: organizerOfEventType
@@ -1058,7 +1058,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/organizerOfEventType
+          template: defaults/data/persons/organizerOfEventType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
     nestedDescriptors:
@@ -1068,7 +1068,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/organizerOfEventStartDate
+          template: defaults/data/persons/organizerOfEventStartDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: organizerOfEventEndDate
@@ -1077,7 +1077,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/organizerOfEventEndDate
+          template: defaults/data/persons/organizerOfEventEndDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: professionalServiceActivities
@@ -1087,7 +1087,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/professionalServiceActivity
+        template: defaults/data/persons/professionalServiceActivity.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: professionalServiceActivityRole
@@ -1096,7 +1096,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/professionalServiceActivityRole
+          template: defaults/data/persons/professionalServiceActivityRole.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: professionalServiceActivityType
@@ -1105,7 +1105,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/professionalServiceActivityType
+          template: defaults/data/persons/professionalServiceActivityType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
     nestedDescriptors:
@@ -1115,7 +1115,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/professionalServiceActivityStartDate
+          template: defaults/data/persons/professionalServiceActivityStartDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: professionalServiceActivityEndDate
@@ -1124,7 +1124,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/professionalServiceActivityEndDate
+          template: defaults/data/persons/professionalServiceActivityEndDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: outreachAndCommunityServiceActivities
@@ -1134,7 +1134,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/outreachAndCommunityServiceActivity
+        template: defaults/data/persons/outreachAndCommunityServiceActivity.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: outreachAndCommunityServiceActivityType
@@ -1143,7 +1143,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/professionalServiceActivityType
+          template: defaults/data/persons/professionalServiceActivityType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
     nestedDescriptors:
@@ -1153,7 +1153,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/professionalServiceActivityRole
+          template: defaults/data/persons/professionalServiceActivityRole.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: outreachAndCommunityServiceActivityStartDate
@@ -1162,7 +1162,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/professionalServiceActivityStartDate
+          template: defaults/data/persons/professionalServiceActivityStartDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: outreachAndCommunityServiceActivityEndDate
@@ -1171,7 +1171,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/professionalServiceActivityEndDate
+          template: defaults/data/persons/professionalServiceActivityEndDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: performsTechnique
@@ -1181,7 +1181,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/performsTechnique
+        template: defaults/data/persons/performsTechnique.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: performsTechniqueType
@@ -1190,7 +1190,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/performsTechniqueType
+          template: defaults/data/persons/performsTechniqueType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
   - descriptor:
@@ -1201,7 +1201,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/hasExpertiseInTechnique
+        template: defaults/data/persons/hasExpertiseInTechnique.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: hasExpertiseInTechniqueType
@@ -1210,7 +1210,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/hasExpertiseInTechniqueType
+          template: defaults/data/persons/hasExpertiseInTechniqueType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
   - descriptor:
@@ -1218,56 +1218,56 @@ fields:
       destination:
         type: string
       source:
-        template: person/eraCommonsId
+        template: defaults/data/persons/eraCommonsId.sparql
         predicate: http://vivoweb.org/ontology/core#eRACommonsId
   - descriptor:
       name: isiResearcherId
       destination:
         type: string
       source:
-        template: person/isiResearcherId
+        template: defaults/data/persons/isiResearcherId.sparql
         predicate: http://vivoweb.org/ontology/core#researcherId
   - descriptor:
       name: scopusId
       destination:
         type: string
       source:
-        template: person/scopusId
+        template: defaults/data/persons/scopusId.sparql
         predicate: http://vivoweb.org/ontology/core#scopusId
   - descriptor:
       name: healthCareProviderId
       destination:
         type: string
       source:
-        template: person/healthCareProviderId
+        template: defaults/data/persons/healthCareProviderId.sparql
         predicate: http://purl.obolibrary.org/obo/ARG_0000197
   - descriptor:
       name: email
       destination:
         type: string
       source:
-        template: person/email
+        template: defaults/data/persons/email.sparql
         predicate: http://www.w3.org/2006/vcard/ns#email
   - descriptor:
       name: firstName
       destination:
         type: text_general
       source:
-        template: person/firstName
+        template: defaults/data/persons/firstName.sparql
         predicate: http://www.w3.org/2006/vcard/ns#givenName
   - descriptor:
       name: middleName
       destination:
         type: text_general
       source:
-        template: person/middleName
+        template: defaults/data/persons/middleName.sparql
         predicate: http://www.w3.org/2006/vcard/ns#middleName
   - descriptor:
       name: lastName
       destination:
         type: text_general
       source:
-        template: person/lastName
+        template: defaults/data/persons/lastName.sparql
         predicate: http://www.w3.org/2006/vcard/ns#familyName
   - descriptor:
       name: streetAddress
@@ -1275,7 +1275,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: person/streetAddress
+        template: defaults/data/persons/streetAddress.sparql
         predicate: http://www.w3.org/2006/vcard/ns#streetAddress
   - descriptor:
       name: locality
@@ -1283,7 +1283,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: person/locality
+        template: defaults/data/persons/locality.sparql
         predicate: http://www.w3.org/2006/vcard/ns#locality
   - descriptor:
       name: region
@@ -1291,7 +1291,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: person/region
+        template: defaults/data/persons/region.sparql
         predicate: http://www.w3.org/2006/vcard/ns#region
   - descriptor:
       name: postalCode
@@ -1299,7 +1299,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: person/postalCode
+        template: defaults/data/persons/postalCode.sparql
         predicate: http://www.w3.org/2006/vcard/ns#postalCode
   - descriptor:
       name: country
@@ -1307,7 +1307,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: person/country
+        template: defaults/data/persons/country.sparql
         predicate: http://www.w3.org/2006/vcard/ns#country
   - descriptor:
       name: geographicLocation
@@ -1315,7 +1315,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: person/geographicLocation
+        template: defaults/data/persons/geographicLocation.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: locatedInFacility
@@ -1324,7 +1324,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/locatedInFacility
+        template: defaults/data/persons/locatedInFacility.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: fax
@@ -1332,7 +1332,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: person/fax
+        template: defaults/data/persons/fax.sparql
         predicate: http://www.w3.org/2006/vcard/ns#fax
   - descriptor:
       name: organizations
@@ -1340,7 +1340,7 @@ fields:
         type: strings
         multiValued: true
       source:
-        template: person/organization
+        template: defaults/data/persons/organization.sparql
         predicate: http://vivoweb.org/ontology/core#relates
   - descriptor:
       name: schools
@@ -1348,7 +1348,7 @@ fields:
         type: strings
         multiValued: true
       source:
-        template: person/school
+        template: defaults/data/persons/school.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: isni
@@ -1356,7 +1356,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: person/isni
+        template: defaults/data/persons/isni.sparql
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#ISNI
   - descriptor:
       name: netid
@@ -1364,7 +1364,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: person/netid
+        template: defaults/data/persons/netid.sparql
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#NETID
   - descriptor:
       name: researcherId
@@ -1372,7 +1372,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: person/researcherId
+        template: defaults/data/persons/researcherId.sparql
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#ResearcherId
   - descriptor:
       name: twitter
@@ -1380,7 +1380,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: person/twitter
+        template: defaults/data/persons/twitter.sparql
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#twitterID
   - descriptor:
       name: uid
@@ -1388,7 +1388,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: person/uid
+        template: defaults/data/persons/uid.sparql
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#UID
   - descriptor:
       name: uin
@@ -1396,7 +1396,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: person/uin
+        template: defaults/data/persons/uin.sparql
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#UIN
   - descriptor:
       name: youtube
@@ -1404,7 +1404,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: person/youtube
+        template: defaults/data/persons/youtube.sparql
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#youtube
   - descriptor:
       name: inTheNews
@@ -1413,7 +1413,7 @@ fields:
         type: strings
         multiValued: true
       source:
-        template: person/inTheNews
+        template: defaults/data/persons/inTheNews.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: futureResearchIdeas
@@ -1422,7 +1422,7 @@ fields:
         type: strings
         multiValued: true
       source:
-        template: person/futureResearchIdeas
+        template: defaults/data/persons/futureResearchIdeas.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: etdChairOf
@@ -1432,7 +1432,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: person/etdChairOf
+        template: defaults/data/persons/etdChairOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: etdChairOfUrl
@@ -1441,7 +1441,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/etdChairOfUrl
+          template: defaults/data/persons/etdChairOfUrl.sparql
           predicate: http://www.w3.org/2006/vcard/ns#url
     nestedDescriptors:
       - name: etdChairOfPublicationDate
@@ -1450,7 +1450,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: person/etdChairOfPublicationDate
+          template: defaults/data/persons/etdChairOfPublicationDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: capstoneAdvisedOf
@@ -1459,7 +1459,7 @@ fields:
         type: strings
         multiValued: true
       source:
-        template: person/capstoneAdvisedOf
+        template: defaults/data/persons/capstoneAdvisedOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: capstoneAdvisedOfUrl
@@ -1467,7 +1467,7 @@ fields:
           type: strings
           multiValued: true
         source:
-          template: person/capstoneAdvisedOfUrl
+          template: defaults/data/persons/capstoneAdvisedOfUrl.sparql
           predicate: http://www.w3.org/2006/vcard/ns#url
     nestedDescriptors:
       - name: capstoneAdvisedOfPublicationDate
@@ -1475,21 +1475,21 @@ fields:
           type: pdates
           multiValued: true
         source:
-          template: person/capstoneAdvisedOfPublicationDate
+          template: defaults/data/persons/capstoneAdvisedOfPublicationDate.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: featuredProfileDisplay
       destination:
         type: string
       source:
-        template: person/featuredProfileDisplay
+        template: defaults/data/persons/featuredProfileDisplay.sparql
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#FeaturedProfileDisplay
   - descriptor:
       name: publicationToInterfolio
       destination:
         type: string
       source:
-        template: person/publicationToInterfolio
+        template: defaults/data/persons/publicationToInterfolio.sparql
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#PublicationToInterfolio
   - descriptor:
       name: image
@@ -1497,7 +1497,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: common/image
+        template: defaults/data/common/image.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
   - descriptor:
       name: thumbnail
@@ -1505,7 +1505,7 @@ fields:
         type: string
         indexed: false
       source:
-        template: common/thumbnail
+        template: defaults/data/common/thumbnail.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
   - descriptor:
       name: websites
@@ -1515,7 +1515,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: common/website
+        template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: websiteUrl
@@ -1524,7 +1524,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: common/websiteUrl
+          template: defaults/data/common/websiteUrl.sparql
           predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
       name: geographicFocus
@@ -1534,7 +1534,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: common/geographicFocus
+        template: defaults/data/common/geographicFocus.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: sameAs
@@ -1544,7 +1544,7 @@ fields:
         indexed: false
         multiValued: true
       source:
-        template: common/sameAs
+        template: defaults/data/common/sameAs.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: modTime
@@ -1552,7 +1552,7 @@ fields:
         type: pdate
         docValues: true
       source:
-        template: common/modTime
+        template: defaults/data/common/modTime.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime
   - descriptor:
       name: type
@@ -1561,6 +1561,6 @@ fields:
         multiValued: true
         docValues: true
       source:
-        template: common/type
+        template: defaults/data/common/type.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
         parse: true
