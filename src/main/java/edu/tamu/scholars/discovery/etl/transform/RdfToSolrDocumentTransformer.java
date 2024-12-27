@@ -1,16 +1,13 @@
 package edu.tamu.scholars.discovery.etl.transform;
 
-import java.util.List;
 import java.util.Map;
 
-import edu.tamu.scholars.discovery.etl.model.DataField;
+import edu.tamu.scholars.discovery.etl.model.Data;
 
 public class RdfToSolrDocumentTransformer implements DataTransformer<Map<String, Object>, Map<String, Object>> {
 
-    private final Map<String, String> properties;
+    public RdfToSolrDocumentTransformer(Data data) {
 
-    public RdfToSolrDocumentTransformer(Map<String, String> properties) {
-        this.properties = properties;
     }
 
     @Override
@@ -19,12 +16,12 @@ public class RdfToSolrDocumentTransformer implements DataTransformer<Map<String,
     }
 
     @Override
-    public void preProcess(List<DataField> fields) {
+    public void preProcess() {
 
     }
 
     @Override
-    public void postProcess(List<DataField> fields) {
+    public void postProcess() {
 
     }
 

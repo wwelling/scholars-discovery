@@ -3,7 +3,7 @@ collectionSource:
   template: collection.sparql
   predicate: http://purl.org/ontology/bibo/Document
 extractor:
-  id: 1
+  id: 2
   version: 1
 transformer:
   id: 1

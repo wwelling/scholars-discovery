@@ -3,7 +3,7 @@ collectionSource:
   template: collection.sparql
   predicate: http://xmlns.com/foaf/0.1/Organization
 extractor:
-  id: 1
+  id: 2
   version: 1
 transformer:
   id: 1

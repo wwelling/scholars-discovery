@@ -3,7 +3,7 @@ collectionSource:
   template: collection.sparql
   predicate: http://purl.obolibrary.org/obo/BFO_0000015
 extractor:
-  id: 1
+  id: 2
   version: 1
 transformer:
   id: 1

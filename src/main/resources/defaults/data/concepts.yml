@@ -3,7 +3,7 @@ collectionSource:
   template: collection.sparql
   predicate: http://www.w3.org/2004/02/skos/core#Concept
 extractor:
-  id: 1
+  id: 2
   version: 1
 transformer:
   id: 1

@@ -5,14 +5,22 @@ import java.util.Map;
 
 import reactor.core.publisher.Flux;
 
+import edu.tamu.scholars.discovery.etl.model.CollectionSource;
+import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 
 public class HttpSparqlExtractor implements DataExtractor<Map<String, Object>> {
 
     private final Map<String, String> properties;
 
-    public HttpSparqlExtractor(Map<String, String> properties) {
-        this.properties = properties;
+    private final CollectionSource collectionSource;
+
+    private final List<DataField> fields;
+
+    public HttpSparqlExtractor(Data data) {
+        this.properties = data.getExtractor().getAttributes();
+        this.collectionSource = data.getCollectionSource();
+        this.fields = data.getFields();
     }
 
     @Override
@@ -21,12 +29,12 @@ public class HttpSparqlExtractor implements DataExtractor<Map<String, Object>> {
     }
 
     @Override
-    public void preProcess(List<DataField> fields) {
+    public void preProcess() {
 
     }
 
     @Override
-    public void postProcess(List<DataField> fields) {
+    public void postProcess() {
 
     }
 
@@ -37,12 +45,12 @@ public class HttpSparqlExtractor implements DataExtractor<Map<String, Object>> {
 
     @Override
     public Flux<Map<String, Object>> extract() {
-        return null;
+        return Flux.empty();
     }
 
     @Override
     public Map<String, Object> extract(String subject) {
-        return null;
+        return Map.of();
     }
 
 }

@@ -37,6 +37,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
+import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
 import edu.tamu.scholars.discovery.etl.model.FieldDestination;
@@ -44,6 +45,8 @@ import edu.tamu.scholars.discovery.etl.model.FieldDestination;
 public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
 
     private final Map<String, String> properties;
+
+    private final List<DataField> fields;
 
     private final ObjectMapper objectMapper;
 
@@ -59,8 +62,10 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
 
     private final Map<Pair<String, String>, JsonNode> existingCopyFields;
 
-    public SolrIndexLoader(Map<String, String> properties) {
-        this.properties = properties;
+    public SolrIndexLoader(Data data) {
+        this.properties = data.getLoader().getAttributes();
+        this.fields = data.getFields();
+
         this.objectMapper = new ObjectMapper();
 
         this.connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
@@ -96,12 +101,12 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
     }
 
     @Override
-    public void preProcess(List<DataField> fields) {
-        initializeFields(fields);
+    public void preProcess() {
+        initializeFields();
     }
 
     @Override
-    public void postProcess(List<DataField> fields) {
+    public void postProcess() {
 
     }
 
@@ -134,7 +139,7 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
 
     }
 
-    private void initializeFields(List<DataField> fields) {
+    private void initializeFields() {
         ObjectNode schemaRequestNode = objectMapper.createObjectNode();
         ArrayNode addFieldNodes = objectMapper.createArrayNode();
         ArrayNode addCopyFieldNodes = objectMapper.createArrayNode();

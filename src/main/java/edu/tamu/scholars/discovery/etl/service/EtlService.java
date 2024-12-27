@@ -1,17 +1,22 @@
 package edu.tamu.scholars.discovery.etl.service;
 
-import java.util.List;
+import java.util.Collection;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
+import edu.tamu.scholars.discovery.etl.DataProcessor;
+import edu.tamu.scholars.discovery.etl.extract.DataExtractor;
 import edu.tamu.scholars.discovery.etl.load.DataLoader;
+import edu.tamu.scholars.discovery.etl.model.ConfigurableProcessor;
 import edu.tamu.scholars.discovery.etl.model.Data;
-import edu.tamu.scholars.discovery.etl.model.DataField;
-import edu.tamu.scholars.discovery.etl.model.Loader;
+import edu.tamu.scholars.discovery.etl.model.DataProcessorType;
 import edu.tamu.scholars.discovery.etl.model.repo.DataRepo;
+import edu.tamu.scholars.discovery.etl.transform.DataTransformer;
 
 @Service
 @DependsOn("defaultsService")
@@ -28,33 +33,90 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
         process();
     }
 
-    private void process() {
+    private <I, O> void process() {
         init();
         for (Data data : dataRepo.findAll()) {
-            System.out.println(data.getName());
+
+            EtlContext<I, O> etlContext = createEtlContext(data);
+
+            etlContext.extract()
+                    .map(etlContext::transform)
+                    .buffer(500)
+                    .subscribe(etlContext::load);
         }
         destroy();
     }
 
     private void init() {
         for (Data data : dataRepo.findAll()) {
-            List<DataField> fields = data.getFields();
-            Loader loader = data.getLoader();
-            DataLoader<?> dataLoader = loader.getType()
-                    .getDataProcessor(loader.getAttributes());
-            dataLoader.init();
-            dataLoader.preProcess(fields);
+            init(data.getExtractor(), data);
+            init(data.getTransformer(), data);
+            init(data.getLoader(), data);
         }
     }
 
     private void destroy() {
         for (Data data : dataRepo.findAll()) {
-            List<DataField> fields = data.getFields();
-            Loader loader = data.getLoader();
-            DataLoader<?> dataLoader = loader.getType()
-                    .getDataProcessor(loader.getAttributes());
-            dataLoader.postProcess(fields);
-            dataLoader.destroy();
+            destroy(data.getExtractor(), data);
+            destroy(data.getTransformer(), data);
+            destroy(data.getLoader(), data);
+        }
+    }
+
+    private <P extends DataProcessor, T extends DataProcessorType<P>, C extends ConfigurableProcessor<T>> void init(
+            C processor, Data data) {
+        P dataProcessor = getTypedDataProcessor(processor, data);
+        dataProcessor.init();
+        dataProcessor.preProcess();
+    }
+
+    private <P extends DataProcessor, T extends DataProcessorType<P>, C extends ConfigurableProcessor<T>> void destroy(
+            C processor, Data data) {
+        P dataProcessor = getTypedDataProcessor(processor, data);
+        dataProcessor.postProcess();
+        dataProcessor.destroy();
+    }
+
+    private <P extends DataProcessor> P getTypedDataProcessor(ConfigurableProcessor<? extends DataProcessorType<P>> processor, Data data) {
+        return processor.getType().getDataProcessor(data);
+    }
+
+    private <I, O> EtlContext<I, O> createEtlContext(Data data) {
+        return new EtlContext<>(getExtractor(data), getTransformer(data), getLoader(data));
+    }
+
+    // Type-safe extraction methods
+    @SuppressWarnings("unchecked") // Safe cast due to type constraints in DataExtractorType
+    private <I> DataExtractor<I> getExtractor(Data data) {
+        return (DataExtractor<I>) getTypedDataProcessor(data.getExtractor(), data);
+    }
+
+    @SuppressWarnings("unchecked") // Safe cast due to type constraints in DataTransformerType
+    private <I, O> DataTransformer<I, O> getTransformer(Data data) {
+        return (DataTransformer<I, O>) getTypedDataProcessor(data.getTransformer(), data);
+    }
+
+    @SuppressWarnings("unchecked") // Safe cast due to type constraints in DataLoaderType
+    private <O> DataLoader<O> getLoader(Data data) {
+        return (DataLoader<O>) getTypedDataProcessor(data.getLoader(), data);
+    }
+
+    @RequiredArgsConstructor
+    private static class EtlContext<I, O> {
+        private final DataExtractor<I> extractor;
+        private final DataTransformer<I, O> transformer;
+        private final DataLoader<O> loader;
+
+        public Flux<I> extract() {
+            return extractor.extract();
+        }
+
+        public O transform(I input) {
+            return transformer.transform(input);
+        }
+
+        public void load(Collection<O> input) {
+            loader.load(input);
         }
     }
 
