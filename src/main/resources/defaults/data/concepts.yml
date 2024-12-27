@@ -27,6 +27,7 @@ fields:
       nested: true
       destination:
         type: strings
+        multiValued: true
         docValues: true
       source:
         template: concept/associatedDepartment
@@ -38,6 +39,7 @@ fields:
         type: strings
         copyTo:
         - _text_
+        multiValued: true
         docValues: true
       source:
         template: concept/researchAreaOf
@@ -49,6 +51,7 @@ fields:
         type: strings
         copyTo:
         - _text_
+        multiValued: true
         docValues: true
       source:
         template: concept/awardOrHonorFor
@@ -57,6 +60,7 @@ fields:
       - name: awardOrHonorForType
         destination:
           type: strings
+          multiValued: true
         source:
           template: concept/awardOrHonorForType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -69,6 +73,7 @@ fields:
         copyTo:
         - _text_
         - awardConferredBy_str
+        multiValued: true
       source:
         template: concept/awardConferredBy
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -76,6 +81,7 @@ fields:
       - name: awardConferredByType
         destination:
           type: strings
+          multiValued: true
         source:
           template: concept/awardConferredByType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -86,6 +92,7 @@ fields:
         type: strings
         copyTo:
         - _text_
+        multiValued: true
       source:
         template: concept/awardConferredByPreferredLabel
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardConferredBy_label
@@ -103,6 +110,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: concept/receipts
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -111,6 +119,7 @@ fields:
         destination:
           type: strings
           indexed: false
+          multiValued: true
         source:
           template: concept/receiptRecipientName
           predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -120,6 +129,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: concept/broaderConcept
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -129,6 +139,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: concept/narrowerConcept
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -138,6 +149,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: concept/relatedConcept
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -170,6 +182,7 @@ fields:
         nested: true
         destination:
           type: strings
+          multiValued: true
         source:
           template: concept/futureResearchIdeaOfOrganization
           predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -179,6 +192,7 @@ fields:
         type: strings
         copyTo:
         - _text_
+        multiValued: true
       source:
         template: concept/keyword
         predicate: http://vivoweb.org/ontology/core#freetextKeyword
@@ -221,6 +235,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: common/website
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -229,6 +244,7 @@ fields:
         destination:
           type: strings
           indexed: false
+          multiValued: true
         source:
           template: common/websiteUrl
           predicate: http://www.w3.org/2006/vcard/ns#url
@@ -238,6 +254,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: common/geographicFocus
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -247,6 +264,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: common/sameAs
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -262,6 +280,7 @@ fields:
       name: type
       destination:
         type: strings
+        multiValued: true
         docValues: true
       source:
         template: common/type

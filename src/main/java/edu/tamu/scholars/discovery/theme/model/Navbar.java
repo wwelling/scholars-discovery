@@ -8,6 +8,7 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.FetchType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,11 +28,11 @@ public class Navbar implements Serializable {
     @Column(name = "navbar_logo_uri")
     private String logoUri;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "theme_navbar_links")
     private List<Link> links;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "theme_navbar_variables")
     private List<Style> variables;
 

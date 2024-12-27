@@ -8,6 +8,7 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.FetchType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +25,7 @@ public class Banner implements Serializable {
     @Column(name = "banner_alt_text")
     private String altText;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "theme_banner_variables")
     private List<Style> variables;
 

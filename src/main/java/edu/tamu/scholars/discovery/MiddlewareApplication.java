@@ -39,13 +39,13 @@ public class MiddlewareApplication {
 
     @PostConstruct
     public void echo() {
-        echo(Collection.class);
-        echo(Concept.class);
-        echo(Document.class);
-        echo(Organization.class);
-        echo(Person.class);
-        echo(Process.class);
-        echo(Relationship.class);
+        // echo(Collection.class);
+        // echo(Concept.class);
+        // echo(Document.class);
+        // echo(Organization.class);
+        // echo(Person.class);
+        // echo(Process.class);
+        // echo(Relationship.class);
     }
 
     public void echo(Class<?> clazz) {
@@ -101,7 +101,6 @@ public class MiddlewareApplication {
                     ? fieldType.name()
                     : fieldName;
 
-                boolean readonly = fieldType.readonly();
                 boolean stored = fieldType.stored();
                 boolean indexed = fieldType.indexed();
                 boolean docValues = fieldType.docValues();
@@ -151,9 +150,9 @@ public class MiddlewareApplication {
                     }
 
                     System.out.println("        required: " + required);
-                    System.out.println("        readonly: " + readonly);
                     System.out.println("        stored: " + stored);
                     System.out.println("        indexed: " + indexed);
+                    System.out.println("        multiValued: " + java.util.Collection.class.isAssignableFrom(field.getType()));
                     System.out.println("        docValues: " + docValues);
 
                     System.out.println("      source:");
@@ -196,9 +195,9 @@ public class MiddlewareApplication {
                     }
 
                     System.out.println("          required: " + required);
-                    System.out.println("          readonly: " + readonly);
                     System.out.println("          stored: " + stored);
                     System.out.println("          indexed: " + indexed);
+                    System.out.println("          multiValued: " + java.util.Collection.class.isAssignableFrom(field.getType()));
                     System.out.println("          docValues: " + docValues);
 
                     System.out.println("        source:");

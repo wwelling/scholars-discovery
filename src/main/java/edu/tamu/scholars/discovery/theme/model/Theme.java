@@ -8,6 +8,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -45,15 +46,15 @@ public class Theme extends Named {
     @Embedded
     private Footer footer;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "theme_colors")
     private List<Style> colors;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "theme_variants")
     private List<Style> variants;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "theme_variables")
     private List<Style> variables;
 

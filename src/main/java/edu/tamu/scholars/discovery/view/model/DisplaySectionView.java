@@ -49,11 +49,11 @@ public class DisplaySectionView extends FieldView {
     @Column(nullable = false, columnDefinition = "TEXT")
     public String template;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "discovery_section_required_fields")
     private List<String> requiredFields;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "discovery_section_lazy_references")
     private List<String> lazyReferences;
 

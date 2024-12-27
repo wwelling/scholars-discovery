@@ -26,7 +26,14 @@ public class DataField extends Versioned {
 
     private static final long serialVersionUID = -284562394634567551L;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(
+        cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+        },
+        fetch = FetchType.LAZY
+    )
     @JoinColumn(name = "data_id", nullable = false)
     @JsonBackReference
     private Data data;

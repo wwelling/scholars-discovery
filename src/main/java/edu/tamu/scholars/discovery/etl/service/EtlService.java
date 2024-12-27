@@ -1,14 +1,16 @@
 package edu.tamu.scholars.discovery.etl.service;
 
+import java.util.List;
+
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Service;
 
+import edu.tamu.scholars.discovery.etl.load.DataLoader;
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
-import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
-import edu.tamu.scholars.discovery.etl.model.FieldDestination;
+import edu.tamu.scholars.discovery.etl.model.Loader;
 import edu.tamu.scholars.discovery.etl.model.repo.DataRepo;
 
 @Service
@@ -23,24 +25,37 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        for (Data data : dataRepo.findAll()) {
-            System.out.println("\n" + data.getName());
-
-            for (DataField field : data.getFields()) {
-                initializeDescriptor(field.getDescriptor());
-
-                field.getNestedDescriptors()
-                    .forEach(this::initializeDescriptor);
-            }
-        }
-
+        process();
     }
 
-    private void initializeDescriptor(DataFieldDescriptor descriptor) {
-        System.out.println("\t" + descriptor.getName());
+    private void process() {
+        init();
+        for (Data data : dataRepo.findAll()) {
+            System.out.println(data.getName());
+        }
+        destroy();
+    }
 
-        FieldDestination destination = descriptor.getDestination();
+    private void init() {
+        for (Data data : dataRepo.findAll()) {
+            List<DataField> fields = data.getFields();
+            Loader loader = data.getLoader();
+            DataLoader<?> dataLoader = loader.getType()
+                    .getDataProcessor(loader.getAttributes());
+            dataLoader.init();
+            dataLoader.preProcess(fields);
+        }
+    }
 
+    private void destroy() {
+        for (Data data : dataRepo.findAll()) {
+            List<DataField> fields = data.getFields();
+            Loader loader = data.getLoader();
+            DataLoader<?> dataLoader = loader.getType()
+                    .getDataProcessor(loader.getAttributes());
+            dataLoader.postProcess(fields);
+            dataLoader.destroy();
+        }
     }
 
 }

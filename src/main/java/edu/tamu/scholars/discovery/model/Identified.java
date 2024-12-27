@@ -16,7 +16,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 @ToString(onlyExplicitlyIncluded = true)
 @MappedSuperclass
 public abstract class Identified implements Serializable {

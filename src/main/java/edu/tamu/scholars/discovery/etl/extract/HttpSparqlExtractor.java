@@ -1,8 +1,11 @@
 package edu.tamu.scholars.discovery.etl.extract;
 
+import java.util.List;
 import java.util.Map;
 
 import reactor.core.publisher.Flux;
+
+import edu.tamu.scholars.discovery.etl.model.DataField;
 
 public class HttpSparqlExtractor implements DataExtractor<Map<String, Object>> {
 
@@ -18,12 +21,12 @@ public class HttpSparqlExtractor implements DataExtractor<Map<String, Object>> {
     }
 
     @Override
-    public void preProcess() {
+    public void preProcess(List<DataField> fields) {
 
     }
 
     @Override
-    public void postProcess() {
+    public void postProcess(List<DataField> fields) {
 
     }
 

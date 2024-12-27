@@ -10,6 +10,7 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -38,7 +39,7 @@ public class DiscoveryView extends CollectionView {
     @Column(nullable = true)
     private String defaultSearchField;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "discovery_view_highlight_fields")
     private List<String> highlightFields;
 

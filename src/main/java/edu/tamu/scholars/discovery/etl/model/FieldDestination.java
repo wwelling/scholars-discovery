@@ -7,6 +7,7 @@ import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.FetchType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,14 +24,11 @@ public class FieldDestination implements Serializable {
     @Column(nullable = true)
     private String defaultValue;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> copyTo;
 
     @Column(nullable = false)
     private boolean required;
-
-    @Column(nullable = false)
-    private boolean readonly;
 
     @Column(nullable = false)
     private boolean stored;
@@ -39,15 +37,18 @@ public class FieldDestination implements Serializable {
     private boolean indexed;
 
     @Column(nullable = false)
+    private boolean multiValued;
+
+    @Column(nullable = false)
     private boolean docValues;
 
     public FieldDestination() {
         super();
         this.copyTo = new ArrayList<>();
         this.required = false;
-        this.readonly = false;
         this.stored = true;
         this.indexed = true;
+        this.multiValued = false;
         this.docValues = false;
     }
 

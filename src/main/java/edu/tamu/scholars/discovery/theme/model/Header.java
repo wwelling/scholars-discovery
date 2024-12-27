@@ -8,6 +8,7 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
+import jakarta.persistence.FetchType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +25,7 @@ public class Header implements Serializable {
     @Embedded
     private Banner banner;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "theme_header_variables")
     private List<Style> variables;
 

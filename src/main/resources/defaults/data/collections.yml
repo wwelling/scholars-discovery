@@ -44,6 +44,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: collection/publicationVenueFor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -53,6 +54,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: collection/editor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -62,6 +64,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: collection/translator
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -96,6 +99,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: collection/hasSubjectArea
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -105,6 +109,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: collection/feature
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -114,6 +119,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: collection/outputOfProcessOrEvent
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -123,6 +129,7 @@ fields:
         type: strings
         copyTo:
         - _text_
+        multiValued: true
       source:
         template: collection/keyword
         predicate: http://vivoweb.org/ontology/core#freetextKeyword
@@ -160,6 +167,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: collection/isAbout
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -169,6 +177,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: collection/specifiedOutputOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -178,6 +187,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: collection/mention
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -187,6 +197,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: collection/participatesIn
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -196,6 +207,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: collection/supportedBy
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -221,6 +233,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: common/website
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -229,6 +242,7 @@ fields:
         destination:
           type: strings
           indexed: false
+          multiValued: true
         source:
           template: common/websiteUrl
           predicate: http://www.w3.org/2006/vcard/ns#url
@@ -238,6 +252,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: common/geographicFocus
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -247,6 +262,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: common/sameAs
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -262,6 +278,7 @@ fields:
       name: type
       destination:
         type: strings
+        multiValued: true
         docValues: true
       source:
         template: common/type

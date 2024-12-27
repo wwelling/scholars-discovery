@@ -12,6 +12,7 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,7 +37,7 @@ public class Grouping implements Serializable {
     @Enumerated(EnumType.STRING)
     private OpKey opKey;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "index_options")
     private List<String> options;
 

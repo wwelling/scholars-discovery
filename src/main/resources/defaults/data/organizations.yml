@@ -38,6 +38,7 @@ fields:
         type: strings
         copyTo:
         - _text_
+        multiValued: true
       source:
         template: organization/offersDegree
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -64,6 +65,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/sponsorsAwardOrHonor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -73,6 +75,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/awardOrHonorGiven
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -82,6 +85,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/awardOrHonorReceived
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -91,6 +95,7 @@ fields:
         type: strings
         copyTo:
         - _text_
+        multiValued: true
       source:
         template: organization/keyword
         predicate: http://vivoweb.org/ontology/core#freetextKeyword
@@ -100,6 +105,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/organizationForTraining
         predicate: http://vivoweb.org/ontology/core#majorField
@@ -109,6 +115,7 @@ fields:
         destination:
           type: strings
           indexed: false
+          multiValued: true
         source:
           template: organization/organizationForTrainingTrainee
           predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -117,6 +124,7 @@ fields:
         destination:
           type: strings
           indexed: false
+          multiValued: true
         source:
           template: organization/organizationForTrainingDegree
           predicate: http://vivoweb.org/ontology/core#abbreviation
@@ -125,6 +133,7 @@ fields:
         destination:
           type: pdates
           indexed: false
+          multiValued: true
         source:
           template: organization/organizationForTrainingStartDate
           predicate: http://vivoweb.org/ontology/core#dateTime
@@ -133,6 +142,7 @@ fields:
         destination:
           type: pdates
           indexed: false
+          multiValued: true
         source:
           template: organization/organizationForTrainingEndDate
           predicate: http://vivoweb.org/ontology/core#dateTime
@@ -141,6 +151,7 @@ fields:
       nested: true
       destination:
         type: strings
+        multiValued: true
       source:
         template: organization/people
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -149,6 +160,7 @@ fields:
         destination:
           type: strings
           indexed: false
+          multiValued: true
         source:
           template: organization/peopleType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -157,6 +169,7 @@ fields:
       - name: peopleTitle
         destination:
           type: strings
+          multiValued: true
         source:
           template: organization/peopleTitle
           predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -166,6 +179,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/hasSubOrganization
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -174,6 +188,7 @@ fields:
         destination:
           type: strings
           indexed: false
+          multiValued: true
         source:
           template: organization/hasSubOrganizationType
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -183,6 +198,7 @@ fields:
       nested: true
       destination:
         type: strings
+        multiValued: true
         docValues: true
       source:
         template: organization/organizationWithin
@@ -193,6 +209,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/leadOrganizationOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -202,6 +219,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/hasCollaboratingOrganizationOrGroup
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -211,6 +229,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/hasAffiliatedOrganization
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -220,6 +239,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/memberOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -229,6 +249,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/clinicalActivity
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -238,6 +259,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/convenerOfEvent
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -247,6 +269,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/attendedEvent
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -257,6 +280,7 @@ fields:
         type: text_general
         copyTo:
         - _text_
+        multiValued: true
       source:
         template: organization/publication
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -265,6 +289,7 @@ fields:
       nested: true
       destination:
         type: strings
+        multiValued: true
       source:
         template: organization/publisherOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -275,6 +300,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/presentation
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -284,6 +310,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/featuredIn
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -293,6 +320,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/assigneeForPatent
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -302,6 +330,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/translatorOf
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -310,6 +339,7 @@ fields:
       nested: true
       destination:
         type: strings
+        multiValued: true
       source:
         template: organization/awardsGrant
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -318,6 +348,7 @@ fields:
         destination:
           type: pdates
           indexed: false
+          multiValued: true
         source:
           template: organization/awardsGrantDate
           predicate: http://vivoweb.org/ontology/core#dateTime
@@ -327,6 +358,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/administersGrant
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -335,6 +367,7 @@ fields:
         destination:
           type: pdates
           indexed: false
+          multiValued: true
         source:
           template: organization/administersGrantDate
           predicate: http://vivoweb.org/ontology/core#dateTime
@@ -344,6 +377,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/subcontractsGrant
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -352,6 +386,7 @@ fields:
         destination:
           type: pdates
           indexed: false
+          multiValued: true
         source:
           template: organization/subcontractsGrantDate
           predicate: http://vivoweb.org/ontology/core#dateTime
@@ -361,6 +396,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/performsHumanStudy
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -370,6 +406,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/contractOrProviderForService
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -379,6 +416,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/outreachAndCommunityServiceActivity
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -388,6 +426,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/hasEquipment
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -396,6 +435,7 @@ fields:
       nested: true
       destination:
         type: strings
+        multiValued: true
       source:
         template: organization/offersCourse
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -477,6 +517,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/locatedAtFacility
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -486,6 +527,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/predecessorOrganization
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -495,6 +537,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/successorOrganization
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -504,6 +547,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: organization/governingAuthorityFor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -512,6 +556,7 @@ fields:
       nested: true
       destination:
         type: strings
+        multiValued: true
         docValues: true
       source:
         template: organization/affiliatedResearchArea
@@ -547,6 +592,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: common/website
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -555,6 +601,7 @@ fields:
         destination:
           type: strings
           indexed: false
+          multiValued: true
         source:
           template: common/websiteUrl
           predicate: http://www.w3.org/2006/vcard/ns#url
@@ -564,6 +611,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: common/geographicFocus
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -573,6 +621,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: common/sameAs
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -588,6 +637,7 @@ fields:
       name: type
       destination:
         type: strings
+        multiValued: true
         docValues: true
       source:
         template: common/type

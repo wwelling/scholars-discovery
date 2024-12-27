@@ -8,6 +8,7 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.FetchType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,11 +22,11 @@ public class Home implements Serializable {
     @Column(nullable = false)
     private boolean heroesNavigable = false;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "theme_home_heroes")
     private List<Hero> heroes;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "theme_home_variables")
     private List<Style> variables;
 

@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -20,7 +21,7 @@ import edu.tamu.scholars.discovery.model.Named;
 @SuppressWarnings("java:S2160") // the inherited equals is of id
 public abstract class ConfigurableProcessor<T extends DataProcessorType<?>> extends Named {
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @MapKeyColumn(name = "key")
     @Column(name = "attribute", columnDefinition = "TEXT")
     private Map<String, String> attributes;

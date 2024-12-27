@@ -1,5 +1,6 @@
 package edu.tamu.scholars.discovery.etl.extract;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -7,6 +8,8 @@ import org.apache.jena.query.Dataset;
 import org.apache.jena.tdb2.TDB2;
 import org.apache.jena.tdb2.TDB2Factory;
 import reactor.core.publisher.Flux;
+
+import edu.tamu.scholars.discovery.etl.model.DataField;
 
 public class TdbSparqlExtractor implements DataExtractor<Map<String, Object>> {
 
@@ -29,12 +32,12 @@ public class TdbSparqlExtractor implements DataExtractor<Map<String, Object>> {
     }
 
     @Override
-    public void preProcess() {
+    public void preProcess(List<DataField> fields) {
 
     }
 
     @Override
-    public void postProcess() {
+    public void postProcess(List<DataField> fields) {
 
     }
 

@@ -38,6 +38,7 @@ fields:
         type: strings
         copyTo:
         - _text_
+        multiValued: true
       source:
         template: process/author
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -46,6 +47,7 @@ fields:
         nested: true
         destination:
           type: strings
+          multiValued: true
         source:
           template: process/authorOrganization
           predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -53,6 +55,7 @@ fields:
       name: authorList
       destination:
         type: strings
+        multiValued: true
       source:
         template: process/authorList
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#fullAuthorList
@@ -70,6 +73,7 @@ fields:
       nested: true
       destination:
         type: strings
+        multiValued: true
         docValues: true
       source:
         template: process/offeredBy
@@ -155,6 +159,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: process/occursWithinEvent
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -164,6 +169,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: process/includesEvent
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -173,6 +179,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: process/inEventSeries
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -184,6 +191,7 @@ fields:
         copyTo:
         - _text_
         - participants_str
+        multiValued: true
       source:
         template: process/participant
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -192,6 +200,7 @@ fields:
         destination:
           type: strings
           indexed: false
+          multiValued: true
         source:
           template: process/participantId
           predicate: http://purl.obolibrary.org/obo/RO_0000052
@@ -201,6 +210,7 @@ fields:
         destination:
           type: strings
           indexed: false
+          multiValued: true
         source:
           template: process/participantRole
           predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -208,6 +218,7 @@ fields:
       - name: participantDateTimeIntervalStart
         destination:
           type: pdates
+          multiValued: true
         source:
           template: process/participantDateTimeIntervalStart
           predicate: http://vivoweb.org/ontology/core#dateTime
@@ -215,6 +226,7 @@ fields:
       - name: participantDateTimeIntervalEnd
         destination:
           type: pdates
+          multiValued: true
         source:
           template: process/participantDateTimeIntervalEnd
           predicate: http://vivoweb.org/ontology/core#dateTime
@@ -223,6 +235,7 @@ fields:
       nested: true
       destination:
         type: strings
+        multiValued: true
       source:
         template: process/hasSubjectArea
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -232,6 +245,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: process/hasPrerequisite
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -241,6 +255,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: process/prerequisiteFor
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -258,6 +273,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: process/outputPublicationOrOtherWork
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -267,6 +283,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: process/relatedDocument
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -284,6 +301,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: process/heldInFacility
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -293,6 +311,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: process/heldInGeographicLocation
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -302,6 +321,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: process/hasOutput
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -311,6 +331,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: process/hasParticipant
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -336,6 +357,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: common/website
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -344,6 +366,7 @@ fields:
         destination:
           type: strings
           indexed: false
+          multiValued: true
         source:
           template: common/websiteUrl
           predicate: http://www.w3.org/2006/vcard/ns#url
@@ -353,6 +376,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: common/geographicFocus
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -362,6 +386,7 @@ fields:
       destination:
         type: strings
         indexed: false
+        multiValued: true
       source:
         template: common/sameAs
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -377,6 +402,7 @@ fields:
       name: type
       destination:
         type: strings
+        multiValued: true
         docValues: true
       source:
         template: common/type

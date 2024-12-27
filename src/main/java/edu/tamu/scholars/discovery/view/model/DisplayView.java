@@ -41,7 +41,7 @@ public class DisplayView extends View {
 
     private static final long serialVersionUID = 501234567890987654L;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "display_view_types")
     private List<String> types;
 
@@ -65,12 +65,12 @@ public class DisplayView extends View {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ExportView> exportViews;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @MapKeyColumn(name = "name")
     @Column(name = "meta_template", columnDefinition = "TEXT")
     private Map<String, String> metaTemplates;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @MapKeyColumn(name = "name")
     @Column(name = "embed_template", columnDefinition = "TEXT")
     private Map<String, String> embedTemplates;

@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,10 +23,10 @@ public abstract class FieldView extends OrderedView {
     @Column(nullable = false)
     public String field;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<Filter> filters;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<Sort> sort;
 
     protected FieldView() {

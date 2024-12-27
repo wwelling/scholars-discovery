@@ -9,6 +9,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -31,30 +32,30 @@ public abstract class CollectionView extends View {
     @Enumerated(EnumType.STRING)
     private Layout layout;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @MapKeyColumn(name = "key")
     @Column(name = "template", columnDefinition = "TEXT")
     private Map<String, String> templates;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<String> styles;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<String> fields;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<Facet> facets;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<Filter> filters;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<Boost> boosts;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<Sort> sort;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<ExportField> export;
 
     protected CollectionView() {
