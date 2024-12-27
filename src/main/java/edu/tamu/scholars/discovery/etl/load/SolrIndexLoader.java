@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -46,7 +47,7 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
 
     private final Map<String, String> properties;
 
-    private final List<DataField> fields;
+    private final Set<DataField> fields;
 
     private final ObjectMapper objectMapper;
 
@@ -176,7 +177,7 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
             addFieldNodes.add(buildAddFieldNode(descriptor));
         }
 
-        List<String> copyTo = descriptor
+        Set<String> copyTo = descriptor
                 .getDestination()
                 .getCopyTo();
 

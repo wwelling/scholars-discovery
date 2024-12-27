@@ -1,7 +1,7 @@
 package edu.tamu.scholars.discovery.etl.extract;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import reactor.core.publisher.Flux;
 
@@ -15,7 +15,7 @@ public class HttpSparqlExtractor implements DataExtractor<Map<String, Object>> {
 
     private final CollectionSource collectionSource;
 
-    private final List<DataField> fields;
+    private final Set<DataField> fields;
 
     public HttpSparqlExtractor(Data data) {
         this.properties = data.getExtractor().getAttributes();

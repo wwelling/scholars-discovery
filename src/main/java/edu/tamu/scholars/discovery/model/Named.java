@@ -12,7 +12,6 @@ import lombok.ToString;
 @Setter
 @ToString(callSuper = true, onlyExplicitlyIncluded = true)
 @MappedSuperclass
-@SuppressWarnings("java:S2160") // the inherited equals is of id
 public abstract class Named extends Versioned {
 
     @Size(min = 2, max = 64, message = "${Named.nameSize}")

@@ -24,7 +24,6 @@ import lombok.Setter;
 )
 // @ValidIndexField(message = "{DirectoryView.validIndexField}")
 // TODO: validate in handler before create and save
-@SuppressWarnings("java:S2160") // the inherited equals is of id
 public class DirectoryView extends CollectionView {
 
     private static final long serialVersionUID = 112233445566778899L;

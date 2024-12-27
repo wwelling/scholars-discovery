@@ -1,7 +1,7 @@
 package edu.tamu.scholars.discovery.etl.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -12,6 +12,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.NamedSubgraph;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -28,40 +31,75 @@ import edu.tamu.scholars.discovery.model.Named;
         @Index(name = "idx_data_name", columnList = "name")
     }
 )
-@SuppressWarnings("java:S2160") // the inherited equals is of id
+@NamedEntityGraph(
+    name = "Data.Graph",
+    attributeNodes = {
+        @NamedAttributeNode(value = "extractor", subgraph = "processorGraph"),
+        @NamedAttributeNode(value = "transformer", subgraph = "processorGraph"),
+        @NamedAttributeNode(value = "loader", subgraph = "processorGraph"),
+        @NamedAttributeNode(value = "fields", subgraph = "fieldGraph")
+    },
+    subgraphs = {
+        @NamedSubgraph(
+            name = "processorGraph",
+            attributeNodes = {
+                @NamedAttributeNode(value = "attributes")
+            }
+        ),
+        @NamedSubgraph(
+            name = "fieldGraph",
+            attributeNodes = {
+                @NamedAttributeNode(value = "descriptor", subgraph = "descriptorGraph"),
+                @NamedAttributeNode(value = "nestedDescriptors", subgraph = "descriptorGraph")
+            }
+        ),
+        @NamedSubgraph(
+            name = "descriptorGraph",
+            attributeNodes = {
+                @NamedAttributeNode(value = "destination", subgraph = "destinationGraph")
+            }
+        ),
+        @NamedSubgraph(
+            name = "destinationGraph",
+            attributeNodes = {
+                @NamedAttributeNode(value = "copyTo")
+            }
+        )
+    }
+)
 public class Data extends Named {
 
     @Embedded
     private CollectionSource collectionSource;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "extractor_id", nullable = false)
     @JsonIdentityReference(alwaysAsId = true)
     private Extractor extractor;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transformer_id", nullable = false)
     @JsonIdentityReference(alwaysAsId = true)
     private Transformer transformer;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "loader_id", nullable = false)
     @JsonIdentityReference(alwaysAsId = true)
     private Loader loader;
 
     @OneToMany(
         cascade = CascadeType.ALL,
-        fetch = FetchType.EAGER,
+        fetch = FetchType.LAZY,
         orphanRemoval = true,
         mappedBy = "data"
     )
     @JsonManagedReference
-    private List<DataField> fields;
+    private Set<DataField> fields;
 
     public Data() {
         super();
         this.collectionSource = new CollectionSource();
-        this.fields = new ArrayList<>();
+        this.fields = new HashSet<>();
     }
 
 }

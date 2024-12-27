@@ -19,7 +19,6 @@ import edu.tamu.scholars.discovery.model.Named;
         @Index(name = "idx_data_field_descriptor_name", columnList = "name")
     }
 )
-@SuppressWarnings("java:S2160") // the inherited equals is of id
 public class DataFieldDescriptor extends Named {
 
     private static final long serialVersionUID = 875973459875978634L;

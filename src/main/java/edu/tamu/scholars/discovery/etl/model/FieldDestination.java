@@ -1,8 +1,8 @@
 package edu.tamu.scholars.discovery.etl.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -24,8 +24,8 @@ public class FieldDestination implements Serializable {
     @Column(nullable = true)
     private String defaultValue;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> copyTo;
+    @ElementCollection(fetch = FetchType.LAZY)
+    private Set<String> copyTo;
 
     @Column(nullable = false)
     private boolean required;
@@ -44,7 +44,7 @@ public class FieldDestination implements Serializable {
 
     public FieldDestination() {
         super();
-        this.copyTo = new ArrayList<>();
+        this.copyTo = new HashSet<>();
         this.required = false;
         this.stored = true;
         this.indexed = true;

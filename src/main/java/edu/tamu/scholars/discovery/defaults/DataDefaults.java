@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -65,13 +66,13 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
     }
 
     private void updateFields(Data source, Data target) {
-        List<DataField> sourceFields = Optional.ofNullable(source.getFields()).orElse(List.of());
-        List<DataField> targetFields = Optional.ofNullable(target.getFields()).orElse(List.of());
+        Set<DataField> sourceFields = Optional.ofNullable(source.getFields()).orElse(Set.of());
+        Set<DataField> targetFields = Optional.ofNullable(target.getFields()).orElse(Set.of());
 
         Map<String, DataField> existingFieldsMap = targetFields.stream()
             .collect(Collectors.toMap(field -> field.getDescriptor().getName(), Function.identity()));
 
-        List<DataField> updatedFields = sourceFields.stream()
+        Set<DataField> updatedFields = sourceFields.stream()
             .map(sourceField -> {
                 DataField targetField = existingFieldsMap.getOrDefault(sourceField.getDescriptor().getName(), new DataField());
 
@@ -80,7 +81,7 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
                 targetField.setNestedDescriptors(resolveNestedDescriptors(sourceField.getNestedDescriptors()));
 
                 return targetField;
-            }).toList();
+            }).collect(Collectors.toSet());
 
         target.setFields(updatedFields);
     }
@@ -90,11 +91,11 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
             .orElseGet(() -> descriptorRepo.save(descriptor));
     }
 
-    private List<DataFieldDescriptor> resolveNestedDescriptors(List<DataFieldDescriptor> descriptors) {
+    private Set<DataFieldDescriptor> resolveNestedDescriptors(Set<DataFieldDescriptor> descriptors) {
         return Optional.ofNullable(descriptors)
-            .orElse(List.of())
+            .orElse(Set.of())
             .stream()
             .map(this::resolveDescriptor)
-            .toList();
+            .collect(Collectors.toSet());
     }
 }

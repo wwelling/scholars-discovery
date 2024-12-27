@@ -25,7 +25,6 @@ import lombok.Setter;
 // @ValidCollectionFilters(message = "{CollectionView.validCollectionFilters}")
 // @ValidCollectionExport(message = "{CollectionView.validCollectionExport}")
 // TODO: validate in handler before create and save
-@SuppressWarnings("java:S2160") // the inherited equals is of id
 public abstract class CollectionView extends View {
 
     @Column(nullable = false)

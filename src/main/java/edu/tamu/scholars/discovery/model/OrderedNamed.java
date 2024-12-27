@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @MappedSuperclass
-@SuppressWarnings("java:S2160") // the inherited equals is of id
 public abstract class OrderedNamed extends Named {
 
     @Min(1)

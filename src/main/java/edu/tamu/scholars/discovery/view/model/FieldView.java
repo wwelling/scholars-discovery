@@ -17,7 +17,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @MappedSuperclass
-@SuppressWarnings("java:S2160") // the inherited equals is of id
 public abstract class FieldView extends OrderedView {
 
     @Column(nullable = false)

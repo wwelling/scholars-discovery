@@ -27,7 +27,6 @@ import lombok.Setter;
     }
 )
 @AttributeOverride(name = "name", column = @Column(nullable = false))
-@SuppressWarnings("java:S2160") // the inherited equals is of id
 public class ExportView extends View {
 
     private static final long serialVersionUID = -654321098765432109L;

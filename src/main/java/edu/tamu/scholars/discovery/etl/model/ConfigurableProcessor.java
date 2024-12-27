@@ -18,10 +18,9 @@ import edu.tamu.scholars.discovery.model.Named;
 @Getter
 @Setter
 @MappedSuperclass
-@SuppressWarnings("java:S2160") // the inherited equals is of id
 public abstract class ConfigurableProcessor<T extends DataProcessorType<?>> extends Named {
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @MapKeyColumn(name = "key")
     @Column(name = "attribute", columnDefinition = "TEXT")
     private Map<String, String> attributes;

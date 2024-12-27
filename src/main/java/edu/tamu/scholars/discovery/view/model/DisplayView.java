@@ -36,7 +36,6 @@ import lombok.Setter;
         @Index(name = "idx_display_view_name", columnList = "name")
     }
 )
-@SuppressWarnings("java:S2160") // the inherited equals is of id
 public class DisplayView extends View {
 
     private static final long serialVersionUID = 501234567890987654L;

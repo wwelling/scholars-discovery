@@ -1,8 +1,8 @@
 package edu.tamu.scholars.discovery.etl.extract;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import org.apache.jena.query.Dataset;
 import org.apache.jena.tdb2.TDB2Factory;
@@ -18,7 +18,7 @@ public class TdbSparqlExtractor implements DataExtractor<Map<String, Object>> {
 
     private final CollectionSource collectionSource;
 
-    private final List<DataField> fields;
+    private final Set<DataField> fields;
 
     private Dataset dataset;
 

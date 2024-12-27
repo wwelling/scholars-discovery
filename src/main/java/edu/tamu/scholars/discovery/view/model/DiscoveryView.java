@@ -31,7 +31,6 @@ import lombok.Setter;
         @Index(name = "idx_discovery_view_name", columnList = "name")
     }
 )
-@SuppressWarnings("java:S2160") // the inherited equals is of id
 public class DiscoveryView extends CollectionView {
 
     private static final long serialVersionUID = 785672345676567890L;

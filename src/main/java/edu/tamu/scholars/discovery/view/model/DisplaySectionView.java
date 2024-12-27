@@ -29,7 +29,6 @@ import lombok.Setter;
     }
 )
 @AttributeOverride(name = "name", column = @Column(nullable = false))
-@SuppressWarnings("java:S2160") // the inherited equals is of id
 public class DisplaySectionView extends FieldView {
 
     private static final long serialVersionUID = -192837465564738291L;
