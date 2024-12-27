@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.config.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -8,28 +10,16 @@ import org.springframework.stereotype.Component;
  * 
  * <p>See `discovery.mail` in src/main/resources/application.yml.</p>
  */
+@Data
+@NoArgsConstructor
 @Component
 @ConfigurationProperties(prefix = "discovery.mail")
 public class MailConfig {
 
+    // TODO: add validations and @Validated to the class
+
     private String from = "scholarsdiscovery@gmail.com";
 
     private String replyTo = "scholarsdiscovery@gmail.com";
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getReplyTo() {
-        return replyTo;
-    }
-
-    public void setReplyTo(String replyTo) {
-        this.replyTo = replyTo;
-    }
 
 }

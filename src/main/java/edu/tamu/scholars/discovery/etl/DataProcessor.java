@@ -1,8 +1,10 @@
 package edu.tamu.scholars.discovery.etl;
 
+import java.util.Map;
+
 public interface DataProcessor {
 
-    default void init() {
+    default void init(Map<String, String> propertyOverrides) {
 
     }
 

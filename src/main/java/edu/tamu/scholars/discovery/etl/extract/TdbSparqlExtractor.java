@@ -1,7 +1,9 @@
 package edu.tamu.scholars.discovery.etl.extract;
 
+import java.util.Map;
 import java.util.Objects;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -9,6 +11,7 @@ import org.apache.jena.tdb2.TDB2Factory;
 
 import edu.tamu.scholars.discovery.etl.model.Data;
 
+@Slf4j
 public class TdbSparqlExtractor extends AbstractSparqlExtractor {
 
     private Dataset dataset;
@@ -18,7 +21,9 @@ public class TdbSparqlExtractor extends AbstractSparqlExtractor {
     }
 
     @Override
-    public void init() {
+    public void init(Map<String, String> propertyOverrides) {
+        super.init(propertyOverrides);
+
         String directory = properties.containsKey("directory")
                 ? properties.get("directory")
                 : "triplestore";

@@ -1,6 +1,7 @@
 package edu.tamu.scholars.discovery.etl.service;
 
 import java.util.Collection;
+import java.util.Map;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
@@ -66,12 +67,12 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
     private <P extends DataProcessor, T extends DataProcessorType<P>, C extends ConfigurableProcessor<T>> void init(
             C processor, Data data) {
         P dataProcessor = getTypedDataProcessor(processor, data);
-        dataProcessor.init();
+        // TODO: bring in a map of property overrides from application.yml
+        dataProcessor.init(Map.of());
         dataProcessor.preProcess();
     }
 
-    private <P extends DataProcessor, T extends DataProcessorType<P>, C extends ConfigurableProcessor<T>> void destroy(
-            C processor, Data data) {
+    private <P extends DataProcessor, T extends DataProcessorType<P>, C extends ConfigurableProcessor<T>> void destroy(C processor, Data data) {
         P dataProcessor = getTypedDataProcessor(processor, data);
         dataProcessor.postProcess();
         dataProcessor.destroy();
@@ -85,26 +86,28 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
         return new EtlContext<>(getExtractor(data), getTransformer(data), getLoader(data));
     }
 
-    // Type-safe extraction methods
-    @SuppressWarnings("unchecked") // Safe cast due to type constraints in DataExtractorType
+    @SuppressWarnings("unchecked")
     private <I> DataExtractor<I> getExtractor(Data data) {
         return (DataExtractor<I>) getTypedDataProcessor(data.getExtractor(), data);
     }
 
-    @SuppressWarnings("unchecked") // Safe cast due to type constraints in DataTransformerType
+    @SuppressWarnings("unchecked")
     private <I, O> DataTransformer<I, O> getTransformer(Data data) {
         return (DataTransformer<I, O>) getTypedDataProcessor(data.getTransformer(), data);
     }
 
-    @SuppressWarnings("unchecked") // Safe cast due to type constraints in DataLoaderType
+    @SuppressWarnings("unchecked")
     private <O> DataLoader<O> getLoader(Data data) {
         return (DataLoader<O>) getTypedDataProcessor(data.getLoader(), data);
     }
 
     @RequiredArgsConstructor
     private static class EtlContext<I, O> {
+
         private final DataExtractor<I> extractor;
+
         private final DataTransformer<I, O> transformer;
+
         private final DataLoader<O> loader;
 
         public Flux<I> extract() {
@@ -118,6 +121,7 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
         public void load(Collection<O> input) {
             loader.load(input);
         }
+
     }
 
 }

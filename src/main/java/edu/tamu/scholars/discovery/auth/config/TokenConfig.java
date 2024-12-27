@@ -5,6 +5,8 @@ import static edu.tamu.scholars.discovery.auth.AuthConstants.DEFAULT_TOKEN_SERVE
 import static edu.tamu.scholars.discovery.auth.AuthConstants.DEFAULT_TOKEN_SERVER_SECRET;
 import static edu.tamu.scholars.discovery.auth.AuthConstants.MIDDLEWARE_AUTH_TOKEN;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -32,9 +34,13 @@ import org.springframework.stereotype.Component;
  * @see edu.tamu.scholars.discovery.auth.config.AuthConfig
  * @since 1.5.0
  */
+@Data
+@NoArgsConstructor
 @Component
 @ConfigurationProperties(MIDDLEWARE_AUTH_TOKEN)
 public class TokenConfig {
+
+    // TODO: add validations and @Validated to the class
 
     /**
      * Server-side integer value used in token generation. This value contributes to
@@ -56,69 +62,5 @@ public class TokenConfig {
      * Defaults to {@value DEFAULT_TOKEN_PSEUDO_RANDOM_NUMBER_BYTES} bytes.
      */
     private int pseudoRandomNumberBytes = DEFAULT_TOKEN_PSEUDO_RANDOM_NUMBER_BYTES;
-
-    /**
-     * Default constructor required for Spring's configuration property binding.
-     * This constructor is called via reflection by Spring's configuration
-     * mechanism.
-     */
-    public TokenConfig() {
-        // this configuration class is instantiated by reflection by Spring
-    }
-
-    /**
-     * Retrieves the server integer used in token generation.
-     *
-     * @return the server integer value
-     */
-    public int getServerInteger() {
-        return serverInteger;
-    }
-
-    /**
-     * Sets the server integer used in token generation.
-     *
-     * @param serverInteger the server integer value to set
-     */
-    public void setServerInteger(int serverInteger) {
-        this.serverInteger = serverInteger;
-    }
-
-    /**
-     * Retrieves the server secret used in token generation and validation.
-     *
-     * @return the server secret string
-     */
-    public String getServerSecret() {
-        return serverSecret;
-    }
-
-    /**
-     * Sets the server secret used in token generation and validation.
-     *
-     * @param serverSecret the server secret string to set
-     */
-    public void setServerSecret(String serverSecret) {
-        this.serverSecret = serverSecret;
-    }
-
-    /**
-     * Retrieves the number of bytes used for pseudo-random number generation.
-     *
-     * @return the number of bytes used for pseudo-random number generation
-     */
-    public int getPseudoRandomNumberBytes() {
-        return pseudoRandomNumberBytes;
-    }
-
-    /**
-     * Sets the number of bytes used for pseudo-random number generation.
-     *
-     * @param pseudoRandomNumberBytes the number of bytes to use for pseudo-random
-     *                                number generation
-     */
-    public void setPseudoRandomNumberBytes(int pseudoRandomNumberBytes) {
-        this.pseudoRandomNumberBytes = pseudoRandomNumberBytes;
-    }
 
 }

@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.config.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -8,28 +10,16 @@ import org.springframework.stereotype.Component;
  * 
  * <p>See `discovery.export` in src/main/resources/application.yml.</p>
  */
+@Data
+@NoArgsConstructor
 @Component
 @ConfigurationProperties(prefix = "discovery.export")
 public class ExportConfig {
 
+    // TODO: add validations and @Validated to the class
+
     private String individualKey = "individual";
 
     private String individualBaseUri = "http://localhost:4200/display";
-
-    public String getIndividualKey() {
-        return individualKey;
-    }
-
-    public void setIndividualKey(String individualKey) {
-        this.individualKey = individualKey;
-    }
-
-    public String getIndividualBaseUri() {
-        return individualBaseUri;
-    }
-
-    public void setIndividualBaseUri(String individualBaseUri) {
-        this.individualBaseUri = individualBaseUri;
-    }
 
 }

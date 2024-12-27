@@ -25,6 +25,11 @@ public abstract class AbstractSparqlExtractor implements DataExtractor<Map<Strin
     }
 
     @Override
+    public void init(Map<String, String> propertyOverrides) {
+        this.properties.putAll(propertyOverrides);
+    }
+
+    @Override
     public Flux<Map<String, Object>> extract() {
         return Flux.empty();
     }

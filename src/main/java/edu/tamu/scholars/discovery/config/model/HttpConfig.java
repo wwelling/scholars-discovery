@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.config.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -10,9 +12,13 @@ import org.springframework.stereotype.Component;
  * See `discovery.http` in src/main/resources/application.yml.
  * </p>
  */
+@Data
+@NoArgsConstructor
 @Component
 @ConfigurationProperties(prefix = "discovery.http")
 public class HttpConfig {
+
+    // TODO: add validations and @Validated to the class
 
     private int maxTotalConnections = 50;
 
@@ -27,53 +33,5 @@ public class HttpConfig {
     private int connectTimeout = 5;
 
     private int readTimeout = 30;
-
-    public int getMaxTotalConnections() {
-        return maxTotalConnections;
-    }
-
-    public void setMaxTotalConnections(int maxTotalConnections) {
-        this.maxTotalConnections = maxTotalConnections;
-    }
-
-    public int getMaxConnectionsPerRoute() {
-        return maxConnectionsPerRoute;
-    }
-
-    public void setMaxConnectionsPerRoute(int maxConnectionsPerRoute) {
-        this.maxConnectionsPerRoute = maxConnectionsPerRoute;
-    }
-
-    public int getTimeToLive() {
-        return timeToLive;
-    }
-
-    public void setTimeToLive(int timeToLive) {
-        this.timeToLive = timeToLive;
-    }
-
-    public int getEvictIdleConnections() {
-        return evictIdleConnections;
-    }
-
-    public void setEvictIdleConnections(int evictIdleConnections) {
-        this.evictIdleConnections = evictIdleConnections;
-    }
-
-    public int getConnectTimeout() {
-        return connectTimeout;
-    }
-
-    public void setConnectTimeout(int connectTimeout) {
-        this.connectTimeout = connectTimeout;
-    }
-
-    public int getReadTimeout() {
-        return readTimeout;
-    }
-
-    public void setReadTimeout(int readTimeout) {
-        this.readTimeout = readTimeout;
-    }
 
 }

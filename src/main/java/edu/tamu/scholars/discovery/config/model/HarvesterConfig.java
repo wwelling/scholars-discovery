@@ -6,10 +6,12 @@ import edu.tamu.scholars.discovery.index.component.jena.TriplestoreHarvester;
 /**
  * {@link MiddlewareConfig} configuration to specify list of harvesters.
  * 
- * <p>See `discovery.harvesters` in src/main/resources/application.yml.</p>
+ * <p>
+ * See `discovery.harvesters` in src/main/resources/application.yml.
+ * </p>
  */
 public class HarvesterConfig extends IndexDocumentTypesConfig {
-    
+
     private Class<? extends Harvester> type = TriplestoreHarvester.class;
 
     public HarvesterConfig() {
