@@ -1,36 +1,31 @@
 package edu.tamu.scholars.discovery.etl.extract;
 
-import java.util.Map;
-import java.util.Set;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.jena.query.QueryExecution;
 
-import reactor.core.publisher.Flux;
-
-import edu.tamu.scholars.discovery.etl.model.CollectionSource;
 import edu.tamu.scholars.discovery.etl.model.Data;
-import edu.tamu.scholars.discovery.etl.model.DataField;
 
-public class HttpSparqlExtractor implements DataExtractor<Map<String, Object>> {
+public class HttpSparqlExtractor extends AbstractSparqlExtractor {
 
-    private final Map<String, String> properties;
-
-    private final CollectionSource collectionSource;
-
-    private final Set<DataField> fields;
+    private String serviceUrl;
 
     public HttpSparqlExtractor(Data data) {
-        this.properties = data.getExtractor().getAttributes();
-        this.collectionSource = data.getCollectionSource();
-        this.fields = data.getFields();
+        super(data);
     }
 
     @Override
-    public Flux<Map<String, Object>> extract() {
-        return Flux.empty();
+    public void init() {
+        serviceUrl = properties.containsKey("url")
+                ? properties.get("url")
+                : "http://localhost:8080/vivo/api/sparqlQuery";
     }
 
     @Override
-    public Map<String, Object> extract(String subject) {
-        return Map.of();
+    protected QueryExecution createQueryExecution(String query) {
+        if (StringUtils.isEmpty(serviceUrl)) {
+            throw new IllegalStateException("Service URL must not be null or empty.");
+        }
+        return QueryExecution.service(serviceUrl).query(query).build();
     }
 
 }
