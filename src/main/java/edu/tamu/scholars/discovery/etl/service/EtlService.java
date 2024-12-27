@@ -1,7 +1,6 @@
 package edu.tamu.scholars.discovery.etl.service;
 
 import java.util.Collection;
-import java.util.Map;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
@@ -37,18 +36,20 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
     private <I, O> void process() {
         init();
         for (Data data : dataRepo.findAll()) {
-
             EtlContext<I, O> etlContext = createEtlContext(data);
 
             etlContext.extract()
-                    .map(etlContext::transform)
-                    .buffer(500)
-                    .subscribe(etlContext::load);
+                .map(etlContext::transform)
+                .buffer(500)
+                .subscribe(
+                    etlContext::load,
+                    error -> destroy(data),
+                    () -> destroy(data));
         }
-        destroy();
     }
 
     private void init() {
+        // initialize all processors before beginning
         for (Data data : dataRepo.findAll()) {
             init(data.getExtractor(), data);
             init(data.getTransformer(), data);
@@ -56,19 +57,15 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
         }
     }
 
-    private void destroy() {
-        for (Data data : dataRepo.findAll()) {
-            destroy(data.getExtractor(), data);
-            destroy(data.getTransformer(), data);
-            destroy(data.getLoader(), data);
-        }
+    private void destroy(Data data) {
+        destroy(data.getExtractor(), data);
+        destroy(data.getTransformer(), data);
+        destroy(data.getLoader(), data);
     }
 
-    private <P extends DataProcessor, T extends DataProcessorType<P>, C extends ConfigurableProcessor<T>> void init(
-            C processor, Data data) {
+    private <P extends DataProcessor, T extends DataProcessorType<P>, C extends ConfigurableProcessor<T>> void init(C processor, Data data) {
         P dataProcessor = getTypedDataProcessor(processor, data);
-        // TODO: bring in a map of property overrides from application.yml
-        dataProcessor.init(Map.of());
+        dataProcessor.init();
         dataProcessor.preProcess();
     }
 
@@ -79,7 +76,8 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     private <P extends DataProcessor> P getTypedDataProcessor(ConfigurableProcessor<? extends DataProcessorType<P>> processor, Data data) {
-        return processor.getType().getDataProcessor(data);
+        return processor.getType()
+            .getDataProcessor(data);
     }
 
     private <I, O> EtlContext<I, O> createEtlContext(Data data) {

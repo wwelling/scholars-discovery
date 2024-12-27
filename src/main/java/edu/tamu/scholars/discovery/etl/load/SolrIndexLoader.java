@@ -47,11 +47,11 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
 
     private final ObjectMapper objectMapper;
 
+    private final ManagedRestTemplate restTemplate;
+
     private final Map<String, JsonNode> existingFields;
 
     private final Map<Pair<String, String>, JsonNode> existingCopyFields;
-
-    private ManagedRestTemplate restTemplate;
 
     public SolrIndexLoader(Data data) {
         this.name = data.getName();
@@ -60,17 +60,15 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
 
         this.objectMapper = new ObjectMapper();
 
+        this.restTemplate = ManagedRestTemplateFactory.of(this.properties)
+                .withErrorHandler(new SolrResponseErrorHandler());
+
         this.existingFields = new HashMap<>();
         this.existingCopyFields = new HashMap<>();
     }
 
     @Override
-    public void init(Map<String, String> propertyOverrides) {
-        this.properties.putAll(propertyOverrides);
-
-        this.restTemplate = ManagedRestTemplateFactory.of(this.properties)
-                .withErrorHandler(new SolrResponseErrorHandler());
-
+    public void init() {
         this.existingFields.putAll(getFields());
         this.existingCopyFields.putAll(getCopyFields());
     }
@@ -237,15 +235,11 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
     }
 
     private String getUrl(String... paths) {
-        String host = properties.containsKey("host")
-                ? properties.get("host")
-                : "http://localhost:8983/solr";
+        String host = properties.getOrDefault("host", "http://localhost:8983/solr");
 
         String baseUrl = removeEnd(host, "/");
 
-        String collection = properties.containsKey("collection")
-                ? properties.get("collection")
-                : "scholars-discovery";
+        String collection = properties.getOrDefault("collection", "scholars-discovery");
 
         String path = join("/", paths);
 
