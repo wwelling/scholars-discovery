@@ -32,9 +32,9 @@
 *.log*
 *~
 
-triplestore/
-assets/
-logs/
+/triplestore/
+/assets/
+/logs/
 
-pgdata/
-solrdata/
+/pgdata/
+/solrdata/

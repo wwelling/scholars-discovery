@@ -1,31 +1,28 @@
 package edu.tamu.scholars.discovery.etl.extract;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.query.QueryExecution;
 
 import edu.tamu.scholars.discovery.etl.model.Data;
+import edu.tamu.scholars.discovery.triplestore.HttpTriplestore;
 
 @Slf4j
 public class HttpSparqlExtractor extends AbstractSparqlExtractor {
 
-    private final String serviceUrl;
+    private final HttpTriplestore triplestore;
 
     public HttpSparqlExtractor(Data data) {
         super(data);
 
-        this.serviceUrl = properties.getOrDefault("url", "http://localhost:8080/vivo/api/sparqlQuery");
+        final String url = this.properties
+                .getOrDefault("url", "http://localhost:8080/vivo/api/sparqlQuery");
+
+        this.triplestore = HttpTriplestore.of(url);
     }
 
     @Override
     protected QueryExecution createQueryExecution(String query) {
-        if (StringUtils.isEmpty(serviceUrl)) {
-            throw new IllegalStateException("Service URL must not be null or empty.");
-        }
-
-        return QueryExecution.service(serviceUrl)
-            .query(query)
-            .build();
+        return triplestore.createQueryExecution(query);
     }
 
 }
