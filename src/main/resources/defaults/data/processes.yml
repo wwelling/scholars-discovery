@@ -3,7 +3,7 @@ collectionSource:
   template: defaults/data/common/collection.sparql
   predicate: http://purl.obolibrary.org/obo/BFO_0000015
 extractor:
-  id: 2
+  id: 1
   version: 1
 transformer:
   id: 1
@@ -20,7 +20,7 @@ fields:
           - _text_
           - title_t_sort
       source:
-        template: defaults/data/processes/title.sparql
+        template: defaults/data/process/title.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: abstract
@@ -29,18 +29,22 @@ fields:
         copyTo:
           - _text_
       source:
-        template: defaults/data/processes/abstract.sparql
+        template: defaults/data/process/abstract.sparql
         predicate: http://purl.org/ontology/bibo/abstract
   - descriptor:
       name: authors
       nested: true
+      root: true
+      nestedReferences:
+        - field: authorOrganization
+          key: organizations
       destination:
         type: strings
         copyTo:
           - _text_
         multiValued: true
       source:
-        template: defaults/data/processes/author.sparql
+        template: defaults/data/process/author.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: authorOrganization
@@ -49,7 +53,7 @@ fields:
           type: strings
           multiValued: true
         source:
-          template: defaults/data/processes/authorOrganization.sparql
+          template: defaults/data/process/authorOrganization.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: authorList
@@ -57,7 +61,7 @@ fields:
         type: strings
         multiValued: true
       source:
-        template: defaults/data/processes/authorList.sparql
+        template: defaults/data/process/authorList.sparql
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#fullAuthorList
   - descriptor:
       name: description
@@ -66,48 +70,61 @@ fields:
         copyTo:
           - _text_
       source:
-        template: defaults/data/processes/description.sparql
+        template: defaults/data/process/description.sparql
         predicate: http://vivoweb.org/ontology/core#description
   - descriptor:
       name: offeredBy
       nested: true
+      root: true
       destination:
         type: strings
         multiValued: true
         docValues: true
       source:
-        template: defaults/data/processes/offeredBy.sparql
+        template: defaults/data/process/offeredBy.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: dateTimeInterval
       nested: true
+      root: true
+      nestedReferences:
+        - field: dateTimeIntervalStart
+          key: start
+        - field: dateTimeIntervalEnd
+          key: end
       destination:
         type: string
       source:
-        template: defaults/data/processes/dateTimeInterval.sparql
+        template: defaults/data/process/dateTimeInterval.sparql
         predicate: http://vivoweb.org/ontology/core#dateTimeInterval
     nestedDescriptors:
       - name: dateTimeIntervalStart
         nested: true
+        nestedReferences:
+          - field: dateTimePrecisionStart
+            key: precision
         destination:
           type: pdate
         source:
-          template: defaults/data/processes/dateTimeIntervalStart.sparql
+          template: defaults/data/process/dateTimeIntervalStart.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: dateTimeIntervalEnd
         nested: true
+        nestedReferences:
+          - field: dateTimePrecisionEnd
+            key: precision
         destination:
           type: pdate
         source:
-          template: defaults/data/processes/dateTimeIntervalEnd.sparql
+          template: defaults/data/process/dateTimeIntervalEnd.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: dateTimePrecisionStart
         destination:
           type: string
         source:
-          template: defaults/data/processes/dateTimePrecisionStart.sparql
+          template: defaults/data/process/dateTimePrecisionStart.sparql
           predicate: http://vivoweb.org/ontology/core#dateTimePrecision
           parse: true
     nestedDescriptors:
@@ -115,7 +132,7 @@ fields:
         destination:
           type: strings
         source:
-          template: defaults/data/processes/dateTimePrecisionEnd.sparql
+          template: defaults/data/process/dateTimePrecisionEnd.sparql
           predicate: http://vivoweb.org/ontology/core#dateTimePrecision
           parse: true
   - descriptor:
@@ -123,69 +140,82 @@ fields:
       destination:
         type: string
       source:
-        template: defaults/data/processes/subtype.sparql
+        template: defaults/data/process/subtype.sparql
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#subtype
   - descriptor:
       name: venue
       destination:
         type: string
       source:
-        template: defaults/data/processes/venue.sparql
+        template: defaults/data/process/venue.sparql
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#venue
   - descriptor:
       name: location
       destination:
         type: string
       source:
-        template: defaults/data/processes/location.sparql
+        template: defaults/data/process/location.sparql
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#location
   - descriptor:
       name: url
       destination:
         type: string
       source:
-        template: defaults/data/processes/url.sparql
+        template: defaults/data/process/url.sparql
         predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
       name: note
       destination:
         type: string
       source:
-        template: defaults/data/processes/note.sparql
+        template: defaults/data/process/note.sparql
         predicate: http://www.w3.org/2006/vcard/ns#note
   - descriptor:
       name: occursWithinEvent
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/processes/occursWithinEvent.sparql
+        template: defaults/data/process/occursWithinEvent.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: includesEvent
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/processes/includesEvent.sparql
+        template: defaults/data/process/includesEvent.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: inEventSeries
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/processes/inEventSeries.sparql
+        template: defaults/data/process/inEventSeries.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: participants
       nested: true
+      root: true
+      nestedReferences:
+        - field: participantId
+          key: personId
+        - field: participantRole
+          key: role
+        - field: participantDateTimeIntervalStart
+          key: startDate
+        - field: participantDateTimeIntervalEnd
+          key: endDate
       destination:
         type: text_general
         copyTo:
@@ -193,7 +223,7 @@ fields:
           - participants_str
         multiValued: true
       source:
-        template: defaults/data/processes/participant.sparql
+        template: defaults/data/process/participant.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: participantId
@@ -202,7 +232,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: defaults/data/processes/participantId.sparql
+          template: defaults/data/process/participantId.sparql
           predicate: http://purl.obolibrary.org/obo/RO_0000052
           parse: true
     nestedDescriptors:
@@ -212,7 +242,7 @@ fields:
           indexed: false
           multiValued: true
         source:
-          template: defaults/data/processes/participantRole.sparql
+          template: defaults/data/process/participantRole.sparql
           predicate: http://www.w3.org/2000/01/rdf-schema#label
     nestedDescriptors:
       - name: participantDateTimeIntervalStart
@@ -220,7 +250,7 @@ fields:
           type: pdates
           multiValued: true
         source:
-          template: defaults/data/processes/participantDateTimeIntervalStart.sparql
+          template: defaults/data/process/participantDateTimeIntervalStart.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
     nestedDescriptors:
       - name: participantDateTimeIntervalEnd
@@ -228,36 +258,39 @@ fields:
           type: pdates
           multiValued: true
         source:
-          template: defaults/data/processes/participantDateTimeIntervalEnd.sparql
+          template: defaults/data/process/participantDateTimeIntervalEnd.sparql
           predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: subjectAreas
       nested: true
+      root: true
       destination:
         type: strings
         multiValued: true
       source:
-        template: defaults/data/processes/hasSubjectArea.sparql
+        template: defaults/data/process/hasSubjectArea.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: hasPrerequisite
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/processes/hasPrerequisite.sparql
+        template: defaults/data/process/hasPrerequisite.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: prerequisiteFor
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/processes/prerequisiteFor.sparql
+        template: defaults/data/process/prerequisiteFor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: credits
@@ -265,27 +298,29 @@ fields:
         type: string
         indexed: false
       source:
-        template: defaults/data/processes/credits.sparql
+        template: defaults/data/process/credits.sparql
         predicate: http://vivoweb.org/ontology/core#courseCredits
   - descriptor:
       name: outputPublicationOrOtherWork
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/processes/outputPublicationOrOtherWork.sparql
+        template: defaults/data/process/outputPublicationOrOtherWork.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: relatedDocuments
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/processes/relatedDocument.sparql
+        template: defaults/data/process/relatedDocument.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: contactInformation
@@ -293,47 +328,51 @@ fields:
         type: string
         indexed: false
       source:
-        template: defaults/data/processes/contactInformation.sparql
+        template: defaults/data/process/contactInformation.sparql
         predicate: http://vivoweb.org/ontology/core#contactInformation
   - descriptor:
       name: heldInFacility
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/processes/heldInFacility.sparql
+        template: defaults/data/process/heldInFacility.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: heldInGeographicLocation
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/processes/heldInGeographicLocation.sparql
+        template: defaults/data/process/heldInGeographicLocation.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: hasOutput
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/processes/hasOutput.sparql
+        template: defaults/data/process/hasOutput.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: hasParticipant
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/processes/hasParticipant.sparql
+        template: defaults/data/process/hasParticipant.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: image
@@ -354,6 +393,10 @@ fields:
   - descriptor:
       name: websites
       nested: true
+      root: true
+      nestedReferences:
+        - field: websiteUrl
+          key: url
       destination:
         type: strings
         indexed: false
@@ -373,6 +416,7 @@ fields:
   - descriptor:
       name: geographicFocus
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
@@ -383,6 +427,7 @@ fields:
   - descriptor:
       name: sameAs
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false

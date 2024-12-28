@@ -15,6 +15,7 @@ import edu.tamu.scholars.discovery.index.annotation.CollectionSource;
 import edu.tamu.scholars.discovery.index.annotation.FieldSource;
 import edu.tamu.scholars.discovery.index.annotation.FieldType;
 import edu.tamu.scholars.discovery.index.annotation.NestedObject;
+import edu.tamu.scholars.discovery.index.annotation.FieldSource.CacheableLookup;
 import edu.tamu.scholars.discovery.index.annotation.NestedObject.Reference;
 import edu.tamu.scholars.discovery.index.model.Collection;
 import edu.tamu.scholars.discovery.index.model.Concept;
@@ -39,13 +40,13 @@ public class MiddlewareApplication {
 
     @PostConstruct
     public void echo() {
-        // echo(Collection.class);
-        // echo(Concept.class);
-        // echo(Document.class);
-        // echo(Organization.class);
-        // echo(Person.class);
-        // echo(Process.class);
-        // echo(Relationship.class);
+        echo(Collection.class);
+        echo(Concept.class);
+        echo(Document.class);
+        echo(Organization.class);
+        echo(Person.class);
+        echo(Process.class);
+        echo(Relationship.class);
     }
 
     public void echo(Class<?> clazz) {
@@ -54,7 +55,7 @@ public class MiddlewareApplication {
         System.out.println("\n\n");
         System.out.println("name: " + clazz.getSimpleName());
         System.out.println("collectionSource:");
-        System.out.println("  template: collection.sparql");
+        System.out.println("  template: defaults/data/common/collection.sparql");
         System.out.println("  predicate: " + collectionSource.predicate());
         System.out.println("extractor:");
         System.out.println("  id: 1");
@@ -108,6 +109,7 @@ public class MiddlewareApplication {
                 String[] copyTo = fieldType.copyTo();
                 String defaultValue = fieldType.defaultValue();
                 boolean required = fieldType.required();
+                boolean multiValued = java.util.Collection.class.isAssignableFrom(field.getType());
 
                 String template = fieldSource.template();
                 String predicate = fieldSource.predicate();
@@ -125,11 +127,17 @@ public class MiddlewareApplication {
 
                     if (nested) {
                         System.out.println("      nested: " + nested);
+                        if (nestedObject.root()) {
+                            System.out.println("      root: " + nestedObject.root());
+                        }
 
                         Reference[] properties = nestedObject.properties();
 
-                        if (nestedObject.properties().length > 0) {
+                        if (properties.length > 0) {
+                            System.out.println("      nestedReferences:");
                             for (Reference property : properties) {
+                                System.out.println("        - field: " + property.value());
+                                System.out.println("          key: " + property.key());
                                 nestedProperties.put(property.value(), property.key());
                             }
                         }
@@ -149,18 +157,27 @@ public class MiddlewareApplication {
                         }
                     }
 
-                    System.out.println("        required: " + required);
-                    System.out.println("        stored: " + stored);
-                    System.out.println("        indexed: " + indexed);
-                    System.out.println("        multiValued: " + java.util.Collection.class.isAssignableFrom(field.getType()));
-                    System.out.println("        docValues: " + docValues);
+                    if (required) System.out.println("        required: " + required);
+                    if (!stored) System.out.println("        stored: " + stored);
+                    if (!indexed) System.out.println("        indexed: " + indexed);
+                    if (multiValued) System.out.println("        multiValued: " + multiValued);
+                    if (docValues) System.out.println("        docValues: " + docValues);
 
                     System.out.println("      source:");
-                    System.out.println("        template: " + template);
+                    System.out.println("        template: defaults/data/" + template + ".sparql");
                     System.out.println("        predicate: " + predicate);
-                    System.out.println("        unique: " + unique);
-                    System.out.println("        parse: " + parse);
-                    System.out.println("        split: " + split);
+                    if (unique) System.out.println("        unique: " + unique);
+                    if (parse) System.out.println("        parse: " + parse);
+                    if (split) System.out.println("        split: " + split);
+
+                    CacheableLookup[] lookups = fieldSource.lookup();
+                    if (lookups.length > 0) {
+                        System.out.println("        cacheableSources:");
+                        for (CacheableLookup lookup : lookups) {
+                            System.out.println("          - template: defaults/data/" + lookup.template() + ".sparql");
+                            System.out.println("            predicate: " + lookup.predicate());
+                        }
+                    }
 
                 } else {
 
@@ -170,11 +187,17 @@ public class MiddlewareApplication {
 
                     if (nested) {
                         System.out.println("        nested: " + nested);
+                        if (nestedObject.root()) {
+                            System.out.println("        root: " + nestedObject.root());
+                        }
 
                         Reference[] properties = nestedObject.properties();
 
-                        if (nestedObject.properties().length > 0) {
+                        if (properties.length > 0) {
+                            System.out.println("        nestedReferences:");
                             for (Reference property : properties) {
+                                System.out.println("          - field: " + property.value());
+                                System.out.println("            key: " + property.key());
                                 nestedProperties.put(property.value(), property.key());
                             }
                         }
@@ -194,18 +217,27 @@ public class MiddlewareApplication {
                         }
                     }
 
-                    System.out.println("          required: " + required);
-                    System.out.println("          stored: " + stored);
-                    System.out.println("          indexed: " + indexed);
-                    System.out.println("          multiValued: " + java.util.Collection.class.isAssignableFrom(field.getType()));
-                    System.out.println("          docValues: " + docValues);
+                    if (required) System.out.println("          required: " + required);
+                    if (!stored) System.out.println("          stored: " + stored);
+                    if (!indexed) System.out.println("          indexed: " + indexed);
+                    if (multiValued) System.out.println("          multiValued: " + multiValued);
+                    if (docValues) System.out.println("          docValues: " + docValues);
 
                     System.out.println("        source:");
-                    System.out.println("          template: " + template);
+                    System.out.println("          template: defaults/data/" + template + ".sparql");
                     System.out.println("          predicate: " + predicate);
-                    System.out.println("          unique: " + unique);
-                    System.out.println("          parse: " + parse);
-                    System.out.println("          split: " + split);
+                    if (unique) System.out.println("          unique: " + unique);
+                    if (parse) System.out.println("          parse: " + parse);
+                    if (split) System.out.println("          split: " + split);
+
+                    CacheableLookup[] lookups = fieldSource.lookup();
+                    if (lookups.length > 0) {
+                        System.out.println("          cacheableSources:");
+                        for (CacheableLookup lookup : lookups) {
+                            System.out.println("            - template: defaults/data/" + lookup.template() + ".sparql");
+                            System.out.println("              predicate: " + lookup.predicate());
+                        }
+                    }
                 }
             }
 

@@ -3,7 +3,7 @@ collectionSource:
   template: defaults/data/common/collection.sparql
   predicate: http://purl.org/ontology/bibo/Collection
 extractor:
-  id: 2
+  id: 1
   version: 1
 transformer:
   id: 1
@@ -20,7 +20,7 @@ fields:
           - _text_
           - name_t_sort
       source:
-        template: defaults/data/collections/name.sparql
+        template: defaults/data/collection/name.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: abstract
@@ -29,44 +29,47 @@ fields:
         copyTo:
           - _text_
       source:
-        template: defaults/data/collections/abstract.sparql
+        template: defaults/data/collection/abstract.sparql
         predicate: http://purl.org/ontology/bibo/abstract
   - descriptor:
       name: abbreviation
       destination:
         type: string
       source:
-        template: defaults/data/collections/abbreviation.sparql
+        template: defaults/data/collection/abbreviation.sparql
         predicate: http://vivoweb.org/ontology/core#abbreviation
   - descriptor:
       name: publicationVenueFor
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/collections/publicationVenueFor.sparql
+        template: defaults/data/collection/publicationVenueFor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: editors
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/collections/editor.sparql
+        template: defaults/data/collection/editor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: translators
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/collections/translator.sparql
+        template: defaults/data/collection/translator.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: publicationDate
@@ -74,15 +77,19 @@ fields:
         type: pdate
         docValues: true
       source:
-        template: defaults/data/collections/publicationDate.sparql
+        template: defaults/data/collection/publicationDate.sparql
         predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: publisher
       nested: true
+      root: true
+      nestedReferences:
+        - field: publisherType
+          key: type
       destination:
         type: string
       source:
-        template: defaults/data/collections/publisher.sparql
+        template: defaults/data/collection/publisher.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
         unique: true
     nestedDescriptors:
@@ -90,38 +97,41 @@ fields:
         destination:
           type: string
         source:
-          template: defaults/data/collections/publisherType.sparql
+          template: defaults/data/collection/publisherType.sparql
           predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
           parse: true
   - descriptor:
       name: subjectAreas
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/collections/hasSubjectArea.sparql
+        template: defaults/data/collection/hasSubjectArea.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: features
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/collections/feature.sparql
+        template: defaults/data/collection/feature.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: outputOfProcessOrEvent
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/collections/outputOfProcessOrEvent.sparql
+        template: defaults/data/collection/outputOfProcessOrEvent.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: keywords
@@ -131,85 +141,90 @@ fields:
           - _text_
         multiValued: true
       source:
-        template: defaults/data/collections/keyword.sparql
+        template: defaults/data/collection/keyword.sparql
         predicate: http://vivoweb.org/ontology/core#freetextKeyword
   - descriptor:
       name: issn
       destination:
         type: string
       source:
-        template: defaults/data/collections/issn.sparql
+        template: defaults/data/collection/issn.sparql
         predicate: http://purl.org/ontology/bibo/issn
   - descriptor:
       name: eissn
       destination:
         type: string
       source:
-        template: defaults/data/collections/eissn.sparql
+        template: defaults/data/collection/eissn.sparql
         predicate: http://purl.org/ontology/bibo/eissn
   - descriptor:
       name: doi
       destination:
         type: string
       source:
-        template: defaults/data/collections/doi.sparql
+        template: defaults/data/collection/doi.sparql
         predicate: http://purl.org/ontology/bibo/doi
   - descriptor:
       name: oclcnum
       destination:
         type: string
       source:
-        template: defaults/data/collections/oclcnum.sparql
+        template: defaults/data/collection/oclcnum.sparql
         predicate: http://purl.org/ontology/bibo/oclcnum
   - descriptor:
       name: isAbout
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/collections/isAbout.sparql
+        template: defaults/data/collection/isAbout.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: specifiedOutputOf
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/collections/specifiedOutputOf.sparql
+        template: defaults/data/collection/specifiedOutputOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: mentions
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/collections/mention.sparql
+        template: defaults/data/collection/mention.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: participatesIn
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/collections/participatesIn.sparql
+        template: defaults/data/collection/participatesIn.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: supportedBy
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
         multiValued: true
       source:
-        template: defaults/data/collections/supportedBy.sparql
+        template: defaults/data/collection/supportedBy.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: image
@@ -230,6 +245,10 @@ fields:
   - descriptor:
       name: websites
       nested: true
+      root: true
+      nestedReferences:
+        - field: websiteUrl
+          key: url
       destination:
         type: strings
         indexed: false
@@ -249,6 +268,7 @@ fields:
   - descriptor:
       name: geographicFocus
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false
@@ -259,6 +279,7 @@ fields:
   - descriptor:
       name: sameAs
       nested: true
+      root: true
       destination:
         type: strings
         indexed: false

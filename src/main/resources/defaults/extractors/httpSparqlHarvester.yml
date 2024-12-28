@@ -1,4 +1,0 @@
-name: HTTP SPARQL Extractor
-type: HTTP_SPARQL
-attributes:
-  url: http://localhost:8080/vivo/api/sparqlQuery

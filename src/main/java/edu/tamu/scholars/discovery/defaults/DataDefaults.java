@@ -17,7 +17,7 @@ import edu.tamu.scholars.discovery.etl.model.CollectionSource;
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
-import edu.tamu.scholars.discovery.etl.model.FieldSource;
+import edu.tamu.scholars.discovery.etl.model.Source;
 import edu.tamu.scholars.discovery.etl.model.repo.DataFieldDescriptorRepo;
 import edu.tamu.scholars.discovery.etl.model.repo.DataRepo;
 
@@ -53,9 +53,15 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
                 }
             }
             for (DataField dataField : datum.getFields()) {
-                setFieldSourceTemplate(dataField.getDescriptor());
+                setSourceTemplate(dataField.getDescriptor().getSource());
+                for (Source source : dataField.getDescriptor().getSource().getCacheableSources()) {
+                    setSourceTemplate(source);
+                }
                 for (DataFieldDescriptor descriptor : dataField.getNestedDescriptors()) {
-                    setFieldSourceTemplate(descriptor);
+                    setSourceTemplate(descriptor.getSource());
+                    for (Source source : descriptor.getSource().getCacheableSources()) {
+                        setSourceTemplate(source);
+                    }
                 }
             }
         }
@@ -120,12 +126,11 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
             .collect(Collectors.toSet());
     }
 
-    private void setFieldSourceTemplate(DataFieldDescriptor descriptor) {
-        FieldSource fieldSource = descriptor.getSource();
+    private <S extends Source> void setSourceTemplate(S source) {
         try {
-            fieldSource.setTemplate(getTemplate(fieldSource.getTemplate()));
+            source.setTemplate(getTemplate(source.getTemplate()));
         } catch (IOException e) {
-            logger.warn(String.format(IO_EXCEPTION_MESSAGE, fieldSource.getTemplate()));
+            logger.warn(String.format(IO_EXCEPTION_MESSAGE, source.getTemplate()));
         }
     }
 

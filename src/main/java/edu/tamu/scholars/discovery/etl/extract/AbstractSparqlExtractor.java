@@ -67,14 +67,12 @@ public abstract class AbstractSparqlExtractor implements DataExtractor<Map<Strin
             Iterator<Triple> tripleIterator = queryExecution.execConstructTriples();
 
             return Flux.fromIterable(() -> tripleIterator)
-                    .map(this::subject)
-                    .map(this::harvest)
-                    .doFinally(onFinally -> queryExecution.close());
+                .map(this::subject)
+                .map(this::harvest)
+                .doFinally(onFinally -> queryExecution.close());
 
         } catch (IOException e) {
-            log.error("Unable to extract {}: {}",
-                    data.getName(),
-                    e.getMessage());
+            log.error("Unable to extract {}: {}", data.getName(), e.getMessage());
             log.debug("Error extracting individual", e);
         }
 
@@ -83,12 +81,14 @@ public abstract class AbstractSparqlExtractor implements DataExtractor<Map<Strin
 
     @Override
     public Map<String, Object> extract(String subject) {
+        // TODO
+
         return Map.of();
     }
 
     private String subject(Triple triple) {
         return triple.getSubject()
-                .toString();
+            .toString();
     }
 
     public Map<String, Object> harvest(String subject) {
@@ -117,33 +117,31 @@ public abstract class AbstractSparqlExtractor implements DataExtractor<Map<Strin
     }
 
     private void lookupProperties(Map<String, Object> document, String subject) {
-        fields.parallelStream()
-                .forEach(field -> {
-                    DataFieldDescriptor descriptor = field.getDescriptor();
-                    FieldSource source = descriptor.getSource();
+        fields.parallelStream().forEach(field -> {
+            DataFieldDescriptor descriptor = field.getDescriptor();
+            FieldSource source = descriptor.getSource();
 
-                    try {
-                        Model model = queryForModel(source, subject);
+            try {
+                Model model = queryForModel(source, subject);
 
-                        List<String> values = lookupProperty(source, model);
+                List<String> values = lookupProperty(source, model);
 
-                        if (!values.isEmpty()) {
-                            populate(document, descriptor, values);
-                        } else {
-                            log.debug("Could not find values for {}", field.getDescriptor().getName());
-                        }
+                if (!values.isEmpty()) {
+                    populate(document, descriptor, values);
+                } else {
+                    log.debug("Could not find values for {}", field.getDescriptor().getName());
+                }
 
-                    } catch (IOException e) {
-                        log.error(
-                                "Unable to populate individual {} {} ({}): {}",
-                                data.getName(),
-                                descriptor.getName(),
-                                parse(subject),
-                                e.getMessage());
-                        log.debug("Error populating individual", e);
-                    }
-
-                });
+            } catch (IOException e) {
+                log.error(
+                    "Unable to populate individual {} {} ({}): {}",
+                    data.getName(),
+                    descriptor.getName(),
+                    parse(subject),
+                    e.getMessage());
+                log.debug("Error populating individual", e);
+            }
+        });
     }
 
     private Model queryForModel(FieldSource source, String subject) throws IOException {

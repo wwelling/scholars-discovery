@@ -15,7 +15,7 @@ public class HttpSparqlExtractor extends AbstractSparqlExtractor {
         super(data);
 
         final String url = this.properties
-                .getOrDefault("url", "http://localhost:8080/vivo/api/sparqlQuery");
+            .getOrDefault("url", "http://localhost:8080/vivo/api/sparqlQuery");
 
         this.triplestore = HttpTriplestore.of(url);
     }

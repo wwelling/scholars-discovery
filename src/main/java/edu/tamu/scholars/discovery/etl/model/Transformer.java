@@ -6,6 +6,8 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import edu.tamu.scholars.discovery.etl.model.type.DataTransformerType;
+
 @Getter
 @Setter
 @Entity

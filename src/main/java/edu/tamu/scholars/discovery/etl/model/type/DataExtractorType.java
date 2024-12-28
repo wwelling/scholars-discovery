@@ -1,8 +1,9 @@
-package edu.tamu.scholars.discovery.etl.model;
+package edu.tamu.scholars.discovery.etl.model.type;
 
 import edu.tamu.scholars.discovery.etl.extract.DataExtractor;
 import edu.tamu.scholars.discovery.etl.extract.HttpSparqlExtractor;
 import edu.tamu.scholars.discovery.etl.extract.TdbSparqlExtractor;
+import edu.tamu.scholars.discovery.etl.model.Data;
 
 public enum DataExtractorType implements DataProcessorType<DataExtractor<?>> {
 

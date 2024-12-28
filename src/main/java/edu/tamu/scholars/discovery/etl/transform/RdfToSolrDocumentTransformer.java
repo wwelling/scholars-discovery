@@ -21,20 +21,18 @@ public class RdfToSolrDocumentTransformer implements DataTransformer<Map<String,
     }
 
     @Override
-    public Map<String, Object> transform(Map<String, Object> fromRdf) {
+    public Map<String, Object> transform(Map<String, Object> data) {
 
-        try {
-            String json = this.objectMapper.writerWithDefaultPrettyPrinter()
-                    .writeValueAsString(fromRdf);
+        // try {
+        //     final String json = this.objectMapper.writerWithDefaultPrettyPrinter()
+        //         .writeValueAsString(data);
 
-            System.out.println("\n" + data.getName() + " " + json + "\n");
-        } catch (JsonProcessingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        //     System.out.println("\n" + this.data.getName() + "\n" + json + "\n");
+        // } catch (JsonProcessingException e) {
+        //     e.printStackTrace();
+        // }
 
-        // TODO: group nested objects
-        return fromRdf;
+        return data;
     }
 
 }

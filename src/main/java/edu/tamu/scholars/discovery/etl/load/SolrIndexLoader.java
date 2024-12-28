@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -39,7 +38,7 @@ import edu.tamu.scholars.discovery.factory.ManagedRestTemplateFactory;
 @Slf4j
 public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
 
-    private final String name;
+    private final Data data;
 
     private final Map<String, String> properties;
 
@@ -54,14 +53,14 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
     private final Map<Pair<String, String>, JsonNode> existingCopyFields;
 
     public SolrIndexLoader(Data data) {
-        this.name = data.getName();
+        this.data = data;
         this.properties = data.getLoader().getAttributes();
         this.fields = data.getFields();
 
         this.objectMapper = new ObjectMapper();
 
         this.restTemplate = ManagedRestTemplateFactory.of(this.properties)
-                .withErrorHandler(new SolrResponseErrorHandler());
+            .withErrorHandler(new SolrResponseErrorHandler());
 
         this.existingFields = new HashMap<>();
         this.existingCopyFields = new HashMap<>();
@@ -75,9 +74,6 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
 
     @Override
     public void preProcess() {
-        if (Objects.isNull(this.restTemplate)) {
-            throw new IllegalStateException("Processor must be initialized first.");
-        }
         initializeFields();
     }
 
@@ -85,23 +81,17 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
     public void destroy() {
         this.existingFields.clear();
         this.existingCopyFields.clear();
-        if (Objects.nonNull(this.restTemplate)) {
-            this.restTemplate.destroy();
-        }
+        this.restTemplate.destroy();
     }
 
     @Override
     public void load(Collection<Map<String, Object>> documents) {
-        if (Objects.isNull(this.restTemplate)) {
-            throw new IllegalStateException("Processor must be initialized first.");
-        }
+        // TODO
     }
 
     @Override
     public void load(Map<String, Object> document) {
-        if (Objects.isNull(this.restTemplate)) {
-            throw new IllegalStateException("Processor must be initialized first.");
-        }
+        // TODO
     }
 
     private Map<String, JsonNode> getFields() {
@@ -113,9 +103,7 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
             Iterable<JsonNode> iterable = () -> response.getBody().get("fields").iterator();
             Stream<JsonNode> stream = StreamSupport.stream(iterable.spliterator(), false);
 
-            return stream.collect(Collectors.toMap(
-                    node -> node.get("name").asText(),
-                    node -> node));
+            return stream.collect(Collectors.toMap(node -> node.get("name").asText(), node -> node));
         }
 
         return Map.of();
@@ -131,8 +119,8 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
             Stream<JsonNode> stream = StreamSupport.stream(iterable.spliterator(), false);
 
             return stream.collect(Collectors.toMap(
-                    node -> Pair.of(node.get("source").asText(), node.get("dest").asText()),
-                    node -> node));
+                node -> Pair.of(node.get("source").asText(), node.get("dest").asText()),
+                node -> node));
         }
 
         return Map.of();
@@ -154,13 +142,13 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
         if (!addFieldNodes.isEmpty()) {
             schemaRequestNode.set("add-field", addFieldNodes);
         } else {
-            log.info("{} index fields already initialized.", name);
+            log.info("{} index fields already initialized.", this.data.getName());
         }
 
         if (!addCopyFieldNodes.isEmpty()) {
             schemaRequestNode.set("add-copy-field", addCopyFieldNodes);
         } else {
-            log.info("{} index copy fields already initialized.", name);
+            log.info("{} index copy fields already initialized.", this.data.getName());
         }
 
         if (!schemaRequestNode.isEmpty()) {
@@ -169,7 +157,7 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
             if (updateSchemaRepsonse.getStatusCode().isError()) {
                 // TODO: log error
             } else {
-                log.info("{} index fields initialized.", name);
+                log.info("{} index fields initialized.", this.data.getName());
             }
         }
 
@@ -183,8 +171,8 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
         }
 
         Set<String> copyTo = descriptor
-                .getDestination()
-                .getCopyTo();
+            .getDestination()
+            .getCopyTo();
 
         for (String dest : copyTo) {
             if (!existingCopyFields.containsKey(Pair.of(name, dest))) {
@@ -262,7 +250,7 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
         @Override
         public boolean hasError(ClientHttpResponse response) throws IOException {
             return response.getStatusCode()
-                    .isError();
+                .isError();
         }
 
         @Override

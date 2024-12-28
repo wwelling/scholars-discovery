@@ -13,6 +13,7 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
+import edu.tamu.scholars.discovery.etl.model.type.DataProcessorType;
 import edu.tamu.scholars.discovery.model.Named;
 
 @Getter

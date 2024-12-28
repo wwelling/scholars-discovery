@@ -3,7 +3,7 @@ package edu.tamu.scholars.discovery.etl.model.repo;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import edu.tamu.scholars.discovery.etl.model.ConfigurableProcessor;
-import edu.tamu.scholars.discovery.etl.model.DataProcessorType;
+import edu.tamu.scholars.discovery.etl.model.type.DataProcessorType;
 import edu.tamu.scholars.discovery.model.repo.NamedRepo;
 
 @NoRepositoryBean

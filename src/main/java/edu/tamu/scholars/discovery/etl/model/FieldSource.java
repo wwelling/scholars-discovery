@@ -1,7 +1,12 @@
 package edu.tamu.scholars.discovery.etl.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.FetchType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,11 +26,15 @@ public class FieldSource extends Source {
     @Column(nullable = false)
     private boolean split;
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    private Set<CacheableSource> cacheableSources;
+
     public FieldSource() {
         super();
         this.unique = false;
         this.parse = false;
         this.split = false;
+        this.cacheableSources = new HashSet<>();
     }
 
 }

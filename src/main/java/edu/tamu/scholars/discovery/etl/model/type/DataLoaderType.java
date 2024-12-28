@@ -1,7 +1,8 @@
-package edu.tamu.scholars.discovery.etl.model;
+package edu.tamu.scholars.discovery.etl.model.type;
 
 import edu.tamu.scholars.discovery.etl.load.DataLoader;
 import edu.tamu.scholars.discovery.etl.load.SolrIndexLoader;
+import edu.tamu.scholars.discovery.etl.model.Data;
 
 public enum DataLoaderType implements DataProcessorType<DataLoader<?>> {
 

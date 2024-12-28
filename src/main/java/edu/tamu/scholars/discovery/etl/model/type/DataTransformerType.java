@@ -1,5 +1,6 @@
-package edu.tamu.scholars.discovery.etl.model;
+package edu.tamu.scholars.discovery.etl.model.type;
 
+import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.transform.DataTransformer;
 import edu.tamu.scholars.discovery.etl.transform.RdfToSolrDocumentTransformer;
 

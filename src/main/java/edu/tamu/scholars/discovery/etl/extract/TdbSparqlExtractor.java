@@ -15,7 +15,7 @@ public class TdbSparqlExtractor extends AbstractSparqlExtractor {
         super(data);
 
         final String directory = this.properties
-                .getOrDefault("directory", "triplestore");
+            .getOrDefault("directory", "triplestore");
 
         this.triplestore = TdbTriplestore.of(directory);
     }

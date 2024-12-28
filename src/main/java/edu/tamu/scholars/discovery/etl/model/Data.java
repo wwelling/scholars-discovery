@@ -56,13 +56,21 @@ import edu.tamu.scholars.discovery.model.Named;
         @NamedSubgraph(
             name = "descriptorGraph",
             attributeNodes = {
-                @NamedAttributeNode(value = "destination", subgraph = "destinationGraph")
+                @NamedAttributeNode(value = "destination", subgraph = "destinationGraph"),
+                @NamedAttributeNode(value = "source", subgraph = "sourceGraph"),
+                @NamedAttributeNode(value = "nestedReferences")
             }
         ),
         @NamedSubgraph(
             name = "destinationGraph",
             attributeNodes = {
                 @NamedAttributeNode(value = "copyTo")
+            }
+        ),
+        @NamedSubgraph(
+            name = "sourceGraph",
+            attributeNodes = {
+                @NamedAttributeNode(value = "cacheableSources")
             }
         )
     }

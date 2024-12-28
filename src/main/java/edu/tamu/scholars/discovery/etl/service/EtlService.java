@@ -14,8 +14,8 @@ import edu.tamu.scholars.discovery.etl.extract.DataExtractor;
 import edu.tamu.scholars.discovery.etl.load.DataLoader;
 import edu.tamu.scholars.discovery.etl.model.ConfigurableProcessor;
 import edu.tamu.scholars.discovery.etl.model.Data;
-import edu.tamu.scholars.discovery.etl.model.DataProcessorType;
 import edu.tamu.scholars.discovery.etl.model.repo.DataRepo;
+import edu.tamu.scholars.discovery.etl.model.type.DataProcessorType;
 import edu.tamu.scholars.discovery.etl.transform.DataTransformer;
 
 @Service
