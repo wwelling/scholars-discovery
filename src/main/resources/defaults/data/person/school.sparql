@@ -6,7 +6,7 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 CONSTRUCT {
     ?parentOrganization rdfs:label ?label .
 } WHERE {
-    <{{uri}}> vivo:relatedBy ?position .
+    ?uri vivo:relatedBy ?position .
     ?position a vivo:Position  .
     ?position vivo:relates ?organization .
     ?organization a foaf:Organization .

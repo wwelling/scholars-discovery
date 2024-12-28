@@ -3,6 +3,7 @@ package edu.tamu.scholars.discovery.etl.service;
 import java.util.Collection;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -18,8 +19,9 @@ import edu.tamu.scholars.discovery.etl.model.repo.DataRepo;
 import edu.tamu.scholars.discovery.etl.model.type.DataProcessorType;
 import edu.tamu.scholars.discovery.etl.transform.DataTransformer;
 
+@Slf4j
 @Service
-@DependsOn("defaultsService")
+@DependsOn({ "defaultsService" })
 public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
 
     private final DataRepo dataRepo;
@@ -35,17 +37,19 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
 
     private <I, O> void process() {
         init();
-        for (Data data : dataRepo.findAll()) {
+        dataRepo.findAll().parallelStream().forEach(data -> {
             EtlContext<I, O> etlContext = createEtlContext(data);
+
+            log.info("Starting ETL {}", data.getName());
 
             etlContext.extract()
                 .map(etlContext::transform)
-                .buffer(500)
+                .buffer(500) // TODO: get from properties
                 .subscribe(
                     etlContext::load,
                     error -> destroy(data),
                     () -> destroy(data));
-        }
+        });
     }
 
     private void init() {
@@ -61,6 +65,7 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
         destroy(data.getExtractor(), data);
         destroy(data.getTransformer(), data);
         destroy(data.getLoader(), data);
+        log.info("ETL {} finished", data.getName());
     }
 
     private <P extends DataProcessor, T extends DataProcessorType<P>, C extends ConfigurableProcessor<T>> void init(C processor, Data data) {

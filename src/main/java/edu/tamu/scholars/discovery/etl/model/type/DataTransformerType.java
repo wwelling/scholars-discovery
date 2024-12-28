@@ -6,6 +6,8 @@ import edu.tamu.scholars.discovery.etl.transform.RdfToSolrDocumentTransformer;
 
 public enum DataTransformerType implements DataProcessorType<DataTransformer<?, ?>> {
 
+    // TODO: allow overriding required attributes from properties
+
     RDF_TO_SOLR_DOCUMENT() {
         @Override
         public DataTransformer<?, ?> getDataProcessor(Data data) {

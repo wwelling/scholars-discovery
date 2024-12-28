@@ -6,6 +6,8 @@ import edu.tamu.scholars.discovery.etl.model.Data;
 
 public enum DataLoaderType implements DataProcessorType<DataLoader<?>> {
 
+    // TODO: allow overriding required attributes from properties
+
     SOLR_INDEXER("host", "collection") {
         @Override
         public DataLoader<?> getDataProcessor(Data data) {

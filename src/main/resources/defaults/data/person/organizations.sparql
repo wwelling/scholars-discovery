@@ -6,7 +6,7 @@ CONSTRUCT {
     ?organization rdfs:label ?label .
 }
 WHERE {
-    BIND(<{{uri}}> as ?baseOrg)
+    BIND(?uri as ?baseOrg)
     ?baseOrg (obo:BFO_0000050)* ?organization .
     ?organization a foaf:Organization .
     ?organization rdfs:label ?label .

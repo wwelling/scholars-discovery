@@ -4,7 +4,7 @@ PREFIX vivo: <http://vivoweb.org/ontology/core#>
 CONSTRUCT {
     ?document vivo:dateTime ?publicationDateWithId .
 } WHERE {
-    <{{uri}}> tamu:CapstoneAdvisedOf ?document .
+    ?uri tamu:CapstoneAdvisedOf ?document .
     ?document vivo:dateTimeValue ?dateTimeValue .
     ?dateTimeValue vivo:dateTime ?publicationDate .
     BIND( CONCAT( STR(?publicationDate), REPLACE(STR(?document), "(^.*/)", "::") ) AS ?publicationDateWithId ) .

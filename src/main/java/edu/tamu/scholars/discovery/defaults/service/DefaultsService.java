@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import edu.tamu.scholars.discovery.config.model.MiddlewareConfig;
 import edu.tamu.scholars.discovery.defaults.Defaults;
 
+@Slf4j
 @Service("defaultsService")
 public class DefaultsService implements ApplicationListener<ContextRefreshedEvent> {
 
