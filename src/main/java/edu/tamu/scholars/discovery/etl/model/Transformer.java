@@ -19,7 +19,7 @@ import edu.tamu.scholars.discovery.etl.transform.DataTransformer;
         @Index(name = "idx_transformer_name", columnList = "name")
     }
 )
-public class Transformer extends ConfigurableProcessor<DataTransformer<?, ?>, Mapper, DataTransformerType> {
+public class Transformer extends ConfigurableProcessor<DataTransformer<?, ?>, Mapper<?>, DataTransformerType> {
 
     private static final long serialVersionUID = -123987654321234987L;
 

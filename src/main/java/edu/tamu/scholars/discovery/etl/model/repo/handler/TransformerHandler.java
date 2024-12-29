@@ -8,6 +8,6 @@ import edu.tamu.scholars.discovery.etl.model.type.DataTransformerType;
 import edu.tamu.scholars.discovery.etl.transform.DataTransformer;
 
 @RepositoryEventHandler(Transformer.class)
-public class TransformerHandler extends ConfigurableProcessorHandler<DataTransformer<?, ?>, Mapper, DataTransformerType, Transformer> {
+public class TransformerHandler extends ConfigurableProcessorHandler<DataTransformer<?, ?>, Mapper<?>, DataTransformerType, Transformer> {
 
 }

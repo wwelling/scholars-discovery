@@ -35,7 +35,7 @@ discovery:
     individualKey: individual
     individualBaseUri: ${ui.url}/display
   etl:
-    bufferSize: 10000
+    bufferSize: 1000
   index:
     type: edu.tamu.scholars.discovery.component.index.SolrIndex
     host: http://localhost:8983/solr
@@ -47,8 +47,8 @@ discovery:
     schematize: false
     onStartup: false
     enableIndividualOnBatchFail: true
-    onStartupDelay: 10000
-    batchSize: 10000
+    onStartupDelay: 1000
+    batchSize: 1000
   mapper:
     type: edu.tamu.scholars.discovery.component.json.JsonMapper
   triplestore:

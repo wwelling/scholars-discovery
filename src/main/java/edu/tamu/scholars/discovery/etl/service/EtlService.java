@@ -98,7 +98,7 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
         extractor.preProcess();
         this.extractors.put(datum.getName(), extractor);
 
-        Mapper mapper = applicationContext.getBean(datum.getTransformer().getType().getServiceType());
+        Mapper<?> mapper = applicationContext.getBean(datum.getTransformer().getType().getServiceType());
         mapper.init();
 
         DataTransformer<I, O> transformer = getTransformer(datum, mapper);

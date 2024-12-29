@@ -8,6 +8,6 @@ import edu.tamu.scholars.discovery.etl.model.type.DataTransformerType;
 import edu.tamu.scholars.discovery.etl.transform.DataTransformer;
 
 @RepositoryRestResource
-public interface TransformerRepo extends ConfigurableProcessorRepo<DataTransformer<?, ?>, Mapper, DataTransformerType, Transformer> {
+public interface TransformerRepo extends ConfigurableProcessorRepo<DataTransformer<?, ?>, Mapper<?>, DataTransformerType, Transformer> {
 
 }

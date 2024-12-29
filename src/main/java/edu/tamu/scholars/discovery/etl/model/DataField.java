@@ -1,15 +1,10 @@
 package edu.tamu.scholars.discovery.etl.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;

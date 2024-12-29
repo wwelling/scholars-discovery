@@ -4,12 +4,14 @@ import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Embeddable
+@EqualsAndHashCode
 public class NestedReference implements Serializable {
 
     private static final long serialVersionUID = 234598273529387456L;

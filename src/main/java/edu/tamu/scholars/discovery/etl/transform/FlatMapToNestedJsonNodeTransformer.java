@@ -3,37 +3,67 @@ package edu.tamu.scholars.discovery.etl.transform;
 import static edu.tamu.scholars.discovery.index.IndexConstants.CLASS;
 import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.jsonldjava.shaded.com.google.common.base.Functions;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 
 import edu.tamu.scholars.discovery.component.Mapper;
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
+import edu.tamu.scholars.discovery.etl.model.NestedReference;
 
 @Slf4j
 public class FlatMapToNestedJsonNodeTransformer implements DataTransformer<Map<String, Object>, JsonNode> {
 
     private final Data data;
 
-    private final Mapper mapper;
+    private final Mapper<JsonNode> mapper;
 
     private final Map<String, DataField> fields;
 
-    public FlatMapToNestedJsonNodeTransformer(Data data, Mapper mapper) {
+    private final Map<String, DataField> references;
+
+    public FlatMapToNestedJsonNodeTransformer(Data data, Mapper<JsonNode> mapper) {
         this.data = data;
         this.mapper = mapper;
         this.fields = this.data.getFields()
                 .stream()
                 .collect(Collectors.toMap(
                         field -> field.getDescriptor().getName(),
-                        Functions.identity()));
+                        Function.identity()));
+
+        this.references = new HashMap<>();
+    }
+
+    @Override
+    public void preProcess() {
+        
+        for (DataField field : this.data.getFields()) {
+            DataFieldDescriptor descriptor = field.getDescriptor();
+            System.out.println(descriptor.getName());
+            for (NestedReference reference : descriptor.getNestedReferences()) {
+                System.out.println("\t" + reference.getField());
+                DataField referenceField = this.fields.remove(reference.getField());
+
+                if (Objects.nonNull(referenceField)) {
+                    this.references.put(reference.getField(), referenceField);
+                } else {
+                    System.out.println("\n\n\nREFERENCE FIELD NOT FOUND: " + reference.getField() + "\n\n\n");
+                }
+            }
+        }
+
+        System.out.println("\n\n\nFIELDS: " + this.fields + "\n\n\n");
+        System.out.println("\n\n\nREFERENCES: " + this.references + "\n\n\n");
     }
 
     @Override
@@ -45,31 +75,27 @@ public class FlatMapToNestedJsonNodeTransformer implements DataTransformer<Map<S
 
         processFields(data, individual);
 
-        // System.out.println("\n" + this.data.getName() + "\n" + individual + "\n");
+        System.out.println("\nMAPPED: " + this.data.getName() + "\n" + individual + "\n");
+
+        System.out.println("\nDATA REMAINING: " + data + "\n");
 
         return individual;
     }
 
     public void processFields(Map<String, Object> data, ObjectNode individual) {
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            String fieldName = entry.getKey();
-            Object value = entry.getValue();
-
-            // filter out those that are a reference to a nested reference
-
-            if (fields.containsKey(fieldName)) {
-                DataField field = fields.get(fieldName);
-                DataFieldDescriptor descriptor = field.getDescriptor();
+        this.fields.values().forEach(field -> {
+            DataFieldDescriptor descriptor = field.getDescriptor();
+            Object value = data.remove(descriptor.getName());
+            if (Objects.nonNull(value)) {
                 if (descriptor.isNested()) {
                     processNestedField(field, value, individual);
                 } else {
                     processField(field, value, individual);
                 }
             } else {
-                System.out.println("\nNo data field for " + fieldName + ": " + value + "\n");
+                log.debug("No value found for {} {}", this.data.getName(), descriptor.getName());
             }
-
-        }
+        });
     }
 
     public void processNestedField(DataField field, Object value, ObjectNode individual) {
@@ -79,7 +105,7 @@ public class FlatMapToNestedJsonNodeTransformer implements DataTransformer<Map<S
     public void processField(DataField field, Object value, ObjectNode individual) {
         DataFieldDescriptor descriptor = field.getDescriptor();
         if (descriptor.getDestination().isMultiValued()) {
-            // individual.set(descriptor.getName(), mapper.valueToTree(value));
+            individual.set(descriptor.getName(), mapper.valueToTree(value));
         } else {
             individual.put(descriptor.getName(), value.toString());
         }
