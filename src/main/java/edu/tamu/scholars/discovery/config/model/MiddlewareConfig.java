@@ -1,6 +1,5 @@
 package edu.tamu.scholars.discovery.config.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -10,13 +9,6 @@ import org.springframework.stereotype.Component;
 
 import edu.tamu.scholars.discovery.auth.config.AuthConfig;
 
-/**
- * Injectable discovery configuration.
- * 
- * <p>
- * See `discovery` in src/main/resources/application.yml.
- * </p>
- */
 @Data
 @NoArgsConstructor
 @Component
@@ -39,14 +31,12 @@ public class MiddlewareConfig {
 
     private HttpConfig http = new HttpConfig();
 
-    private IndexConfig index = new IndexConfig();
-
     private ExportConfig export = new ExportConfig();
 
+    private IndexConfig index = new IndexConfig();
+
+    private MapperConfig mapper = new MapperConfig();
+
     private TriplestoreConfig triplestore = new TriplestoreConfig();
-
-    private List<HarvesterConfig> harvesters = new ArrayList<>();
-
-    private List<IndexerConfig> indexers = new ArrayList<>();
 
 }

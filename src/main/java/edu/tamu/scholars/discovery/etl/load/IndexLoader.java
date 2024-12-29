@@ -28,6 +28,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
 
+import edu.tamu.scholars.discovery.component.index.Index;
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
@@ -36,9 +37,11 @@ import edu.tamu.scholars.discovery.factory.ManagedRestTemplate;
 import edu.tamu.scholars.discovery.factory.ManagedRestTemplateFactory;
 
 @Slf4j
-public class SolrIndexLoader implements DataLoader<JsonNode> {
+public class IndexLoader implements DataLoader<JsonNode> {
 
     private final Data data;
+
+    private final Index index;
 
     private final String host;
 
@@ -52,10 +55,11 @@ public class SolrIndexLoader implements DataLoader<JsonNode> {
 
     private final Map<Pair<String, String>, JsonNode> existingCopyFields;
 
-    public SolrIndexLoader(Data data) {
-        final Map<String, String> properties = data.getLoader().getAttributes();
-
+    public IndexLoader(Data data, Index index) {
         this.data = data;
+        this.index = index;
+
+        final Map<String, String> properties = data.getLoader().getAttributes();
 
         this.host = properties.getOrDefault("host", "http://localhost:8983/solr");
         this.collection = properties.getOrDefault("collection", "scholars-discovery");

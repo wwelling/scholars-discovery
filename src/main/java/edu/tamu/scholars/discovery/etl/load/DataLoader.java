@@ -4,10 +4,10 @@ import java.util.Collection;
 
 import edu.tamu.scholars.discovery.etl.DataProcessor;
 
-public interface DataLoader<I> extends DataProcessor {
+public interface DataLoader<O> extends DataProcessor {
 
-    public void load(Collection<I> documents);
+    public void load(Collection<O> documents);
 
-    public void load(I document);
+    public void load(O document);
 
 }

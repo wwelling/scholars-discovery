@@ -5,13 +5,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-/**
- * Injectable discovery configuration to specify http properties.
- * 
- * <p>
- * See `discovery.http` in src/main/resources/application.yml.
- * </p>
- */
 @Data
 @NoArgsConstructor
 @Component

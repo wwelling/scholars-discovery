@@ -2,18 +2,18 @@ package edu.tamu.scholars.discovery.etl.service;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 
+import edu.tamu.scholars.discovery.component.Destination;
+import edu.tamu.scholars.discovery.component.Mapper;
+import edu.tamu.scholars.discovery.component.Source;
 import edu.tamu.scholars.discovery.etl.DataProcessor;
 import edu.tamu.scholars.discovery.etl.extract.DataExtractor;
 import edu.tamu.scholars.discovery.etl.load.DataLoader;
@@ -29,10 +29,25 @@ import edu.tamu.scholars.discovery.etl.transform.DataTransformer;
 public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
 
     private final DataRepo dataRepo;
+
+    private final Source<?, ?, ?> source;
+
+    private final Mapper mapper;
+
+    private final Destination destination;
+
     private final ThreadPoolTaskScheduler threadPoolTaskScheduler;
 
-    public EtlService(DataRepo dataRepo, ThreadPoolTaskScheduler threadPoolTaskScheduler) {
+    public EtlService(
+            DataRepo dataRepo,
+            Source<?, ?, ?> source,
+            Mapper mapper,
+            Destination destination,
+            ThreadPoolTaskScheduler threadPoolTaskScheduler) {
         this.dataRepo = dataRepo;
+        this.source = source;
+        this.mapper = mapper;
+        this.destination = destination;
         this.threadPoolTaskScheduler = threadPoolTaskScheduler;
     }
 
@@ -49,62 +64,68 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
 
             log.info("Starting ETL {}", datum.getName());
 
-            getExtractor(datum).extract()
-                .map(getTransformer(datum)::transform)
+            getExtractor(datum, source).extract()
+                .map(getTransformer(datum, mapper)::transform)
                 .buffer(500) // TODO: get from properties
                 .subscribe(
-                    getLoader(datum)::load,
+                    getLoader(datum, destination)::load,
                     error -> destroy(datum),
                     () -> destroy(datum));
         });
     }
 
     private void init() {
+        source.init();
+        mapper.init();
+        destination.init();
         // initialize all processors before beginning
         for (Data datum : dataRepo.findAll()) {
-            init(datum.getExtractor(), datum);
-            init(datum.getTransformer(), datum);
-            init(datum.getLoader(), datum);
+            init(datum.getExtractor(), datum, source);
+            init(datum.getTransformer(), datum, mapper);
+            init(datum.getLoader(), datum, destination);
         }
     }
 
     private void destroy(Data datum) {
-        destroy(datum.getExtractor(), datum);
-        destroy(datum.getTransformer(), datum);
-        destroy(datum.getLoader(), datum);
+        destroy(datum.getExtractor(), datum, source);
+        destroy(datum.getTransformer(), datum, mapper);
+        destroy(datum.getLoader(), datum, destination);
         log.info("ETL {} finished", datum.getName());
     }
 
-    private <P extends DataProcessor, T extends DataProcessorType<P>, C extends ConfigurableProcessor<T>> void init(C processor, Data datum) {
-        P dataProcessor = getTypedDataProcessor(processor, datum);
+    private <P extends DataProcessor, S extends edu.tamu.scholars.discovery.component.Service, T extends DataProcessorType<P, S>, C extends ConfigurableProcessor<P, S, T>> void init(
+            C processor, Data datum, S service) {
+        P dataProcessor = getTypedDataProcessor(processor, datum, service);
         dataProcessor.init();
         dataProcessor.preProcess();
     }
 
-    private <P extends DataProcessor, T extends DataProcessorType<P>, C extends ConfigurableProcessor<T>> void destroy(C processor, Data datum) {
-        P dataProcessor = getTypedDataProcessor(processor, datum);
+    private <P extends DataProcessor, S extends edu.tamu.scholars.discovery.component.Service, T extends DataProcessorType<P, S>, C extends ConfigurableProcessor<P, S, T>> void destroy(
+            C processor, Data datum, S service) {
+        P dataProcessor = getTypedDataProcessor(processor, datum, service);
         dataProcessor.postProcess();
         dataProcessor.destroy();
     }
 
-    private <P extends DataProcessor> P getTypedDataProcessor(ConfigurableProcessor<? extends DataProcessorType<P>> processor, Data datum) {
+    private <P extends DataProcessor, S extends edu.tamu.scholars.discovery.component.Service> P getTypedDataProcessor(
+            ConfigurableProcessor<P, S, ? extends DataProcessorType<P, S>> processor, Data datum, S service) {
         return processor.getType()
-            .getDataProcessor(datum);
+                .getDataProcessor(datum, service);
     }
 
     @SuppressWarnings("unchecked")
-    private <I> DataExtractor<I> getExtractor(Data datum) {
-        return (DataExtractor<I>) getTypedDataProcessor(datum.getExtractor(), datum);
+    private <I> DataExtractor<I> getExtractor(Data datum, Source<?, ?, ?> source) {
+        return (DataExtractor<I>) getTypedDataProcessor(datum.getExtractor(), datum, source);
     }
 
     @SuppressWarnings("unchecked")
-    private <I, O> DataTransformer<I, O> getTransformer(Data datum) {
-        return (DataTransformer<I, O>) getTypedDataProcessor(datum.getTransformer(), datum);
+    private <I, O> DataTransformer<I, O> getTransformer(Data datum, Mapper mapper) {
+        return (DataTransformer<I, O>) getTypedDataProcessor(datum.getTransformer(), datum, mapper);
     }
 
     @SuppressWarnings("unchecked")
-    private <O> DataLoader<O> getLoader(Data datum) {
-        return (DataLoader<O>) getTypedDataProcessor(datum.getLoader(), datum);
+    private <O> DataLoader<O> getLoader(Data datum, Destination desintation) {
+        return (DataLoader<O>) getTypedDataProcessor(datum.getLoader(), datum, desintation);
     }
 
 }

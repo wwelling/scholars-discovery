@@ -1,22 +1,24 @@
 package edu.tamu.scholars.discovery.config.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-/**
- * Injectable discovery configuration to specify index properties.
- * 
- * <p>See `discovery.index` in src/main/resources/application.yml.</p>
- */
+import edu.tamu.scholars.discovery.component.index.Index;
+import edu.tamu.scholars.discovery.component.index.SolrIndex;
+
 @Data
 @NoArgsConstructor
 @Component
+@EqualsAndHashCode(callSuper = false)
 @ConfigurationProperties(prefix = "discovery.index")
-public class IndexConfig {
+public class IndexConfig extends ComponentConfig<Index> {
 
     // TODO: add validations and @Validated to the class
+
+    private Class<? extends Index> type = SolrIndex.class;
 
     private String host = "http://localhost:8983/solr";
 

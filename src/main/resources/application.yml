@@ -34,7 +34,11 @@ discovery:
     connect-timeout: 5
     # in seconds
     read-timeout: 30
+  export:
+    individualKey: individual
+    individualBaseUri: ${ui.url}/display
   index:
+    type: edu.tamu.scholars.discovery.component.index.SolrIndex
     host: http://localhost:8983/solr
     operator: OR
     parser: edismax
@@ -46,32 +50,11 @@ discovery:
     enableIndividualOnBatchFail: true
     onStartupDelay: 10000
     batchSize: 10000
+  mapper:
+    type: edu.tamu.scholars.discovery.component.json.JsonMapper
   triplestore:
-    type: edu.tamu.scholars.discovery.service.TdbTriplestore
+    type: edu.tamu.scholars.discovery.component.triplestore.TdbTriplestore
     directory: triplestore
-  harvesters:
-  - type: edu.tamu.scholars.discovery.index.component.jena.TriplestoreHarvester
-    documentTypes:
-    - edu.tamu.scholars.discovery.index.model.Collection
-    - edu.tamu.scholars.discovery.index.model.Concept
-    - edu.tamu.scholars.discovery.index.model.Document
-    - edu.tamu.scholars.discovery.index.model.Organization
-    - edu.tamu.scholars.discovery.index.model.Person
-    - edu.tamu.scholars.discovery.index.model.Process
-    - edu.tamu.scholars.discovery.index.model.Relationship
-  indexers:
-  - type: edu.tamu.scholars.discovery.index.component.solr.SolrIndexer
-    documentTypes:
-    - edu.tamu.scholars.discovery.index.model.Collection
-    - edu.tamu.scholars.discovery.index.model.Concept
-    - edu.tamu.scholars.discovery.index.model.Document
-    - edu.tamu.scholars.discovery.index.model.Organization
-    - edu.tamu.scholars.discovery.index.model.Person
-    - edu.tamu.scholars.discovery.index.model.Process
-    - edu.tamu.scholars.discovery.index.model.Relationship
-  export:
-    individualKey: individual
-    individualBaseUri: ${ui.url}/display
 
 logging:
   file:

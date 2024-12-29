@@ -3,9 +3,6 @@ package edu.tamu.scholars.discovery.config.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -13,15 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import edu.tamu.scholars.discovery.auth.config.AuthConfig;
 import edu.tamu.scholars.discovery.auth.config.PasswordConfig;
 import edu.tamu.scholars.discovery.auth.config.TokenConfig;
-import edu.tamu.scholars.discovery.index.model.AbstractIndexDocument;
-import edu.tamu.scholars.discovery.index.model.Collection;
-import edu.tamu.scholars.discovery.index.model.Concept;
-import edu.tamu.scholars.discovery.index.model.Document;
-import edu.tamu.scholars.discovery.index.model.Organization;
-import edu.tamu.scholars.discovery.index.model.Person;
-import edu.tamu.scholars.discovery.index.model.Process;
-import edu.tamu.scholars.discovery.index.model.Relationship;
-import edu.tamu.scholars.discovery.service.TdbTriplestore;
+import edu.tamu.scholars.discovery.component.triplestore.TdbTriplestore;
 
 @ExtendWith(MockitoExtension.class)
 public class MiddlewareConfigTest {
@@ -151,57 +140,15 @@ public class MiddlewareConfigTest {
         TriplestoreConfig newTriplestoreConfig = new TriplestoreConfig();
         newTriplestoreConfig.setType(TdbTriplestore.class);
         newTriplestoreConfig.setDirectory("vivo_data");
-        newTriplestoreConfig.setDatasourceUrl("jdbc://localhost:6541/test");
+        newTriplestoreConfig.setUrl("jdbc://localhost:6541/test");
         middlewareConfig.setTriplestore(newTriplestoreConfig);
         TriplestoreConfig triplestoreConfig = middlewareConfig.getTriplestore();
         triplestoreConfig.setType(TdbTriplestore.class);
         assertEquals(TdbTriplestore.class, triplestoreConfig.getType());
         triplestoreConfig.setDirectory("vivo_data");
         assertEquals("vivo_data", triplestoreConfig.getDirectory());
-        triplestoreConfig.setDatasourceUrl("jdbc://localhost:6541/test");
-        assertEquals("jdbc://localhost:6541/test", triplestoreConfig.getDatasourceUrl());
-    }
-
-    @Test
-    public void testHarvestersGetterSetter() {
-        MiddlewareConfig middlewareConfig = new MiddlewareConfig();
-        HarvesterConfig newHarvesterConfig = new HarvesterConfig();
-        List<Class<? extends AbstractIndexDocument>> documentTypes = new ArrayList<Class<? extends AbstractIndexDocument>>();
-        documentTypes.add(Collection.class);
-        documentTypes.add(Concept.class);
-        documentTypes.add(Document.class);
-        documentTypes.add(Organization.class);
-        documentTypes.add(Person.class);
-        documentTypes.add(Process.class);
-        documentTypes.add(Relationship.class);
-        newHarvesterConfig.setDocumentTypes(documentTypes);
-        List<HarvesterConfig> harvesterConfigs = new ArrayList<HarvesterConfig>();
-        harvesterConfigs.add(newHarvesterConfig);
-        middlewareConfig.setHarvesters(harvesterConfigs);
-        assertEquals(1, middlewareConfig.getHarvesters().size());
-        HarvesterConfig harvesterConfig = middlewareConfig.getHarvesters().get(0);
-        assertEquals(7, harvesterConfig.getDocumentTypes().size());
-    }
-
-    @Test
-    public void testIndexersGetterSetter() {
-        MiddlewareConfig middlewareConfig = new MiddlewareConfig();
-        IndexerConfig newIndexerConfig = new IndexerConfig();
-        List<Class<? extends AbstractIndexDocument>> documentTypes = new ArrayList<Class<? extends AbstractIndexDocument>>();
-        documentTypes.add(Collection.class);
-        documentTypes.add(Concept.class);
-        documentTypes.add(Document.class);
-        documentTypes.add(Organization.class);
-        documentTypes.add(Person.class);
-        documentTypes.add(Process.class);
-        documentTypes.add(Relationship.class);
-        newIndexerConfig.setDocumentTypes(documentTypes);
-        List<IndexerConfig> indexerConfigs = new ArrayList<IndexerConfig>();
-        indexerConfigs.add(newIndexerConfig);
-        middlewareConfig.setIndexers(indexerConfigs);
-        assertEquals(1, middlewareConfig.getIndexers().size());
-        IndexerConfig indexerConfig = middlewareConfig.getIndexers().get(0);
-        assertEquals(7, indexerConfig.getDocumentTypes().size());
+        triplestoreConfig.setUrl("jdbc://localhost:6541/test");
+        assertEquals("jdbc://localhost:6541/test", triplestoreConfig.getUrl());
     }
 
 }

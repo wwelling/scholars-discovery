@@ -3,21 +3,17 @@ package edu.tamu.scholars.discovery.etl.extract;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.jena.query.QueryExecution;
 
+import edu.tamu.scholars.discovery.component.triplestore.Triplestore;
 import edu.tamu.scholars.discovery.etl.model.Data;
-import edu.tamu.scholars.discovery.triplestore.TdbTriplestore;
 
 @Slf4j
-public class TdbSparqlExtractor extends AbstractSparqlExtractor {
+public class TriplestoreExtractor extends AbstractTriplestoreExtractor {
 
-    private final TdbTriplestore triplestore;
+    private final Triplestore triplestore;
 
-    public TdbSparqlExtractor(Data data) {
+    public TriplestoreExtractor(Data data, Triplestore triplestore) {
         super(data);
-
-        final String directory = this.properties
-            .getOrDefault("directory", "triplestore");
-
-        this.triplestore = TdbTriplestore.of(directory);
+        this.triplestore = triplestore;
     }
 
     @Override

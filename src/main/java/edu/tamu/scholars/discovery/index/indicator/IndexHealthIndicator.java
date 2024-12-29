@@ -18,7 +18,7 @@ import edu.tamu.scholars.discovery.index.component.solr.SolrService;
 import edu.tamu.scholars.discovery.index.model.repo.IndividualRepo;
 import edu.tamu.scholars.discovery.index.service.IndexService;
 
-@Component("index")
+@Component
 public class IndexHealthIndicator implements HealthIndicator {
 
     private final SolrService solrService;

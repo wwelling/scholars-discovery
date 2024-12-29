@@ -7,12 +7,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.jsonldjava.shaded.com.google.common.base.Functions;
 import lombok.extern.slf4j.Slf4j;
 
+import edu.tamu.scholars.discovery.component.Mapper;
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
@@ -22,18 +22,18 @@ public class FlatMapToNestedJsonNodeTransformer implements DataTransformer<Map<S
 
     private final Data data;
 
-    private final ObjectMapper mapper;
+    private final Mapper mapper;
 
     private final Map<String, DataField> fields;
 
-    public FlatMapToNestedJsonNodeTransformer(Data data) {
+    public FlatMapToNestedJsonNodeTransformer(Data data, Mapper mapper) {
         this.data = data;
-        this.mapper = new ObjectMapper();
+        this.mapper = mapper;
         this.fields = this.data.getFields()
-            .stream()
-            .collect(Collectors.toMap(
-                field -> field.getDescriptor().getName(),
-                Functions.identity()));
+                .stream()
+                .collect(Collectors.toMap(
+                        field -> field.getDescriptor().getName(),
+                        Functions.identity()));
     }
 
     @Override
@@ -79,7 +79,7 @@ public class FlatMapToNestedJsonNodeTransformer implements DataTransformer<Map<S
     public void processField(DataField field, Object value, ObjectNode individual) {
         DataFieldDescriptor descriptor = field.getDescriptor();
         if (descriptor.getDestination().isMultiValued()) {
-            individual.set(descriptor.getName(), mapper.valueToTree(value));
+            // individual.set(descriptor.getName(), mapper.valueToTree(value));
         } else {
             individual.put(descriptor.getName(), value.toString());
         }

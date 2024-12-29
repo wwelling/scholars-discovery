@@ -1,17 +1,19 @@
 package edu.tamu.scholars.discovery.etl.model.type;
 
+import edu.tamu.scholars.discovery.component.Source;
+import edu.tamu.scholars.discovery.component.triplestore.Triplestore;
 import edu.tamu.scholars.discovery.etl.extract.DataExtractor;
-import edu.tamu.scholars.discovery.etl.extract.TdbSparqlExtractor;
+import edu.tamu.scholars.discovery.etl.extract.TriplestoreExtractor;
 import edu.tamu.scholars.discovery.etl.model.Data;
 
-public enum DataExtractorType implements DataProcessorType<DataExtractor<?>> {
+public enum DataExtractorType implements DataProcessorType<DataExtractor<?>, Source<?, ?, ?>> {
 
     // TODO: allow overriding required attributes from properties
 
-    TDB_SPARQL("directory") {
+    TDB_TRIPLESTORE("directory") {
         @Override
-        public DataExtractor<?> getDataProcessor(Data data) {
-            return new TdbSparqlExtractor(data);
+        public DataExtractor<?> getDataProcessor(Data data, Source<?, ?, ?> service) {
+            return new TriplestoreExtractor(data, (Triplestore) service);
         }
     };
 

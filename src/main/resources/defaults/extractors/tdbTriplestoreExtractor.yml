@@ -1,0 +1,4 @@
+name: TDB Triplestore Extractor
+type: TDB_TRIPLESTORE
+attributes:
+  directory: triplestore

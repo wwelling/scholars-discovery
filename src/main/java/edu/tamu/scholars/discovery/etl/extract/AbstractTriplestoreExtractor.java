@@ -37,7 +37,7 @@ import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
 import edu.tamu.scholars.discovery.etl.model.FieldSource;
 
 @Slf4j
-public abstract class AbstractSparqlExtractor implements DataExtractor<Map<String, Object>> {
+public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<String, Object>> {
 
     private static final String FORWARD_SLASH = "/";
 
@@ -51,7 +51,7 @@ public abstract class AbstractSparqlExtractor implements DataExtractor<Map<Strin
 
     protected final Set<DataField> fields;
 
-    protected AbstractSparqlExtractor(Data data) {
+    protected AbstractTriplestoreExtractor(Data data) {
         this.data = data;
         this.properties = data.getExtractor().getAttributes();
         this.collectionSource = data.getCollectionSource();
