@@ -28,6 +28,8 @@ public class SparqlController {
         this.source = source;
     }
 
+    // TODO: disable until ETL is complete otherwise calls on dataset close effects
+    // all dataset objects
     @PostMapping(value = "/construct", consumes = MediaType.TEXT_PLAIN_VALUE)
     public void construct(
             @RequestParam(defaultValue = "RDF_XML") RdfFormat format,

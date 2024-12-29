@@ -13,4 +13,8 @@ public class SolrIndex implements Index {
         this.config = config;
     }
 
+    public void config() {
+        System.out.println(this.config);
+    }
+
 }

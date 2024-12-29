@@ -67,7 +67,7 @@ public class IndexLoader implements DataLoader<JsonNode> {
         this.objectMapper = new ObjectMapper();
 
         this.restTemplate = ManagedRestTemplateFactory.of(properties)
-            .withErrorHandler(new SolrResponseErrorHandler());
+                .withErrorHandler(new SolrResponseErrorHandler());
 
         this.existingFields = new HashMap<>();
         this.existingCopyFields = new HashMap<>();
@@ -93,14 +93,12 @@ public class IndexLoader implements DataLoader<JsonNode> {
 
     @Override
     public void load(Collection<JsonNode> documents) {
-        // TODO
-
-        System.out.println("\nLOAD " + documents.size() + "\n");
+        log.info("Loading {} {} documents", documents.size(), this.data.getName());
     }
 
     @Override
     public void load(JsonNode document) {
-        // TODO
+
     }
 
     private Map<String, JsonNode> getFields() {
@@ -128,8 +126,8 @@ public class IndexLoader implements DataLoader<JsonNode> {
             Stream<JsonNode> stream = StreamSupport.stream(iterable.spliterator(), false);
 
             return stream.collect(Collectors.toMap(
-                node -> Pair.of(node.get("source").asText(), node.get("dest").asText()),
-                node -> node));
+                    node -> Pair.of(node.get("source").asText(), node.get("dest").asText()),
+                    node -> node));
         }
 
         return Map.of();
@@ -176,8 +174,8 @@ public class IndexLoader implements DataLoader<JsonNode> {
         }
 
         Set<String> copyTo = descriptor
-            .getDestination()
-            .getCopyTo();
+                .getDestination()
+                .getCopyTo();
 
         for (String dest : copyTo) {
             if (!existingCopyFields.containsKey(Pair.of(name, dest))) {
@@ -250,7 +248,7 @@ public class IndexLoader implements DataLoader<JsonNode> {
         @Override
         public boolean hasError(ClientHttpResponse response) throws IOException {
             return response.getStatusCode()
-                .isError();
+                    .isError();
         }
 
         @Override

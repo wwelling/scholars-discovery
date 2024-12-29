@@ -8,19 +8,25 @@ import edu.tamu.scholars.discovery.etl.model.Data;
 
 public enum DataExtractorType implements DataProcessorType<DataExtractor<?>, Source<?, ?, ?>> {
 
-    // TODO: allow overriding required attributes from properties
-
-    TDB_TRIPLESTORE("directory") {
+    TDB_TRIPLESTORE(Triplestore.class, "directory") {
         @Override
         public DataExtractor<?> getDataProcessor(Data data, Source<?, ?, ?> service) {
             return new TriplestoreExtractor(data, (Triplestore) service);
         }
     };
 
+    private final Class<? extends Source<?, ?, ?>> serviceType;
+
     private final String[] requiredAttributes;
 
-    DataExtractorType(String... requiredAttributes) {
+    DataExtractorType(Class<? extends Source<?, ?, ?>> serviceType, String... requiredAttributes) {
+        this.serviceType = serviceType;
         this.requiredAttributes = requiredAttributes;
+    }
+
+    @Override
+    public Class<? extends Source<?, ?, ?>> getServiceType() {
+        return serviceType;
     }
 
     @Override

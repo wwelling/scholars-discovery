@@ -6,6 +6,8 @@ import edu.tamu.scholars.discovery.etl.model.Data;
 
 public interface DataProcessorType<P extends DataProcessor, S extends Service> {
 
+    Class<? extends S> getServiceType();
+
     String[] getRequiredAttributes();
 
     P getDataProcessor(Data data, S service);

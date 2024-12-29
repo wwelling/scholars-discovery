@@ -6,19 +6,19 @@ import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import edu.tamu.scholars.discovery.component.Source;
 import edu.tamu.scholars.discovery.component.triplestore.TdbTriplestore;
-import edu.tamu.scholars.discovery.component.triplestore.Triplestore;
 
 @Data
 @NoArgsConstructor
 @Component
 @EqualsAndHashCode(callSuper = false)
 @ConfigurationProperties(prefix = "discovery.triplestore")
-public class TriplestoreConfig extends ComponentConfig<Triplestore> {
+public class TriplestoreConfig extends ComponentConfig<Source<?, ?, ?>> {
 
     // TODO: add validations and @Validated to the class
 
-    private Class<? extends Triplestore> type = TdbTriplestore.class;
+    private Class<? extends Source<?, ?, ?>> type = TdbTriplestore.class;
 
     private String directory = "triplestore";
 

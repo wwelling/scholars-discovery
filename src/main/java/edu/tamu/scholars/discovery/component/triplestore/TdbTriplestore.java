@@ -1,8 +1,5 @@
 package edu.tamu.scholars.discovery.component.triplestore;
 
-import java.time.Duration;
-import java.time.Instant;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.Query;
@@ -36,13 +33,8 @@ public class TdbTriplestore extends AbstractTriplestore {
 
     @Override
     public void init() {
-        final Instant start = Instant.now();
-        log.info("Intializing {}", config.getType().getSimpleName());
         TDB1.getContext().setTrue(TDB1.symUnionDefaultGraph);
         dataset = TDB1Factory.createDataset(config.getDirectory());
-        log.info("{} ready. {} seconds",
-            config.getType().getSimpleName(),
-            Duration.between(start, Instant.now()).toMillis() / 1000.0);
     }
 
     @Override

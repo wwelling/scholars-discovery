@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.config;
 
+import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+
 import java.lang.reflect.InvocationTargetException;
 
 import org.springframework.context.annotation.Bean;
@@ -19,7 +21,7 @@ import edu.tamu.scholars.discovery.config.model.TriplestoreConfig;
 public class DependencyComponentConfig {
 
     @Bean
-    @Scope("prototype")
+    @Scope(value = SCOPE_PROTOTYPE)
     Source<?, ?, ?> source(TriplestoreConfig config)
             throws InstantiationException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, NoSuchMethodException, SecurityException {
@@ -27,27 +29,39 @@ public class DependencyComponentConfig {
     }
 
     @Bean
-    @Scope("prototype")
-    Destination index(IndexConfig config)
+    @Scope(value = SCOPE_PROTOTYPE)
+    Destination destination(IndexConfig config)
             throws InstantiationException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, NoSuchMethodException, SecurityException {
         return construct(config);
     }
 
     @Bean
-    @Scope("prototype")
+    @Scope(value = SCOPE_PROTOTYPE)
     Mapper mapper(MapperConfig config)
             throws InstantiationException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, NoSuchMethodException, SecurityException {
         return construct(config);
     }
 
+    // TODO: implement bean creation from data repo if not exists
+    /*
+    @Bean
+    List<Service> services(DataRepo dataRepo, AutowireCapableBeanFactory beanFactory)
+        throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+        InvocationTargetException, NoSuchMethodException, SecurityException {
+        List<Service> services = new ArrayList<>();
+
+        return services;
+    }
+    */
+
     private <S extends Service> S construct(ComponentConfig<S> config)
             throws InstantiationException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, NoSuchMethodException, SecurityException {
         return config.getType()
-                .getConstructor(config.getClass())
-                .newInstance(config);
+            .getConstructor(config.getClass())
+            .newInstance(config);
     }
 
 }

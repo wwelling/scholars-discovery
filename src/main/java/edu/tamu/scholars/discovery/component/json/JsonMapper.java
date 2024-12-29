@@ -14,4 +14,8 @@ public class JsonMapper implements Mapper {
         this.config = config;
     }
 
+    public void config() {
+        System.out.println(this.config);
+    }
+
 }

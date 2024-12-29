@@ -34,6 +34,8 @@ discovery:
   export:
     individualKey: individual
     individualBaseUri: ${ui.url}/display
+  etl:
+    bufferSize: 10000
   index:
     type: edu.tamu.scholars.discovery.component.index.SolrIndex
     host: http://localhost:8983/solr
@@ -124,12 +126,14 @@ management:
     web:
       exposure:
         # https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html
-        include: health, info, mappings
+        include: beans, health, info, mappings
   endpoint:
+    beans:
+      access: READ_ONLY
     health:
       access: READ_ONLY
-      show-details: always
-      show-components: always
+      show-details: never
+      show-components: never
     info:
       access: READ_ONLY
     mappings:

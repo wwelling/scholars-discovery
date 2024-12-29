@@ -45,7 +45,7 @@ public class FlatMapToNestedJsonNodeTransformer implements DataTransformer<Map<S
 
         processFields(data, individual);
 
-        System.out.println("\n" + this.data.getName() + "\n" + individual + "\n");
+        // System.out.println("\n" + this.data.getName() + "\n" + individual + "\n");
 
         return individual;
     }

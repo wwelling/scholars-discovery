@@ -38,13 +38,13 @@ public class MiddlewareApplication {
 
     @PostConstruct
     public void echo() {
-        echo(Collection.class);
-        echo(Concept.class);
-        echo(Document.class);
-        echo(Organization.class);
-        echo(Person.class);
-        echo(Process.class);
-        echo(Relationship.class);
+        // echo(Collection.class);
+        // echo(Concept.class);
+        // echo(Document.class);
+        // echo(Organization.class);
+        // echo(Person.class);
+        // echo(Process.class);
+        // echo(Relationship.class);
     }
 
     public void echo(Class<?> clazz) {
