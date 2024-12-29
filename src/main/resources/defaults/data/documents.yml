@@ -100,19 +100,19 @@ fields:
       source:
         template: defaults/data/document/author.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: authorOrganization
-        nested: true
-        destination:
-          type: strings
-          multiValued: true
-          docValues: true
-        source:
-          template: defaults/data/document/authorOrganization.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-          cacheableSources:
-            - template: defaults/data/document/authorOrganizations.sparql
-              predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: authorOrganization
+      nested: true
+      destination:
+        type: strings
+        multiValued: true
+        docValues: true
+      source:
+        template: defaults/data/document/authorOrganization.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        cacheableSources:
+          - template: defaults/data/document/authorOrganizations.sparql
+            predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: editors
       nested: true
@@ -165,14 +165,14 @@ fields:
         template: defaults/data/document/publisher.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
         unique: true
-    nestedDescriptors:
-      - name: publisherType
-        destination:
-          type: string
-        source:
-          template: defaults/data/document/publisherType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
+  - descriptor:
+      name: publisherType
+      destination:
+        type: string
+      source:
+        template: defaults/data/document/publisherType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
   - descriptor:
       name: dateFiled
       destination:
@@ -763,15 +763,15 @@ fields:
       source:
         template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: websiteUrl
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/common/websiteUrl.sparql
-          predicate: http://www.w3.org/2006/vcard/ns#url
+  - descriptor:
+      name: websiteUrl
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/common/websiteUrl.sparql
+        predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
       name: geographicFocus
       nested: true

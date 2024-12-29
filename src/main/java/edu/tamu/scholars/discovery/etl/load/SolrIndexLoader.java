@@ -36,13 +36,13 @@ import edu.tamu.scholars.discovery.factory.ManagedRestTemplate;
 import edu.tamu.scholars.discovery.factory.ManagedRestTemplateFactory;
 
 @Slf4j
-public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
+public class SolrIndexLoader implements DataLoader<JsonNode> {
 
     private final Data data;
 
-    private final Map<String, String> properties;
+    private final String host;
 
-    private final Set<DataField> fields;
+    private final String collection;
 
     private final ObjectMapper objectMapper;
 
@@ -53,13 +53,16 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
     private final Map<Pair<String, String>, JsonNode> existingCopyFields;
 
     public SolrIndexLoader(Data data) {
+        final Map<String, String> properties = data.getLoader().getAttributes();
+
         this.data = data;
-        this.properties = data.getLoader().getAttributes();
-        this.fields = data.getFields();
+
+        this.host = properties.getOrDefault("host", "http://localhost:8983/solr");
+        this.collection = properties.getOrDefault("collection", "scholars-discovery");
 
         this.objectMapper = new ObjectMapper();
 
-        this.restTemplate = ManagedRestTemplateFactory.of(this.properties)
+        this.restTemplate = ManagedRestTemplateFactory.of(properties)
             .withErrorHandler(new SolrResponseErrorHandler());
 
         this.existingFields = new HashMap<>();
@@ -85,12 +88,12 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
     }
 
     @Override
-    public void load(Collection<Map<String, Object>> documents) {
+    public void load(Collection<JsonNode> documents) {
         // TODO
     }
 
     @Override
-    public void load(Map<String, Object> document) {
+    public void load(JsonNode document) {
         // TODO
     }
 
@@ -131,12 +134,8 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
         ArrayNode addFieldNodes = objectMapper.createArrayNode();
         ArrayNode addCopyFieldNodes = objectMapper.createArrayNode();
 
-        for (DataField field : fields) {
+        for (DataField field : this.data.getFields()) {
             processField(field.getDescriptor(), addFieldNodes, addCopyFieldNodes);
-
-            for (DataFieldDescriptor descriptor : field.getNestedDescriptors()) {
-                processField(descriptor, addFieldNodes, addCopyFieldNodes);
-            }
         }
 
         if (!addFieldNodes.isEmpty()) {
@@ -223,15 +222,10 @@ public class SolrIndexLoader implements DataLoader<Map<String, Object>> {
     }
 
     private String getUrl(String... paths) {
-        String host = properties.getOrDefault("host", "http://localhost:8983/solr");
-
-        String baseUrl = removeEnd(host, "/");
-
-        String collection = properties.getOrDefault("collection", "scholars-discovery");
-
+        String baseUrl = removeEnd(this.host, "/");
         String path = join("/", paths);
 
-        return join("/", baseUrl, collection, path);
+        return join("/", baseUrl, this.collection, path);
     }
 
     private String getUrlWithQuery(String path, String queryParams) {

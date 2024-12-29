@@ -2,16 +2,16 @@ package edu.tamu.scholars.discovery.etl.model.type;
 
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.transform.DataTransformer;
-import edu.tamu.scholars.discovery.etl.transform.RdfToSolrDocumentTransformer;
+import edu.tamu.scholars.discovery.etl.transform.FlatMapToNestedJsonNodeTransformer;
 
 public enum DataTransformerType implements DataProcessorType<DataTransformer<?, ?>> {
 
     // TODO: allow overriding required attributes from properties
 
-    RDF_TO_SOLR_DOCUMENT() {
+    FLAT_MAP_TO_NESTED_JSON_NODE() {
         @Override
         public DataTransformer<?, ?> getDataProcessor(Data data) {
-            return new RdfToSolrDocumentTransformer(data);
+            return new FlatMapToNestedJsonNodeTransformer(data);
         }
     };
 

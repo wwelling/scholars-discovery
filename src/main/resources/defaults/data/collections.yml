@@ -92,14 +92,14 @@ fields:
         template: defaults/data/collection/publisher.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
         unique: true
-    nestedDescriptors:
-      - name: publisherType
-        destination:
-          type: string
-        source:
-          template: defaults/data/collection/publisherType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
+  - descriptor:
+      name: publisherType
+      destination:
+        type: string
+      source:
+        template: defaults/data/collection/publisherType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
   - descriptor:
       name: subjectAreas
       nested: true
@@ -256,15 +256,15 @@ fields:
       source:
         template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: websiteUrl
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/common/websiteUrl.sparql
-          predicate: http://www.w3.org/2006/vcard/ns#url
+  - descriptor:
+      name: websiteUrl
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/common/websiteUrl.sparql
+        predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
       name: geographicFocus
       nested: true

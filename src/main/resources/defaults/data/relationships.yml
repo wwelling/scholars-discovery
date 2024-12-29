@@ -73,16 +73,16 @@ fields:
       source:
         template: defaults/data/relationship/awardOrHonorFor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: awardOrHonorForType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/relationship/awardOrHonorForType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
+  - descriptor:
+      name: awardOrHonorForType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/relationship/awardOrHonorForType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
   - descriptor:
       name: awardConferredBy
       nested: true
@@ -102,36 +102,36 @@ fields:
       source:
         template: defaults/data/relationship/awardConferredBy.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: awardConferredByType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/relationship/awardConferredByType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: awardConferredByAbbreviation
-        destination:
-          type: strings
-          copyTo:
-            - _text_
-          multiValued: true
-        source:
-          template: defaults/data/relationship/awardConferredByAbbreviation.sparql
-          predicate: http://vivoweb.org/ontology/core#abbreviation
-    nestedDescriptors:
-      - name: awardConferredByPreferredLabel
-        destination:
-          type: strings
-          copyTo:
-            - _text_
-          multiValued: true
-        source:
-          template: defaults/data/relationship/awardConferredByPreferredLabel.sparql
-          predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardConferredBy_label
+  - descriptor:
+      name: awardConferredByType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/relationship/awardConferredByType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: awardConferredByAbbreviation
+      destination:
+        type: strings
+        copyTo:
+          - _text_
+        multiValued: true
+      source:
+        template: defaults/data/relationship/awardConferredByAbbreviation.sparql
+        predicate: http://vivoweb.org/ontology/core#abbreviation
+  - descriptor:
+      name: awardConferredByPreferredLabel
+      destination:
+        type: strings
+        copyTo:
+          - _text_
+        multiValued: true
+      source:
+        template: defaults/data/relationship/awardConferredByPreferredLabel.sparql
+        predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardConferredBy_label
   - descriptor:
       name: awardedBy
       nested: true
@@ -152,36 +152,36 @@ fields:
       source:
         template: defaults/data/relationship/awardedBy.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: awardedByType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/relationship/awardedByType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: awardedByAbbreviation
-        destination:
-          type: strings
-          copyTo:
-            - _text_
-          multiValued: true
-        source:
-          template: defaults/data/relationship/awardedByAbbreviation.sparql
-          predicate: http://vivoweb.org/ontology/core#abbreviation
-    nestedDescriptors:
-      - name: awardedByPreferredLabel
-        destination:
-          type: strings
-          copyTo:
-            - _text_
-          multiValued: true
-        source:
-          template: defaults/data/relationship/awardedByPreferredLabel.sparql
-          predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardedBy_label
+  - descriptor:
+      name: awardedByType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/relationship/awardedByType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: awardedByAbbreviation
+      destination:
+        type: strings
+        copyTo:
+          - _text_
+        multiValued: true
+      source:
+        template: defaults/data/relationship/awardedByAbbreviation.sparql
+        predicate: http://vivoweb.org/ontology/core#abbreviation
+  - descriptor:
+      name: awardedByPreferredLabel
+      destination:
+        type: strings
+        copyTo:
+          - _text_
+        multiValued: true
+      source:
+        template: defaults/data/relationship/awardedByPreferredLabel.sparql
+        predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardedBy_label
   - descriptor:
       name: grantSubcontractedThrough
       nested: true
@@ -196,16 +196,16 @@ fields:
       source:
         template: defaults/data/relationship/grantSubcontractedThrough.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: grantSubcontractedThroughType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/relationship/grantSubcontractedThroughType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
+  - descriptor:
+      name: grantSubcontractedThroughType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/relationship/grantSubcontractedThroughType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
   - descriptor:
       name: administeredBy
       nested: true
@@ -299,24 +299,24 @@ fields:
       source:
         template: defaults/data/relationship/contributor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: contributorRole
-        destination:
-          type: strings
-          multiValued: true
-        source:
-          template: defaults/data/relationship/contributorRole.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: contributorOrganization
-        destination:
-          type: strings
-          multiValued: true
-          docValues: true
-        source:
-          template: defaults/data/relationship/contributorOrganization.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: contributorRole
+      destination:
+        type: strings
+        multiValued: true
+      source:
+        template: defaults/data/relationship/contributorRole.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: contributorOrganization
+      destination:
+        type: strings
+        multiValued: true
+        docValues: true
+      source:
+        template: defaults/data/relationship/contributorOrganization.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: principalInvestigators
       nested: true
@@ -462,15 +462,15 @@ fields:
       source:
         template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: websiteUrl
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/common/websiteUrl.sparql
-          predicate: http://www.w3.org/2006/vcard/ns#url
+  - descriptor:
+      name: websiteUrl
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/common/websiteUrl.sparql
+        predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
       name: geographicFocus
       nested: true

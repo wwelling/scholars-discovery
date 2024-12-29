@@ -62,15 +62,15 @@ fields:
       source:
         template: defaults/data/concept/awardOrHonorFor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: awardOrHonorForType
-        destination:
-          type: strings
-          multiValued: true
-        source:
-          template: defaults/data/concept/awardOrHonorForType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
+  - descriptor:
+      name: awardOrHonorForType
+      destination:
+        type: strings
+        multiValued: true
+      source:
+        template: defaults/data/concept/awardOrHonorForType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
   - descriptor:
       name: awardConferredBy
       nested: true
@@ -87,15 +87,15 @@ fields:
       source:
         template: defaults/data/concept/awardConferredBy.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: awardConferredByType
-        destination:
-          type: strings
-          multiValued: true
-        source:
-          template: defaults/data/concept/awardConferredByType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
+  - descriptor:
+      name: awardConferredByType
+      destination:
+        type: strings
+        multiValued: true
+      source:
+        template: defaults/data/concept/awardConferredByType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
   - descriptor:
       name: awardConferredByPreferredLabel
       destination:
@@ -128,15 +128,15 @@ fields:
       source:
         template: defaults/data/concept/receipts.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: receiptRecipientName
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/concept/receiptRecipientName.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: receiptRecipientName
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/concept/receiptRecipientName.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: broaderConcepts
       nested: true
@@ -188,29 +188,29 @@ fields:
       source:
         template: defaults/data/concept/futureResearchIdeaOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: futureResearchIdeaOfEmail
-        destination:
-          type: string
-        source:
-          template: defaults/data/concept/futureResearchIdeaOfEmail.sparql
-          predicate: http://www.w3.org/2006/vcard/ns#email
-    nestedDescriptors:
-      - name: futureResearchIdeaOfTitle
-        destination:
-          type: string
-        source:
-          template: defaults/data/concept/futureResearchIdeaOfTitle.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: futureResearchIdeaOfOrganization
-        nested: true
-        destination:
-          type: strings
-          multiValued: true
-        source:
-          template: defaults/data/concept/futureResearchIdeaOfOrganization.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: futureResearchIdeaOfEmail
+      destination:
+        type: string
+      source:
+        template: defaults/data/concept/futureResearchIdeaOfEmail.sparql
+        predicate: http://www.w3.org/2006/vcard/ns#email
+  - descriptor:
+      name: futureResearchIdeaOfTitle
+      destination:
+        type: string
+      source:
+        template: defaults/data/concept/futureResearchIdeaOfTitle.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: futureResearchIdeaOfOrganization
+      nested: true
+      destination:
+        type: strings
+        multiValued: true
+      source:
+        template: defaults/data/concept/futureResearchIdeaOfOrganization.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: keywords
       destination:
@@ -268,15 +268,15 @@ fields:
       source:
         template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: websiteUrl
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/common/websiteUrl.sparql
-          predicate: http://www.w3.org/2006/vcard/ns#url
+  - descriptor:
+      name: websiteUrl
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/common/websiteUrl.sparql
+        predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
       name: geographicFocus
       nested: true

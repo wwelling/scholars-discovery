@@ -57,12 +57,6 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
                 for (Source source : dataField.getDescriptor().getSource().getCacheableSources()) {
                     setSourceTemplate(source);
                 }
-                for (DataFieldDescriptor descriptor : dataField.getNestedDescriptors()) {
-                    setSourceTemplate(descriptor.getSource());
-                    for (Source source : descriptor.getSource().getCacheableSources()) {
-                        setSourceTemplate(source);
-                    }
-                }
             }
         }
 
@@ -105,7 +99,6 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
 
                 targetField.setData(target);
                 targetField.setDescriptor(resolveDescriptor(sourceField.getDescriptor()));
-                targetField.setNestedDescriptors(resolveNestedDescriptors(sourceField.getNestedDescriptors()));
 
                 return targetField;
             }).collect(Collectors.toSet());
@@ -116,14 +109,6 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
     private DataFieldDescriptor resolveDescriptor(DataFieldDescriptor descriptor) {
         return descriptorRepo.findByName(descriptor.getName())
             .orElseGet(() -> descriptorRepo.save(descriptor));
-    }
-
-    private Set<DataFieldDescriptor> resolveNestedDescriptors(Set<DataFieldDescriptor> descriptors) {
-        return Optional.ofNullable(descriptors)
-            .orElse(Set.of())
-            .stream()
-            .map(this::resolveDescriptor)
-            .collect(Collectors.toSet());
     }
 
     private <S extends Source> void setSourceTemplate(S source) {

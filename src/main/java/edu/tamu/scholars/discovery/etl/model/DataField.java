@@ -48,25 +48,9 @@ public class DataField extends Versioned {
     )
     private DataFieldDescriptor descriptor;
 
-    @ManyToMany(
-        cascade = {
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-        },
-        fetch = FetchType.LAZY
-    )
-    @JoinTable(
-        name = "data_field_nested_fields",
-        joinColumns = @JoinColumn(name = "data_field_id"),
-        inverseJoinColumns = @JoinColumn(name = "data_field_descriptor_id")
-    )
-    private Set<DataFieldDescriptor> nestedDescriptors;
-
     public DataField() {
         super();
         this.descriptor = new DataFieldDescriptor();
-        this.nestedDescriptors = new HashSet<>();
     }
 
 }

@@ -1,8 +1,6 @@
 package edu.tamu.scholars.discovery;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.TimeZone;
 
 import io.micrometer.common.util.StringUtils;
@@ -13,9 +11,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import edu.tamu.scholars.discovery.index.annotation.CollectionSource;
 import edu.tamu.scholars.discovery.index.annotation.FieldSource;
+import edu.tamu.scholars.discovery.index.annotation.FieldSource.CacheableLookup;
 import edu.tamu.scholars.discovery.index.annotation.FieldType;
 import edu.tamu.scholars.discovery.index.annotation.NestedObject;
-import edu.tamu.scholars.discovery.index.annotation.FieldSource.CacheableLookup;
 import edu.tamu.scholars.discovery.index.annotation.NestedObject.Reference;
 import edu.tamu.scholars.discovery.index.model.Collection;
 import edu.tamu.scholars.discovery.index.model.Concept;
@@ -69,19 +67,13 @@ public class MiddlewareApplication {
 
         System.out.println("fields:");
 
-        Map<String, String> nestedProperties = new HashMap<>();
-
         Class<?> cc = clazz;
 
         while (cc != null) {
 
-            // System.out.println("\n\n" + cc + "\n\n");
-
             Field[] fields = cc.getDeclaredFields();
             for (Field field : fields) {
                 field.setAccessible(true);
-
-                // System.out.println("\n\n" + field + "\n\n");
 
                 FieldType fieldType = field.getAnnotation(FieldType.class);
                 if (fieldType == null) {
@@ -117,126 +109,60 @@ public class MiddlewareApplication {
                 boolean unique = fieldSource.unique();
                 boolean split = fieldSource.split();
 
-                String nestedProperty = nestedProperties.remove(fieldName);
+                System.out.println("  - descriptor:");
 
-                if (nestedProperty == null) {
+                System.out.println("      name: " + name);
 
-                    System.out.println("  - descriptor:");
-
-                    System.out.println("      name: " + name);
-
-                    if (nested) {
-                        System.out.println("      nested: " + nested);
-                        if (nestedObject.root()) {
-                            System.out.println("      root: " + nestedObject.root());
-                        }
-
-                        Reference[] properties = nestedObject.properties();
-
-                        if (properties.length > 0) {
-                            System.out.println("      nestedReferences:");
-                            for (Reference property : properties) {
-                                System.out.println("        - field: " + property.value());
-                                System.out.println("          key: " + property.key());
-                                nestedProperties.put(property.value(), property.key());
-                            }
-                        }
+                if (nested) {
+                    System.out.println("      nested: " + nested);
+                    if (nestedObject.root()) {
+                        System.out.println("      root: " + nestedObject.root());
                     }
 
-                    System.out.println("      destination:");
-                    System.out.println("        type: " + type);
+                    Reference[] properties = nestedObject.properties();
 
-                    if (StringUtils.isNotEmpty(defaultValue)) {
-                        System.out.println("        defaultValue: " + defaultValue);
-                    }
-
-                    if (copyTo.length > 0) {
-                        System.out.println("        copyTo:");
-                        for (String ct : copyTo) {
-                            System.out.println("          - " + ct);
+                    if (properties.length > 0) {
+                        System.out.println("      nestedReferences:");
+                        for (Reference property : properties) {
+                            System.out.println("        - field: " + property.value());
+                            System.out.println("          key: " + property.key());
                         }
                     }
+                }
 
-                    if (required) System.out.println("        required: " + required);
-                    if (!stored) System.out.println("        stored: " + stored);
-                    if (!indexed) System.out.println("        indexed: " + indexed);
-                    if (multiValued) System.out.println("        multiValued: " + multiValued);
-                    if (docValues) System.out.println("        docValues: " + docValues);
+                System.out.println("      destination:");
+                System.out.println("        type: " + type);
 
-                    System.out.println("      source:");
-                    System.out.println("        template: defaults/data/" + template + ".sparql");
-                    System.out.println("        predicate: " + predicate);
-                    if (unique) System.out.println("        unique: " + unique);
-                    if (parse) System.out.println("        parse: " + parse);
-                    if (split) System.out.println("        split: " + split);
+                if (StringUtils.isNotEmpty(defaultValue)) {
+                    System.out.println("        defaultValue: " + defaultValue);
+                }
 
-                    CacheableLookup[] lookups = fieldSource.lookup();
-                    if (lookups.length > 0) {
-                        System.out.println("        cacheableSources:");
-                        for (CacheableLookup lookup : lookups) {
-                            System.out.println("          - template: defaults/data/" + lookup.template() + ".sparql");
-                            System.out.println("            predicate: " + lookup.predicate());
-                        }
+                if (copyTo.length > 0) {
+                    System.out.println("        copyTo:");
+                    for (String ct : copyTo) {
+                        System.out.println("          - " + ct);
                     }
+                }
 
-                } else {
+                if (required) System.out.println("        required: " + required);
+                if (!stored) System.out.println("        stored: " + stored);
+                if (!indexed) System.out.println("        indexed: " + indexed);
+                if (multiValued) System.out.println("        multiValued: " + multiValued);
+                if (docValues) System.out.println("        docValues: " + docValues);
 
-                    System.out.println("    nestedDescriptors:");
+                System.out.println("      source:");
+                System.out.println("        template: defaults/data/" + template + ".sparql");
+                System.out.println("        predicate: " + predicate);
+                if (unique) System.out.println("        unique: " + unique);
+                if (parse) System.out.println("        parse: " + parse);
+                if (split) System.out.println("        split: " + split);
 
-                    System.out.println("      - name: " + name);
-
-                    if (nested) {
-                        System.out.println("        nested: " + nested);
-                        if (nestedObject.root()) {
-                            System.out.println("        root: " + nestedObject.root());
-                        }
-
-                        Reference[] properties = nestedObject.properties();
-
-                        if (properties.length > 0) {
-                            System.out.println("        nestedReferences:");
-                            for (Reference property : properties) {
-                                System.out.println("          - field: " + property.value());
-                                System.out.println("            key: " + property.key());
-                                nestedProperties.put(property.value(), property.key());
-                            }
-                        }
-                    }
-
-                    System.out.println("        destination:");
-                    System.out.println("          type: " + type);
-
-                    if (StringUtils.isNotEmpty(defaultValue)) {
-                        System.out.println("          defaultValue: " + defaultValue);
-                    }
-
-                    if (copyTo.length > 0) {
-                        System.out.println("          copyTo:");
-                        for (String ct : copyTo) {
-                            System.out.println("            - " + ct);
-                        }
-                    }
-
-                    if (required) System.out.println("          required: " + required);
-                    if (!stored) System.out.println("          stored: " + stored);
-                    if (!indexed) System.out.println("          indexed: " + indexed);
-                    if (multiValued) System.out.println("          multiValued: " + multiValued);
-                    if (docValues) System.out.println("          docValues: " + docValues);
-
-                    System.out.println("        source:");
-                    System.out.println("          template: defaults/data/" + template + ".sparql");
-                    System.out.println("          predicate: " + predicate);
-                    if (unique) System.out.println("          unique: " + unique);
-                    if (parse) System.out.println("          parse: " + parse);
-                    if (split) System.out.println("          split: " + split);
-
-                    CacheableLookup[] lookups = fieldSource.lookup();
-                    if (lookups.length > 0) {
-                        System.out.println("          cacheableSources:");
-                        for (CacheableLookup lookup : lookups) {
-                            System.out.println("            - template: defaults/data/" + lookup.template() + ".sparql");
-                            System.out.println("              predicate: " + lookup.predicate());
-                        }
+                CacheableLookup[] lookups = fieldSource.lookup();
+                if (lookups.length > 0) {
+                    System.out.println("        cacheableSources:");
+                    for (CacheableLookup lookup : lookups) {
+                        System.out.println("          - template: defaults/data/" + lookup.template() + ".sparql");
+                        System.out.println("            predicate: " + lookup.predicate());
                     }
                 }
             }

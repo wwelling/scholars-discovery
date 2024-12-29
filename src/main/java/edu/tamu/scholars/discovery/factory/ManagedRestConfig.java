@@ -32,7 +32,7 @@ public class ManagedRestConfig {
     private int connectTimeout = 5;
 
     @Builder.Default
-    private int readTimeout = 15;
+    private int readTimeout = 30;
 
     public ManagedRestConfig withMaxConnTotal(String value) {
         this.maxConnTotal = as(value, this.maxConnTotal);

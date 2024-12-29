@@ -49,8 +49,7 @@ import edu.tamu.scholars.discovery.model.Named;
         @NamedSubgraph(
             name = "fieldGraph",
             attributeNodes = {
-                @NamedAttributeNode(value = "descriptor", subgraph = "descriptorGraph"),
-                @NamedAttributeNode(value = "nestedDescriptors", subgraph = "descriptorGraph")
+                @NamedAttributeNode(value = "descriptor", subgraph = "descriptorGraph")
             }
         ),
         @NamedSubgraph(

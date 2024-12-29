@@ -46,15 +46,15 @@ fields:
       source:
         template: defaults/data/process/author.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: authorOrganization
-        nested: true
-        destination:
-          type: strings
-          multiValued: true
-        source:
-          template: defaults/data/process/authorOrganization.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: authorOrganization
+      nested: true
+      destination:
+        type: strings
+        multiValued: true
+      source:
+        template: defaults/data/process/authorOrganization.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: authorList
       destination:
@@ -97,44 +97,44 @@ fields:
       source:
         template: defaults/data/process/dateTimeInterval.sparql
         predicate: http://vivoweb.org/ontology/core#dateTimeInterval
-    nestedDescriptors:
-      - name: dateTimeIntervalStart
-        nested: true
-        nestedReferences:
-          - field: dateTimePrecisionStart
-            key: precision
-        destination:
-          type: pdate
-        source:
-          template: defaults/data/process/dateTimeIntervalStart.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: dateTimeIntervalEnd
-        nested: true
-        nestedReferences:
-          - field: dateTimePrecisionEnd
-            key: precision
-        destination:
-          type: pdate
-        source:
-          template: defaults/data/process/dateTimeIntervalEnd.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: dateTimePrecisionStart
-        destination:
-          type: string
-        source:
-          template: defaults/data/process/dateTimePrecisionStart.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTimePrecision
-          parse: true
-    nestedDescriptors:
-      - name: dateTimePrecisionEnd
-        destination:
-          type: strings
-        source:
-          template: defaults/data/process/dateTimePrecisionEnd.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTimePrecision
-          parse: true
+  - descriptor:
+      name: dateTimeIntervalStart
+      nested: true
+      nestedReferences:
+        - field: dateTimePrecisionStart
+          key: precision
+      destination:
+        type: pdate
+      source:
+        template: defaults/data/process/dateTimeIntervalStart.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: dateTimeIntervalEnd
+      nested: true
+      nestedReferences:
+        - field: dateTimePrecisionEnd
+          key: precision
+      destination:
+        type: pdate
+      source:
+        template: defaults/data/process/dateTimeIntervalEnd.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: dateTimePrecisionStart
+      destination:
+        type: string
+      source:
+        template: defaults/data/process/dateTimePrecisionStart.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTimePrecision
+        parse: true
+  - descriptor:
+      name: dateTimePrecisionEnd
+      destination:
+        type: strings
+      source:
+        template: defaults/data/process/dateTimePrecisionEnd.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTimePrecision
+        parse: true
   - descriptor:
       name: subtype
       destination:
@@ -225,41 +225,41 @@ fields:
       source:
         template: defaults/data/process/participant.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: participantId
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/process/participantId.sparql
-          predicate: http://purl.obolibrary.org/obo/RO_0000052
-          parse: true
-    nestedDescriptors:
-      - name: participantRole
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/process/participantRole.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: participantDateTimeIntervalStart
-        destination:
-          type: pdates
-          multiValued: true
-        source:
-          template: defaults/data/process/participantDateTimeIntervalStart.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: participantDateTimeIntervalEnd
-        destination:
-          type: pdates
-          multiValued: true
-        source:
-          template: defaults/data/process/participantDateTimeIntervalEnd.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: participantId
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/process/participantId.sparql
+        predicate: http://purl.obolibrary.org/obo/RO_0000052
+        parse: true
+  - descriptor:
+      name: participantRole
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/process/participantRole.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: participantDateTimeIntervalStart
+      destination:
+        type: pdates
+        multiValued: true
+      source:
+        template: defaults/data/process/participantDateTimeIntervalStart.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: participantDateTimeIntervalEnd
+      destination:
+        type: pdates
+        multiValued: true
+      source:
+        template: defaults/data/process/participantDateTimeIntervalEnd.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: subjectAreas
       nested: true
@@ -404,15 +404,15 @@ fields:
       source:
         template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: websiteUrl
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/common/websiteUrl.sparql
-          predicate: http://www.w3.org/2006/vcard/ns#url
+  - descriptor:
+      name: websiteUrl
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/common/websiteUrl.sparql
+        predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
       name: geographicFocus
       nested: true

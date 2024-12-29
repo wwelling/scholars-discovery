@@ -77,39 +77,39 @@ fields:
       source:
         template: defaults/data/person/position.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: positionType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/positionType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: positionOrganization
-        nested: true
-        nestedReferences:
-          - field: positionOrganizationParent
-            key: parent
-        destination:
-          type: strings
-          multiValued: true
-          docValues: true
-        source:
-          template: defaults/data/person/positionOrganization.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-          unique: true
-    nestedDescriptors:
-      - name: positionOrganizationParent
-        nested: true
-        destination:
-          type: strings
-          multiValued: true
-        source:
-          template: defaults/data/person/positionOrganizationParent.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: positionType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/positionType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: positionOrganization
+      nested: true
+      nestedReferences:
+        - field: positionOrganizationParent
+          key: parent
+      destination:
+        type: strings
+        multiValued: true
+        docValues: true
+      source:
+        template: defaults/data/person/positionOrganization.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: true
+  - descriptor:
+      name: positionOrganizationParent
+      nested: true
+      destination:
+        type: strings
+        multiValued: true
+      source:
+        template: defaults/data/person/positionOrganizationParent.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: overview
       destination:
@@ -168,44 +168,44 @@ fields:
       source:
         template: defaults/data/person/headOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: headOfType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/headOfType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: headOfOrganization
-        nested: true
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/headOfOrganization.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: headOfStartDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/headOfStartDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: headOfEndDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/headOfEndDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: headOfType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/headOfType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: headOfOrganization
+      nested: true
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/headOfOrganization.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: headOfStartDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/headOfStartDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: headOfEndDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/headOfEndDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: memberOf
       nested: true
@@ -226,44 +226,44 @@ fields:
       source:
         template: defaults/data/person/memberOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: memberOfType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/memberOfType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: memberOfOrganization
-        nested: true
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/memberOfOrganization.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: memberOfStartDate
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/memberOfStartDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: memberOfEndDate
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/memberOfEndDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: memberOfType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/memberOfType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: memberOfOrganization
+      nested: true
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/memberOfOrganization.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: memberOfStartDate
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/memberOfStartDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: memberOfEndDate
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/memberOfEndDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: hasCollaborator
       nested: true
@@ -295,43 +295,43 @@ fields:
       source:
         template: defaults/data/person/clinicalActivity.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: clinicalActivityType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/clinicalActivityType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: clinicalActivityRole
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/clinicalActivityRole.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: clinicalActivityStartDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/clinicalActivityStartDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: clinicalActivityEndDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/clinicalActivityEndDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: clinicalActivityType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/clinicalActivityType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: clinicalActivityRole
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/clinicalActivityRole.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: clinicalActivityStartDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/clinicalActivityStartDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: clinicalActivityEndDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/clinicalActivityEndDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: attendedEvents
       nested: true
@@ -350,34 +350,34 @@ fields:
       source:
         template: defaults/data/person/attendedEvent.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: attendedEventType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/attendedEventType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: attendedEventStartDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/attendedEventStartDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: attendedEventEndDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/attendedEventEndDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: attendedEventType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/attendedEventType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: attendedEventStartDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/attendedEventStartDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: attendedEventEndDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/attendedEventEndDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: educationAndTraining
       nested: true
@@ -407,79 +407,79 @@ fields:
         template: defaults/data/person/educationAndTraining.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
         parse: true
-    nestedDescriptors:
-      - name: educationAndTrainingName
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/educationAndTrainingName.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: educationAndTrainingInfo
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/educationAndTrainingInfo.sparql
-          predicate: http://vivoweb.org/ontology/core#supplementalInformation
-    nestedDescriptors:
-      - name: educationAndTrainingOrganization
-        nested: true
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/educationAndTrainingOrganization.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: educationAndTrainingMajorField
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/educationAndTrainingMajorField.sparql
-          predicate: http://vivoweb.org/ontology/core#majorField
-    nestedDescriptors:
-      - name: educationAndTrainingDegreeAbbreviation
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/educationAndTrainingDegreeAbbreviation.sparql
-          predicate: http://vivoweb.org/ontology/core#abbreviation
-    nestedDescriptors:
-      - name: educationAndTrainingStartDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/educationAndTrainingStartDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: educationAndTrainingEndDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/educationAndTrainingEndDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: educationAndTrainingIsDateSuppressed
-        destination:
-          type: string
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/educationAndTrainingIsDateSuppressed.sparql
-          predicate: http://vivoweb.org/ontology/core#supplementalInformation
+  - descriptor:
+      name: educationAndTrainingName
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/educationAndTrainingName.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: educationAndTrainingInfo
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/educationAndTrainingInfo.sparql
+        predicate: http://vivoweb.org/ontology/core#supplementalInformation
+  - descriptor:
+      name: educationAndTrainingOrganization
+      nested: true
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/educationAndTrainingOrganization.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: educationAndTrainingMajorField
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/educationAndTrainingMajorField.sparql
+        predicate: http://vivoweb.org/ontology/core#majorField
+  - descriptor:
+      name: educationAndTrainingDegreeAbbreviation
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/educationAndTrainingDegreeAbbreviation.sparql
+        predicate: http://vivoweb.org/ontology/core#abbreviation
+  - descriptor:
+      name: educationAndTrainingStartDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/educationAndTrainingStartDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: educationAndTrainingEndDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/educationAndTrainingEndDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: educationAndTrainingIsDateSuppressed
+      destination:
+        type: string
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/educationAndTrainingIsDateSuppressed.sparql
+        predicate: http://vivoweb.org/ontology/core#supplementalInformation
   - descriptor:
       name: credentials
       nested: true
@@ -505,16 +505,16 @@ fields:
       source:
         template: defaults/data/person/credentialEligibilityAttained.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: credentialEligibilityAttainedType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/credentialEligibilityAttainedType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
+  - descriptor:
+      name: credentialEligibilityAttainedType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/credentialEligibilityAttainedType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
   - descriptor:
       name: awardsAndHonors
       nested: true
@@ -546,43 +546,43 @@ fields:
       source:
         template: defaults/data/person/adviseeOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: adviseeOfType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/adviseeOfType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: adviseeOfCandidacy
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/adviseeOfCandidacy.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: adviseeOfStartDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/adviseeOfStartDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: adviseeOfEndDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/adviseeOfEndDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: adviseeOfType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/adviseeOfType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: adviseeOfCandidacy
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/adviseeOfCandidacy.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: adviseeOfStartDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/adviseeOfStartDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: adviseeOfEndDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/adviseeOfEndDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: publications
       nested: true
@@ -614,52 +614,52 @@ fields:
       source:
         template: defaults/data/person/publicationDates.sparql
         predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: selectedPublicationType
-        destination:
-          type: strings
-          multiValued: true
-        source:
-          template: defaults/data/person/selectedPublicationType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: selectedPublicationDate
-        destination:
-          type: pdates
-          multiValued: true
-        source:
-          template: defaults/data/person/selectedPublicationDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: selectedPublicationPublisher
-        destination:
-          type: strings
-          multiValued: true
-          docValues: true
-        source:
-          template: defaults/data/person/selectedPublicationPublisher.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-          unique: true
-    nestedDescriptors:
-      - name: selectedPublicationVenue
-        destination:
-          type: strings
-          multiValued: true
-          docValues: true
-        source:
-          template: defaults/data/person/selectedPublicationVenue.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-          unique: true
-    nestedDescriptors:
-      - name: selectedPublicationTag
-        destination:
-          type: strings
-          multiValued: true
-          docValues: true
-        source:
-          template: defaults/data/person/selectedPublicationTag.sparql
-          predicate: http://purl.obolibrary.org/obo/ARG_0000015
+  - descriptor:
+      name: selectedPublicationType
+      destination:
+        type: strings
+        multiValued: true
+      source:
+        template: defaults/data/person/selectedPublicationType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: selectedPublicationDate
+      destination:
+        type: pdates
+        multiValued: true
+      source:
+        template: defaults/data/person/selectedPublicationDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: selectedPublicationPublisher
+      destination:
+        type: strings
+        multiValued: true
+        docValues: true
+      source:
+        template: defaults/data/person/selectedPublicationPublisher.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: true
+  - descriptor:
+      name: selectedPublicationVenue
+      destination:
+        type: strings
+        multiValued: true
+        docValues: true
+      source:
+        template: defaults/data/person/selectedPublicationVenue.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: true
+  - descriptor:
+      name: selectedPublicationTag
+      destination:
+        type: strings
+        multiValued: true
+        docValues: true
+      source:
+        template: defaults/data/person/selectedPublicationTag.sparql
+        predicate: http://purl.obolibrary.org/obo/ARG_0000015
   - descriptor:
       name: creativeWorks
       nested: true
@@ -675,14 +675,14 @@ fields:
       source:
         template: defaults/data/person/creativeWorks.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: creativeWorkType
-        destination:
-          type: strings
-          multiValued: true
-        source:
-          template: defaults/data/person/creativeWorkType.sparql
-          predicate: http://vivo.library.tamu.edu/ontology/TAMU#subtype
+  - descriptor:
+      name: creativeWorkType
+      destination:
+        type: strings
+        multiValued: true
+      source:
+        template: defaults/data/person/creativeWorkType.sparql
+        predicate: http://vivo.library.tamu.edu/ontology/TAMU#subtype
   - descriptor:
       name: collectionOrSeriesEditorFor
       nested: true
@@ -703,43 +703,43 @@ fields:
       source:
         template: defaults/data/person/collectionOrSeriesEditorFor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: collectionOrSeriesEditorForType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/collectionOrSeriesEditorForType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: collectionOrSeriesEditorForRole
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/collectionOrSeriesEditorForRole.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: collectionOrSeriesEditorForStartDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/collectionOrSeriesEditorForStartDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: collectionOrSeriesEditorForEndDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/collectionOrSeriesEditorForEndDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: collectionOrSeriesEditorForType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/collectionOrSeriesEditorForType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: collectionOrSeriesEditorForRole
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/collectionOrSeriesEditorForRole.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: collectionOrSeriesEditorForStartDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/collectionOrSeriesEditorForStartDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: collectionOrSeriesEditorForEndDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/collectionOrSeriesEditorForEndDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: editorOf
       nested: true
@@ -762,53 +762,53 @@ fields:
       source:
         template: defaults/data/person/editorOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: editorOfType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/editorOfType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: editorOfPublisher
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/editorOfPublisher.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-          unique: true
-    nestedDescriptors:
-      - name: editorOfPageStart
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/editorOfPageStart.sparql
-          predicate: http://purl.org/ontology/bibo/pageStart
-    nestedDescriptors:
-      - name: editorOfPageEnd
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/editorOfPageEnd.sparql
-          predicate: http://purl.org/ontology/bibo/pageEnd
-    nestedDescriptors:
-      - name: editorOfDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/editorOfDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: editorOfType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/editorOfType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: editorOfPublisher
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/editorOfPublisher.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        unique: true
+  - descriptor:
+      name: editorOfPageStart
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/editorOfPageStart.sparql
+        predicate: http://purl.org/ontology/bibo/pageStart
+  - descriptor:
+      name: editorOfPageEnd
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/editorOfPageEnd.sparql
+        predicate: http://purl.org/ontology/bibo/pageEnd
+  - descriptor:
+      name: editorOfDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/editorOfDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: presentations
       nested: true
@@ -831,53 +831,53 @@ fields:
       source:
         template: defaults/data/person/presentation.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: presentationType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/presentationType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: presentationRole
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/presentationRole.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: presentationEvent
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/presentationEvent.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-          parse: true
-    nestedDescriptors:
-      - name: presentationStartDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/presentationStartDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: presentationEndDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/presentationEndDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: presentationType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/presentationType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: presentationRole
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/presentationRole.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: presentationEvent
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/presentationEvent.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+        parse: true
+  - descriptor:
+      name: presentationStartDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/presentationStartDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: presentationEndDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/presentationEndDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: featuredIn
       nested: true
@@ -956,56 +956,56 @@ fields:
       source:
         template: defaults/data/person/researcherOn.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: researcherOnAwardedBy
-        nested: true
-        nestedReferences:
-          - field: researcherOnAwardedByPreferredLabel
-            key: preferredLabel
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/researcherOnAwardedBy.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: researcherOnAwardedByPreferredLabel
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/researcherOnAwardedByPreferredLabel.sparql
-          predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardedBy_label
-    nestedDescriptors:
-      - name: researcherOnRole
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/researcherOnRole.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: researcherOnStartDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/researcherOnStartDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: researcherOnEndDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/researcherOnEndDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: researcherOnAwardedBy
+      nested: true
+      nestedReferences:
+        - field: researcherOnAwardedByPreferredLabel
+          key: preferredLabel
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/researcherOnAwardedBy.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: researcherOnAwardedByPreferredLabel
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/researcherOnAwardedByPreferredLabel.sparql
+        predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardedBy_label
+  - descriptor:
+      name: researcherOnRole
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/researcherOnRole.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: researcherOnStartDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/researcherOnStartDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: researcherOnEndDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/researcherOnEndDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: otherResearchActivities
       nested: true
@@ -1024,33 +1024,33 @@ fields:
       source:
         template: defaults/data/person/otherResearchActivity.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: otherResearchActivityRole
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/otherResearchActivityRole.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: otherResearchActivityStartDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/otherResearchActivityStartDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: otherResearchActivityEndDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/otherResearchActivityEndDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: otherResearchActivityRole
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/otherResearchActivityRole.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: otherResearchActivityStartDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/otherResearchActivityStartDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: otherResearchActivityEndDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/otherResearchActivityEndDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: teachingOverview
       destination:
@@ -1072,15 +1072,15 @@ fields:
       source:
         template: defaults/data/person/teachingActivity.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: teachingActivityRole
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/teachingActivityRole.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: teachingActivityRole
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/teachingActivityRole.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: teachingMaterials
       nested: true
@@ -1111,43 +1111,43 @@ fields:
       source:
         template: defaults/data/person/advisee.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: adviseeType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/adviseeType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: adviseeCandidacy
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/adviseeCandidacy.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: adviseeStartDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/adviseeStartDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: adviseeEndDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/adviseeEndDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: adviseeType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/adviseeType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: adviseeCandidacy
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/adviseeCandidacy.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: adviseeStartDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/adviseeStartDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: adviseeEndDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/adviseeEndDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: outreachOverview
       destination:
@@ -1173,34 +1173,34 @@ fields:
       source:
         template: defaults/data/person/reviewerOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: reviewerOfType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/reviewerOfType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: reviewerOfStartDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/reviewerOfStartDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: reviewerOfEndDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/reviewerOfEndDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: reviewerOfType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/reviewerOfType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: reviewerOfStartDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/reviewerOfStartDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: reviewerOfEndDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/reviewerOfEndDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: contactOrProvidorForService
       nested: true
@@ -1215,16 +1215,16 @@ fields:
       source:
         template: defaults/data/person/contactOrProvidorForService.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: contactOrProvidorForServiceType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/contactOrProvidorForServiceType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
+  - descriptor:
+      name: contactOrProvidorForServiceType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/contactOrProvidorForServiceType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
   - descriptor:
       name: organizerOfEvent
       nested: true
@@ -1243,34 +1243,34 @@ fields:
       source:
         template: defaults/data/person/organizerOfEvent.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: organizerOfEventType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/organizerOfEventType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: organizerOfEventStartDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/organizerOfEventStartDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: organizerOfEventEndDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/organizerOfEventEndDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: organizerOfEventType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/organizerOfEventType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: organizerOfEventStartDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/organizerOfEventStartDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: organizerOfEventEndDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/organizerOfEventEndDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: professionalServiceActivities
       nested: true
@@ -1291,43 +1291,43 @@ fields:
       source:
         template: defaults/data/person/professionalServiceActivity.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: professionalServiceActivityRole
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/professionalServiceActivityRole.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: professionalServiceActivityType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/professionalServiceActivityType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: professionalServiceActivityStartDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/professionalServiceActivityStartDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: professionalServiceActivityEndDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/professionalServiceActivityEndDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: professionalServiceActivityRole
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/professionalServiceActivityRole.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: professionalServiceActivityType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/professionalServiceActivityType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: professionalServiceActivityStartDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/professionalServiceActivityStartDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: professionalServiceActivityEndDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/professionalServiceActivityEndDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: outreachAndCommunityServiceActivities
       nested: true
@@ -1348,43 +1348,43 @@ fields:
       source:
         template: defaults/data/person/outreachAndCommunityServiceActivity.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: outreachAndCommunityServiceActivityType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/professionalServiceActivityType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
-    nestedDescriptors:
-      - name: outreachAndCommunityServiceActivityRole
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/professionalServiceActivityRole.sparql
-          predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: outreachAndCommunityServiceActivityStartDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/professionalServiceActivityStartDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
-    nestedDescriptors:
-      - name: outreachAndCommunityServiceActivityEndDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/professionalServiceActivityEndDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: outreachAndCommunityServiceActivityType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/professionalServiceActivityType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
+  - descriptor:
+      name: outreachAndCommunityServiceActivityRole
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/professionalServiceActivityRole.sparql
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
+  - descriptor:
+      name: outreachAndCommunityServiceActivityStartDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/professionalServiceActivityStartDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: outreachAndCommunityServiceActivityEndDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/professionalServiceActivityEndDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: performsTechnique
       nested: true
@@ -1399,16 +1399,16 @@ fields:
       source:
         template: defaults/data/person/performsTechnique.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: performsTechniqueType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/performsTechniqueType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
+  - descriptor:
+      name: performsTechniqueType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/performsTechniqueType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
   - descriptor:
       name: hasExpertiseInTechnique
       nested: true
@@ -1423,16 +1423,16 @@ fields:
       source:
         template: defaults/data/person/hasExpertiseInTechnique.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: hasExpertiseInTechniqueType
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/hasExpertiseInTechniqueType.sparql
-          predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-          parse: true
+  - descriptor:
+      name: hasExpertiseInTechniqueType
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/hasExpertiseInTechniqueType.sparql
+        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+        parse: true
   - descriptor:
       name: eraCommonsId
       destination:
@@ -1665,24 +1665,24 @@ fields:
       source:
         template: defaults/data/person/etdChairOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: etdChairOfUrl
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/etdChairOfUrl.sparql
-          predicate: http://www.w3.org/2006/vcard/ns#url
-    nestedDescriptors:
-      - name: etdChairOfPublicationDate
-        destination:
-          type: pdates
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/person/etdChairOfPublicationDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: etdChairOfUrl
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/etdChairOfUrl.sparql
+        predicate: http://www.w3.org/2006/vcard/ns#url
+  - descriptor:
+      name: etdChairOfPublicationDate
+      destination:
+        type: pdates
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/person/etdChairOfPublicationDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: capstoneAdvisedOf
       nested: true
@@ -1698,22 +1698,22 @@ fields:
       source:
         template: defaults/data/person/capstoneAdvisedOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: capstoneAdvisedOfUrl
-        destination:
-          type: strings
-          multiValued: true
-        source:
-          template: defaults/data/person/capstoneAdvisedOfUrl.sparql
-          predicate: http://www.w3.org/2006/vcard/ns#url
-    nestedDescriptors:
-      - name: capstoneAdvisedOfPublicationDate
-        destination:
-          type: pdates
-          multiValued: true
-        source:
-          template: defaults/data/person/capstoneAdvisedOfPublicationDate.sparql
-          predicate: http://vivoweb.org/ontology/core#dateTime
+  - descriptor:
+      name: capstoneAdvisedOfUrl
+      destination:
+        type: strings
+        multiValued: true
+      source:
+        template: defaults/data/person/capstoneAdvisedOfUrl.sparql
+        predicate: http://www.w3.org/2006/vcard/ns#url
+  - descriptor:
+      name: capstoneAdvisedOfPublicationDate
+      destination:
+        type: pdates
+        multiValued: true
+      source:
+        template: defaults/data/person/capstoneAdvisedOfPublicationDate.sparql
+        predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: featuredProfileDisplay
       destination:
@@ -1758,15 +1758,15 @@ fields:
       source:
         template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-    nestedDescriptors:
-      - name: websiteUrl
-        destination:
-          type: strings
-          indexed: false
-          multiValued: true
-        source:
-          template: defaults/data/common/websiteUrl.sparql
-          predicate: http://www.w3.org/2006/vcard/ns#url
+  - descriptor:
+      name: websiteUrl
+      destination:
+        type: strings
+        indexed: false
+        multiValued: true
+      source:
+        template: defaults/data/common/websiteUrl.sparql
+        predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
       name: geographicFocus
       nested: true
