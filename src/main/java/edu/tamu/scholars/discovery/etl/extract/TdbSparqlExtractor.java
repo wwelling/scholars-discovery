@@ -1,10 +1,7 @@
 package edu.tamu.scholars.discovery.etl.extract;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.jena.graph.Triple;
-import org.apache.jena.query.Query;
-import org.apache.jena.rdf.model.Model;
-import reactor.core.publisher.Flux;
+import org.apache.jena.query.QueryExecution;
 
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.triplestore.TdbTriplestore;
@@ -29,13 +26,8 @@ public class TdbSparqlExtractor extends AbstractSparqlExtractor {
     }
 
     @Override
-    protected Flux<Triple> execConstructTriples(Query query) {
-        return triplestore.execConstructTriples(query);
-    }
-
-    @Override
-    protected Model execConstruct(Query query) {
-        return triplestore.execConstruct(query);
+    protected QueryExecution createQueryExecution(String query) {
+        return triplestore.createQueryExecution(query);
     }
 
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
@@ -66,11 +68,13 @@ public abstract class AbstractSparqlExtractor implements DataExtractor<Map<Strin
 
             log.debug("{}", query);
 
-            Flux<Triple> tripleFlux = execConstructTriples(query);
+            QueryExecution queryExecution = createQueryExecution(query.toString());
+            Iterator<Triple> tripleIterator = queryExecution.execConstructTriples();
 
-            return tripleFlux
+            return Flux.fromIterable(() -> tripleIterator)
                 .map(this::subject)
-                .map(this::harvest);
+                .map(this::harvest)
+                .doFinally(onFinally -> queryExecution.close());
 
         } catch (Exception e) { // TODO: determine exact exceptions thrown and handle individually
             log.error("Unable to extract {}: {}", data.getName(), e.getMessage());
@@ -98,10 +102,9 @@ public abstract class AbstractSparqlExtractor implements DataExtractor<Map<Strin
         Map<String, Object> document = new HashMap<>();
 
         document.put(ID, parse(subject));
+        document.put(CLASS, data.getName());
 
         lookupProperties(document, subject);
-
-        document.put(CLASS, data.getName());
 
         return document;
     }
@@ -182,12 +185,15 @@ public abstract class AbstractSparqlExtractor implements DataExtractor<Map<Strin
     }
 
     private Model queryModel(Query query) {
-        Model model = execConstruct(query);
-        if (log.isDebugEnabled()) {
-            model.write(System.out, "RDF/XML"); // NOSONAR
-        }
+        log.debug("\n{}", query.toString());
+        try (QueryExecution qe = createQueryExecution(query.toString())) {
+            Model model = qe.execConstruct();
+            if (log.isDebugEnabled()) {
+                model.write(System.out, "RDF/XML");
+            }
 
-        return model;
+            return model;
+        }
     }
 
     private Set<String> getCacheableValues(DataFieldDescriptor descriptor, List<String> values, String subject) {
@@ -349,8 +355,6 @@ public abstract class AbstractSparqlExtractor implements DataExtractor<Map<Strin
         };
     }
 
-    protected abstract Flux<Triple> execConstructTriples(Query query);
-
-    protected abstract Model execConstruct(Query query);
+    protected abstract QueryExecution createQueryExecution(String query);
 
 }

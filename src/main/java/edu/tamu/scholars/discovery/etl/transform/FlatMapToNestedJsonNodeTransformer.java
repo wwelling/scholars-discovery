@@ -40,8 +40,8 @@ public class FlatMapToNestedJsonNodeTransformer implements DataTransformer<Map<S
     public JsonNode transform(Map<String, Object> data) {
         ObjectNode individual = JsonNodeFactory.instance.objectNode();
 
-        individual.put(ID, (String) data.get(ID));
-        individual.put(CLASS, (String) data.get(CLASS));
+        individual.put(ID, (String) data.remove(ID));
+        individual.put(CLASS, (String) data.remove(CLASS));
 
         processFields(data, individual);
 
@@ -55,14 +55,20 @@ public class FlatMapToNestedJsonNodeTransformer implements DataTransformer<Map<S
             String fieldName = entry.getKey();
             Object value = entry.getValue();
 
-            DataField field = fields.remove(fieldName);
-            DataFieldDescriptor descriptor = field.getDescriptor();
+            // filter out those that are a reference to a nested reference
 
-            if (descriptor.isNested()) {
-                processNestedField(field, value, individual);
+            if (fields.containsKey(fieldName)) {
+                DataField field = fields.get(fieldName);
+                DataFieldDescriptor descriptor = field.getDescriptor();
+                if (descriptor.isNested()) {
+                    processNestedField(field, value, individual);
+                } else {
+                    processField(field, value, individual);
+                }
             } else {
-                processField(field, value, individual);
+                System.out.println("\nNo data field for " + fieldName + ": " + value + "\n");
             }
+
         }
     }
 

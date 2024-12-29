@@ -1,13 +1,15 @@
 package edu.tamu.scholars.discovery.index.service;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,7 @@ import edu.tamu.scholars.discovery.index.component.Indexer;
 import edu.tamu.scholars.discovery.service.Triplestore;
 
 @Service
-public class IndexService {
+public class IndexService implements ApplicationListener<ContextRefreshedEvent> {
 
     private static final Logger logger = LoggerFactory.getLogger(IndexService.class);
 
@@ -48,8 +50,8 @@ public class IndexService {
         return indexing.get();
     }
 
-    @PostConstruct
-    public void startup() {
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
         if (index.isSchematize()) {
             logger.info("Initializing index fields...");
             indexers.stream().forEach(indexer -> {
@@ -72,11 +74,15 @@ public class IndexService {
             harvesters.parallelStream().forEach(harvester -> {
                 logger.info("Indexing {} documents.", harvester.type().getSimpleName());
                 if (indexers.stream().anyMatch(indexer -> indexer.type().equals(harvester.type()))) {
-                    harvester.harvest()
-                        .buffer(index.getBatchSize())
-                        .subscribe(batch -> indexers.parallelStream()
-                            .filter(indexer -> indexer.type().equals(harvester.type()))
-                            .forEach(indexer -> indexer.index(batch)));
+                    try {
+                        harvester.harvest()
+                            .buffer(index.getBatchSize())
+                            .subscribe(batch -> indexers.parallelStream()
+                                .filter(indexer -> indexer.type().equals(harvester.type()))
+                                .forEach(indexer -> indexer.index(batch)));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     logger.warn("No indexer found for {} documents!", harvester.type().getSimpleName());
                 }

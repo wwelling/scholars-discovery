@@ -3,14 +3,13 @@ package edu.tamu.scholars.discovery.index.component.jena;
 import static edu.tamu.scholars.discovery.index.IndexConstants.CLASS;
 import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
 import static edu.tamu.scholars.discovery.index.IndexConstants.NESTED_DELIMITER;
-import static edu.tamu.scholars.discovery.index.IndexConstants.SYNC_IDS;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,7 +20,10 @@ import java.util.Set;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.jena.graph.Triple;
+import org.apache.jena.query.ParameterizedSparqlString;
+import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
@@ -36,13 +38,12 @@ import reactor.core.publisher.Flux;
 
 import edu.tamu.scholars.discovery.index.annotation.CollectionSource;
 import edu.tamu.scholars.discovery.index.annotation.FieldSource;
-import edu.tamu.scholars.discovery.index.annotation.FieldType;
-import edu.tamu.scholars.discovery.index.annotation.NestedObject;
 import edu.tamu.scholars.discovery.index.annotation.FieldSource.CacheableLookup;
+import edu.tamu.scholars.discovery.index.annotation.NestedObject;
 import edu.tamu.scholars.discovery.index.component.Harvester;
 import edu.tamu.scholars.discovery.index.model.AbstractIndexDocument;
 import edu.tamu.scholars.discovery.service.CacheService;
-import edu.tamu.scholars.discovery.service.TemplateService;
+import edu.tamu.scholars.discovery.service.ResourceService;
 import edu.tamu.scholars.discovery.service.Triplestore;
 
 public class TriplestoreHarvester implements Harvester {
@@ -61,7 +62,7 @@ public class TriplestoreHarvester implements Harvester {
     private Triplestore triplestore;
 
     @Autowired
-    private TemplateService templateService;
+    private ResourceService resourceService;
 
     @Autowired
     private CacheService cacheService;
@@ -81,11 +82,21 @@ public class TriplestoreHarvester implements Harvester {
         //     .toList();
     }
 
-    public Flux<Map<String, Object>> harvest() {
+    public Flux<Map<String, Object>> harvest() throws IOException {
         CollectionSource source = type.getAnnotation(CollectionSource.class);
-        String query = templateService.templateSparql(COLLECTION, source.predicate());
+
+        String path = String.format("defaults/data/common/%s.sparql", COLLECTION);
+
+        String template = resourceService.getTemplate(path);
+
+        ParameterizedSparqlString parameterizedSparql = new ParameterizedSparqlString();
+        parameterizedSparql.setCommandText(template);
+        parameterizedSparql.setIri("uri", source.predicate());
+
+        Query query = QueryFactory.create(parameterizedSparql.toString());
+
         logger.debug("{}:\n{}", COLLECTION, query);
-        QueryExecution queryExecution = triplestore.createQueryExecution(query);
+        QueryExecution queryExecution = triplestore.createQueryExecution(query.toString());
         Iterator<Triple> tripleIterator = queryExecution.execConstructTriples();
 
         return Flux.fromIterable(() -> tripleIterator)
@@ -185,7 +196,7 @@ public class TriplestoreHarvester implements Harvester {
         });
     }
 
-    private List<String> queryForValues(FieldSource source, String subject) {
+    private List<String> queryForValues(FieldSource source, String subject) throws IOException {
         String key = toKey(source, subject);
         List<String> values = cacheService.get(key);
         if (Objects.isNull(values)) {
@@ -201,10 +212,19 @@ public class TriplestoreHarvester implements Harvester {
         return String.format("%s::%s::%s", source.predicate(), source.template(), subject);
     }
 
-    private Model queryForModel(FieldSource source, String subject) {
-        String query = templateService.templateSparql(source.template(), subject);
-        logger.debug("{}:\n{}", source.template(), query);
-        try (QueryExecution qe = triplestore.createQueryExecution(query)) {
+    private Model queryForModel(FieldSource source, String subject) throws IOException {
+        String path = String.format("defaults/data/%s.sparql", source.template());
+
+        String template = resourceService.getTemplate(path);
+
+        ParameterizedSparqlString parameterizedSparql = new ParameterizedSparqlString();
+        parameterizedSparql.setCommandText(template);
+        parameterizedSparql.setIri("uri", subject);
+
+        Query query = QueryFactory.create(parameterizedSparql.toString());
+
+        logger.debug("{}:\n{}", source.template(), query.toString());
+        try (QueryExecution qe = triplestore.createQueryExecution(query.toString())) {
             Model model = qe.execConstruct();
             if (logger.isDebugEnabled()) {
                 model.write(System.out, "RDF/XML");

@@ -90,6 +90,8 @@ public class SolrIndexLoader implements DataLoader<JsonNode> {
     @Override
     public void load(Collection<JsonNode> documents) {
         // TODO
+
+        System.out.println("\nLOAD " + documents.size() + "\n");
     }
 
     @Override

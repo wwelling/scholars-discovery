@@ -1,12 +1,16 @@
 package edu.tamu.scholars.discovery.etl.service;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
@@ -25,106 +29,82 @@ import edu.tamu.scholars.discovery.etl.transform.DataTransformer;
 public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
 
     private final DataRepo dataRepo;
+    private final ThreadPoolTaskScheduler threadPoolTaskScheduler;
 
-    public EtlService(DataRepo dataRepo) {
+    public EtlService(DataRepo dataRepo, ThreadPoolTaskScheduler threadPoolTaskScheduler) {
         this.dataRepo = dataRepo;
+        this.threadPoolTaskScheduler = threadPoolTaskScheduler;
     }
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        process();
+        Instant startTime = Instant.now().plusMillis(10000);
+        threadPoolTaskScheduler.schedule(this::process, startTime);
     }
 
-    private <I, O> void process() {
+    private void process() {
+        List<Data> data = new ArrayList<>(dataRepo.findAll());
         init();
-        dataRepo.findAll().parallelStream().forEach(data -> {
-            EtlContext<I, O> etlContext = createEtlContext(data);
+        data.parallelStream().forEach(datum -> {
 
-            log.info("Starting ETL {}", data.getName());
+            log.info("Starting ETL {}", datum.getName());
 
-            etlContext.extract()
-                .map(etlContext::transform)
+            getExtractor(datum).extract()
+                .map(getTransformer(datum)::transform)
                 .buffer(500) // TODO: get from properties
                 .subscribe(
-                    etlContext::load,
-                    error -> destroy(data),
-                    () -> destroy(data));
+                    getLoader(datum)::load,
+                    error -> destroy(datum),
+                    () -> destroy(datum));
         });
     }
 
     private void init() {
         // initialize all processors before beginning
-        for (Data data : dataRepo.findAll()) {
-            init(data.getExtractor(), data);
-            init(data.getTransformer(), data);
-            init(data.getLoader(), data);
+        for (Data datum : dataRepo.findAll()) {
+            init(datum.getExtractor(), datum);
+            init(datum.getTransformer(), datum);
+            init(datum.getLoader(), datum);
         }
     }
 
-    private void destroy(Data data) {
-        destroy(data.getExtractor(), data);
-        destroy(data.getTransformer(), data);
-        destroy(data.getLoader(), data);
-        log.info("ETL {} finished", data.getName());
+    private void destroy(Data datum) {
+        destroy(datum.getExtractor(), datum);
+        destroy(datum.getTransformer(), datum);
+        destroy(datum.getLoader(), datum);
+        log.info("ETL {} finished", datum.getName());
     }
 
-    private <P extends DataProcessor, T extends DataProcessorType<P>, C extends ConfigurableProcessor<T>> void init(C processor, Data data) {
-        P dataProcessor = getTypedDataProcessor(processor, data);
+    private <P extends DataProcessor, T extends DataProcessorType<P>, C extends ConfigurableProcessor<T>> void init(C processor, Data datum) {
+        P dataProcessor = getTypedDataProcessor(processor, datum);
         dataProcessor.init();
         dataProcessor.preProcess();
     }
 
-    private <P extends DataProcessor, T extends DataProcessorType<P>, C extends ConfigurableProcessor<T>> void destroy(C processor, Data data) {
-        P dataProcessor = getTypedDataProcessor(processor, data);
+    private <P extends DataProcessor, T extends DataProcessorType<P>, C extends ConfigurableProcessor<T>> void destroy(C processor, Data datum) {
+        P dataProcessor = getTypedDataProcessor(processor, datum);
         dataProcessor.postProcess();
         dataProcessor.destroy();
     }
 
-    private <P extends DataProcessor> P getTypedDataProcessor(ConfigurableProcessor<? extends DataProcessorType<P>> processor, Data data) {
+    private <P extends DataProcessor> P getTypedDataProcessor(ConfigurableProcessor<? extends DataProcessorType<P>> processor, Data datum) {
         return processor.getType()
-            .getDataProcessor(data);
-    }
-
-    private <I, O> EtlContext<I, O> createEtlContext(Data data) {
-        return new EtlContext<>(getExtractor(data), getTransformer(data), getLoader(data));
+            .getDataProcessor(datum);
     }
 
     @SuppressWarnings("unchecked")
-    private <I> DataExtractor<I> getExtractor(Data data) {
-        return (DataExtractor<I>) getTypedDataProcessor(data.getExtractor(), data);
+    private <I> DataExtractor<I> getExtractor(Data datum) {
+        return (DataExtractor<I>) getTypedDataProcessor(datum.getExtractor(), datum);
     }
 
     @SuppressWarnings("unchecked")
-    private <I, O> DataTransformer<I, O> getTransformer(Data data) {
-        return (DataTransformer<I, O>) getTypedDataProcessor(data.getTransformer(), data);
+    private <I, O> DataTransformer<I, O> getTransformer(Data datum) {
+        return (DataTransformer<I, O>) getTypedDataProcessor(datum.getTransformer(), datum);
     }
 
     @SuppressWarnings("unchecked")
-    private <O> DataLoader<O> getLoader(Data data) {
-        return (DataLoader<O>) getTypedDataProcessor(data.getLoader(), data);
-    }
-
-    @RequiredArgsConstructor
-    private static class EtlContext<I, O> {
-
-        private final DataExtractor<I> extractor;
-
-        private final DataTransformer<I, O> transformer;
-
-        private final DataLoader<O> loader;
-
-        public Flux<I> extract() {
-            return extractor.extract();
-        }
-
-        public O transform(I input) {
-            return transformer.transform(input);
-        }
-
-        public void load(Collection<O> input) {
-            loader.load(input);
-        }
-
+    private <O> DataLoader<O> getLoader(Data datum) {
+        return (DataLoader<O>) getTypedDataProcessor(datum.getLoader(), datum);
     }
 
 }

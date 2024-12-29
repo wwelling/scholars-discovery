@@ -5,6 +5,7 @@ import java.io.IOException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.jena.query.QueryExecution;
 import org.apache.jena.rdf.model.Model;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,17 +26,15 @@ public class SparqlController {
             @RequestParam(defaultValue = "RDF_XML") RdfFormat format,
             @RequestBody String query,
             HttpServletResponse response) throws IOException {
-        // TODO: Remove this controller or implement a locking mechanism. TDB
-        // triplestore destroy calls dataset close which closes all connections to the
-        // TDB. This could effect if the ETL process is running which uses a TDB
-        // triplestore for extraction.
         TdbTriplestore triplestore = TdbTriplestore.of("triplestore");
-        Model model = triplestore.execConstruct(query);
-        model.write(response.getWriter(), format.getFormat());
-        response.setContentType(format.getContentType());
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().flush();
-        triplestore.destroy();
+        try (QueryExecution qe = triplestore.createQueryExecution(query)) {
+            Model model = qe.execConstruct();
+            model.write(response.getWriter(), format.getFormat());
+            response.setContentType(format.getContentType());
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().flush();
+            triplestore.destroy();
+        }
     }
 
     @Getter
