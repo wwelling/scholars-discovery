@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -21,6 +23,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -33,6 +36,7 @@ import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
 import edu.tamu.scholars.discovery.etl.model.FieldDestination;
+import edu.tamu.scholars.discovery.etl.model.NestedReference;
 import edu.tamu.scholars.discovery.factory.ManagedRestTemplate;
 import edu.tamu.scholars.discovery.factory.ManagedRestTemplateFactory;
 
@@ -55,6 +59,10 @@ public class IndexLoader implements DataLoader<JsonNode> {
 
     private final Map<Pair<String, String>, JsonNode> existingCopyFields;
 
+    private final Map<String, DataField> fields;
+
+    private final Map<String, DataField> references;
+
     public IndexLoader(Data data, Index index) {
         this.data = data;
         this.index = index;
@@ -71,6 +79,14 @@ public class IndexLoader implements DataLoader<JsonNode> {
 
         this.existingFields = new HashMap<>();
         this.existingCopyFields = new HashMap<>();
+
+        this.fields = this.data.getFields()
+            .stream()
+            .collect(Collectors.toMap(
+                field -> field.getDescriptor().getName(),
+                Function.identity()));
+
+        this.references = new HashMap<>();
     }
 
     @Override
@@ -81,6 +97,7 @@ public class IndexLoader implements DataLoader<JsonNode> {
 
     @Override
     public void preProcess() {
+        seperateReferences();
         initializeFields();
     }
 
@@ -133,14 +150,40 @@ public class IndexLoader implements DataLoader<JsonNode> {
         return Map.of();
     }
 
+    private void seperateReferences() {
+        for (DataField field : this.data.getFields()) {
+            DataFieldDescriptor descriptor = field.getDescriptor();
+            for (NestedReference reference : descriptor.getNestedReferences()) {
+                DataField referenceField = this.fields.remove(reference.getField());
+                if (Objects.nonNull(referenceField)) {
+                    this.references.put(reference.getField(), referenceField);
+                }
+            }
+        }
+    }
+
     private void initializeFields() {
         ObjectNode schemaRequestNode = objectMapper.createObjectNode();
         ArrayNode addFieldNodes = objectMapper.createArrayNode();
         ArrayNode addCopyFieldNodes = objectMapper.createArrayNode();
 
-        for (DataField field : this.data.getFields()) {
+        System.out.println("\n\nFIELDS: " + this.fields + "\n\n");
+
+        System.out.println("\n\nREFERENCES BEFORE: " + this.references + "\n\n");
+
+        for (DataField field : this.fields.values()) {
             processField(field.getDescriptor(), addFieldNodes, addCopyFieldNodes);
+
+            for (NestedReference nestedReference : field.getDescriptor().getNestedReferences()) {
+                DataField reference = this.references.remove(nestedReference.getField());
+                DataFieldDescriptor descriptor = new DataFieldDescriptor();
+                BeanUtils.copyProperties(reference.getDescriptor(), descriptor);
+                descriptor.setName(nestedReference.getKey());
+                processField(descriptor, addFieldNodes, addCopyFieldNodes);
+            }
         }
+
+        System.out.println("\n\nREFERENCES AFTER: " + this.references + "\n\n");
 
         if (!addFieldNodes.isEmpty()) {
             schemaRequestNode.set("add-field", addFieldNodes);
@@ -170,7 +213,9 @@ public class IndexLoader implements DataLoader<JsonNode> {
         String name = descriptor.getName();
 
         if (!existingFields.containsKey(name)) {
-            addFieldNodes.add(buildAddFieldNode(descriptor));
+            JsonNode field = buildAddFieldNode(descriptor);
+            addFieldNodes.add(field);
+            existingFields.put(name, field);
         }
 
         Set<String> copyTo = descriptor
@@ -179,7 +224,9 @@ public class IndexLoader implements DataLoader<JsonNode> {
 
         for (String dest : copyTo) {
             if (!existingCopyFields.containsKey(Pair.of(name, dest))) {
-                addCopyFieldNodes.add(buildAddCopyFieldNode(name, dest));
+                JsonNode copyField = buildAddCopyFieldNode(name, dest);
+                addCopyFieldNodes.add(copyField);
+                existingFields.put(name, copyField);
             }
         }
     }

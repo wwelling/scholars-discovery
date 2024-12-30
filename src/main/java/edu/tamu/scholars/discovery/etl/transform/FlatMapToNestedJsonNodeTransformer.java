@@ -34,13 +34,11 @@ public class FlatMapToNestedJsonNodeTransformer implements DataTransformer<Map<S
     public FlatMapToNestedJsonNodeTransformer(Data data, Mapper<JsonNode> mapper) {
         this.data = data;
         this.mapper = mapper;
-        this.fields = new HashMap<>();
-
-        // this.data.getFields()
-        //         .stream()
-        //         .collect(Collectors.toMap(
-        //                 field -> field.getDescriptor().getName(),
-        //                 Function.identity()));
+        this.fields = this.data.getFields()
+                .stream()
+                .collect(Collectors.toMap(
+                        field -> field.getDescriptor().getName(),
+                        Function.identity()));
 
         this.references = new HashMap<>();
     }
@@ -50,21 +48,21 @@ public class FlatMapToNestedJsonNodeTransformer implements DataTransformer<Map<S
         // System.out.println("\n" + this.data.getName() + "\n");
         // for (DataField field : this.data.getFields()) {
         //     DataFieldDescriptor descriptor = field.getDescriptor();
-        //     // System.out.println(descriptor.getName());
+        //     System.out.println(descriptor.getName());
         //     for (NestedReference reference : descriptor.getNestedReferences()) {
-        //         // System.out.println("\t" + reference.getField());
+        //         System.out.println("\t" + reference.getField());
         //         DataField referenceField = this.fields.remove(reference.getField());
 
         //         if (Objects.nonNull(referenceField)) {
         //             this.references.put(reference.getField(), referenceField);
         //         } else {
-        //             // System.out.println("\nREFERENCE FIELD NOT FOUND: " + reference.getField() + "\n");
+        //             System.out.println("\nREFERENCE FIELD NOT FOUND: " + reference.getField() + "\n");
         //         }
         //     }
         // }
 
-        // System.out.println("\n\n\nFIELDS: " + this.fields + "\n");
-        // System.out.println("REFERENCES: " + this.references + "\n\n\n");
+        // System.out.println("\n\nFIELDS: " + this.fields + "\n");
+        // System.out.println("REFERENCES: " + this.references + "\n\n");
     }
 
     @Override
