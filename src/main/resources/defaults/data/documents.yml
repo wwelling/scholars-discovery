@@ -88,6 +88,7 @@ fields:
       nestedReferences:
         - field: authorOrganization
           key: organizations
+          multiValued: true
       destination:
         type: strings
         copyTo:
@@ -165,7 +166,7 @@ fields:
   - descriptor:
       name: publisherType
       destination:
-        type: string
+        type: strings
       source:
         template: defaults/data/document/publisherType.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType

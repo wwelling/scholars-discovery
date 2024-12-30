@@ -43,8 +43,12 @@ public class NestedReference extends Identified {
     @EqualsAndHashCode.Include
     private String key;
 
+    @Column(nullable = false)
+    private boolean multiValued;
+
     public NestedReference() {
         super();
+        this.multiValued = false;
     }
 
 }

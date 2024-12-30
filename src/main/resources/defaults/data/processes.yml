@@ -35,6 +35,7 @@ fields:
       nestedReferences:
         - field: authorOrganization
           key: organizations
+          multiValued: true
       destination:
         type: strings
         copyTo:

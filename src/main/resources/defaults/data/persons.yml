@@ -67,6 +67,7 @@ fields:
           key: type
         - field: positionOrganization
           key: organizations
+          multiValued: true
       destination:
         type: strings
         multiValued: true
@@ -90,6 +91,7 @@ fields:
       nestedReferences:
         - field: positionOrganizationParent
           key: parent
+          multiValued: true
       destination:
         type: strings
         multiValued: true

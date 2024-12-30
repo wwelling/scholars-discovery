@@ -5,6 +5,7 @@ import java.util.TimeZone;
 
 import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.PostConstruct;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -13,6 +14,7 @@ import edu.tamu.scholars.discovery.index.annotation.CollectionSource;
 import edu.tamu.scholars.discovery.index.annotation.FieldSource;
 import edu.tamu.scholars.discovery.index.annotation.FieldSource.CacheableLookup;
 import edu.tamu.scholars.discovery.index.annotation.FieldType;
+import edu.tamu.scholars.discovery.index.annotation.NestedMultiValuedProperty;
 import edu.tamu.scholars.discovery.index.annotation.NestedObject;
 import edu.tamu.scholars.discovery.index.annotation.NestedObject.Reference;
 import edu.tamu.scholars.discovery.index.model.Collection;
@@ -38,13 +40,13 @@ public class MiddlewareApplication {
 
     @PostConstruct
     public void echo() {
-        // echo(Collection.class);
-        // echo(Concept.class);
-        // echo(Document.class);
-        // echo(Organization.class);
-        // echo(Person.class);
-        // echo(Process.class);
-        // echo(Relationship.class);
+        echo(Collection.class);
+        echo(Concept.class);
+        echo(Document.class);
+        echo(Organization.class);
+        echo(Person.class);
+        echo(Process.class);
+        echo(Relationship.class);
     }
 
     public void echo(Class<?> clazz) {
@@ -57,13 +59,10 @@ public class MiddlewareApplication {
         System.out.println("  predicate: " + collectionSource.predicate());
         System.out.println("extractor:");
         System.out.println("  id: 1");
-        System.out.println("  version: 1");
         System.out.println("transformer:");
         System.out.println("  id: 1");
-        System.out.println("  version: 1");
         System.out.println("loader:");
         System.out.println("  id: 1");
-        System.out.println("  version: 1");
 
         System.out.println("fields:");
 
@@ -126,6 +125,13 @@ public class MiddlewareApplication {
                         for (Reference property : properties) {
                             System.out.println("        - field: " + property.value());
                             System.out.println("          key: " + property.key());
+
+                            Field nestedField = FieldUtils.getField(cc, property.value(), true);
+
+                            NestedMultiValuedProperty nestedMultiValuedProperty = nestedField.getAnnotation(NestedMultiValuedProperty.class);
+                            boolean nestedMultivalue = nestedMultiValuedProperty != null;
+
+                            if (nestedMultivalue) System.out.println("          multiValued: true");
                         }
                     }
                 }

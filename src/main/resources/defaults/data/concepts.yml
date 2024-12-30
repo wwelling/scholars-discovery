@@ -178,6 +178,7 @@ fields:
           key: title
         - field: futureResearchIdeaOfOrganization
           key: organizations
+          multiValued: true
       destination:
         type: text_general
         copyTo:

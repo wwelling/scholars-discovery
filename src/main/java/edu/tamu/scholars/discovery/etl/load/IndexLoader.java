@@ -97,7 +97,16 @@ public class IndexLoader implements DataLoader<JsonNode> {
 
     @Override
     public void preProcess() {
-        seperateReferences();
+        // duplicate in FlatMapToNestedJsonNodeTransformer
+        for (DataField field : this.data.getFields()) {
+            DataFieldDescriptor descriptor = field.getDescriptor();
+            for (NestedReference reference : descriptor.getNestedReferences()) {
+                DataField referenceField = this.fields.remove(reference.getField());
+                if (Objects.nonNull(referenceField)) {
+                    this.references.put(reference.getField(), referenceField);
+                }
+            }
+        }
         initializeFields();
     }
 
@@ -150,26 +159,16 @@ public class IndexLoader implements DataLoader<JsonNode> {
         return Map.of();
     }
 
-    private void seperateReferences() {
-        for (DataField field : this.data.getFields()) {
-            DataFieldDescriptor descriptor = field.getDescriptor();
-            for (NestedReference reference : descriptor.getNestedReferences()) {
-                DataField referenceField = this.fields.remove(reference.getField());
-                if (Objects.nonNull(referenceField)) {
-                    this.references.put(reference.getField(), referenceField);
-                }
-            }
-        }
-    }
-
     private void initializeFields() {
         ObjectNode schemaRequestNode = objectMapper.createObjectNode();
         ArrayNode addFieldNodes = objectMapper.createArrayNode();
         ArrayNode addCopyFieldNodes = objectMapper.createArrayNode();
 
-        System.out.println("\n\nFIELDS: " + this.fields + "\n\n");
+        System.out.println("\n\nTOTAL: " + this.data.getFields().size() + "\n\n");
 
-        System.out.println("\n\nREFERENCES BEFORE: " + this.references + "\n\n");
+        System.out.println("\n\nFIELDS: " + this.fields.size() + " " + this.fields + "\n\n");
+
+        System.out.println("\n\nREFERENCES BEFORE: " + this.references.size() + " " + this.references + "\n\n");
 
         for (DataField field : this.fields.values()) {
             processField(field.getDescriptor(), addFieldNodes, addCopyFieldNodes);
@@ -200,13 +199,10 @@ public class IndexLoader implements DataLoader<JsonNode> {
         if (!schemaRequestNode.isEmpty()) {
             ResponseEntity<JsonNode> updateSchemaRepsonse = updateSchema(schemaRequestNode);
 
-            if (updateSchemaRepsonse.getStatusCode().isError()) {
-                // TODO: log error
-            } else {
+            if (updateSchemaRepsonse.getStatusCode().is2xxSuccessful()) {
                 log.info("{} index fields initialized.", this.data.getName());
             }
         }
-
     }
 
     private void processField(DataFieldDescriptor descriptor, ArrayNode addFieldNodes, ArrayNode addCopyFieldNodes) {
@@ -226,7 +222,7 @@ public class IndexLoader implements DataLoader<JsonNode> {
             if (!existingCopyFields.containsKey(Pair.of(name, dest))) {
                 JsonNode copyField = buildAddCopyFieldNode(name, dest);
                 addCopyFieldNodes.add(copyField);
-                existingFields.put(name, copyField);
+                existingCopyFields.put(Pair.of(name, dest), copyField);
             }
         }
     }
