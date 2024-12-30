@@ -16,11 +16,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * A persistent representation of how a UI should render a discovery view and its result set.
- * 
- * <p>See `src/main/resources/defaults/discoveryViews.yml`</p>
- */
 @Getter
 @Setter
 @Entity

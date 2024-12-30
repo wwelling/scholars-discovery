@@ -56,7 +56,6 @@ import jakarta.persistence.Version;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -65,7 +64,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
 @ToString(exclude = { "password", "oldPasswords" })
 @Entity
 @Table(

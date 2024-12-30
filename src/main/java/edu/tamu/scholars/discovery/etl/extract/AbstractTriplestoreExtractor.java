@@ -110,7 +110,7 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
     }
 
     private void lookupProperties(Map<String, Object> document, String subject) {
-        fields.parallelStream().forEach(field -> {
+        for (DataField field : fields) {
             DataFieldDescriptor descriptor = field.getDescriptor();
 
             try {
@@ -129,7 +129,7 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
                     e.getMessage());
                 log.debug("Error extracting individual", e);
             }
-        });
+        }
     }
 
     private List<String> getValues(DataFieldDescriptor descriptor, String subject) {

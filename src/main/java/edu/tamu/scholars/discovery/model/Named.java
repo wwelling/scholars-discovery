@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString(callSuper = true, onlyExplicitlyIncluded = true)
 @MappedSuperclass
-public abstract class Named extends Versioned {
+public abstract class Named extends Identified {
 
     @Size(min = 2, max = 64, message = "${Named.nameSize}")
     @Column(nullable = false, unique = true)

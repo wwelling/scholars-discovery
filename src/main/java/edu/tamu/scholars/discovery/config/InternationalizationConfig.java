@@ -5,9 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
-/**
- * i18n configuration beans. Creates {@link MessageSource} bean to provide i18n keys.
- */
 @Configuration
 public class InternationalizationConfig {
 

@@ -22,11 +22,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * A persistent representation of how a UI should render a display view.
- * 
- * <p>See `src/main/resources/defaults/displayViews.yml`</p>
- */
 @Getter
 @Setter
 @Entity

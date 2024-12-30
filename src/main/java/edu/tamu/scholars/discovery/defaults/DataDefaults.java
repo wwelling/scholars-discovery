@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.scholars.discovery.config.model.MiddlewareConfig;
@@ -107,9 +108,34 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
     }
 
     private DataFieldDescriptor resolveDescriptor(DataFieldDescriptor descriptor) {
-        return descriptorRepo.findByName(descriptor.getName())
+        Specification<DataFieldDescriptor> specification = (root, query, cb) -> cb.and(
+                cb.equal(root.get("name"), descriptor.getName()),
+                cb.equal(root.get("destination").get("defaultValue"), descriptor.getDestination().getDefaultValue()),
+                cb.equal(root.get("destination").get("docValues"), descriptor.getDestination().isDocValues()),
+                cb.equal(root.get("destination").get("indexed"), descriptor.getDestination().isIndexed()),
+                cb.equal(root.get("destination").get("multiValued"), descriptor.getDestination().isMultiValued()),
+                cb.equal(root.get("destination").get("required"), descriptor.getDestination().isRequired()),
+                cb.equal(root.get("destination").get("stored"), descriptor.getDestination().isStored()),
+                cb.equal(root.get("destination").get("type"), descriptor.getDestination().getType()),
+                cb.equal(root.get("nested"), descriptor.isNested()),
+                cb.equal(root.get("root"), descriptor.isRoot()),
+                cb.equal(root.get("source").get("parse"), descriptor.getSource().isParse()),
+                cb.equal(root.get("source").get("split"), descriptor.getSource().isSplit()),
+                cb.equal(root.get("source").get("unique"), descriptor.getSource().isUnique()),
+                cb.equal(root.get("source").get("predicate"), descriptor.getSource().getPredicate()),
+                cb.equal(root.get("source").get("template"), descriptor.getSource().getTemplate()));
+
+        return descriptorRepo.findOne(specification)
+            .map(entity -> descriptorRepo.findById(entity.getId()).orElse(entity))
+            .filter(existing -> isEquivalent(existing, descriptor))
             .orElseGet(() -> descriptorRepo.save(descriptor));
     }
+
+    private boolean isEquivalent(DataFieldDescriptor existing, DataFieldDescriptor descriptor) {
+        return existing.getDestination().equals(descriptor.getDestination()) &&
+               existing.getSource().equals(descriptor.getSource()) &&
+               existing.getNestedReferences().equals(descriptor.getNestedReferences());
+     }
 
     private <S extends Source> void setSourceTemplate(S source) {
         try {

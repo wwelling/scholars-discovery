@@ -10,10 +10,6 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * Abstract mapped superclass `FieldView` to order itself and
- * filter and sort its result sets for a given field.
- */
 @Getter
 @Setter
 @MappedSuperclass

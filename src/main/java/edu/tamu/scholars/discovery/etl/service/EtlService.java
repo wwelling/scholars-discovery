@@ -74,19 +74,19 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
         data.forEach(this::init);
 
         List<CompletableFuture<Void>> futures = data.parallelStream()
-                .map(this::process)
-                .toList();
+            .map(this::process)
+            .toList();
 
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
-                .thenRun(() -> {
-                    log.info("All ETL processes completed");
-                    destroy();
-                })
-                .exceptionally(throwable -> {
-                    log.error("Error during ETL processes", throwable);
+            .thenRun(() -> {
+                log.info("All ETL processes completed");
+                destroy();
+            })
+            .exceptionally(throwable -> {
+                log.error("Error during ETL processes", throwable);
 
-                    return null;
-                });
+                return null;
+            });
     }
 
     private <I, O> void init(Data datum) {
@@ -125,19 +125,19 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
         CompletableFuture<Void> future = new CompletableFuture<>();
 
         extractor.extract()
-                .map(transformer::transform)
-                .buffer(config.getBufferSize())
-                .subscribe(
-                        loader::load,
-                        error -> {
-                            String message = format("Error processing ETL for %s", datum.getName());
-                            log.error(message, error);
-                            future.completeExceptionally(error);
-                        },
-                        () -> {
-                            log.info("Completed ETL for {}", datum.getName());
-                            future.complete(null);
-                        });
+            .map(transformer::transform)
+            .buffer(config.getBufferSize())
+            .subscribe(
+                loader::load,
+                error -> {
+                    String message = format("Error processing ETL for %s", datum.getName());
+                    log.error(message, error);
+                    future.completeExceptionally(error);
+                },
+                () -> {
+                    log.info("Completed ETL for {}", datum.getName());
+                    future.complete(null);
+                });
 
         return future;
     }
@@ -167,7 +167,7 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     @SuppressWarnings("unchecked")
-    private <I, O> DataTransformer<I, O> getTransformer(Data datum, Mapper mapper) {
+    private <I, O> DataTransformer<I, O> getTransformer(Data datum, Mapper<?> mapper) {
         return (DataTransformer<I, O>) getTypedDataProcessor(datum.getTransformer(), datum, mapper);
     }
 

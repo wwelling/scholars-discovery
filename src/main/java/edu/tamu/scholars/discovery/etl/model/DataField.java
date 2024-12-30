@@ -10,13 +10,13 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import edu.tamu.scholars.discovery.model.Versioned;
+import edu.tamu.scholars.discovery.model.Identified;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "data_fields")
-public class DataField extends Versioned {
+public class DataField extends Identified {
 
     private static final long serialVersionUID = -284562394634567551L;
 
@@ -38,7 +38,7 @@ public class DataField extends Versioned {
             CascadeType.MERGE,
             CascadeType.REFRESH,
         },
-        fetch = FetchType.EAGER,
+        fetch = FetchType.LAZY,
         optional = false
     )
     private DataFieldDescriptor descriptor;

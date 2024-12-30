@@ -3,8 +3,6 @@ package edu.tamu.scholars.discovery.export.service;
 import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.ArrayList;

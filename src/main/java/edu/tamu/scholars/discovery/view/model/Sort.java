@@ -6,15 +6,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.domain.Sort.Direction;
 
-/**
- * Embeddable class `Sort` to describe ordering of {@link View} result sets.
- */
 @Getter
 @Setter
+@EqualsAndHashCode
 @Embeddable
 public class Sort implements Serializable {
 

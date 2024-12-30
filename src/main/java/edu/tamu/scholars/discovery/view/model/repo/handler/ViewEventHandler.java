@@ -1,6 +1,5 @@
 package edu.tamu.scholars.discovery.view.model.repo.handler;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -10,18 +9,14 @@ import edu.tamu.scholars.discovery.messaging.CreateEntityMessage;
 import edu.tamu.scholars.discovery.messaging.DeleteEntityMessage;
 import edu.tamu.scholars.discovery.messaging.UpdateEntityMessage;
 import edu.tamu.scholars.discovery.view.model.View;
-import edu.tamu.scholars.discovery.view.model.repo.ViewRepo;
 
-/**
- * Abstract {@link View} event handler to dispatch {@link ViewRepo} events.
- * Provides events for clients to be notified when a view changes.
- *
- * @param <V> {@link View}
- */
 public abstract class ViewEventHandler<V extends View> {
 
-    @Autowired
-    private SimpMessagingTemplate simpMessageTemplate;
+    private final SimpMessagingTemplate simpMessageTemplate;
+
+    protected ViewEventHandler(SimpMessagingTemplate simpMessageTemplate) {
+        this.simpMessageTemplate = simpMessageTemplate;
+    }
 
     @HandleAfterCreate
     public void broadcastCreate(V view) {

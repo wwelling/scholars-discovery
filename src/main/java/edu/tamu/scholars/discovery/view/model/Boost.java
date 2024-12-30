@@ -4,15 +4,14 @@ import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Embeddable domain model for {@link CollectionView} result set term relevancy boosting.
- */
 @Getter
 @Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 @Embeddable
 public class Boost implements Serializable {

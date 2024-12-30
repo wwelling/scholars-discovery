@@ -15,9 +15,6 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * A persistent representation of how a UI should render a collection view and its result set.
- */
 @Getter
 @Setter
 @MappedSuperclass

@@ -38,23 +38,13 @@ public class DependencyComponentConfig {
 
     @Bean
     @Scope(value = SCOPE_PROTOTYPE)
-    Mapper mapper(MapperConfig config)
+    Mapper<?> mapper(MapperConfig config)
             throws InstantiationException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, NoSuchMethodException, SecurityException {
         return construct(config);
     }
 
     // TODO: implement bean creation from data repo if not exists
-    /*
-    @Bean
-    List<Service> services(DataRepo dataRepo, AutowireCapableBeanFactory beanFactory)
-        throws InstantiationException, IllegalAccessException, IllegalArgumentException,
-        InvocationTargetException, NoSuchMethodException, SecurityException {
-        List<Service> services = new ArrayList<>();
-
-        return services;
-    }
-    */
 
     private <S extends Service> S construct(ComponentConfig<S> config)
             throws InstantiationException, IllegalAccessException, IllegalArgumentException,

@@ -15,12 +15,12 @@ public interface DataRepo extends NamedRepo<Data> {
 
     @Override
     @RestResource(exported = false)
-    @EntityGraph(value = "Data.Graph", type = EntityGraph.EntityGraphType.FETCH)
+    @EntityGraph(value = "Data.Graph", type = EntityGraph.EntityGraphType.LOAD)
     public Optional<Data> findByName(String name);
 
     @Override
     @RestResource(exported = false)
-    @EntityGraph(value = "Data.Graph", type = EntityGraph.EntityGraphType.FETCH)
+    @EntityGraph(value = "Data.Graph", type = EntityGraph.EntityGraphType.LOAD)
     public List<Data> findAll();
 
 }

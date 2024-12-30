@@ -16,9 +16,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * Represents a display tab view in the application.
- */
 @Getter
 @Setter
 @Entity

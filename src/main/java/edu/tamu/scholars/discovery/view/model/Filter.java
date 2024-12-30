@@ -8,16 +8,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import edu.tamu.scholars.discovery.model.OpKey;
 
-/**
- * Embeddable class `Filter` to describe filtering of {@link View} result sets.
- */
 @Getter
 @Setter
+@EqualsAndHashCode
 @Embeddable
 @JsonInclude(Include.NON_NULL)
 public class Filter implements Serializable {

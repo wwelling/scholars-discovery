@@ -4,13 +4,10 @@ collectionSource:
   predicate: http://purl.org/ontology/bibo/Collection
 extractor:
   id: 1
-  version: 1
 transformer:
   id: 1
-  version: 1
 loader:
   id: 1
-  version: 1
 fields:
   - descriptor:
       name: name

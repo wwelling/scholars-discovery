@@ -8,10 +8,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * Represents a view for display subsections.
- * Extends the {@link FieldView} class.
- */
 @Getter
 @Setter
 @Entity

@@ -1,12 +1,10 @@
 package edu.tamu.scholars.discovery.export.service;
 
-import jakarta.xml.bind.JAXBException;
-
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import jakarta.xml.bind.JAXBException;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.springframework.stereotype.Service;

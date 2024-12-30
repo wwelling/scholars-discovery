@@ -13,17 +13,15 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import edu.tamu.scholars.discovery.model.OpKey;
 
-/**
- * {@link DirectoryView} embedded class `Grouping` to describe collection result
- * navigation.
- */
 @Getter
 @Setter
+@EqualsAndHashCode
 @Embeddable
 @JsonInclude(Include.NON_NULL)
 public class Grouping implements Serializable {

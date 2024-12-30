@@ -9,11 +9,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * A persistent representation of how a UI should render a data and analytics view.
- * 
- * <p>See `src/main/resources/defaults/dataAndAnalyticViews.yml`</p>
- */
 @Getter
 @Setter
 @Entity
