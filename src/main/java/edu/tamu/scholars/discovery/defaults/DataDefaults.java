@@ -3,6 +3,7 @@ package edu.tamu.scholars.discovery.defaults;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -53,12 +54,10 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
                     logger.warn(String.format(IO_EXCEPTION_MESSAGE, collectionSource.getTemplate()));
                 }
             }
-            for (DataField dataField : datum.getFields()) {
-                setSourceTemplate(dataField.getDescriptor().getSource());
-                for (Source source : dataField.getDescriptor().getSource().getCacheableSources()) {
-                    setSourceTemplate(source);
-                }
-            }
+            datum.getFields()
+                .stream()
+                .map(DataField::getDescriptor)
+                .forEach(this::setSourceTemplates);
         }
 
         return data;
@@ -87,6 +86,22 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
         updateFields(source, target);
     }
 
+    private void setSourceTemplates(DataFieldDescriptor descriptor) {
+        setSourceTemplate(descriptor.getSource());
+        for (Source source : descriptor.getSource().getCacheableSources()) {
+            setSourceTemplate(source);
+        }
+        descriptor.getNestedDescriptors().forEach(this::setSourceTemplates);
+    }
+
+    private <S extends Source> void setSourceTemplate(S source) {
+        try {
+            source.setTemplate(getTemplate(source.getTemplate()));
+        } catch (IOException e) {
+            logger.warn(String.format(IO_EXCEPTION_MESSAGE, source.getTemplate()));
+        }
+    }
+
     private void updateFields(Data source, Data target) {
         Set<DataField> sourceFields = Optional.ofNullable(source.getFields()).orElse(Set.of());
         Set<DataField> targetFields = Optional.ofNullable(target.getFields()).orElse(Set.of());
@@ -108,22 +123,32 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
     }
 
     private DataFieldDescriptor resolveDescriptor(DataFieldDescriptor descriptor) {
+
+        String key = Objects.nonNull(descriptor.getNestedReference())
+            ? descriptor.getNestedReference().getKey()
+            : null;
+
+        Boolean multiple = Objects.nonNull(descriptor.getNestedReference())
+            ? descriptor.getNestedReference().getMultiple()
+            : null;
+
         Specification<DataFieldDescriptor> specification = (root, query, cb) -> cb.and(
-                cb.equal(root.get("name"), descriptor.getName()),
-                cb.equal(root.get("destination").get("defaultValue"), descriptor.getDestination().getDefaultValue()),
-                cb.equal(root.get("destination").get("docValues"), descriptor.getDestination().isDocValues()),
-                cb.equal(root.get("destination").get("indexed"), descriptor.getDestination().isIndexed()),
-                cb.equal(root.get("destination").get("multiValued"), descriptor.getDestination().isMultiValued()),
-                cb.equal(root.get("destination").get("required"), descriptor.getDestination().isRequired()),
-                cb.equal(root.get("destination").get("stored"), descriptor.getDestination().isStored()),
-                cb.equal(root.get("destination").get("type"), descriptor.getDestination().getType()),
-                cb.equal(root.get("nested"), descriptor.isNested()),
-                cb.equal(root.get("root"), descriptor.isRoot()),
-                cb.equal(root.get("source").get("parse"), descriptor.getSource().isParse()),
-                cb.equal(root.get("source").get("split"), descriptor.getSource().isSplit()),
-                cb.equal(root.get("source").get("unique"), descriptor.getSource().isUnique()),
-                cb.equal(root.get("source").get("predicate"), descriptor.getSource().getPredicate()),
-                cb.equal(root.get("source").get("template"), descriptor.getSource().getTemplate()));
+            cb.equal(root.get("name"), descriptor.getName()),
+            cb.equal(root.get("nested"), descriptor.isNested()),
+            cb.equal(root.get("destination").get("type"), descriptor.getDestination().getType()),
+            cb.equal(root.get("destination").get("defaultValue"), descriptor.getDestination().getDefaultValue()),
+            cb.equal(root.get("destination").get("required"), descriptor.getDestination().isRequired()),
+            cb.equal(root.get("destination").get("stored"), descriptor.getDestination().isStored()),
+            cb.equal(root.get("destination").get("indexed"), descriptor.getDestination().isIndexed()),
+            cb.equal(root.get("destination").get("multiValued"), descriptor.getDestination().isMultiValued()),
+            cb.equal(root.get("destination").get("docValues"), descriptor.getDestination().isDocValues()),
+            cb.equal(root.get("source").get("predicate"), descriptor.getSource().getPredicate()),
+            cb.equal(root.get("source").get("template"), descriptor.getSource().getTemplate()),
+            cb.equal(root.get("source").get("unique"), descriptor.getSource().isUnique()),
+            cb.equal(root.get("source").get("parse"), descriptor.getSource().isParse()),
+            cb.equal(root.get("source").get("split"), descriptor.getSource().isSplit()),
+            cb.equal(root.get("nestedReference").get("key"), key),
+            cb.equal(root.get("nestedReference").get("multiple"), multiple));
 
         return descriptorRepo.findOne(specification)
             .map(entity -> descriptorRepo.findById(entity.getId()).orElse(entity))
@@ -132,17 +157,10 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
     }
 
     private boolean isEquivalent(DataFieldDescriptor existing, DataFieldDescriptor descriptor) {
-        return existing.getDestination().equals(descriptor.getDestination()) &&
-               existing.getSource().equals(descriptor.getSource()) &&
-               existing.getNestedReferences().equals(descriptor.getNestedReferences());
+        return existing.getDestination().equals(descriptor.getDestination())
+            && existing.getSource().equals(descriptor.getSource())
+            && existing.getNestedReference().equals(descriptor.getNestedReference())
+            && existing.getNestedDescriptors().equals(descriptor.getNestedDescriptors());
      }
-
-    private <S extends Source> void setSourceTemplate(S source) {
-        try {
-            source.setTemplate(getTemplate(source.getTemplate()));
-        } catch (IOException e) {
-            logger.warn(String.format(IO_EXCEPTION_MESSAGE, source.getTemplate()));
-        }
-    }
 
 }

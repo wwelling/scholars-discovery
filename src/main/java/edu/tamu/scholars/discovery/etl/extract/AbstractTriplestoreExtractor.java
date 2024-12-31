@@ -49,13 +49,10 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
 
     protected final CollectionSource collectionSource;
 
-    protected final Set<DataField> fields;
-
     protected AbstractTriplestoreExtractor(Data data) {
         this.data = data;
         this.properties = data.getExtractor().getAttributes();
         this.collectionSource = data.getCollectionSource();
-        this.fields = data.getFields();
     }
 
     @Override
@@ -110,25 +107,35 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
     }
 
     private void lookupProperties(Map<String, Object> document, String subject) {
-        for (DataField field : fields) {
-            DataFieldDescriptor descriptor = field.getDescriptor();
+        this.data.getFields()
+            .parallelStream()
+            .map(DataField::getDescriptor)
+            .forEach(descriptor -> this.lookupProperties(document, subject, descriptor));
+    }
 
-            try {
-                List<String> values = getValues(descriptor, subject);
+    private void lookupProperties(Map<String, Object> document, String subject, DataFieldDescriptor descriptor) {
+        lookupProperty(document, subject, descriptor);
+        for (DataFieldDescriptor nestedDescriptor : descriptor.getNestedDescriptors()) {
+            lookupProperties(document, subject, nestedDescriptor);
+        }
+    }
 
-                if (!values.isEmpty()) {
-                    populate(document, descriptor, values);
-                } else {
-                    log.debug("Could not find values for {}", descriptor.getName());
-                }
-            } catch (Exception e) { // TODO: determine exact exceptions thrown and handle individually
-                log.error("Unable to extracting individual {} {} ({}): {}",
-                    data.getName(),
-                    descriptor.getName(),
-                    parse(subject),
-                    e.getMessage());
-                log.debug("Error extracting individual", e);
+    private void lookupProperty(Map<String, Object> document, String subject, DataFieldDescriptor descriptor) {
+        try {
+            List<String> values = getValues(descriptor, subject);
+
+            if (values.isEmpty()) {
+                log.debug("Could not find values for {}", descriptor.getName());
+            } else {
+                populate(document, descriptor, values);
             }
+        } catch (Exception e) { // TODO: determine exact exceptions thrown and handle individually
+            log.error("Unable to extracting individual {} {} ({}): {}",
+                data.getName(),
+                descriptor.getName(),
+                parse(subject),
+                e.getMessage());
+            log.debug("Error extracting individual", e);
         }
     }
 
@@ -139,11 +146,11 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
 
         Set<CacheableSource> cacheableSources = source.getCacheableSources();
 
-        if (!cacheableSources.isEmpty()) {
-            return new ArrayList<>(getCacheableValues(descriptor, values, subject));
+        if (cacheableSources.isEmpty()) {
+            return values;
         }
 
-        return values;
+        return new ArrayList<>(getCacheableValues(descriptor, values, subject));
     }
 
     private List<String> getValues(FieldSource source, String subject) {
@@ -157,11 +164,11 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         parameterizedSparql.setCommandText(template);
         parameterizedSparql.setIri("uri", subject);
 
-        Query query = QueryFactory.create(parameterizedSparql.toString());
+        String queryString = parameterizedSparql.toString();
 
-        log.debug("{}", query);
+        log.debug("{}", queryString);
 
-        return query;
+        return QueryFactory.create(queryString);
     }
 
     private List<String> queryValues(FieldSource source, Query query) {
@@ -206,12 +213,12 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
             FieldSource cacheableFieldSource = getCacheableSource(source, cacheableSource);
 
             for (String value : values) {
-                if (descriptor.isNested()) {
-                    uniqueValues.addAll(getNestedCacheableValues(cacheableFieldSource, value, subject));
-                } else {
-                    for (String cached : getCacheOrQueryValues(cacheableFieldSource, value)) {
+                if (descriptor.getNestedDescriptors().isEmpty()) {
+                    for (String cached : getCacheOrQueryValues(cacheableFieldSource, subject)) {
                         uniqueValues.add(cached);
                     }
+                } else {
+                    uniqueValues.addAll(getNestedCacheableValues(cacheableFieldSource, value, subject));
                 }
             }
         }

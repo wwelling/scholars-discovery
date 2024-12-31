@@ -40,7 +40,6 @@ fields:
   - descriptor:
       name: publicationVenue
       nested: true
-      root: true
       destination:
         type: string
         copyTo:
@@ -53,7 +52,6 @@ fields:
   - descriptor:
       name: hasPublicationVenueFor
       nested: true
-      root: true
       destination:
         type: string
         indexed: false
@@ -84,11 +82,6 @@ fields:
   - descriptor:
       name: authors
       nested: true
-      root: true
-      nestedReferences:
-        - field: authorOrganization
-          key: organizations
-          multiValued: true
       destination:
         type: strings
         copyTo:
@@ -98,23 +91,25 @@ fields:
       source:
         template: defaults/data/document/author.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-  - descriptor:
-      name: authorOrganization
-      nested: true
-      destination:
-        type: strings
-        multiValued: true
-        docValues: true
-      source:
-        template: defaults/data/document/authorOrganization.sparql
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
-        cacheableSources:
-          - template: defaults/data/document/authorOrganizations.sparql
+      nestedDescriptors:
+        - nestedReference:
+            key: organizations
+            multiple: true
+          name: authorOrganization
+          nested: true
+          destination:
+            type: strings
+            multiValued: true
+            docValues: true
+          source:
+            template: defaults/data/document/authorOrganization.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
+            cacheableSources:
+              - template: defaults/data/document/authorOrganizations.sparql
+                predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: editors
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -125,7 +120,6 @@ fields:
   - descriptor:
       name: translators
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -152,10 +146,6 @@ fields:
   - descriptor:
       name: publisher
       nested: true
-      root: true
-      nestedReferences:
-        - field: publisherType
-          key: type
       destination:
         type: string
         docValues: true
@@ -163,14 +153,17 @@ fields:
         template: defaults/data/document/publisher.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
         unique: true
-  - descriptor:
-      name: publisherType
-      destination:
-        type: strings
-      source:
-        template: defaults/data/document/publisherType.sparql
-        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-        parse: true
+      nestedDescriptors:
+        - nestedReference:
+            key: type
+          name: publisherType
+          nested: false
+          destination:
+            type: string
+          source:
+            template: defaults/data/document/publisherType.sparql
+            predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+            parse: true
   - descriptor:
       name: dateFiled
       destination:
@@ -190,7 +183,6 @@ fields:
   - descriptor:
       name: subjectAreas
       nested: true
-      root: true
       destination:
         type: strings
         multiValued: true
@@ -209,7 +201,6 @@ fields:
   - descriptor:
       name: documentParts
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -228,7 +219,6 @@ fields:
   - descriptor:
       name: features
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -247,7 +237,6 @@ fields:
   - descriptor:
       name: documentationForProjectOrResource
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -258,7 +247,6 @@ fields:
   - descriptor:
       name: outputOfProcessOrEvent
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -269,7 +257,6 @@ fields:
   - descriptor:
       name: presentedAt
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -389,7 +376,6 @@ fields:
   - descriptor:
       name: citedBy
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -400,7 +386,6 @@ fields:
   - descriptor:
       name: cites
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -411,7 +396,6 @@ fields:
   - descriptor:
       name: citesAsDataSource
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -422,7 +406,6 @@ fields:
   - descriptor:
       name: translations
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -433,7 +416,6 @@ fields:
   - descriptor:
       name: translationOf
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -444,7 +426,6 @@ fields:
   - descriptor:
       name: globalCitationFrequency
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -518,7 +499,6 @@ fields:
   - descriptor:
       name: assignees
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -529,7 +509,6 @@ fields:
   - descriptor:
       name: reproducedIn
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -540,7 +519,6 @@ fields:
   - descriptor:
       name: reproduces
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -551,7 +529,6 @@ fields:
   - descriptor:
       name: isAbout
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -562,7 +539,6 @@ fields:
   - descriptor:
       name: specifiedOutputOf
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -581,7 +557,6 @@ fields:
   - descriptor:
       name: mentions
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -592,7 +567,6 @@ fields:
   - descriptor:
       name: participatesIn
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -603,7 +577,6 @@ fields:
   - descriptor:
       name: supportedBy
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -614,7 +587,6 @@ fields:
   - descriptor:
       name: receipts
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -671,7 +643,6 @@ fields:
   - descriptor:
       name: etdChairedBy
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -682,7 +653,6 @@ fields:
   - descriptor:
       name: advisedBy
       nested: true
-      root: true
       destination:
         type: strings
         multiValued: true
@@ -750,10 +720,6 @@ fields:
   - descriptor:
       name: websites
       nested: true
-      root: true
-      nestedReferences:
-        - field: websiteUrl
-          key: url
       destination:
         type: strings
         indexed: false
@@ -761,19 +727,21 @@ fields:
       source:
         template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-  - descriptor:
-      name: websiteUrl
-      destination:
-        type: strings
-        indexed: false
-        multiValued: true
-      source:
-        template: defaults/data/common/websiteUrl.sparql
-        predicate: http://www.w3.org/2006/vcard/ns#url
+      nestedDescriptors:
+        - nestedReference:
+            key: url
+          name: websiteUrl
+          nested: false
+          destination:
+            type: strings
+            indexed: false
+            multiValued: true
+          source:
+            template: defaults/data/common/websiteUrl.sparql
+            predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
       name: geographicFocus
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -784,7 +752,6 @@ fields:
   - descriptor:
       name: sameAs
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false

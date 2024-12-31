@@ -26,7 +26,7 @@ public class FieldDestination implements Serializable {
     @Column(nullable = true)
     private String defaultValue;
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> copyTo;
 
     @Column(nullable = false)

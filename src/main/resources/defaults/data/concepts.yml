@@ -22,7 +22,6 @@ fields:
   - descriptor:
       name: associatedDepartments
       nested: true
-      root: true
       destination:
         type: strings
         multiValued: true
@@ -33,7 +32,6 @@ fields:
   - descriptor:
       name: researchAreaOf
       nested: true
-      root: true
       destination:
         type: strings
         copyTo:
@@ -46,10 +44,6 @@ fields:
   - descriptor:
       name: awardOrHonorFor
       nested: true
-      root: true
-      nestedReferences:
-        - field: awardOrHonorForType
-          key: type
       destination:
         type: strings
         copyTo:
@@ -59,22 +53,21 @@ fields:
       source:
         template: defaults/data/concept/awardOrHonorFor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-  - descriptor:
-      name: awardOrHonorForType
-      destination:
-        type: strings
-        multiValued: true
-      source:
-        template: defaults/data/concept/awardOrHonorForType.sparql
-        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-        parse: true
+      nestedDescriptors:
+        - nestedReference:
+            key: type
+          name: awardOrHonorForType
+          nested: false
+          destination:
+            type: strings
+            multiValued: true
+          source:
+            template: defaults/data/concept/awardOrHonorForType.sparql
+            predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+            parse: true
   - descriptor:
       name: awardConferredBy
       nested: true
-      root: true
-      nestedReferences:
-        - field: awardConferredByType
-          key: type
       destination:
         type: text_general
         copyTo:
@@ -84,15 +77,18 @@ fields:
       source:
         template: defaults/data/concept/awardConferredBy.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-  - descriptor:
-      name: awardConferredByType
-      destination:
-        type: strings
-        multiValued: true
-      source:
-        template: defaults/data/concept/awardConferredByType.sparql
-        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-        parse: true
+      nestedDescriptors:
+        - nestedReference:
+            key: type
+          name: awardConferredByType
+          nested: false
+          destination:
+            type: strings
+            multiValued: true
+          source:
+            template: defaults/data/concept/awardConferredByType.sparql
+            predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+            parse: true
   - descriptor:
       name: awardConferredByPreferredLabel
       destination:
@@ -114,10 +110,6 @@ fields:
   - descriptor:
       name: receipts
       nested: true
-      root: true
-      nestedReferences:
-        - field: receiptRecipientName
-          key: recipientName
       destination:
         type: strings
         indexed: false
@@ -125,19 +117,21 @@ fields:
       source:
         template: defaults/data/concept/receipts.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-  - descriptor:
-      name: receiptRecipientName
-      destination:
-        type: strings
-        indexed: false
-        multiValued: true
-      source:
-        template: defaults/data/concept/receiptRecipientName.sparql
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
+      nestedDescriptors:
+        - nestedReference:
+            key: recipientName
+          name: receiptRecipientName
+          nested: false
+          destination:
+            type: strings
+            indexed: false
+            multiValued: true
+          source:
+            template: defaults/data/concept/receiptRecipientName.sparql
+            predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: broaderConcepts
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -148,7 +142,6 @@ fields:
   - descriptor:
       name: narrowerConcepts
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -159,7 +152,6 @@ fields:
   - descriptor:
       name: relatedConcepts
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -170,15 +162,6 @@ fields:
   - descriptor:
       name: futureResearchIdeaOf
       nested: true
-      root: true
-      nestedReferences:
-        - field: futureResearchIdeaOfEmail
-          key: email
-        - field: futureResearchIdeaOfTitle
-          key: title
-        - field: futureResearchIdeaOfOrganization
-          key: organizations
-          multiValued: true
       destination:
         type: text_general
         copyTo:
@@ -186,29 +169,36 @@ fields:
       source:
         template: defaults/data/concept/futureResearchIdeaOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-  - descriptor:
-      name: futureResearchIdeaOfEmail
-      destination:
-        type: string
-      source:
-        template: defaults/data/concept/futureResearchIdeaOfEmail.sparql
-        predicate: http://www.w3.org/2006/vcard/ns#email
-  - descriptor:
-      name: futureResearchIdeaOfTitle
-      destination:
-        type: string
-      source:
-        template: defaults/data/concept/futureResearchIdeaOfTitle.sparql
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
-  - descriptor:
-      name: futureResearchIdeaOfOrganization
-      nested: true
-      destination:
-        type: strings
-        multiValued: true
-      source:
-        template: defaults/data/concept/futureResearchIdeaOfOrganization.sparql
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
+      nestedDescriptors:
+        - nestedReference:
+            key: email
+          name: futureResearchIdeaOfEmail
+          nested: false
+          destination:
+            type: string
+          source:
+            template: defaults/data/concept/futureResearchIdeaOfEmail.sparql
+            predicate: http://www.w3.org/2006/vcard/ns#email
+        - nestedReference:
+            key: title
+          name: futureResearchIdeaOfTitle
+          nested: false
+          destination:
+            type: string
+          source:
+            template: defaults/data/concept/futureResearchIdeaOfTitle.sparql
+            predicate: http://www.w3.org/2000/01/rdf-schema#label
+        - nestedReference:
+            key: organizations
+            multiple: true
+          name: futureResearchIdeaOfOrganization
+          nested: true
+          destination:
+            type: strings
+            multiValued: true
+          source:
+            template: defaults/data/concept/futureResearchIdeaOfOrganization.sparql
+            predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: keywords
       destination:
@@ -255,10 +245,6 @@ fields:
   - descriptor:
       name: websites
       nested: true
-      root: true
-      nestedReferences:
-        - field: websiteUrl
-          key: url
       destination:
         type: strings
         indexed: false
@@ -266,19 +252,21 @@ fields:
       source:
         template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-  - descriptor:
-      name: websiteUrl
-      destination:
-        type: strings
-        indexed: false
-        multiValued: true
-      source:
-        template: defaults/data/common/websiteUrl.sparql
-        predicate: http://www.w3.org/2006/vcard/ns#url
+      nestedDescriptors:
+        - nestedReference:
+            key: url
+          name: websiteUrl
+          nested: false
+          destination:
+            type: strings
+            indexed: false
+            multiValued: true
+          source:
+            template: defaults/data/common/websiteUrl.sparql
+            predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
       name: geographicFocus
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -289,7 +277,6 @@ fields:
   - descriptor:
       name: sameAs
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false

@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Function;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -36,7 +35,6 @@ import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
 import edu.tamu.scholars.discovery.etl.model.FieldDestination;
-import edu.tamu.scholars.discovery.etl.model.NestedReference;
 import edu.tamu.scholars.discovery.factory.ManagedRestTemplate;
 import edu.tamu.scholars.discovery.factory.ManagedRestTemplateFactory;
 
@@ -59,10 +57,6 @@ public class IndexLoader implements DataLoader<JsonNode> {
 
     private final Map<Pair<String, String>, JsonNode> existingCopyFields;
 
-    private final Map<String, DataField> fields;
-
-    private final Map<String, DataField> references;
-
     public IndexLoader(Data data, Index index) {
         this.data = data;
         this.index = index;
@@ -75,39 +69,21 @@ public class IndexLoader implements DataLoader<JsonNode> {
         this.objectMapper = new ObjectMapper();
 
         this.restTemplate = ManagedRestTemplateFactory.of(properties)
-                .withErrorHandler(new SolrResponseErrorHandler());
+            .withErrorHandler(new SolrResponseErrorHandler());
 
         this.existingFields = new HashMap<>();
         this.existingCopyFields = new HashMap<>();
-
-        this.fields = this.data.getFields()
-            .stream()
-            .collect(Collectors.toMap(
-                field -> field.getDescriptor().getName(),
-                Function.identity()));
-
-        this.references = new HashMap<>();
     }
 
     @Override
     public void init() {
-        this.existingFields.putAll(getFields());
-        this.existingCopyFields.putAll(getCopyFields());
+        this.existingFields.putAll(getExisistingIndexFields());
+        this.existingCopyFields.putAll(getExistingCopyIndexFields());
     }
 
     @Override
-    public void preProcess() {
-        // duplicate in FlatMapToNestedJsonNodeTransformer
-        for (DataField field : this.data.getFields()) {
-            DataFieldDescriptor descriptor = field.getDescriptor();
-            for (NestedReference reference : descriptor.getNestedReferences()) {
-                DataField referenceField = this.fields.remove(reference.getField());
-                if (Objects.nonNull(referenceField)) {
-                    this.references.put(reference.getField(), referenceField);
-                }
-            }
-        }
-        initializeFields();
+    public void preprocess() {
+        preprocessFields();
     }
 
     @Override
@@ -124,10 +100,10 @@ public class IndexLoader implements DataLoader<JsonNode> {
 
     @Override
     public void load(JsonNode document) {
-
+        log.info("Loading {} document", this.data.getName());
     }
 
-    private Map<String, JsonNode> getFields() {
+    private Map<String, JsonNode> getExisistingIndexFields() {
         String url = getUrl("schema", "fields");
 
         ResponseEntity<JsonNode> response = this.restTemplate.getForEntity(url, JsonNode.class);
@@ -142,7 +118,7 @@ public class IndexLoader implements DataLoader<JsonNode> {
         return Map.of();
     }
 
-    private Map<Pair<String, String>, JsonNode> getCopyFields() {
+    private Map<Pair<String, String>, JsonNode> getExistingCopyIndexFields() {
         String url = getUrl("schema", "copyfields");
 
         ResponseEntity<JsonNode> response = this.restTemplate.getForEntity(url, JsonNode.class);
@@ -152,61 +128,53 @@ public class IndexLoader implements DataLoader<JsonNode> {
             Stream<JsonNode> stream = StreamSupport.stream(iterable.spliterator(), false);
 
             return stream.collect(Collectors.toMap(
-                    node -> Pair.of(node.get("source").asText(), node.get("dest").asText()),
-                    node -> node));
+                node -> Pair.of(node.get("source").asText(), node.get("dest").asText()),
+                node -> node));
         }
 
         return Map.of();
     }
 
-    private void initializeFields() {
+    private void preprocessFields() {
         ObjectNode schemaRequestNode = objectMapper.createObjectNode();
         ArrayNode addFieldNodes = objectMapper.createArrayNode();
         ArrayNode addCopyFieldNodes = objectMapper.createArrayNode();
 
-        System.out.println("\n\nTOTAL: " + this.data.getFields().size() + "\n\n");
+        this.data.getFields()
+            .stream()
+            .map(DataField::getDescriptor)
+            .forEach(descriptor -> processFields(descriptor, addFieldNodes, addCopyFieldNodes));
 
-        System.out.println("\n\nFIELDS: " + this.fields.size() + " " + this.fields + "\n\n");
-
-        System.out.println("\n\nREFERENCES BEFORE: " + this.references.size() + " " + this.references + "\n\n");
-
-        for (DataField field : this.fields.values()) {
-            processField(field.getDescriptor(), addFieldNodes, addCopyFieldNodes);
-
-            for (NestedReference nestedReference : field.getDescriptor().getNestedReferences()) {
-                DataField reference = this.references.remove(nestedReference.getField());
-                DataFieldDescriptor descriptor = new DataFieldDescriptor();
-                BeanUtils.copyProperties(reference.getDescriptor(), descriptor);
-                descriptor.setName(nestedReference.getKey());
-                processField(descriptor, addFieldNodes, addCopyFieldNodes);
-            }
-        }
-
-        System.out.println("\n\nREFERENCES AFTER: " + this.references + "\n\n");
-
-        if (!addFieldNodes.isEmpty()) {
+        if (addFieldNodes.isEmpty()) {
+            log.info("{} index fields already preprocessed.", this.data.getName());
+        } else {
             schemaRequestNode.set("add-field", addFieldNodes);
-        } else {
-            log.info("{} index fields already initialized.", this.data.getName());
         }
 
-        if (!addCopyFieldNodes.isEmpty()) {
-            schemaRequestNode.set("add-copy-field", addCopyFieldNodes);
+        if (addCopyFieldNodes.isEmpty()) {
+            log.info("{} index copy fields already preprocessed.", this.data.getName());
         } else {
-            log.info("{} index copy fields already initialized.", this.data.getName());
+            schemaRequestNode.set("add-copy-field", addCopyFieldNodes);
         }
 
         if (!schemaRequestNode.isEmpty()) {
             ResponseEntity<JsonNode> updateSchemaRepsonse = updateSchema(schemaRequestNode);
 
             if (updateSchemaRepsonse.getStatusCode().is2xxSuccessful()) {
-                log.info("{} index fields initialized.", this.data.getName());
+                log.info("{} index fields preprocessed.", this.data.getName());
             }
         }
     }
 
+    private void processFields(DataFieldDescriptor descriptor, ArrayNode addFieldNodes, ArrayNode addCopyFieldNodes) {
+        processField(descriptor, addFieldNodes, addCopyFieldNodes);
+        for (DataFieldDescriptor nestedDescriptor : descriptor.getNestedDescriptors()) {
+            processFields(nestedDescriptor, addFieldNodes, addCopyFieldNodes);
+        }
+    }
+
     private void processField(DataFieldDescriptor descriptor, ArrayNode addFieldNodes, ArrayNode addCopyFieldNodes) {
-        String name = descriptor.getName();
+        String name = getFieldName(descriptor);
 
         if (!existingFields.containsKey(name)) {
             JsonNode field = buildAddFieldNode(descriptor);
@@ -215,8 +183,8 @@ public class IndexLoader implements DataLoader<JsonNode> {
         }
 
         Set<String> copyTo = descriptor
-                .getDestination()
-                .getCopyTo();
+            .getDestination()
+            .getCopyTo();
 
         for (String dest : copyTo) {
             if (!existingCopyFields.containsKey(Pair.of(name, dest))) {
@@ -229,15 +197,15 @@ public class IndexLoader implements DataLoader<JsonNode> {
 
     private JsonNode buildAddFieldNode(DataFieldDescriptor descriptor) {
         FieldDestination destination = descriptor.getDestination();
+        String name = getFieldName(descriptor);
 
         ObjectNode addFieldNode = objectMapper.createObjectNode();
-        addFieldNode.put("name", descriptor.getName());
+        addFieldNode.put("name", name);
         addFieldNode.put("type", destination.getType());
         addFieldNode.put("required", destination.isRequired());
         addFieldNode.put("stored", destination.isStored());
         addFieldNode.put("indexed", destination.isIndexed());
         addFieldNode.put("docValues", destination.isDocValues());
-
         addFieldNode.put("multiValued", destination.isMultiValued());
 
         if (StringUtils.isNotEmpty(destination.getDefaultValue())) {
@@ -252,7 +220,6 @@ public class IndexLoader implements DataLoader<JsonNode> {
         addCopyFieldNode.put("source", source);
 
         ArrayNode destinationFields = objectMapper.createArrayNode();
-
         destinationFields.add(destination);
 
         addCopyFieldNode.set("dest", destinationFields);
@@ -266,6 +233,13 @@ public class IndexLoader implements DataLoader<JsonNode> {
         HttpEntity<JsonNode> requestEntity = getHttpEntity(schemaRequestNode);
 
         return this.restTemplate.postForEntity(url, requestEntity, JsonNode.class);
+    }
+
+    private String getFieldName(DataFieldDescriptor descriptor) {
+        return Objects.nonNull(descriptor.getNestedReference())
+            && StringUtils.isNotEmpty(descriptor.getNestedReference().getKey())
+            ? descriptor.getNestedReference().getKey()
+            : descriptor.getName();
     }
 
     private String getUrl(String... paths) {

@@ -6,11 +6,11 @@ public interface DataProcessor {
 
     }
 
-    default void preProcess() {
+    default void preprocess() {
 
     }
 
-    default void postProcess() {
+    default void postprocess() {
 
     }
 

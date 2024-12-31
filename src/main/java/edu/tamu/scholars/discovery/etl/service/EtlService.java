@@ -95,7 +95,7 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
 
         DataExtractor<I> extractor = getExtractor(datum, source);
         extractor.init();
-        extractor.preProcess();
+        extractor.preprocess();
         this.extractors.put(datum.getName(), extractor);
 
         Mapper<?> mapper = applicationContext.getBean(datum.getTransformer().getType().getServiceType());
@@ -103,7 +103,7 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
 
         DataTransformer<I, O> transformer = getTransformer(datum, mapper);
         transformer.init();
-        transformer.preProcess();
+        transformer.preprocess();
         this.transformers.put(datum.getName(), transformer);
 
         Destination destination = applicationContext.getBean(datum.getLoader().getType().getServiceType());
@@ -111,7 +111,7 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
 
         DataLoader<O> loader = getLoader(datum, destination);
         loader.init();
-        loader.preProcess();
+        loader.preprocess();
         this.loaders.put(datum.getName(), loader);
     }
 
@@ -143,9 +143,9 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     private void destroy() {
-        this.extractors.values().forEach(DataExtractor::postProcess);
-        this.transformers.values().forEach(DataTransformer::postProcess);
-        this.loaders.values().forEach(DataLoader::postProcess);
+        this.extractors.values().forEach(DataExtractor::postprocess);
+        this.transformers.values().forEach(DataTransformer::postprocess);
+        this.loaders.values().forEach(DataLoader::postprocess);
 
         this.extractors.values().forEach(DataExtractor::destroy);
         this.transformers.values().forEach(DataTransformer::destroy);

@@ -31,7 +31,6 @@ fields:
   - descriptor:
       name: degrees
       nested: true
-      root: true
       destination:
         type: strings
         copyTo:
@@ -60,7 +59,6 @@ fields:
   - descriptor:
       name: sponsorsAwardOrHonor
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -71,7 +69,6 @@ fields:
   - descriptor:
       name: awardOrHonorGiven
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -82,7 +79,6 @@ fields:
   - descriptor:
       name: awardOrHonorReceived
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -103,16 +99,6 @@ fields:
   - descriptor:
       name: organizationForTraining
       nested: true
-      root: true
-      nestedReferences:
-        - field: organizationForTrainingTrainee
-          key: trainee
-        - field: organizationForTrainingDegree
-          key: degree
-        - field: organizationForTrainingStartDate
-          key: startDate
-        - field: organizationForTrainingEndDate
-          key: endDate
       destination:
         type: strings
         indexed: false
@@ -120,83 +106,86 @@ fields:
       source:
         template: defaults/data/organization/organizationForTraining.sparql
         predicate: http://vivoweb.org/ontology/core#majorField
-  - descriptor:
-      name: organizationForTrainingTrainee
-      nested: true
-      destination:
-        type: strings
-        indexed: false
-        multiValued: true
-      source:
-        template: defaults/data/organization/organizationForTrainingTrainee.sparql
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
-  - descriptor:
-      name: organizationForTrainingDegree
-      destination:
-        type: strings
-        indexed: false
-        multiValued: true
-      source:
-        template: defaults/data/organization/organizationForTrainingDegree.sparql
-        predicate: http://vivoweb.org/ontology/core#abbreviation
-  - descriptor:
-      name: organizationForTrainingStartDate
-      destination:
-        type: pdates
-        indexed: false
-        multiValued: true
-      source:
-        template: defaults/data/organization/organizationForTrainingStartDate.sparql
-        predicate: http://vivoweb.org/ontology/core#dateTime
-  - descriptor:
-      name: organizationForTrainingEndDate
-      destination:
-        type: pdates
-        indexed: false
-        multiValued: true
-      source:
-        template: defaults/data/organization/organizationForTrainingEndDate.sparql
-        predicate: http://vivoweb.org/ontology/core#dateTime
+      nestedDescriptors:
+        - nestedReference:
+            key: trainee
+          name: organizationForTrainingTrainee
+          nested: true
+          destination:
+            type: strings
+            indexed: false
+            multiValued: true
+          source:
+            template: defaults/data/organization/organizationForTrainingTrainee.sparql
+            predicate: http://www.w3.org/2000/01/rdf-schema#label
+        - nestedReference:
+            key: degree
+          name: organizationForTrainingDegree
+          nested: false
+          destination:
+            type: strings
+            indexed: false
+            multiValued: true
+          source:
+            template: defaults/data/organization/organizationForTrainingDegree.sparql
+            predicate: http://vivoweb.org/ontology/core#abbreviation
+        - nestedReference:
+            key: startDate
+          name: organizationForTrainingStartDate
+          nested: false
+          destination:
+            type: pdates
+            indexed: false
+            multiValued: true
+          source:
+            template: defaults/data/organization/organizationForTrainingStartDate.sparql
+            predicate: http://vivoweb.org/ontology/core#dateTime
+        - nestedReference:
+            key: endDate
+          name: organizationForTrainingEndDate
+          nested: false
+          destination:
+            type: pdates
+            indexed: false
+            multiValued: true
+          source:
+            template: defaults/data/organization/organizationForTrainingEndDate.sparql
+            predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: people
       nested: true
-      root: true
-      nestedReferences:
-        - field: peopleType
-          key: type
-        - field: peopleTitle
-          key: title
       destination:
         type: strings
         multiValued: true
       source:
         template: defaults/data/organization/people.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-  - descriptor:
-      name: peopleType
-      destination:
-        type: strings
-        indexed: false
-        multiValued: true
-      source:
-        template: defaults/data/organization/peopleType.sparql
-        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-        parse: true
-  - descriptor:
-      name: peopleTitle
-      destination:
-        type: strings
-        multiValued: true
-      source:
-        template: defaults/data/organization/peopleTitle.sparql
-        predicate: http://www.w3.org/2000/01/rdf-schema#label
+      nestedDescriptors:
+        - nestedReference:
+            key: type
+          name: peopleType
+          nested: false
+          destination:
+            type: strings
+            indexed: false
+            multiValued: true
+          source:
+            template: defaults/data/organization/peopleType.sparql
+            predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+            parse: true
+        - nestedReference:
+            key: title
+          name: peopleTitle
+          nested: false
+          destination:
+            type: strings
+            multiValued: true
+          source:
+            template: defaults/data/organization/peopleTitle.sparql
+            predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: hasSubOrganizations
       nested: true
-      root: true
-      nestedReferences:
-        - field: hasSubOrganizationType
-          key: type
       destination:
         type: strings
         indexed: false
@@ -204,20 +193,22 @@ fields:
       source:
         template: defaults/data/organization/hasSubOrganization.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-  - descriptor:
-      name: hasSubOrganizationType
-      destination:
-        type: strings
-        indexed: false
-        multiValued: true
-      source:
-        template: defaults/data/organization/hasSubOrganizationType.sparql
-        predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
-        parse: true
+      nestedDescriptors:
+        - nestedReference:
+            key: type
+          name: hasSubOrganizationType
+          nested: false
+          destination:
+            type: strings
+            indexed: false
+            multiValued: true
+          source:
+            template: defaults/data/organization/hasSubOrganizationType.sparql
+            predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
+            parse: true
   - descriptor:
       name: organizationWithin
       nested: true
-      root: true
       destination:
         type: strings
         multiValued: true
@@ -228,7 +219,6 @@ fields:
   - descriptor:
       name: leadOrganizationOf
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -239,7 +229,6 @@ fields:
   - descriptor:
       name: hasCollaboratingOrganizationOrGroup
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -250,7 +239,6 @@ fields:
   - descriptor:
       name: hasAffiliatedOrganizations
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -261,7 +249,6 @@ fields:
   - descriptor:
       name: memberOf
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -272,7 +259,6 @@ fields:
   - descriptor:
       name: clinicalActivities
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -283,7 +269,6 @@ fields:
   - descriptor:
       name: convenerOfEvents
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -294,7 +279,6 @@ fields:
   - descriptor:
       name: attendedEvents
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -305,7 +289,6 @@ fields:
   - descriptor:
       name: publications
       nested: true
-      root: true
       destination:
         type: text_general
         copyTo:
@@ -317,7 +300,6 @@ fields:
   - descriptor:
       name: publisherOf
       nested: true
-      root: true
       destination:
         type: strings
         multiValued: true
@@ -328,7 +310,6 @@ fields:
   - descriptor:
       name: presentations
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -339,7 +320,6 @@ fields:
   - descriptor:
       name: featuredIn
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -350,7 +330,6 @@ fields:
   - descriptor:
       name: assigneeForPatent
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -361,7 +340,6 @@ fields:
   - descriptor:
       name: translatorOf
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -372,32 +350,27 @@ fields:
   - descriptor:
       name: awardsGrant
       nested: true
-      root: true
-      nestedReferences:
-        - field: awardsGrantDate
-          key: date
       destination:
         type: strings
         multiValued: true
       source:
         template: defaults/data/organization/awardsGrant.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-  - descriptor:
-      name: awardsGrantDate
-      destination:
-        type: pdates
-        indexed: false
-        multiValued: true
-      source:
-        template: defaults/data/organization/awardsGrantDate.sparql
-        predicate: http://vivoweb.org/ontology/core#dateTime
+      nestedDescriptors:
+        - nestedReference:
+            key: date
+          name: awardsGrantDate
+          nested: false
+          destination:
+            type: pdates
+            indexed: false
+            multiValued: true
+          source:
+            template: defaults/data/organization/awardsGrantDate.sparql
+            predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: administersGrant
       nested: true
-      root: true
-      nestedReferences:
-        - field: administersGrantDate
-          key: date
       destination:
         type: strings
         indexed: false
@@ -405,22 +378,21 @@ fields:
       source:
         template: defaults/data/organization/administersGrant.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-  - descriptor:
-      name: administersGrantDate
-      destination:
-        type: pdates
-        indexed: false
-        multiValued: true
-      source:
-        template: defaults/data/organization/administersGrantDate.sparql
-        predicate: http://vivoweb.org/ontology/core#dateTime
+      nestedDescriptors:
+        - nestedReference:
+            key: date
+          name: administersGrantDate
+          nested: false
+          destination:
+            type: pdates
+            indexed: false
+            multiValued: true
+          source:
+            template: defaults/data/organization/administersGrantDate.sparql
+            predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: subcontractsGrant
       nested: true
-      root: true
-      nestedReferences:
-        - field: subcontractsGrantDate
-          key: date
       destination:
         type: strings
         indexed: false
@@ -428,19 +400,21 @@ fields:
       source:
         template: defaults/data/organization/subcontractsGrant.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-  - descriptor:
-      name: subcontractsGrantDate
-      destination:
-        type: pdates
-        indexed: false
-        multiValued: true
-      source:
-        template: defaults/data/organization/subcontractsGrantDate.sparql
-        predicate: http://vivoweb.org/ontology/core#dateTime
+      nestedDescriptors:
+        - nestedReference:
+            key: date
+          name: subcontractsGrantDate
+          nested: false
+          destination:
+            type: pdates
+            indexed: false
+            multiValued: true
+          source:
+            template: defaults/data/organization/subcontractsGrantDate.sparql
+            predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
       name: performsHumanStudy
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -451,7 +425,6 @@ fields:
   - descriptor:
       name: contractOrProviderForService
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -462,7 +435,6 @@ fields:
   - descriptor:
       name: outreachAndCommunityServiceActivities
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -473,7 +445,6 @@ fields:
   - descriptor:
       name: hasEquipment
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -484,7 +455,6 @@ fields:
   - descriptor:
       name: courses
       nested: true
-      root: true
       destination:
         type: strings
         multiValued: true
@@ -566,7 +536,6 @@ fields:
   - descriptor:
       name: locatedAtFacilities
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -577,7 +546,6 @@ fields:
   - descriptor:
       name: predecessorOrganizations
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -588,7 +556,6 @@ fields:
   - descriptor:
       name: successorOrganizations
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -599,7 +566,6 @@ fields:
   - descriptor:
       name: governingAuthorityFor
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -610,7 +576,6 @@ fields:
   - descriptor:
       name: affiliatedResearchAreas
       nested: true
-      root: true
       destination:
         type: strings
         multiValued: true
@@ -646,10 +611,6 @@ fields:
   - descriptor:
       name: websites
       nested: true
-      root: true
-      nestedReferences:
-        - field: websiteUrl
-          key: url
       destination:
         type: strings
         indexed: false
@@ -657,19 +618,21 @@ fields:
       source:
         template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
-  - descriptor:
-      name: websiteUrl
-      destination:
-        type: strings
-        indexed: false
-        multiValued: true
-      source:
-        template: defaults/data/common/websiteUrl.sparql
-        predicate: http://www.w3.org/2006/vcard/ns#url
+      nestedDescriptors:
+        - nestedReference:
+            key: url
+          name: websiteUrl
+          nested: false
+          destination:
+            type: strings
+            indexed: false
+            multiValued: true
+          source:
+            template: defaults/data/common/websiteUrl.sparql
+            predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
       name: geographicFocus
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false
@@ -680,7 +643,6 @@ fields:
   - descriptor:
       name: sameAs
       nested: true
-      root: true
       destination:
         type: strings
         indexed: false

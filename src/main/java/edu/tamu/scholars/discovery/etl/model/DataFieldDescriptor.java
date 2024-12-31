@@ -3,7 +3,6 @@ package edu.tamu.scholars.discovery.etl.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -11,6 +10,7 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -30,20 +30,21 @@ import edu.tamu.scholars.discovery.model.Named;
     uniqueConstraints = @UniqueConstraint(
         columnNames = {
             "name",
+            "nested",
+            "type",
             "default_value",
-            "doc_values",
-            "indexed",
-            "multi_valued",
             "required",
             "stored",
-            "type",
-            "nested",
-            "root",
+            "indexed",
+            "multi_valued",
+            "doc_values",
+            "template",
+            "predicate",
+            "unique",
             "parse",
             "split",
-            "unique",
-            "predicate",
-            "template"
+            "key",
+            "multiple",
         }
     )
 )
@@ -55,31 +56,35 @@ public class DataFieldDescriptor extends Named {
     @Column(nullable = false)
     public boolean nested;
 
-    @Column(nullable = false)
-    public boolean root;
-
     @Embedded
     private FieldDestination destination;
 
     @Embedded
     private FieldSource source;
 
+    @Embedded
+    private NestedReference nestedReference;
+
     @OneToMany(
-        cascade = CascadeType.ALL,
-        fetch = FetchType.LAZY,
-        orphanRemoval = true,
-        mappedBy = "descriptor"
+        cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH,
+        },
+        fetch = FetchType.EAGER,
+        orphanRemoval = true
     )
-    @JsonManagedReference
-    private Set<NestedReference> nestedReferences;
+    @JoinColumn(name = "parent_descriptor_id")
+    private Set<DataFieldDescriptor> nestedDescriptors;
 
     public DataFieldDescriptor() {
         super();
         this.nested = false;
-        this.root = false;
         this.destination = new FieldDestination();
         this.source = new FieldSource();
-        this.nestedReferences = new HashSet<>();
+        this.nestedReference = new NestedReference();
+        this.nestedDescriptors = new HashSet<>();
     }
 
 }

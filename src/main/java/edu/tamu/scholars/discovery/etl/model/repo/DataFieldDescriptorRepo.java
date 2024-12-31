@@ -20,7 +20,7 @@ public interface DataFieldDescriptorRepo extends NamedRepo<DataFieldDescriptor> 
         attributePaths = {
             "destination.copyTo",
             "source.cacheableSources",
-            "nestedReferences"
+            "nestedDescriptors"
         }
     )
     public Optional<DataFieldDescriptor> findById(Long id);

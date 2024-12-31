@@ -28,7 +28,7 @@ public class FieldSource extends Source {
     @Column(nullable = false)
     private boolean split;
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<CacheableSource> cacheableSources;
 
     public FieldSource() {

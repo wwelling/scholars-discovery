@@ -12,5 +12,5 @@ import org.springframework.stereotype.Component;
 public class EtlConfig {
 
     private int bufferSize = 10000;
-    
+
 }
