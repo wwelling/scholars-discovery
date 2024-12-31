@@ -5,7 +5,7 @@ PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 CONSTRUCT {
     ?document vcard:url ?urlWithId .
 } WHERE {
-    ?uri tamu:CapstoneAdvisedOf ?document .
+    <{{uri}}> tamu:CapstoneAdvisedOf ?document .
     ?document obo:ARG_2000028 ?contact .
     ?contact vcard:hasURL ?hasURL .
     ?hasURL vcard:url ?url .

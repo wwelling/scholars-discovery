@@ -6,7 +6,7 @@ PREFIX tamu: <http://vivo.library.tamu.edu/ontology/TAMU#>
 CONSTRUCT {
     ?organization rdfs:label ?labelWithId .
 } WHERE {
-    ?uri tamu:FutureResearchIdeaOf ?futureResearchIdeaOf .
+    <{{uri}}> tamu:FutureResearchIdeaOf ?futureResearchIdeaOf .
     ?futureResearchIdeaOf vivo:relatedBy ?position .
     ?position a vivo:Position .
     ?position vivo:relatedBy ?organization .

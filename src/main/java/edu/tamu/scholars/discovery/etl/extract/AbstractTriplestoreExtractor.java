@@ -13,13 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.jena.graph.Triple;
-import org.apache.jena.query.ParameterizedSparqlString;
-import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
@@ -39,6 +37,8 @@ import edu.tamu.scholars.discovery.etl.model.FieldSource;
 @Slf4j
 public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<String, Object>> {
 
+    private static final int MAX_CAPACITY = 7000;
+
     private static final String FORWARD_SLASH = "/";
 
     private static final String HASH_TAG = "#";
@@ -49,10 +49,13 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
 
     protected final CollectionSource collectionSource;
 
+    protected final Map<String, List<String>> cache;
+
     protected AbstractTriplestoreExtractor(Data data) {
         this.data = data;
         this.properties = data.getExtractor().getAttributes();
         this.collectionSource = data.getCollectionSource();
+        this.cache = new ConcurrentHashMap<>(MAX_CAPACITY);
     }
 
     @Override
@@ -61,11 +64,11 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         String predicate = collectionSource.getPredicate();
 
         try {
-            Query query = getQuery(template, predicate);
+            String query = getQuery(template, predicate);
 
             log.debug("{}", query);
 
-            QueryExecution queryExecution = createQueryExecution(query.toString());
+            QueryExecution queryExecution = createQueryExecution(query);
             Iterator<Triple> tripleIterator = queryExecution.execConstructTriples();
 
             return Flux.fromIterable(() -> tripleIterator)
@@ -154,24 +157,20 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
     }
 
     private List<String> getValues(FieldSource source, String subject) {
-        Query query = getQuery(source.getTemplate(), subject);
+        String query = getQuery(source.getTemplate(), subject);
 
         return queryValues(source, query);
     }
 
-    private Query getQuery(String template, String subject) {
-        ParameterizedSparqlString parameterizedSparql = new ParameterizedSparqlString();
-        parameterizedSparql.setCommandText(template);
-        parameterizedSparql.setIri("uri", subject);
+    private String getQuery(String template, String subject) {
+        String query = template.replace("{{uri}}", subject);
 
-        String queryString = parameterizedSparql.toString();
+        log.debug("{}", query);
 
-        log.debug("{}", queryString);
-
-        return QueryFactory.create(queryString);
+        return query;
     }
 
-    private List<String> queryValues(FieldSource source, Query query) {
+    private List<String> queryValues(FieldSource source, String query) {
         List<String> values = new ArrayList<>();
 
         Model model = queryModel(query);
@@ -191,9 +190,9 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         return values;
     }
 
-    private Model queryModel(Query query) {
-        log.debug("\n{}", query.toString());
-        try (QueryExecution qe = createQueryExecution(query.toString())) {
+    private Model queryModel(String query) {
+        log.debug("\n{}", query);
+        try (QueryExecution qe = createQueryExecution(query)) {
             Model model = qe.execConstruct();
             if (log.isDebugEnabled()) {
                 model.write(System.out, "RDF/XML");
@@ -254,15 +253,15 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
     }
 
     private List<String> getCacheOrQueryValues(FieldSource source, String subject) {
-        Query query = getQuery(source.getTemplate(), subject);
+        String query = getQuery(source.getTemplate(), subject);
 
-        String cacheKey = query.toString();
+        String cacheKey = query;
 
-        List<String> values = ExtractorCacheUtility.get(cacheKey);
+        List<String> values = cache.get(cacheKey);
 
         if (Objects.isNull(values)) {
             values = queryValues(source, query);
-            ExtractorCacheUtility.put(cacheKey, values);
+            cache.put(cacheKey, values);
         }
 
         return values;

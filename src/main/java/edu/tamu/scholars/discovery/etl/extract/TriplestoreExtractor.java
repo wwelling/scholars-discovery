@@ -19,6 +19,7 @@ public class TriplestoreExtractor extends AbstractTriplestoreExtractor {
     @Override
     public void destroy() {
         triplestore.destroy();
+        cache.clear();
     }
 
     @Override

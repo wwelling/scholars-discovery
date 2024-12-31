@@ -4,7 +4,7 @@ PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 CONSTRUCT {
     ?futureResearchIdeaOf vcard:email ?emailWithId .
 } WHERE {
-    ?uri tamu:FutureResearchIdeaOf ?futureResearchIdeaOf .
+    <{{uri}}> tamu:FutureResearchIdeaOf ?futureResearchIdeaOf .
     ?futureResearchIdeaOf vcard:email ?email .
     BIND( CONCAT( STR(?email), REPLACE(STR(?futureResearchIdeaOf), "(^.*/)", "::") ) AS ?emailWithId ) .
 }

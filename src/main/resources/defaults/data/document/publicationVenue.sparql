@@ -6,9 +6,9 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 CONSTRUCT {
     ?publicationVenue rdfs:label ?labelWithId .
 } WHERE {
-    ?uri a obo:IAO_0000030 .
-    ?uri vivo:hasPublicationVenue ?publicationVenue .
-    ?uri vitro:mostSpecificType ?mostSpecificType .
+    <{{uri}}> a obo:IAO_0000030 .
+    <{{uri}}> vivo:hasPublicationVenue ?publicationVenue .
+    <{{uri}}> vitro:mostSpecificType ?mostSpecificType .
     ?publicationVenue rdfs:label ?label .
     BIND( CONCAT( STR(?label), REPLACE(STR(?publicationVenue), "(^.*/)", "::") ) AS ?labelWithId ) .
 }

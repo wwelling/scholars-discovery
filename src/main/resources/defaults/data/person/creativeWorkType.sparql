@@ -4,7 +4,7 @@ PREFIX obo: <http://purl.obolibrary.org/obo/>
 CONSTRUCT {
     ?creativeWork tamu:subtype ?subtypeWithId .
 } WHERE {
-    ?uri obo:RO_0000053 ?artist .
+    <{{uri}}> obo:RO_0000053 ?artist .
     ?artist obo:BFO_0000054 ?creativeWork .
     ?creativeWork tamu:subtype ?subtype .
     BIND( CONCAT( STR(?subtype), REPLACE(STR(?creativeWork), "(^.*/)", "::") ) AS ?subtypeWithId ) .
