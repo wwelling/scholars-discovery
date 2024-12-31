@@ -1,4 +1,4 @@
-package edu.tamu.scholars.discovery.factory;
+package edu.tamu.scholars.discovery.factory.rest;
 
 import java.io.IOException;
 import java.time.Duration;

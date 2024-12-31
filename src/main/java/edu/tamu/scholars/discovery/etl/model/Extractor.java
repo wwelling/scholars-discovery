@@ -6,7 +6,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import edu.tamu.scholars.discovery.component.Source;
 import edu.tamu.scholars.discovery.etl.extract.DataExtractor;
 import edu.tamu.scholars.discovery.etl.model.type.DataExtractorType;
 
@@ -19,7 +18,7 @@ import edu.tamu.scholars.discovery.etl.model.type.DataExtractorType;
         @Index(name = "idx_extractor_name", columnList = "name")
     }
 )
-public class Extractor extends ConfigurableProcessor<DataExtractor<?>, Source<?, ?, ?>, DataExtractorType> {
+public class Extractor extends ConfigurableProcessor<DataExtractor<?>, DataExtractorType> {
 
     private static final long serialVersionUID = -945672019283746384L;
 

@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -30,20 +29,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
 
-import edu.tamu.scholars.discovery.component.index.Index;
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
 import edu.tamu.scholars.discovery.etl.model.FieldDestination;
-import edu.tamu.scholars.discovery.factory.ManagedRestTemplate;
-import edu.tamu.scholars.discovery.factory.ManagedRestTemplateFactory;
+import edu.tamu.scholars.discovery.factory.rest.ManagedRestTemplate;
+import edu.tamu.scholars.discovery.factory.rest.ManagedRestTemplateFactory;
 
 @Slf4j
 public class IndexLoader implements DataLoader<JsonNode> {
 
     private final Data data;
-
-    private final Index index;
 
     private final String host;
 
@@ -57,9 +53,8 @@ public class IndexLoader implements DataLoader<JsonNode> {
 
     private final Map<Pair<String, String>, JsonNode> existingCopyFields;
 
-    public IndexLoader(Data data, Index index) {
+    public IndexLoader(Data data) {
         this.data = data;
-        this.index = index;
 
         final Map<String, String> properties = data.getLoader().getAttributes();
 
@@ -69,7 +64,7 @@ public class IndexLoader implements DataLoader<JsonNode> {
         this.objectMapper = new ObjectMapper();
 
         this.restTemplate = ManagedRestTemplateFactory.of(properties)
-            .withErrorHandler(new SolrResponseErrorHandler());
+                .withErrorHandler(new SolrResponseErrorHandler());
 
         this.existingFields = new HashMap<>();
         this.existingCopyFields = new HashMap<>();
@@ -128,8 +123,8 @@ public class IndexLoader implements DataLoader<JsonNode> {
             Stream<JsonNode> stream = StreamSupport.stream(iterable.spliterator(), false);
 
             return stream.collect(Collectors.toMap(
-                node -> Pair.of(node.get("source").asText(), node.get("dest").asText()),
-                node -> node));
+                    node -> Pair.of(node.get("source").asText(), node.get("dest").asText()),
+                    node -> node));
         }
 
         return Map.of();
@@ -141,9 +136,9 @@ public class IndexLoader implements DataLoader<JsonNode> {
         ArrayNode addCopyFieldNodes = objectMapper.createArrayNode();
 
         this.data.getFields()
-            .stream()
-            .map(DataField::getDescriptor)
-            .forEach(descriptor -> processFields(descriptor, addFieldNodes, addCopyFieldNodes));
+                .stream()
+                .map(DataField::getDescriptor)
+                .forEach(descriptor -> processFields(descriptor, addFieldNodes, addCopyFieldNodes));
 
         if (addFieldNodes.isEmpty()) {
             log.info("{} index fields already preprocessed.", this.data.getName());
@@ -183,8 +178,8 @@ public class IndexLoader implements DataLoader<JsonNode> {
         }
 
         Set<String> copyTo = descriptor
-            .getDestination()
-            .getCopyTo();
+                .getDestination()
+                .getCopyTo();
 
         for (String dest : copyTo) {
             if (!existingCopyFields.containsKey(Pair.of(name, dest))) {
@@ -237,9 +232,9 @@ public class IndexLoader implements DataLoader<JsonNode> {
 
     private String getFieldName(DataFieldDescriptor descriptor) {
         return Objects.nonNull(descriptor.getNestedReference())
-            && StringUtils.isNotEmpty(descriptor.getNestedReference().getKey())
-            ? descriptor.getNestedReference().getKey()
-            : descriptor.getName();
+                && StringUtils.isNotEmpty(descriptor.getNestedReference().getKey())
+                        ? descriptor.getNestedReference().getKey()
+                        : descriptor.getName();
     }
 
     private String getUrl(String... paths) {

@@ -6,19 +6,14 @@ import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import edu.tamu.scholars.discovery.component.index.Index;
-import edu.tamu.scholars.discovery.component.index.SolrIndex;
-
 @Data
 @NoArgsConstructor
 @Component
 @EqualsAndHashCode(callSuper = false)
 @ConfigurationProperties(prefix = "discovery.index")
-public class IndexConfig extends ComponentConfig<Index> {
+public class IndexConfig {
 
     // TODO: add validations and @Validated to the class
-
-    private Class<? extends Index> type = SolrIndex.class;
 
     private String host = "http://localhost:8983/solr";
 

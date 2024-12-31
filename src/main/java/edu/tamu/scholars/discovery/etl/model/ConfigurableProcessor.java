@@ -13,7 +13,6 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
-import edu.tamu.scholars.discovery.component.Service;
 import edu.tamu.scholars.discovery.etl.DataProcessor;
 import edu.tamu.scholars.discovery.etl.model.type.DataProcessorType;
 import edu.tamu.scholars.discovery.model.Named;
@@ -21,7 +20,7 @@ import edu.tamu.scholars.discovery.model.Named;
 @Getter
 @Setter
 @MappedSuperclass
-public abstract class ConfigurableProcessor<P extends DataProcessor, S extends Service, T extends DataProcessorType<P, S>> extends Named {
+public abstract class ConfigurableProcessor<P extends DataProcessor, T extends DataProcessorType<P>> extends Named {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @MapKeyColumn(name = "key")

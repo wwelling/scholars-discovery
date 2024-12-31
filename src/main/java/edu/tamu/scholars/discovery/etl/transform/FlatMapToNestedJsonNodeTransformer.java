@@ -17,12 +17,12 @@ import java.util.function.Supplier;
 import java.util.stream.Collector;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 
-import edu.tamu.scholars.discovery.component.Mapper;
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
@@ -32,11 +32,11 @@ public class FlatMapToNestedJsonNodeTransformer implements DataTransformer<Map<S
 
     private final Data data;
 
-    private final Mapper<JsonNode> mapper;
+    private final ObjectMapper mapper;
 
-    public FlatMapToNestedJsonNodeTransformer(Data data, Mapper<JsonNode> mapper) {
+    public FlatMapToNestedJsonNodeTransformer(Data data) {
         this.data = data;
-        this.mapper = mapper;
+        this.mapper = new ObjectMapper();
     }
 
     @Override

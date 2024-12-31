@@ -10,7 +10,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import edu.tamu.scholars.discovery.auth.config.AuthConfig;
 import edu.tamu.scholars.discovery.auth.config.PasswordConfig;
 import edu.tamu.scholars.discovery.auth.config.TokenConfig;
-import edu.tamu.scholars.discovery.component.triplestore.TdbTriplestore;
 
 @ExtendWith(MockitoExtension.class)
 public class MiddlewareConfigTest {
@@ -138,17 +137,11 @@ public class MiddlewareConfigTest {
     public void testTriplestoreGetterSetter() {
         MiddlewareConfig middlewareConfig = new MiddlewareConfig();
         TriplestoreConfig newTriplestoreConfig = new TriplestoreConfig();
-        newTriplestoreConfig.setType(TdbTriplestore.class);
         newTriplestoreConfig.setDirectory("vivo_data");
-        newTriplestoreConfig.setUrl("jdbc://localhost:6541/test");
         middlewareConfig.setTriplestore(newTriplestoreConfig);
         TriplestoreConfig triplestoreConfig = middlewareConfig.getTriplestore();
-        triplestoreConfig.setType(TdbTriplestore.class);
-        assertEquals(TdbTriplestore.class, triplestoreConfig.getType());
         triplestoreConfig.setDirectory("vivo_data");
         assertEquals("vivo_data", triplestoreConfig.getDirectory());
-        triplestoreConfig.setUrl("jdbc://localhost:6541/test");
-        assertEquals("jdbc://localhost:6541/test", triplestoreConfig.getUrl());
     }
 
 }

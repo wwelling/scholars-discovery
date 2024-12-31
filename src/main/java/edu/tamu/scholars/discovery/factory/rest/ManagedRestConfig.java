@@ -1,4 +1,4 @@
-package edu.tamu.scholars.discovery.factory;
+package edu.tamu.scholars.discovery.factory.rest;
 
 import static edu.tamu.scholars.discovery.utility.TypeUtility.as;
 

@@ -1,32 +1,22 @@
 package edu.tamu.scholars.discovery.etl.model.type;
 
-import edu.tamu.scholars.discovery.component.Source;
-import edu.tamu.scholars.discovery.component.triplestore.Triplestore;
 import edu.tamu.scholars.discovery.etl.extract.DataExtractor;
-import edu.tamu.scholars.discovery.etl.extract.TriplestoreExtractor;
+import edu.tamu.scholars.discovery.etl.extract.TdbTriplestoreExtractor;
 import edu.tamu.scholars.discovery.etl.model.Data;
 
-public enum DataExtractorType implements DataProcessorType<DataExtractor<?>, Source<?, ?, ?>> {
+public enum DataExtractorType implements DataProcessorType<DataExtractor<?>> {
 
-    TDB_TRIPLESTORE(Triplestore.class, "directory") {
+    TDB_TRIPLESTORE("directory") {
         @Override
-        public DataExtractor<?> getDataProcessor(Data data, Source<?, ?, ?> service) {
-            return new TriplestoreExtractor(data, (Triplestore) service);
+        public DataExtractor<?> getDataProcessor(Data data) {
+            return new TdbTriplestoreExtractor(data);
         }
     };
 
-    private final Class<? extends Source<?, ?, ?>> serviceType;
-
     private final String[] requiredAttributes;
 
-    DataExtractorType(Class<? extends Source<?, ?, ?>> serviceType, String... requiredAttributes) {
-        this.serviceType = serviceType;
+    DataExtractorType(String... requiredAttributes) {
         this.requiredAttributes = requiredAttributes;
-    }
-
-    @Override
-    public Class<? extends Source<?, ?, ?>> getServiceType() {
-        return serviceType;
     }
 
     @Override

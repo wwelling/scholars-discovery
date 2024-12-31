@@ -17,7 +17,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.jena.graph.Triple;
-import org.apache.jena.query.QueryExecution;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
@@ -66,15 +65,11 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         try {
             String query = getQuery(template, predicate);
 
-            log.debug("{}", query);
-
-            QueryExecution queryExecution = createQueryExecution(query);
-            Iterator<Triple> tripleIterator = queryExecution.execConstructTriples();
+            Iterator<Triple> tripleIterator = queryCollection(query);
 
             return Flux.fromIterable(() -> tripleIterator)
                 .map(this::subject)
-                .map(this::harvest)
-                .doFinally(onFinally -> queryExecution.close());
+                .map(this::harvest);
 
         } catch (Exception e) { // TODO: determine exact exceptions thrown and handle individually
             log.error("Unable to extract {}: {}", data.getName(), e.getMessage());
@@ -173,7 +168,7 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
     private List<String> queryValues(FieldSource source, String query) {
         List<String> values = new ArrayList<>();
 
-        Model model = queryModel(query);
+        Model model = queryIndividual(query);
 
         ResIterator resources = model.listSubjects();
 
@@ -188,18 +183,6 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         resources.close();
 
         return values;
-    }
-
-    private Model queryModel(String query) {
-        log.debug("\n{}", query);
-        try (QueryExecution qe = createQueryExecution(query)) {
-            Model model = qe.execConstruct();
-            if (log.isDebugEnabled()) {
-                model.write(System.out, "RDF/XML");
-            }
-
-            return model;
-        }
     }
 
     private Set<String> getCacheableValues(DataFieldDescriptor descriptor, List<String> values, String subject) {
@@ -361,6 +344,8 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         };
     }
 
-    protected abstract QueryExecution createQueryExecution(String query);
+    protected abstract Iterator<Triple> queryCollection(String query);
+
+    protected abstract Model queryIndividual(String query);
 
 }

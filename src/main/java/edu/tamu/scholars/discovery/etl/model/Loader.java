@@ -6,7 +6,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import edu.tamu.scholars.discovery.component.Destination;
 import edu.tamu.scholars.discovery.etl.load.DataLoader;
 import edu.tamu.scholars.discovery.etl.model.type.DataLoaderType;
 
@@ -19,7 +18,7 @@ import edu.tamu.scholars.discovery.etl.model.type.DataLoaderType;
         @Index(name = "idx_loader_name", columnList = "name")
     }
 )
-public class Loader extends ConfigurableProcessor<DataLoader<?>, Destination, DataLoaderType> {
+public class Loader extends ConfigurableProcessor<DataLoader<?>, DataLoaderType> {
 
     private static final long serialVersionUID = 846236512763254198L;
 

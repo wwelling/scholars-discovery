@@ -35,8 +35,6 @@ public class MiddlewareConfig {
 
     private IndexConfig index = new IndexConfig();
 
-    private MapperConfig mapper = new MapperConfig();
-
     private TriplestoreConfig triplestore = new TriplestoreConfig();
 
 }

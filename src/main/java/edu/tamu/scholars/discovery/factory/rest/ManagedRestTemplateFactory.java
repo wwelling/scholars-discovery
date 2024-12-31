@@ -1,11 +1,11 @@
-package edu.tamu.scholars.discovery.factory;
+package edu.tamu.scholars.discovery.factory.rest;
 
-import static edu.tamu.scholars.discovery.factory.ManagedRestConfig.CONNECT_TIMEOUT_PROPERTY_NAME;
-import static edu.tamu.scholars.discovery.factory.ManagedRestConfig.EVICT_IDLE_CONNECTIONS_PROPERTY_NAME;
-import static edu.tamu.scholars.discovery.factory.ManagedRestConfig.MAX_CONN_PER_ROUTE_PROPERTY_NAME;
-import static edu.tamu.scholars.discovery.factory.ManagedRestConfig.MAX_CONN_TOTAL_PROPERTY_NAME;
-import static edu.tamu.scholars.discovery.factory.ManagedRestConfig.READ_TIMEOUT_PROPERTY_NAME;
-import static edu.tamu.scholars.discovery.factory.ManagedRestConfig.TIME_TO_LIVE_PROPERTY_NAME;
+import static edu.tamu.scholars.discovery.factory.rest.ManagedRestConfig.CONNECT_TIMEOUT_PROPERTY_NAME;
+import static edu.tamu.scholars.discovery.factory.rest.ManagedRestConfig.EVICT_IDLE_CONNECTIONS_PROPERTY_NAME;
+import static edu.tamu.scholars.discovery.factory.rest.ManagedRestConfig.MAX_CONN_PER_ROUTE_PROPERTY_NAME;
+import static edu.tamu.scholars.discovery.factory.rest.ManagedRestConfig.MAX_CONN_TOTAL_PROPERTY_NAME;
+import static edu.tamu.scholars.discovery.factory.rest.ManagedRestConfig.READ_TIMEOUT_PROPERTY_NAME;
+import static edu.tamu.scholars.discovery.factory.rest.ManagedRestConfig.TIME_TO_LIVE_PROPERTY_NAME;
 
 import java.util.Map;
 

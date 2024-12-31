@@ -1,10 +1,9 @@
-package edu.tamu.scholars.discovery.component.triplestore;
+package edu.tamu.scholars.discovery.factory.triplestore;
 
 import java.util.Iterator;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.jena.graph.Triple;
-import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.rdf.model.Model;
 
@@ -12,7 +11,7 @@ import org.apache.jena.rdf.model.Model;
 public abstract class AbstractTriplestore implements Triplestore {
 
     @Override
-    public Iterator<Triple> queryCollection(Query query) {
+    public Iterator<Triple> queryCollection(String query) {
         QueryExecution qe = createQueryExecution(query);
 
         return new Iterator<Triple>() {
@@ -38,13 +37,6 @@ public abstract class AbstractTriplestore implements Triplestore {
     }
 
     @Override
-    public Model queryIndividual(Query query) {
-        try (QueryExecution qe = createQueryExecution(query)) {
-            return queryIndividual(qe);
-        }
-    }
-
-    @Override
     public Model queryIndividual(String query) {
         try (QueryExecution qe = createQueryExecution(query)) {
             return queryIndividual(qe);
@@ -59,5 +51,7 @@ public abstract class AbstractTriplestore implements Triplestore {
 
         return model;
     }
+
+    protected abstract QueryExecution createQueryExecution(String query);
 
 }

@@ -2,16 +2,24 @@ package edu.tamu.scholars.discovery;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.TimeZone;
 
 import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.PostConstruct;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import edu.tamu.scholars.discovery.etl.model.Data;
+import edu.tamu.scholars.discovery.etl.model.DataField;
+import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
+import edu.tamu.scholars.discovery.etl.model.repo.DataRepo;
 import edu.tamu.scholars.discovery.index.annotation.CollectionSource;
 import edu.tamu.scholars.discovery.index.annotation.FieldSource;
 import edu.tamu.scholars.discovery.index.annotation.FieldSource.CacheableLookup;
@@ -31,6 +39,9 @@ import edu.tamu.scholars.discovery.index.model.Relationship;
 @SpringBootApplication
 public class MiddlewareApplication {
 
+    @Autowired
+    private DataRepo dataRepo;
+
     public static void main(String[] args) {
         SpringApplication.run(MiddlewareApplication.class, args);
     }
@@ -42,16 +53,46 @@ public class MiddlewareApplication {
 
     @PostConstruct
     public void echo() {
-        // echo(Collection.class);
-        // echo(Concept.class);
-        // echo(Document.class);
-        // echo(Organization.class);
-        // echo(Person.class);
-        // echo(Process.class);
-        // echo(Relationship.class);
+        time(Collection.class);
+        time(Concept.class);
+        time(Document.class);
+        time(Organization.class);
+        time(Person.class);
+        time(Process.class);
+        time(Relationship.class);
+
+        System.exit(0);
     }
 
-    public void echo(Class<?> clazz) {
+    private void time(Class<?> clazz) {
+
+        String name = clazz.getSimpleName();
+
+        List<Field> fields = FieldUtils.getFieldsListWithAnnotation(clazz, FieldSource.class);
+
+        long startTime = System.nanoTime();
+        fields.parallelStream().forEach(field -> { });
+        System.out.println("Iterating over " + name + " fields took " + (System.nanoTime() - startTime) + " milliseconds");
+
+        Optional<Data> data = dataRepo.findByName(name);
+
+        if (data.isPresent()) {
+            startTime = System.nanoTime();
+            iterateDataFields(data.get().getFields());
+            System.out.println("Iterating over " + name + " data fields took " + (System.nanoTime() - startTime) + " milliseconds");
+        }
+
+    }
+
+    private void iterateDataFields(Set<DataField> fields) {
+        fields.parallelStream().forEach(field -> iterateDataFieldDescriptors(field.getDescriptor().getNestedDescriptors()));
+    }
+
+    private void iterateDataFieldDescriptors(Set<DataFieldDescriptor> descriptors) {
+        descriptors.forEach(descriptor -> iterateDataFieldDescriptors(descriptor.getNestedDescriptors()));
+    }
+
+    private void echo(Class<?> clazz) {
         CollectionSource collectionSource = clazz.getAnnotation(CollectionSource.class);
 
         System.out.println("\n\n");

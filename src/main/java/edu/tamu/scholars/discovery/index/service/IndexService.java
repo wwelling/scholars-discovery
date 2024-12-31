@@ -14,11 +14,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 
-import edu.tamu.scholars.discovery.component.triplestore.Triplestore;
-import edu.tamu.scholars.discovery.config.model.IndexConfig;
+import edu.tamu.scholars.discovery.config.model.MiddlewareConfig;
+import edu.tamu.scholars.discovery.factory.triplestore.TdbTriplestore;
 import edu.tamu.scholars.discovery.index.component.Harvester;
 import edu.tamu.scholars.discovery.index.component.Indexer;
-
 
 @Service
 public class IndexService implements ApplicationListener<ContextRefreshedEvent> {
@@ -27,24 +26,24 @@ public class IndexService implements ApplicationListener<ContextRefreshedEvent> 
 
     private static final AtomicBoolean indexing = new AtomicBoolean(false);
 
-    private final IndexConfig index;
+    private final MiddlewareConfig config;
     private final List<Harvester> harvesters;
     private final List<Indexer> indexers;
-    private final Triplestore triplestore;
     private final ThreadPoolTaskScheduler threadPoolTaskScheduler;
 
+    private final TdbTriplestore triplestore;
+
     IndexService(
-        IndexConfig index,
-        List<Harvester> harvesters,
-        List<Indexer> indexers,
-        Triplestore triplestore,
-        ThreadPoolTaskScheduler threadPoolTaskScheduler
-    ) {
-        this.index = index;
+            MiddlewareConfig config,
+            List<Harvester> harvesters,
+            List<Indexer> indexers,
+            ThreadPoolTaskScheduler threadPoolTaskScheduler) {
+        this.config = config;
         this.harvesters = harvesters;
         this.indexers = indexers;
-        this.triplestore = triplestore;
         this.threadPoolTaskScheduler = threadPoolTaskScheduler;
+
+        this.triplestore = TdbTriplestore.of(null);
     }
 
     public Boolean isIndexing() {
@@ -53,15 +52,15 @@ public class IndexService implements ApplicationListener<ContextRefreshedEvent> 
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        if (index.isSchematize()) {
+        if (config.getIndex().isSchematize()) {
             logger.info("Initializing index fields...");
             indexers.stream().forEach(indexer -> {
                 logger.info("Initializing {} fields.", indexer.type().getSimpleName());
                 indexer.init();
             });
         }
-        if (index.isOnStartup()) {
-            Instant startTime = Instant.now().plusMillis(index.getOnStartupDelay());
+        if (config.getIndex().isOnStartup()) {
+            Instant startTime = Instant.now().plusMillis(config.getIndex().getOnStartupDelay());
             threadPoolTaskScheduler.schedule(this::index, startTime);
         }
     }
@@ -69,7 +68,6 @@ public class IndexService implements ApplicationListener<ContextRefreshedEvent> 
     @Scheduled(cron = "${discovery.index.cron}", zone = "${discovery.index.zone}")
     public void index() {
         if (indexing.compareAndSet(false, true)) {
-            triplestore.init();
             final Instant start = Instant.now();
             logger.info("Indexing...");
             harvesters.parallelStream().forEach(harvester -> {
@@ -77,7 +75,7 @@ public class IndexService implements ApplicationListener<ContextRefreshedEvent> 
                 if (indexers.stream().anyMatch(indexer -> indexer.type().equals(harvester.type()))) {
                     try {
                         harvester.harvest()
-                            .buffer(index.getBatchSize())
+                            .buffer(config.getIndex().getBatchSize())
                             .subscribe(batch -> indexers.parallelStream()
                                 .filter(indexer -> indexer.type().equals(harvester.type()))
                                 .forEach(indexer -> indexer.index(batch)));
@@ -94,7 +92,7 @@ public class IndexService implements ApplicationListener<ContextRefreshedEvent> 
                 indexer.optimize();
             });
             logger.info("Indexing finished. {} seconds.", Duration.between(start, Instant.now()).toMillis() / 1000.0);
-            triplestore.destroy();
+            triplestore.close();
             indexing.set(false);
         } else {
             logger.info("Already indexing. Waiting for next schedule.");
