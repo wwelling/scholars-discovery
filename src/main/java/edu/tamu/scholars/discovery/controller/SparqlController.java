@@ -34,7 +34,7 @@ public class SparqlController {
             @RequestParam(defaultValue = "RDF_XML") RdfFormat format,
             @RequestBody String query,
             HttpServletResponse response) throws IOException {
-        TdbTriplestore triplestore = TdbTriplestore.of(config.getDirectory());
+        TdbTriplestore triplestore = TdbTriplestore.of(config);
         Model model = triplestore.queryIndividual(query);
         model.write(response.getWriter(), format.getFormat());
         response.setContentType(format.getContentType());

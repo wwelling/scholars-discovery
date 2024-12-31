@@ -43,7 +43,7 @@ public class IndexService implements ApplicationListener<ContextRefreshedEvent> 
         this.indexers = indexers;
         this.threadPoolTaskScheduler = threadPoolTaskScheduler;
 
-        this.triplestore = TdbTriplestore.of(null);
+        this.triplestore = TdbTriplestore.of(config.getTriplestore());
     }
 
     public Boolean isIndexing() {

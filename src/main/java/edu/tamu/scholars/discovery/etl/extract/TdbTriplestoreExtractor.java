@@ -1,7 +1,6 @@
 package edu.tamu.scholars.discovery.etl.extract;
 
 import java.util.Iterator;
-import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.jena.graph.Triple;
@@ -17,12 +16,7 @@ public class TdbTriplestoreExtractor extends AbstractTriplestoreExtractor {
 
     public TdbTriplestoreExtractor(Data data) {
         super(data);
-
-        Map<String, String> properties = data.getExtractor().getAttributes();
-
-        String directory = properties.getOrDefault("directory", "triplestore");
-
-        this.triplestore = TdbTriplestore.of(directory);
+        this.triplestore = TdbTriplestore.of(data.getExtractor().getAttributes());
     }
 
     @Override

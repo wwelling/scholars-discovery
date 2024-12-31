@@ -60,8 +60,6 @@ public class MiddlewareApplication {
         time(Person.class);
         time(Process.class);
         time(Relationship.class);
-
-        System.exit(0);
     }
 
     private void time(Class<?> clazz) {
