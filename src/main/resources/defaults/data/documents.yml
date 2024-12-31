@@ -159,7 +159,8 @@ fields:
           name: publisherType
           nested: false
           destination:
-            type: string
+            type: strings
+            multiValued: true
           source:
             template: defaults/data/document/publisherType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
