@@ -1,5 +1,6 @@
 package edu.tamu.scholars.discovery.etl.load;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -42,18 +44,20 @@ public class SolrIndexLoader implements DataLoader<JsonNode> {
 
         this.objectMapper = new ObjectMapper();
 
+        this.objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
+
         this.existingFields = new HashMap<>();
         this.existingCopyFields = new HashMap<>();
     }
 
     @Override
     public void init() {
-        Map<String, JsonNode> fields = this.index.getFields()
+        Map<String, JsonNode> fields = this.index.fields()
             .collect(Collectors.toMap(node -> node.get("name").asText(), node -> node));
 
         this.existingFields.putAll(fields);
 
-        Map<Pair<String, String>, JsonNode> copyFields = this.index.getCopyFields()
+        Map<Pair<String, String>, JsonNode> copyFields = this.index.copyFields()
             .collect(Collectors.toMap(
                 node -> Pair.of(node.get("source").asText(), node.get("dest").asText()),
                 node -> node));
@@ -74,17 +78,44 @@ public class SolrIndexLoader implements DataLoader<JsonNode> {
     @Override
     public void load(Collection<JsonNode> documents) {
         log.info("Loading {} {} documents", documents.size(), this.data.getName());
+
+        ObjectNode update = JsonNodeFactory.instance.objectNode();
+        ArrayNode add = documents.parallelStream()
+            .map(this::wrapDocument)
+            .collect(JsonNodeFactory.instance::arrayNode, ArrayNode::add, ArrayNode::addAll);
+
+        update.set("add", add);
+
+        this.index.update(update);
     }
 
     @Override
     public void load(JsonNode document) {
         log.info("Loading {} document", this.data.getName());
+
+        ObjectNode update = JsonNodeFactory.instance.objectNode();
+        ObjectNode add = JsonNodeFactory.instance.objectNode();
+
+        add.set("doc", document);
+        update.set("add", add);
+
+        this.index.update(update);
+    }
+
+    private JsonNode wrapDocument(JsonNode document) {
+        ObjectNode doc = JsonNodeFactory.instance.objectNode();
+        doc.set("doc", document);
+
+        return doc;
     }
 
     private void preprocessFields() {
         ObjectNode schemaRequestNode = objectMapper.createObjectNode();
         ArrayNode addFieldNodes = objectMapper.createArrayNode();
         ArrayNode addCopyFieldNodes = objectMapper.createArrayNode();
+
+        processField(getDescriptor("label"), addFieldNodes, addCopyFieldNodes);
+        processField(getDescriptor("class"), addFieldNodes, addCopyFieldNodes);
 
         this.data.getFields()
             .stream()
@@ -104,7 +135,7 @@ public class SolrIndexLoader implements DataLoader<JsonNode> {
         }
 
         if (!schemaRequestNode.isEmpty()) {
-            ResponseEntity<JsonNode> updateSchemaRepsonse = index.updateSchema(schemaRequestNode);
+            ResponseEntity<JsonNode> updateSchemaRepsonse = index.schema(schemaRequestNode);
 
             if (updateSchemaRepsonse.getStatusCode().is2xxSuccessful()) {
                 log.info("{} index fields preprocessed.", this.data.getName());
@@ -176,8 +207,18 @@ public class SolrIndexLoader implements DataLoader<JsonNode> {
     private String getFieldName(DataFieldDescriptor descriptor) {
         return Objects.nonNull(descriptor.getNestedReference())
             && StringUtils.isNotEmpty(descriptor.getNestedReference().getKey())
-            ? descriptor.getNestedReference().getKey()
-            : descriptor.getName();
+                ? descriptor.getNestedReference().getKey()
+                : descriptor.getName();
+    }
+
+    private DataFieldDescriptor getDescriptor(String name) {
+        DataFieldDescriptor descriptor = new DataFieldDescriptor();
+        FieldDestination destination = new FieldDestination();
+
+        descriptor.setName(name);
+        descriptor.setDestination(destination);
+
+        return descriptor;
     }
 
 }

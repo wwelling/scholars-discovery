@@ -27,12 +27,12 @@ public class TdbTriplestoreExtractor extends AbstractTriplestoreExtractor {
 
     @Override
     protected Iterator<Triple> queryCollection(String query) {
-        return triplestore.queryCollection(query);
+        return triplestore.collection(query);
     }
 
     @Override
     protected Model queryIndividual(String query) {
-        return triplestore.queryIndividual(query);
+        return triplestore.individual(query);
     }
 
 }

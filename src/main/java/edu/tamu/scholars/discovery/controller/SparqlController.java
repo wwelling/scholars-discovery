@@ -35,7 +35,7 @@ public class SparqlController {
             @RequestBody String query,
             HttpServletResponse response) throws IOException {
         TdbTriplestore triplestore = TdbTriplestore.of(config);
-        Model model = triplestore.queryIndividual(query);
+        Model model = triplestore.individual(query);
         model.write(response.getWriter(), format.getFormat());
         response.setContentType(format.getContentType());
         response.setStatus(HttpServletResponse.SC_OK);

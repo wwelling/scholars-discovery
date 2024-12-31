@@ -11,7 +11,7 @@ import org.apache.jena.rdf.model.Model;
 public abstract class AbstractTriplestore implements Triplestore {
 
     @Override
-    public Iterator<Triple> queryCollection(String query) {
+    public Iterator<Triple> collection(String query) {
         QueryExecution qe = createQueryExecution(query);
 
         return new Iterator<Triple>() {
@@ -37,7 +37,7 @@ public abstract class AbstractTriplestore implements Triplestore {
     }
 
     @Override
-    public Model queryIndividual(String query) {
+    public Model individual(String query) {
         try (QueryExecution qe = createQueryExecution(query)) {
             return queryIndividual(qe);
         }

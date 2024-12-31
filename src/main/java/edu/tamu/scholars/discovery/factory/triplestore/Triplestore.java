@@ -7,9 +7,9 @@ import org.apache.jena.rdf.model.Model;
 
 public interface Triplestore {
 
-    Iterator<Triple> queryCollection(String query);
+    Iterator<Triple> collection(String query);
 
-    Model queryIndividual(String query);
+    Model individual(String query);
 
     default void close() {
 

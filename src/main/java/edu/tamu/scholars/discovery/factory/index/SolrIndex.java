@@ -12,6 +12,7 @@ import java.util.stream.StreamSupport;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.solr.client.solrj.impl.Http2SolrClient;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,7 +24,7 @@ import edu.tamu.scholars.discovery.factory.rest.ManagedRestTemplate;
 import edu.tamu.scholars.discovery.factory.rest.ManagedRestTemplateFactory;
 
 @Slf4j
-public class SolrIndex implements Index<JsonNode, JsonNode, ResponseEntity<JsonNode>> {
+public class SolrIndex implements Index<JsonNode, JsonNode, ResponseEntity<JsonNode>, JsonNode> {
 
     private final String host;
 
@@ -31,15 +32,19 @@ public class SolrIndex implements Index<JsonNode, JsonNode, ResponseEntity<JsonN
 
     private final ManagedRestTemplate restTemplate;
 
+    private final Http2SolrClient solrClient;
+
     private SolrIndex(String host, String collection) {
         this.host = host;
         this.collection = collection;
         this.restTemplate = ManagedRestTemplateFactory.of()
             .withErrorHandler(new SolrResponseErrorHandler());
+
+        this.solrClient = new Http2SolrClient.Builder("http://localhost:8983/solr/scholars-discovery").build();
     }
 
     @Override
-    public Stream<JsonNode> getFields() {
+    public Stream<JsonNode> fields() {
         String url = getUrl("schema", "fields");
 
         ResponseEntity<JsonNode> response = this.restTemplate.getForEntity(url, JsonNode.class);
@@ -54,7 +59,7 @@ public class SolrIndex implements Index<JsonNode, JsonNode, ResponseEntity<JsonN
     }
 
     @Override
-    public Stream<JsonNode> getCopyFields() {
+    public Stream<JsonNode> copyFields() {
         String url = getUrl("schema", "copyfields");
 
         ResponseEntity<JsonNode> response = this.restTemplate.getForEntity(url, JsonNode.class);
@@ -69,10 +74,21 @@ public class SolrIndex implements Index<JsonNode, JsonNode, ResponseEntity<JsonN
     }
 
     @Override
-    public ResponseEntity<JsonNode> updateSchema(JsonNode schemaRequestNode) {
+    public ResponseEntity<JsonNode> schema(JsonNode schema) {
         String url = getUrlWithQuery("schema", "commit=true");
 
-        HttpEntity<JsonNode> requestEntity = getHttpEntity(schemaRequestNode);
+        HttpEntity<JsonNode> requestEntity = getHttpEntity(schema);
+
+        return this.restTemplate.postForEntity(url, requestEntity, JsonNode.class);
+    }
+
+    @Override
+    public ResponseEntity<JsonNode> update(JsonNode update) {
+        String url = getUrlWithQuery("update", "commit=true");
+
+        System.out.println("\n\n" + update + "\n\n");
+
+        HttpEntity<JsonNode> requestEntity = getHttpEntity(update);
 
         return this.restTemplate.postForEntity(url, requestEntity, JsonNode.class);
     }

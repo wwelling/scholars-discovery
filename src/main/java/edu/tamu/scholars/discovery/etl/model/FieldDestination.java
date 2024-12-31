@@ -46,6 +46,7 @@ public class FieldDestination implements Serializable {
 
     public FieldDestination() {
         super();
+        this.type = "string";
         this.copyTo = new HashSet<>();
         this.required = false;
         this.stored = true;
