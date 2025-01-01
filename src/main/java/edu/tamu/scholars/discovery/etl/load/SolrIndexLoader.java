@@ -76,13 +76,12 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
 
     @Override
     public void load(Collection<SolrInputDocument> documents) {
-        log.info("Loading {} {} documents", documents.size(), this.data.getName());
         this.index.update(documents);
+        log.info("{} {} documents loaded", documents.size(), this.data.getName());
     }
 
     @Override
     public void load(SolrInputDocument document) {
-        log.debug("Loading {} document", this.data.getName());
         this.index.update(document);
     }
 

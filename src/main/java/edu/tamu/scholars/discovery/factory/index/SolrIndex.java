@@ -84,10 +84,8 @@ public class SolrIndex implements Index<JsonNode, JsonNode, JsonNode, SolrInputD
     @Override
     public void update(Collection<SolrInputDocument> documents) {
         try {
-            log.info("Updating {} documents to Solr", documents.size());
             this.solrClient.add(documents);
             this.solrClient.commit();
-            log.info("Successfully updated {} documents to Solr", documents.size());
         } catch (RemoteSolrException | SolrServerException | IOException e) {
             log.warn("Error updating Solr documents", e);
             log.info("Attempting batch documents individually");
@@ -109,10 +107,8 @@ public class SolrIndex implements Index<JsonNode, JsonNode, JsonNode, SolrInputD
         }
 
         try {
-            // log.info("Updating document to Solr");
             this.solrClient.add(document);
             this.solrClient.commit();
-            // log.info("Successfully updated document to Solr");
         } catch (RemoteSolrException | SolrServerException | IOException e) {
 
             System.out.println("\n\n" + document + "\n\n");

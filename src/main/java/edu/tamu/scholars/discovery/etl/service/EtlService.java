@@ -4,6 +4,7 @@ import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.PROPERTY_CACHE;
 import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.VALUES_CACHE;
 import static java.lang.String.format;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
@@ -50,11 +51,12 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        Instant startTime = Instant.now().plusMillis(10000);
-        threadPoolTaskScheduler.schedule(this::process, startTime);
+        threadPoolTaskScheduler.schedule(this::process, Instant.now());
     }
 
     private <I, O> void process() {
+        final Instant start = Instant.now();
+
         List<CompletableFuture<EtlContext<I, O>>> futures = dataRepo.findAll()
                 .stream()
                 .<EtlContext<I, O>>map(this::init)
@@ -68,7 +70,8 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
                         .map(CompletableFuture::join)
                         .toList())
                 .thenAccept(contexts -> {
-                    log.info("All ETL processes completed");
+                    log.info("All ETL processes finished. {} seconds",
+                            Duration.between(start, Instant.now()).toMillis() / 1000.0);
                     contexts.stream().forEach(this::destroy);
                     PROPERTY_CACHE.clear();
                     VALUES_CACHE.clear();
