@@ -100,7 +100,7 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     private <I, O> CompletableFuture<EtlContext<I, O>> process(EtlContext<I, O> context) {
-        log.info("Starting ETL {}", context.data.getName());
+        log.info("Starting {} ETL", context.data.getName());
 
         CompletableFuture<EtlContext<I, O>> future = new CompletableFuture<>();
 
@@ -110,12 +110,12 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
                 .subscribe(
                         context::load,
                         error -> {
-                            String message = format("Error processing ETL for %s", context.data.getName());
+                            String message = format("Error processing %s ETL", context.data.getName());
                             log.error(message, error);
                             future.completeExceptionally(error);
                         },
                         () -> {
-                            log.info("Completed ETL for {}", context.data.getName());
+                            log.info("Completed {} ET", context.data.getName());
                             future.complete(context);
                         });
 
