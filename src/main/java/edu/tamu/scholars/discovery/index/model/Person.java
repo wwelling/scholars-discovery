@@ -702,6 +702,7 @@ public class Person extends Common {
     )
     private String researchOverview;
 
+    @NestedObject
     @FieldType(type = "strings", indexed = false)
     @FieldSource(
         template = "person/principalInvestigatorOn",
@@ -709,6 +710,7 @@ public class Person extends Common {
     )
     private List<String> principalInvestigatorOn;
 
+    @NestedObject
     @FieldType(type = "strings", indexed = false)
     @FieldSource(
         template = "person/coPrincipalInvestigatorOn",

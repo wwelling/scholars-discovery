@@ -121,7 +121,7 @@ fields:
         - nestedReference:
             key: degree
           name: organizationForTrainingDegree
-          nested: false
+          nested: true
           destination:
             type: strings
             indexed: false
@@ -132,7 +132,7 @@ fields:
         - nestedReference:
             key: startDate
           name: organizationForTrainingStartDate
-          nested: false
+          nested: true
           destination:
             type: pdates
             indexed: false
@@ -143,7 +143,7 @@ fields:
         - nestedReference:
             key: endDate
           name: organizationForTrainingEndDate
-          nested: false
+          nested: true
           destination:
             type: pdates
             indexed: false
@@ -164,7 +164,7 @@ fields:
         - nestedReference:
             key: type
           name: peopleType
-          nested: false
+          nested: true
           destination:
             type: strings
             indexed: false
@@ -176,7 +176,7 @@ fields:
         - nestedReference:
             key: title
           name: peopleTitle
-          nested: false
+          nested: true
           destination:
             type: strings
             multiValued: true
@@ -197,7 +197,7 @@ fields:
         - nestedReference:
             key: type
           name: hasSubOrganizationType
-          nested: false
+          nested: true
           destination:
             type: strings
             indexed: false
@@ -360,7 +360,7 @@ fields:
         - nestedReference:
             key: date
           name: awardsGrantDate
-          nested: false
+          nested: true
           destination:
             type: pdates
             indexed: false
@@ -382,7 +382,7 @@ fields:
         - nestedReference:
             key: date
           name: administersGrantDate
-          nested: false
+          nested: true
           destination:
             type: pdates
             indexed: false
@@ -404,7 +404,7 @@ fields:
         - nestedReference:
             key: date
           name: subcontractsGrantDate
-          nested: false
+          nested: true
           destination:
             type: pdates
             indexed: false
@@ -622,7 +622,7 @@ fields:
         - nestedReference:
             key: url
           name: websiteUrl
-          nested: false
+          nested: true
           destination:
             type: strings
             indexed: false

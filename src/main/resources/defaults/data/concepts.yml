@@ -57,7 +57,7 @@ fields:
         - nestedReference:
             key: type
           name: awardOrHonorForType
-          nested: false
+          nested: true
           destination:
             type: strings
             multiValued: true
@@ -81,7 +81,7 @@ fields:
         - nestedReference:
             key: type
           name: awardConferredByType
-          nested: false
+          nested: true
           destination:
             type: strings
             multiValued: true
@@ -121,7 +121,7 @@ fields:
         - nestedReference:
             key: recipientName
           name: receiptRecipientName
-          nested: false
+          nested: true
           destination:
             type: strings
             indexed: false
@@ -173,7 +173,7 @@ fields:
         - nestedReference:
             key: email
           name: futureResearchIdeaOfEmail
-          nested: false
+          nested: true
           destination:
             type: string
           source:
@@ -182,7 +182,7 @@ fields:
         - nestedReference:
             key: title
           name: futureResearchIdeaOfTitle
-          nested: false
+          nested: true
           destination:
             type: string
           source:
@@ -256,7 +256,7 @@ fields:
         - nestedReference:
             key: url
           name: websiteUrl
-          nested: false
+          nested: true
           destination:
             type: strings
             indexed: false

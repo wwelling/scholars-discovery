@@ -3,6 +3,7 @@ package edu.tamu.scholars.discovery.utility;
 import java.time.Instant;
 import java.time.Period;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 public class DateUtility {
 
@@ -16,5 +17,10 @@ public class DateUtility {
             Instant.now().atZone(ZoneId.systemDefault()).toLocalDate()
         ).getYears();
     }
-    
+
+    public static int getYear() {
+        return ZonedDateTime.ofInstant(Instant.now(), ZoneId.systemDefault())
+            .getYear();
+    }
+
 }

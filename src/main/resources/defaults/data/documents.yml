@@ -157,7 +157,7 @@ fields:
         - nestedReference:
             key: type
           name: publisherType
-          nested: false
+          nested: true
           destination:
             type: strings
             multiValued: true
@@ -732,7 +732,7 @@ fields:
         - nestedReference:
             key: url
           name: websiteUrl
-          nested: false
+          nested: true
           destination:
             type: strings
             indexed: false

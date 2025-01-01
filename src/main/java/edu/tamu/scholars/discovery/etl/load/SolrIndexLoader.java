@@ -11,12 +11,11 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.http.ResponseEntity;
+import org.apache.solr.common.SolrInputDocument;
 
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
@@ -25,7 +24,7 @@ import edu.tamu.scholars.discovery.etl.model.FieldDestination;
 import edu.tamu.scholars.discovery.factory.index.SolrIndex;
 
 @Slf4j
-public class SolrIndexLoader implements DataLoader<JsonNode> {
+public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
 
     private final Data data;
 
@@ -53,14 +52,14 @@ public class SolrIndexLoader implements DataLoader<JsonNode> {
     @Override
     public void init() {
         Map<String, JsonNode> fields = this.index.fields()
-            .collect(Collectors.toMap(node -> node.get("name").asText(), node -> node));
+                .collect(Collectors.toMap(node -> node.get("name").asText(), node -> node));
 
         this.existingFields.putAll(fields);
 
         Map<Pair<String, String>, JsonNode> copyFields = this.index.copyFields()
-            .collect(Collectors.toMap(
-                node -> Pair.of(node.get("source").asText(), node.get("dest").asText()),
-                node -> node));
+                .collect(Collectors.toMap(
+                        node -> Pair.of(node.get("source").asText(), node.get("dest").asText()),
+                        node -> node));
 
         this.existingCopyFields.putAll(copyFields);
     }
@@ -76,98 +75,82 @@ public class SolrIndexLoader implements DataLoader<JsonNode> {
     }
 
     @Override
-    public void load(Collection<JsonNode> documents) {
+    public void load(Collection<SolrInputDocument> documents) {
         log.info("Loading {} {} documents", documents.size(), this.data.getName());
-
-        ObjectNode update = JsonNodeFactory.instance.objectNode();
-        ArrayNode add = documents.parallelStream()
-            .map(this::wrapDocument)
-            .collect(JsonNodeFactory.instance::arrayNode, ArrayNode::add, ArrayNode::addAll);
-
-        update.set("add", add);
-
-        this.index.update(update);
+        this.index.update(documents);
     }
 
     @Override
-    public void load(JsonNode document) {
-        log.info("Loading {} document", this.data.getName());
-
-        ObjectNode update = JsonNodeFactory.instance.objectNode();
-        ObjectNode add = JsonNodeFactory.instance.objectNode();
-
-        add.set("doc", document);
-        update.set("add", add);
-
-        this.index.update(update);
-    }
-
-    private JsonNode wrapDocument(JsonNode document) {
-        ObjectNode doc = JsonNodeFactory.instance.objectNode();
-        doc.set("doc", document);
-
-        return doc;
+    public void load(SolrInputDocument document) {
+        log.debug("Loading {} document", this.data.getName());
+        this.index.update(document);
     }
 
     private void preprocessFields() {
-        ObjectNode schemaRequestNode = objectMapper.createObjectNode();
-        ArrayNode addFieldNodes = objectMapper.createArrayNode();
-        ArrayNode addCopyFieldNodes = objectMapper.createArrayNode();
+        ObjectNode schemaRequest = objectMapper.createObjectNode();
+        ArrayNode addFields = objectMapper.createArrayNode();
+        ArrayNode addCopyFields = objectMapper.createArrayNode();
 
-        processField(getDescriptor("label"), addFieldNodes, addCopyFieldNodes);
-        processField(getDescriptor("class"), addFieldNodes, addCopyFieldNodes);
+        processField(getDescriptor("label"), addFields, addCopyFields);
+        processField(getDescriptor("class"), addFields, addCopyFields);
 
         this.data.getFields()
-            .stream()
-            .map(DataField::getDescriptor)
-            .forEach(descriptor -> processFields(descriptor, addFieldNodes, addCopyFieldNodes));
+                .stream()
+                .map(DataField::getDescriptor)
+                .forEach(descriptor -> processFields(descriptor, addFields, addCopyFields));
 
-        if (addFieldNodes.isEmpty()) {
-            log.info("{} index fields already preprocessed.", this.data.getName());
+        if (addFields.isEmpty()) {
+            log.debug("{} index fields already exist.", this.data.getName());
         } else {
-            schemaRequestNode.set("add-field", addFieldNodes);
+            schemaRequest.set("add-field", addFields);
         }
 
-        if (addCopyFieldNodes.isEmpty()) {
-            log.info("{} index copy fields already preprocessed.", this.data.getName());
+        if (addCopyFields.isEmpty()) {
+            log.debug("{} index copy fields already exist.", this.data.getName());
         } else {
-            schemaRequestNode.set("add-copy-field", addCopyFieldNodes);
+            schemaRequest.set("add-copy-field", addCopyFields);
         }
 
-        if (!schemaRequestNode.isEmpty()) {
-            ResponseEntity<JsonNode> updateSchemaRepsonse = index.schema(schemaRequestNode);
+        if (!schemaRequest.isEmpty()) {
+            JsonNode updateSchema = index.schema(schemaRequest);
 
-            if (updateSchemaRepsonse.getStatusCode().is2xxSuccessful()) {
-                log.info("{} index fields preprocessed.", this.data.getName());
+            if (!updateSchema.isEmpty()) {
+                log.debug("{} index fields exist.", this.data.getName());
             }
         }
     }
 
-    private void processFields(DataFieldDescriptor descriptor, ArrayNode addFieldNodes, ArrayNode addCopyFieldNodes) {
-        processField(descriptor, addFieldNodes, addCopyFieldNodes);
+    private void processFields(DataFieldDescriptor descriptor, ArrayNode addFields, ArrayNode addCopyFields) {
+        processField(descriptor, addFields, addCopyFields);
         for (DataFieldDescriptor nestedDescriptor : descriptor.getNestedDescriptors()) {
-            processFields(nestedDescriptor, addFieldNodes, addCopyFieldNodes);
+            processFields(nestedDescriptor, addFields, addCopyFields);
         }
     }
 
-    private void processField(DataFieldDescriptor descriptor, ArrayNode addFieldNodes, ArrayNode addCopyFieldNodes) {
+    private void processField(DataFieldDescriptor descriptor, ArrayNode addFields, ArrayNode addCopyFields) {
         String name = getFieldName(descriptor);
+        log.debug("Processing {} field", name);
 
         if (!existingFields.containsKey(name)) {
             JsonNode field = buildAddFieldNode(descriptor);
-            addFieldNodes.add(field);
+            addFields.add(field);
             existingFields.put(name, field);
+        } else {
+            log.debug("{} field already exists", name);
         }
 
         Set<String> copyTo = descriptor
-            .getDestination()
-            .getCopyTo();
+                .getDestination()
+                .getCopyTo();
 
         for (String dest : copyTo) {
+            log.debug("Processing {} => {} copy field", name, dest);
             if (!existingCopyFields.containsKey(Pair.of(name, dest))) {
                 JsonNode copyField = buildAddCopyFieldNode(name, dest);
-                addCopyFieldNodes.add(copyField);
+                addCopyFields.add(copyField);
                 existingCopyFields.put(Pair.of(name, dest), copyField);
+            } else {
+                log.debug("{} => {} copy field already exists", name, dest);
             }
         }
     }
@@ -206,9 +189,9 @@ public class SolrIndexLoader implements DataLoader<JsonNode> {
 
     private String getFieldName(DataFieldDescriptor descriptor) {
         return Objects.nonNull(descriptor.getNestedReference())
-            && StringUtils.isNotEmpty(descriptor.getNestedReference().getKey())
-                ? descriptor.getNestedReference().getKey()
-                : descriptor.getName();
+                && StringUtils.isNotEmpty(descriptor.getNestedReference().getKey())
+                        ? descriptor.getNestedReference().getKey()
+                        : descriptor.getName();
     }
 
     private DataFieldDescriptor getDescriptor(String name) {

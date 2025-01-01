@@ -100,7 +100,7 @@ fields:
             - nestedReference:
                 key: precision
               name: dateTimePrecisionStart
-              nested: false
+              nested: true
               destination:
                 type: string
               source:
@@ -120,7 +120,7 @@ fields:
             - nestedReference:
                 key: precision
               name: dateTimePrecisionEnd
-              nested: false
+              nested: true
               destination:
                 type: strings
               source:
@@ -208,7 +208,7 @@ fields:
         - nestedReference:
             key: personId
           name: participantId
-          nested: false
+          nested: true
           destination:
             type: strings
             indexed: false
@@ -220,7 +220,7 @@ fields:
         - nestedReference:
             key: role
           name: participantRole
-          nested: false
+          nested: true
           destination:
             type: strings
             indexed: false
@@ -231,7 +231,7 @@ fields:
         - nestedReference:
             key: startDate
           name: participantDateTimeIntervalStart
-          nested: false
+          nested: true
           destination:
             type: pdates
             multiValued: true
@@ -241,7 +241,7 @@ fields:
         - nestedReference:
             key: endDate
           name: participantDateTimeIntervalEnd
-          nested: false
+          nested: true
           destination:
             type: pdates
             multiValued: true
@@ -383,7 +383,7 @@ fields:
         - nestedReference:
             key: url
           name: websiteUrl
-          nested: false
+          nested: true
           destination:
             type: strings
             indexed: false

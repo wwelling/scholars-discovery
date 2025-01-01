@@ -68,8 +68,8 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
             Iterator<Triple> tripleIterator = queryCollection(query);
 
             return Flux.fromIterable(() -> tripleIterator)
-                .map(this::subject)
-                .map(this::harvest);
+                    .map(this::subject)
+                    .map(this::harvest);
 
         } catch (Exception e) { // TODO: determine exact exceptions thrown and handle individually
             log.error("Unable to extract {}: {}", data.getName(), e.getMessage());
@@ -86,7 +86,7 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
 
     private String subject(Triple triple) {
         return triple.getSubject()
-            .toString();
+                .toString();
     }
 
     private Map<String, Object> harvest(String subject) {
@@ -106,9 +106,9 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
 
     private void lookupProperties(Map<String, Object> document, String subject) {
         this.data.getFields()
-            .parallelStream()
-            .map(DataField::getDescriptor)
-            .forEach(descriptor -> this.lookupProperties(document, subject, descriptor));
+                .parallelStream()
+                .map(DataField::getDescriptor)
+                .forEach(descriptor -> this.lookupProperties(document, subject, descriptor));
     }
 
     private void lookupProperties(Map<String, Object> document, String subject, DataFieldDescriptor descriptor) {
@@ -129,10 +129,10 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
             }
         } catch (Exception e) { // TODO: determine exact exceptions thrown and handle individually
             log.error("Unable to extracting individual {} {} ({}): {}",
-                data.getName(),
-                descriptor.getName(),
-                parse(subject),
-                e.getMessage());
+                    data.getName(),
+                    descriptor.getName(),
+                    parse(subject),
+                    e.getMessage());
             log.debug("Error extracting individual", e);
         }
     }
@@ -186,14 +186,10 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
     }
 
     private Set<String> getCacheableValues(DataFieldDescriptor descriptor, List<String> values, String subject) {
-        FieldSource source = descriptor.getSource();
-        Set<CacheableSource> cacheableSources = source.getCacheableSources();
-
         Set<String> uniqueValues = new HashSet<>();
-        for (CacheableSource cacheableSource : cacheableSources) {
-
+        FieldSource source = descriptor.getSource();
+        for (CacheableSource cacheableSource : source.getCacheableSources()) {
             FieldSource cacheableFieldSource = getCacheableSource(source, cacheableSource);
-
             for (String value : values) {
                 if (descriptor.getNestedDescriptors().isEmpty()) {
                     for (String cached : getCacheOrQueryValues(cacheableFieldSource, subject)) {
@@ -210,7 +206,6 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
 
     private Set<String> getNestedCacheableValues(FieldSource cacheableFieldSource, String value, String subject) {
         Set<String> uniqueValues = new HashSet<>();
-
         String[] parts = value.split(NESTED_DELIMITER);
         String[] ids = Arrays.copyOfRange(parts, 1, parts.length);
         String[] refIds = ids.length > 1 ? Arrays.copyOfRange(ids, 0, ids.length - 1) : new String[] {};
@@ -228,7 +223,6 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
                 result.append(NESTED_DELIMITER);
                 result.append(cachedParts[1]);
             }
-
             uniqueValues.add(result.toString());
         }
 
@@ -262,7 +256,7 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         }
     }
 
-    @SuppressWarnings("java:S3776")
+    // TODO: reduce Cognitive Complexity from 17 to the 15 allowed
     private List<String> getValues(FieldSource source, Resource resource, Property property) {
         List<String> values = new ArrayList<>();
         StmtIterator statements = resource.listProperties(property);

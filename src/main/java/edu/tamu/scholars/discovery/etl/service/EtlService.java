@@ -97,7 +97,6 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
 
         context.extract()
             .map(context::transform)
-            .buffer(config.getBufferSize())
             .subscribe(
                 context::load,
                 error -> {
@@ -161,7 +160,7 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
             return transformer.transform(input);
         }
 
-        public void load(Collection<O> input) {
+        public void load(O input) {
             loader.load(input);
         }
 

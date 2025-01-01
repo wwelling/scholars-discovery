@@ -6,13 +6,19 @@ import static org.apache.commons.lang3.StringUtils.removeEnd;
 import static org.apache.commons.lang3.StringUtils.removeStart;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.solr.client.solrj.impl.Http2SolrClient;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.BaseHttpSolrClient.RemoteSolrException;
+import org.apache.solr.client.solrj.impl.HttpJdkSolrClient;
+import org.apache.solr.common.SolrInputDocument;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -24,7 +30,7 @@ import edu.tamu.scholars.discovery.factory.rest.ManagedRestTemplate;
 import edu.tamu.scholars.discovery.factory.rest.ManagedRestTemplateFactory;
 
 @Slf4j
-public class SolrIndex implements Index<JsonNode, JsonNode, ResponseEntity<JsonNode>, JsonNode> {
+public class SolrIndex implements Index<JsonNode, JsonNode, JsonNode, SolrInputDocument> {
 
     private final String host;
 
@@ -32,77 +38,128 @@ public class SolrIndex implements Index<JsonNode, JsonNode, ResponseEntity<JsonN
 
     private final ManagedRestTemplate restTemplate;
 
-    private final Http2SolrClient solrClient;
+    private final HttpJdkSolrClient solrClient;
 
     private SolrIndex(String host, String collection) {
         this.host = host;
         this.collection = collection;
         this.restTemplate = ManagedRestTemplateFactory.of()
-            .withErrorHandler(new SolrResponseErrorHandler());
+                .withErrorHandler(new SolrResponseErrorHandler());
 
-        this.solrClient = new Http2SolrClient.Builder("http://localhost:8983/solr/scholars-discovery").build();
+        this.solrClient = new HttpJdkSolrClient.Builder(getCollectionUrl())
+                .withConnectionTimeout(2, TimeUnit.MINUTES)
+                .withIdleTimeout(1, TimeUnit.MINUTES)
+                .withMaxConnectionsPerHost(1)
+                .build();
     }
 
     @Override
     public Stream<JsonNode> fields() {
-        String url = getUrl("schema", "fields");
-
-        ResponseEntity<JsonNode> response = this.restTemplate.getForEntity(url, JsonNode.class);
-
-        if (response.getStatusCode().is2xxSuccessful()) {
-            Iterable<JsonNode> iterable = () -> response.getBody().get("fields").iterator();
-
-            return StreamSupport.stream(iterable.spliterator(), false);
-        }
-
-        return Stream.empty();
+        return fields("fields");
     }
 
     @Override
     public Stream<JsonNode> copyFields() {
-        String url = getUrl("schema", "copyfields");
-
-        ResponseEntity<JsonNode> response = this.restTemplate.getForEntity(url, JsonNode.class);
-
-        if (response.getStatusCode().is2xxSuccessful()) {
-            Iterable<JsonNode> iterable = () -> response.getBody().get("copyFields").iterator();
-
-            return StreamSupport.stream(iterable.spliterator(), false);
-        }
-
-        return Stream.empty();
+        return fields("copyFields");
     }
 
     @Override
-    public ResponseEntity<JsonNode> schema(JsonNode schema) {
+    public JsonNode schema(JsonNode schema) {
         String url = getUrlWithQuery("schema", "commit=true");
 
         HttpEntity<JsonNode> requestEntity = getHttpEntity(schema);
 
-        return this.restTemplate.postForEntity(url, requestEntity, JsonNode.class);
+        ResponseEntity<JsonNode> response = this.restTemplate.postForEntity(url, requestEntity, JsonNode.class);
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return response.getBody();
+        }
+
+        // TODO: add error logging
+
+        return JsonNodeFactory.instance.objectNode();
     }
 
     @Override
-    public ResponseEntity<JsonNode> update(JsonNode update) {
-        String url = getUrlWithQuery("update", "commit=true");
+    public void update(Collection<SolrInputDocument> documents) {
+        try {
+            log.info("Updating {} documents to Solr", documents.size());
+            this.solrClient.add(documents);
+            this.solrClient.commit();
+            log.info("Successfully updated {} documents to Solr", documents.size());
+        } catch (RemoteSolrException | SolrServerException | IOException e) {
+            log.warn("Error updating Solr documents", e);
+            log.info("Attempting batch documents individually");
+            documents.forEach(this::update);
+        }
+    }
 
-        System.out.println("\n\n" + update + "\n\n");
+    @Override
+    public void update(SolrInputDocument document) {
 
-        HttpEntity<JsonNode> requestEntity = getHttpEntity(update);
+        if (document == null) {
+            System.out.println("\n\nDOCUMENT IS NULL\n\n");
+            return;
+        }
 
-        return this.restTemplate.postForEntity(url, requestEntity, JsonNode.class);
+        if (document.isEmpty()) {
+            System.out.println("\n\nDOCUMENT IS EMPTY\n\n");
+            return;
+        }
+
+        try {
+            // log.info("Updating document to Solr");
+            this.solrClient.add(document);
+            this.solrClient.commit();
+            // log.info("Successfully updated document to Solr");
+        } catch (RemoteSolrException | SolrServerException | IOException e) {
+
+            System.out.println("\n\n" + document + "\n\n");
+
+            log.error("Error updating Solr document", e);
+            e.printStackTrace();
+
+            System.exit(-1);
+        }
     }
 
     @Override
     public void close() {
         this.restTemplate.destroy();
+        try {
+            this.solrClient.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Stream<JsonNode> fields(String path) {
+        String url = getUrl("schema", path.toLowerCase());
+
+        ResponseEntity<JsonNode> response = this.restTemplate.getForEntity(url, JsonNode.class);
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            Iterable<JsonNode> iterable = () -> response.getBody().get(path).iterator();
+
+            return StreamSupport.stream(iterable.spliterator(), false);
+        }
+
+        // TODO: add error logging
+
+        return Stream.empty();
+    }
+
+    private String getCollectionUrl() {
+        String baseUrl = removeEnd(this.host, "/");
+
+        return join("/", baseUrl, this.collection);
     }
 
     private String getUrl(String... paths) {
-        String baseUrl = removeEnd(this.host, "/");
+        String collectionUrl = getCollectionUrl();
         String path = join("/", paths);
 
-        return join("/", baseUrl, this.collection, path);
+        return join("/", collectionUrl, path);
     }
 
     private String getUrlWithQuery(String path, String queryParams) {
@@ -121,7 +178,7 @@ public class SolrIndex implements Index<JsonNode, JsonNode, ResponseEntity<JsonN
         @Override
         public boolean hasError(ClientHttpResponse response) throws IOException {
             return response.getStatusCode()
-                .isError();
+                    .isError();
         }
 
         @Override

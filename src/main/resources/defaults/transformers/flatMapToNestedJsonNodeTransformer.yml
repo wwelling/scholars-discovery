@@ -1,3 +1,3 @@
-name: Flat Map To Nested JsonNode Transformer
-type: FLAT_MAP_TO_NESTED_JSON_NODE
+name: Flat Map To SolrInputDocument Transformer
+type: FLAT_MAP_TO_SOLR_INPUT_DOCUMENT
 attributes:
