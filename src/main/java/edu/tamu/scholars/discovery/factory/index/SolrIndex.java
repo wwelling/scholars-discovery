@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.BaseHttpSolrClient.RemoteSolrException;
-import org.apache.solr.client.solrj.impl.HttpJdkSolrClient;
+import org.apache.solr.client.solrj.impl.Http2SolrClient;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -38,7 +38,7 @@ public class SolrIndex implements Index<JsonNode, JsonNode, JsonNode, SolrInputD
 
     private final ManagedRestTemplate restTemplate;
 
-    private final HttpJdkSolrClient solrClient;
+    private final Http2SolrClient solrClient;
 
     private SolrIndex(String host, String collection) {
         this.host = host;
@@ -46,7 +46,7 @@ public class SolrIndex implements Index<JsonNode, JsonNode, JsonNode, SolrInputD
         this.restTemplate = ManagedRestTemplateFactory.of()
                 .withErrorHandler(new SolrResponseErrorHandler());
 
-        this.solrClient = new HttpJdkSolrClient.Builder(getCollectionUrl())
+        this.solrClient = new Http2SolrClient.Builder(getCollectionUrl())
                 .withConnectionTimeout(1, TimeUnit.MINUTES)
                 .withIdleTimeout(5, TimeUnit.MINUTES)
                 .withMaxConnectionsPerHost(10)
@@ -127,11 +127,7 @@ public class SolrIndex implements Index<JsonNode, JsonNode, JsonNode, SolrInputD
     @Override
     public void close() {
         this.restTemplate.destroy();
-        try {
-            this.solrClient.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.solrClient.close();
     }
 
     private Stream<JsonNode> fields(String path) {

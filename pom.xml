@@ -139,12 +139,37 @@
       <groupId>org.apache.solr</groupId>
       <artifactId>solr-solrj</artifactId>
       <version>${solrj.version}</version>
+      <!-- TODO: remove when jetty versions are compatible -->
       <exclusions>
         <exclusion>
-          <groupId>org.eclipse.jetty</groupId>
-          <artifactId>*</artifactId>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>*</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-client</artifactId>
+      <version>10.0.22</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-http</artifactId>
+        <version>10.0.22</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-io</artifactId>
+      <version>10.0.22</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-util</artifactId>
+      <version>10.0.22</version>
     </dependency>
 
     <dependency>
