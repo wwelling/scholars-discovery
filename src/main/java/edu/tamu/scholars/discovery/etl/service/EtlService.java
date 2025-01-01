@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.etl.service;
 
+import static edu.tamu.scholars.discovery.etl.extract.ExtractorCacheUtility.PROPERTY_CACHE;
+import static edu.tamu.scholars.discovery.etl.extract.ExtractorCacheUtility.VALUES_CACHE;
 import static java.lang.String.format;
 
 import java.time.Instant;
@@ -54,26 +56,30 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
 
     private <I, O> void process() {
         List<CompletableFuture<EtlContext<I, O>>> futures = dataRepo.findAll()
-            .stream()
-            .<EtlContext<I, O>>map(this::init)
-            .toList()
-            .parallelStream()
-            .map(this::process)
-            .toList();
+                .stream()
+                .<EtlContext<I, O>>map(this::init)
+                .toList()
+                .stream()
+                .map(this::process)
+                .toList();
 
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
-            .thenApply(v -> futures.stream()
-                .map(CompletableFuture::join)
-                .toList())
-            .thenAccept(contexts -> {
-                contexts.stream().forEach(this::destroy);
-                log.info("All ETL processes completed");
-            })
-            .exceptionally(throwable -> {
-                log.error("Error during ETL processes", throwable);
+                .thenApply(v -> futures.stream()
+                        .map(CompletableFuture::join)
+                        .toList())
+                .thenAccept(contexts -> {
+                    log.info("All ETL processes completed");
+                    contexts.stream().forEach(this::destroy);
+                    PROPERTY_CACHE.clear();
+                    VALUES_CACHE.clear();
+                })
+                .exceptionally(throwable -> {
+                    log.error("Error during ETL processes", throwable);
+                    PROPERTY_CACHE.clear();
+                    VALUES_CACHE.clear();
 
-                return null;
-            });
+                    return null;
+                });
     }
 
     private <I, O> EtlContext<I, O> init(Data data) {
@@ -96,18 +102,19 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
         CompletableFuture<EtlContext<I, O>> future = new CompletableFuture<>();
 
         context.extract()
-            .map(context::transform)
-            .subscribe(
-                context::load,
-                error -> {
-                    String message = format("Error processing ETL for %s", context.data.getName());
-                    log.error(message, error);
-                    future.completeExceptionally(error);
-                },
-                () -> {
-                    log.info("Completed ETL for {}", context.data.getName());
-                    future.complete(context);
-                });
+                .map(context::transform)
+                .buffer(config.getBufferSize())
+                .subscribe(
+                        context::load,
+                        error -> {
+                            String message = format("Error processing ETL for %s", context.data.getName());
+                            log.error(message, error);
+                            future.completeExceptionally(error);
+                        },
+                        () -> {
+                            log.info("Completed ETL for {}", context.data.getName());
+                            future.complete(context);
+                        });
 
         return future;
     }
@@ -137,7 +144,8 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
         return (DataLoader<O>) getTypedDataProcessor(data.getLoader(), data);
     }
 
-    private <P extends DataProcessor> P getTypedDataProcessor(ConfigurableProcessor<P, ? extends DataProcessorType<P>> processor, Data data) {
+    private <P extends DataProcessor> P getTypedDataProcessor(
+            ConfigurableProcessor<P, ? extends DataProcessorType<P>> processor, Data data) {
         return processor.getType().getDataProcessor(data);
     }
 
@@ -160,7 +168,7 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
             return transformer.transform(input);
         }
 
-        public void load(O input) {
+        public void load(Collection<O> input) {
             loader.load(input);
         }
 

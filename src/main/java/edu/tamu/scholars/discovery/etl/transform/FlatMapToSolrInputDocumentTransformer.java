@@ -18,7 +18,6 @@ import org.apache.solr.common.SolrInputDocument;
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
-import edu.tamu.scholars.discovery.etl.model.NestedReference;
 import edu.tamu.scholars.discovery.utility.DateFormatUtility;
 
 @Slf4j
@@ -45,10 +44,9 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
     }
 
     private void processFields(Map<String, Object> data, SolrInputDocument document) {
-        this.data.getFields()
-                .stream()
-                .map(DataField::getDescriptor)
-                .forEach(descriptor -> processField(data, descriptor, document));
+        for (DataField field : this.data.getFields()) {
+            processField(data, field.getDescriptor(), document);
+        }
     }
 
     // TODO: cleanup
@@ -56,9 +54,12 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
     // TODO: reduce Cognitive Complexity from 20 to the 15 allowed
     private void processField(Map<String, Object> data, DataFieldDescriptor descriptor, SolrInputDocument document) {
         String name = descriptor.getName();
+
         Object object = data.remove(name);
+
         if (Objects.nonNull(object)) {
             if (descriptor.isNested()) {
+
                 if (descriptor.getDestination().isMultiValued()) {
                     @SuppressWarnings("unchecked")
                     List<String> values = (List<String>) object;
@@ -91,7 +92,9 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
                         document.addChildDocument(doc);
                     }
                 }
+
             } else {
+
                 if (descriptor.getDestination().isMultiValued()) {
                     @SuppressWarnings("unchecked")
                     List<String> values = (List<String>) object;
@@ -120,14 +123,25 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
                         document.setField(descriptor.getName(), object.toString());
                     }
                 }
+
             }
         }
     }
 
-    private SolrInputDocument processNestedValue(Map<String, Object> data, DataFieldDescriptor descriptor, String[] parts, int index) {
+    private SolrInputDocument processNestedValue(Map<String, Object> data, DataFieldDescriptor descriptor,
+            String[] parts, int index) {
         SolrInputDocument childDocument = new SolrInputDocument();
 
         childDocument.setField("_nest_path_", "/" + getFieldName(descriptor));
+
+        if (parts[index] == null) {
+            System.out.println("\n\nUNEXPECTED NULL\n\n");
+            System.out.println("name " + descriptor.getName());
+            System.out.println("parts[0] " + parts[0]);
+            System.out.println("\tparts.length " + parts.length);
+            System.out.println("\tindex " + index);
+            System.out.println("\n");
+        }
 
         childDocument.setField(ID, parts[index]);
         childDocument.setField(LABEL, parts[0]);
@@ -138,21 +152,26 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
     }
 
     // TODO: reduce Cognitive Complexity from 57 to the 15 allowed
-    public void processNestedReferences(Map<String, Object> data, DataFieldDescriptor descriptor, SolrInputDocument childDocument, String[] parts, int depth) {
+    public void processNestedReferences(Map<String, Object> data, DataFieldDescriptor descriptor,
+            SolrInputDocument childDocument, String[] parts, int depth) {
+
         for (DataFieldDescriptor nestedDescriptor : descriptor.getNestedDescriptors()) {
             Object nestedObject = data.remove(nestedDescriptor.getName());
+
             if (Objects.nonNull(nestedObject)) {
+
                 if (nestedDescriptor.getDestination().isMultiValued()) {
+
                     @SuppressWarnings("unchecked")
                     List<String> nestedValues = (List<String>) nestedObject;
 
                     if (!nestedValues.isEmpty()) {
+
                         if (nestedValues.get(0).split(NESTED_DELIMITER).length > depth) {
 
                             List<SolrInputDocument> documents = nestedValues.stream()
                                     .filter(nv -> isProperty(parts, nv))
                                     .map(nv -> nv.split(NESTED_DELIMITER))
-                                    .filter(nvParts -> nvParts.length > 1)
                                     .map(nvParts -> processNestedValue(data, nestedDescriptor, nvParts, depth))
                                     .toList();
 
@@ -173,7 +192,9 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
                                     childDocument.addChildDocument(documents.get(0));
                                 }
                             }
+
                         } else {
+
                             List<String> collection = nestedValues.stream()
                                     .filter(nv -> isProperty(parts, nv))
                                     .map(nv -> nv.split(NESTED_DELIMITER)[0])
@@ -197,14 +218,18 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
                                 }
 
                                 if (isMultiple) {
-                                    childDocument.setField(nestedDescriptor.getNestedReference().getKey(), collection);
+                                    childDocument.setField(getFieldName(nestedDescriptor), collection);
                                 } else {
-                                    childDocument.setField(nestedDescriptor.getNestedReference().getKey(), collection.get(0));
+                                    childDocument.setField(getFieldName(nestedDescriptor),
+                                            collection.get(0));
                                 }
                             }
                         }
+
                     }
+
                 } else {
+
                     String[] nestedParts = nestedObject.toString().split(NESTED_DELIMITER);
 
                     if (nestedParts.length > depth) {
@@ -218,16 +243,19 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
                         if (nestedParts[0] != null) {
                             if (nestedDescriptor.getDestination().getType().startsWith("pdate")) {
                                 try {
-                                    childDocument.setField(nestedDescriptor.getNestedReference().getKey(), DateFormatUtility.parse(nestedParts[0]));
+                                    childDocument.setField(getFieldName(nestedDescriptor),
+                                            DateFormatUtility.parse(nestedParts[0]));
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
                             } else {
-                                childDocument.setField(nestedDescriptor.getNestedReference().getKey(), nestedParts[0]);
+                                childDocument.setField(getFieldName(nestedDescriptor), nestedParts[0]);
                             }
                         }
                     }
+
                 }
+
             }
         }
     }

@@ -22,7 +22,6 @@ public class TdbTriplestoreExtractor extends AbstractTriplestoreExtractor {
     @Override
     public void destroy() {
         triplestore.close();
-        cache.clear();
     }
 
     @Override

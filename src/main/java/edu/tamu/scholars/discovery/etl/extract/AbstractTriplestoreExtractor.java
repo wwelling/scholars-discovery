@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.etl.extract;
 
+import static edu.tamu.scholars.discovery.etl.extract.ExtractorCacheUtility.PROPERTY_CACHE;
+import static edu.tamu.scholars.discovery.etl.extract.ExtractorCacheUtility.VALUES_CACHE;
 import static edu.tamu.scholars.discovery.index.IndexConstants.CLASS;
 import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
 import static edu.tamu.scholars.discovery.index.IndexConstants.NESTED_DELIMITER;
@@ -11,9 +13,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.jena.graph.Triple;
@@ -25,6 +25,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import reactor.core.publisher.Flux;
+import reactor.core.scheduler.Schedulers;
 
 import edu.tamu.scholars.discovery.etl.model.CacheableSource;
 import edu.tamu.scholars.discovery.etl.model.CollectionSource;
@@ -36,8 +37,6 @@ import edu.tamu.scholars.discovery.etl.model.FieldSource;
 @Slf4j
 public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<String, Object>> {
 
-    private static final int MAX_CAPACITY = 7000;
-
     private static final String FORWARD_SLASH = "/";
 
     private static final String HASH_TAG = "#";
@@ -48,13 +47,10 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
 
     protected final CollectionSource collectionSource;
 
-    protected final Map<String, List<String>> cache;
-
     protected AbstractTriplestoreExtractor(Data data) {
         this.data = data;
         this.properties = data.getExtractor().getAttributes();
         this.collectionSource = data.getCollectionSource();
-        this.cache = new ConcurrentHashMap<>(MAX_CAPACITY);
     }
 
     @Override
@@ -68,12 +64,15 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
             Iterator<Triple> tripleIterator = queryCollection(query);
 
             return Flux.fromIterable(() -> tripleIterator)
+                    .parallel()
+                    .runOn(Schedulers.parallel())
                     .map(this::subject)
-                    .map(this::harvest);
+                    .map(this::harvest)
+                    .sequential();
 
-        } catch (Exception e) { // TODO: determine exact exceptions thrown and handle individually
+        } catch (Exception e) {
             log.error("Unable to extract {}: {}", data.getName(), e.getMessage());
-            log.debug("Error extracting individual", e);
+            log.debug("Error extracting individuals", e);
         }
 
         return Flux.empty();
@@ -81,7 +80,7 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
 
     @Override
     public Map<String, Object> extract(String subject) {
-        return Map.of();
+        return harvest(subject);
     }
 
     private String subject(Triple triple) {
@@ -105,10 +104,9 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
     }
 
     private void lookupProperties(Map<String, Object> document, String subject) {
-        this.data.getFields()
-                .parallelStream()
-                .map(DataField::getDescriptor)
-                .forEach(descriptor -> this.lookupProperties(document, subject, descriptor));
+        for (DataField field : data.getFields()) {
+            lookupProperties(document, subject, field.getDescriptor());
+        }
     }
 
     private void lookupProperties(Map<String, Object> document, String subject, DataFieldDescriptor descriptor) {
@@ -123,11 +121,11 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
             List<String> values = getValues(descriptor, subject);
 
             if (values.isEmpty()) {
-                log.debug("Could not find values for {}", descriptor.getName());
+                log.warn("Could not find values for {}", descriptor.getName());
             } else {
                 populate(document, descriptor, values);
             }
-        } catch (Exception e) { // TODO: determine exact exceptions thrown and handle individually
+        } catch (Exception e) {
             log.error("Unable to extracting individual {} {} ({}): {}",
                     data.getName(),
                     descriptor.getName(),
@@ -168,31 +166,42 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
     private List<String> queryValues(FieldSource source, String query) {
         List<String> values = new ArrayList<>();
 
-        Model model = queryIndividual(query);
+        Model model = null;
+        ResIterator resources = null;
 
-        ResIterator resources = model.listSubjects();
+        try {
+            model = queryIndividual(query);
+            resources = model.listSubjects();
+            Property property = getCachePropertyOrCreate(model, source.getPredicate());
 
-        Property property = model.createProperty(source.getPredicate());
+            while (resources.hasNext()) {
+                Resource resource = resources.next();
+                values.addAll(getValues(source, resource, property));
+            }
 
-        while (resources.hasNext()) {
-            Resource resource = resources.next();
-            values.addAll(getValues(source, resource, property));
+            return values;
+        } finally {
+            if (resources != null) {
+                resources.close();
+            }
+            if (model != null) {
+                model.close();
+            }
         }
-
-        model.close();
-        resources.close();
-
-        return values;
     }
 
-    private Set<String> getCacheableValues(DataFieldDescriptor descriptor, List<String> values, String subject) {
+    private Property getCachePropertyOrCreate(Model model, String predicate) {
+        return PROPERTY_CACHE.computeIfAbsent(predicate, model::createProperty);
+    }
+
+    private List<String> getCacheableValues(DataFieldDescriptor descriptor, List<String> values, String subject) {
         Set<String> uniqueValues = new HashSet<>();
         FieldSource source = descriptor.getSource();
         for (CacheableSource cacheableSource : source.getCacheableSources()) {
             FieldSource cacheableFieldSource = getCacheableSource(source, cacheableSource);
             for (String value : values) {
                 if (descriptor.getNestedDescriptors().isEmpty()) {
-                    for (String cached : getCacheOrQueryValues(cacheableFieldSource, subject)) {
+                    for (String cached : getCacheValuesOrQuery(cacheableFieldSource, subject)) {
                         uniqueValues.add(cached);
                     }
                 } else {
@@ -201,23 +210,24 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
             }
         }
 
-        return uniqueValues;
+        return List.copyOf(uniqueValues);
     }
 
     private Set<String> getNestedCacheableValues(FieldSource cacheableFieldSource, String value, String subject) {
         Set<String> uniqueValues = new HashSet<>();
         String[] parts = value.split(NESTED_DELIMITER);
-        String[] ids = Arrays.copyOfRange(parts, 1, parts.length);
-        String[] refIds = ids.length > 1 ? Arrays.copyOfRange(ids, 0, ids.length - 1) : new String[] {};
-        String newSubjectId = ids[ids.length - 1];
-        String newSubject = subject.replaceAll("[^/]+$", newSubjectId);
-        for (String cached : getCacheOrQueryValues(cacheableFieldSource, newSubject)) {
+        String nestedSubject = subject.replaceAll("[^/]+$", parts[parts.length - 1]);
+        for (String cached : getCacheValuesOrQuery(cacheableFieldSource, nestedSubject)) {
             String[] cachedParts = cached.split(NESTED_DELIMITER, 2);
-            String label = cachedParts[0];
-            StringBuilder result = new StringBuilder(label);
-            if (refIds.length > 0) {
+            StringBuilder result = new StringBuilder(cachedParts[0]);
+            if (parts.length - 2 > 0) {
                 result.append(NESTED_DELIMITER);
-                result.append(String.join(NESTED_DELIMITER, refIds));
+                for (int i = 1; i < parts.length - 1; i++) {
+                    result.append(parts[i]);
+                    if (i < parts.length - 2) {
+                        result.append(NESTED_DELIMITER);
+                    }
+                }
             }
             if (cachedParts.length > 1) {
                 result.append(NESTED_DELIMITER);
@@ -229,30 +239,17 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         return uniqueValues;
     }
 
-    private List<String> getCacheOrQueryValues(FieldSource source, String subject) {
+    private List<String> getCacheValuesOrQuery(FieldSource source, String subject) {
         String query = getQuery(source.getTemplate(), subject);
 
-        String cacheKey = query;
-
-        List<String> values = cache.get(cacheKey);
-
-        if (Objects.isNull(values)) {
-            values = queryValues(source, query);
-            cache.put(cacheKey, values);
-        }
-
-        return values;
+        return VALUES_CACHE.computeIfAbsent(query, q -> queryValues(source, q));
     }
 
     private void populate(Map<String, Object> document, DataFieldDescriptor descriptor, List<String> values) {
-        if (values.isEmpty()) {
-            log.debug("Could not find values for {}", descriptor.getName());
+        if (descriptor.getDestination().isMultiValued()) {
+            document.put(descriptor.getName(), values);
         } else {
-            if (descriptor.getDestination().isMultiValued()) {
-                document.put(descriptor.getName(), values);
-            } else {
-                document.put(descriptor.getName(), values.get(0));
-            }
+            document.put(descriptor.getName(), values.get(0));
         }
     }
 
