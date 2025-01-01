@@ -4,9 +4,9 @@ services:
     container_name: scholars-db
     image: postgres:${POSTGRES_VERSION}
     environment:
-       - POSTGRES_DB=scholars
-       - POSTGRES_USER=scholars
-       - POSTGRES_PASSWORD=scholars
+      - POSTGRES_DB=scholars
+      - POSTGRES_USER=scholars
+      - POSTGRES_PASSWORD=scholars
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     ports:
@@ -18,6 +18,8 @@ services:
     environment:
       - SOLR_HOME=/var/solr/data
       - SOLR_HEAP=4g
+      # Enable HTTP/2
+      - SOLR_OPTS=-Dsolr.jetty.http2.enabled=true -Dsolr.jetty.h2c.enabled=true -Dsolr.jetty.http2.maxStreamTimeout=300000
     volumes:
       - ./solrdata:/var/solr/data
     ports:

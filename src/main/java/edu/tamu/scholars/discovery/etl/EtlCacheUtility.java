@@ -1,4 +1,4 @@
-package edu.tamu.scholars.discovery.etl.extract;
+package edu.tamu.scholars.discovery.etl;
 
 import java.util.List;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.jena.rdf.model.Property;
 
-public class ExtractorCacheUtility {
+public class EtlCacheUtility {
 
     private static final int PROPERTY_CACHE_INITIAL_CAPACITY = 100;
     private static final int VALUES_CACHE_INITIAL_CAPACITY = 7000;
@@ -17,7 +17,7 @@ public class ExtractorCacheUtility {
     public static final Map<String, List<String>> VALUES_CACHE = new ConcurrentHashMap<>(
             VALUES_CACHE_INITIAL_CAPACITY);
 
-    private ExtractorCacheUtility() {
+    private EtlCacheUtility() {
 
     }
 

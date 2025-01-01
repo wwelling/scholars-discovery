@@ -47,9 +47,10 @@ public class SolrIndex implements Index<JsonNode, JsonNode, JsonNode, SolrInputD
                 .withErrorHandler(new SolrResponseErrorHandler());
 
         this.solrClient = new HttpJdkSolrClient.Builder(getCollectionUrl())
-                .withConnectionTimeout(2, TimeUnit.MINUTES)
-                .withIdleTimeout(1, TimeUnit.MINUTES)
-                .withMaxConnectionsPerHost(1)
+                .withConnectionTimeout(1, TimeUnit.MINUTES)
+                .withIdleTimeout(5, TimeUnit.MINUTES)
+                .withMaxConnectionsPerHost(10)
+                .withRequestTimeout(5, TimeUnit.MINUTES)
                 .build();
     }
 

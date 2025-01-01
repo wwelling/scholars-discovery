@@ -1,7 +1,7 @@
 package edu.tamu.scholars.discovery.etl.extract;
 
-import static edu.tamu.scholars.discovery.etl.extract.ExtractorCacheUtility.PROPERTY_CACHE;
-import static edu.tamu.scholars.discovery.etl.extract.ExtractorCacheUtility.VALUES_CACHE;
+import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.PROPERTY_CACHE;
+import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.VALUES_CACHE;
 import static edu.tamu.scholars.discovery.index.IndexConstants.CLASS;
 import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
 import static edu.tamu.scholars.discovery.index.IndexConstants.NESTED_DELIMITER;
@@ -121,7 +121,7 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
             List<String> values = getValues(descriptor, subject);
 
             if (values.isEmpty()) {
-                log.warn("Could not find values for {}", descriptor.getName());
+                log.debug("Could not find values for {}", descriptor.getName());
             } else {
                 populate(document, descriptor, values);
             }
@@ -140,13 +140,11 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
 
         List<String> values = getValues(source, subject);
 
-        Set<CacheableSource> cacheableSources = source.getCacheableSources();
-
-        if (cacheableSources.isEmpty()) {
-            return values;
+        if (!values.isEmpty() && !source.getCacheableSources().isEmpty()) {
+            values = getCacheableValues(descriptor, values, subject);
         }
 
-        return new ArrayList<>(getCacheableValues(descriptor, values, subject));
+        return values;
     }
 
     private List<String> getValues(FieldSource source, String subject) {

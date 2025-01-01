@@ -1,7 +1,7 @@
 package edu.tamu.scholars.discovery.etl.service;
 
-import static edu.tamu.scholars.discovery.etl.extract.ExtractorCacheUtility.PROPERTY_CACHE;
-import static edu.tamu.scholars.discovery.etl.extract.ExtractorCacheUtility.VALUES_CACHE;
+import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.PROPERTY_CACHE;
+import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.VALUES_CACHE;
 import static java.lang.String.format;
 
 import java.time.Instant;
