@@ -115,7 +115,7 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
                             future.completeExceptionally(error);
                         },
                         () -> {
-                            log.info("Completed {} ET", context.data.getName());
+                            log.info("Completed {} ETL", context.data.getName());
                             future.complete(context);
                         });
 
