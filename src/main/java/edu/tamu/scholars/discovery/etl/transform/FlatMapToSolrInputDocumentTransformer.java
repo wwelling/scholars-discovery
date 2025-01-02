@@ -21,6 +21,8 @@ import edu.tamu.scholars.discovery.utility.DateFormatUtility;
 @Slf4j
 public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Map<String, Object>, SolrInputDocument> {
 
+    private static final String ROOT_FIELD = "_root_";
+
     private static final String NESTED_PATH_FIELD = "_nest_path_";
 
     private static final String NESTED_PATH_PREFIX = "/";
@@ -109,12 +111,13 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
     private SolrInputDocument processNestedValue(Map<String, Object> data, String parentId, DataFieldDescriptor descriptor, String[] parts, int index) {
         SolrInputDocument childDocument = new SolrInputDocument();
 
-        childDocument.setField(NESTED_PATH_FIELD, NESTED_PATH_PREFIX + getFieldName(descriptor));
-
         String id = parentId + NESTED_ID_DELIMITER + parts[index];
 
         childDocument.setField(ID, id);
         childDocument.setField(LABEL, parts[0]);
+
+        childDocument.setField(ROOT_FIELD, parentId);
+        childDocument.setField(NESTED_PATH_FIELD, NESTED_PATH_PREFIX + getFieldName(descriptor));
 
         processNestedReferences(data, id, descriptor, childDocument, parts, index + 1);
 
