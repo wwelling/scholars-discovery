@@ -44,14 +44,14 @@ public class SolrIndex implements Index<JsonNode, JsonNode, JsonNode, SolrInputD
         this.host = host;
         this.collection = collection;
         this.restTemplate = ManagedRestTemplateFactory.of()
-                .withErrorHandler(new SolrResponseErrorHandler());
+            .withErrorHandler(new SolrResponseErrorHandler());
 
         this.solrClient = new Http2SolrClient.Builder(getCollectionUrl())
-                .withConnectionTimeout(1, TimeUnit.MINUTES)
-                .withIdleTimeout(5, TimeUnit.MINUTES)
-                .withMaxConnectionsPerHost(10)
-                .withRequestTimeout(5, TimeUnit.MINUTES)
-                .build();
+            .withConnectionTimeout(1, TimeUnit.MINUTES)
+            .withIdleTimeout(5, TimeUnit.MINUTES)
+            .withMaxConnectionsPerHost(10)
+            .withRequestTimeout(5, TimeUnit.MINUTES)
+            .build();
     }
 
     @Override
@@ -95,28 +95,11 @@ public class SolrIndex implements Index<JsonNode, JsonNode, JsonNode, SolrInputD
 
     @Override
     public void update(SolrInputDocument document) {
-
-        if (document == null) {
-            System.out.println("\n\nDOCUMENT IS NULL\n\n");
-            return;
-        }
-
-        if (document.isEmpty()) {
-            System.out.println("\n\nDOCUMENT IS EMPTY\n\n");
-            return;
-        }
-
         try {
             this.solrClient.add(document);
             this.solrClient.commit();
         } catch (RemoteSolrException | SolrServerException | IOException e) {
-
-            System.out.println("\n\n" + document + "\n\n");
-
             log.error("Error updating Solr document", e);
-            e.printStackTrace();
-
-            System.exit(-1);
         }
     }
 
@@ -171,7 +154,7 @@ public class SolrIndex implements Index<JsonNode, JsonNode, JsonNode, SolrInputD
         @Override
         public boolean hasError(ClientHttpResponse response) throws IOException {
             return response.getStatusCode()
-                    .isError();
+                .isError();
         }
 
         @Override

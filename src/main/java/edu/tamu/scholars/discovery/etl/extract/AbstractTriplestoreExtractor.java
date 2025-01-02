@@ -64,11 +64,11 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
             Iterator<Triple> tripleIterator = queryCollection(query);
 
             return Flux.fromIterable(() -> tripleIterator)
-                    .parallel()
-                    .runOn(Schedulers.parallel())
-                    .map(this::subject)
-                    .map(this::harvest)
-                    .sequential();
+                .parallel()
+                .runOn(Schedulers.parallel())
+                .map(this::subject)
+                .map(this::harvest)
+                .sequential();
 
         } catch (Exception e) {
             log.error("Unable to extract {}: {}", data.getName(), e.getMessage());
@@ -85,7 +85,7 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
 
     private String subject(Triple triple) {
         return triple.getSubject()
-                .toString();
+            .toString();
     }
 
     private Map<String, Object> harvest(String subject) {
@@ -127,10 +127,10 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
             }
         } catch (Exception e) {
             log.error("Unable to extracting individual {} {} ({}): {}",
-                    data.getName(),
-                    descriptor.getName(),
-                    parse(subject),
-                    e.getMessage());
+                data.getName(),
+                descriptor.getName(),
+                parse(subject),
+                e.getMessage());
             log.debug("Error extracting individual", e);
         }
     }

@@ -21,12 +21,12 @@ public class ManagedRestTemplateFactory {
 
     public static ManagedRestTemplate of(Map<String, String> properties) {
         ManagedRestConfig config = ManagedRestConfig.builder().build()
-                .withMaxConnTotal(properties.get(MAX_CONN_TOTAL_PROPERTY_NAME))
-                .withMaxConnPerRoute(properties.get(MAX_CONN_PER_ROUTE_PROPERTY_NAME))
-                .withTimeToLive(properties.get(TIME_TO_LIVE_PROPERTY_NAME))
-                .withEvictIdleConnections(properties.get(EVICT_IDLE_CONNECTIONS_PROPERTY_NAME))
-                .withConnectTimeout(properties.get(CONNECT_TIMEOUT_PROPERTY_NAME))
-                .withReadTimeout(properties.get(READ_TIMEOUT_PROPERTY_NAME));
+            .withMaxConnTotal(properties.get(MAX_CONN_TOTAL_PROPERTY_NAME))
+            .withMaxConnPerRoute(properties.get(MAX_CONN_PER_ROUTE_PROPERTY_NAME))
+            .withTimeToLive(properties.get(TIME_TO_LIVE_PROPERTY_NAME))
+            .withEvictIdleConnections(properties.get(EVICT_IDLE_CONNECTIONS_PROPERTY_NAME))
+            .withConnectTimeout(properties.get(CONNECT_TIMEOUT_PROPERTY_NAME))
+            .withReadTimeout(properties.get(READ_TIMEOUT_PROPERTY_NAME));
 
         return ManagedRestTemplate.with(config);
     }

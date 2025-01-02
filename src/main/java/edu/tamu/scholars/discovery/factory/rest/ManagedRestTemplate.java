@@ -99,55 +99,55 @@ public class ManagedRestTemplate extends RestTemplate {
     @Override
     public void setErrorHandler(ResponseErrorHandler errorHandler) {
         throw new UnsupportedOperationException(
-                "setErrorHandler not supported. Please use withErrorHandler.");
+            "setErrorHandler not supported. Please use withErrorHandler.");
     }
 
     @Override
     public void setClientHttpRequestInitializers(List<ClientHttpRequestInitializer> initializers) {
         throw new UnsupportedOperationException(
-                "setClientHttpRequestInitializers not supported. Please use withClientHttpRequestInitializers.");
+            "setClientHttpRequestInitializers not supported. Please use withClientHttpRequestInitializers.");
     }
 
     @Override
     public void setDefaultUriVariables(Map<String, ?> uriVars) {
         throw new UnsupportedOperationException(
-                "setDefaultUriVariables not supported. Please use withDefaultUriVariables.");
+            "setDefaultUriVariables not supported. Please use withDefaultUriVariables.");
     }
 
     @Override
     public void setInterceptors(List<ClientHttpRequestInterceptor> interceptors) {
         throw new UnsupportedOperationException(
-                "setInterceptors not supported. Please use withInterceptors.");
+            "setInterceptors not supported. Please use withInterceptors.");
     }
 
     @Override
     public void setMessageConverters(List<HttpMessageConverter<?>> messageConverters) {
         throw new UnsupportedOperationException(
-                "setMessageConverters not supported. Please use withMessageConverters.");
+            "setMessageConverters not supported. Please use withMessageConverters.");
     }
 
     @Override
     public void setObservationConvention(ClientRequestObservationConvention observationConvention) {
         throw new UnsupportedOperationException(
-                "setObservationConvention not supported. Please use withObservationConvention.");
+            "setObservationConvention not supported. Please use withObservationConvention.");
     }
 
     @Override
     public void setObservationRegistry(ObservationRegistry registry) {
         throw new UnsupportedOperationException(
-                "setObservationRegistry not supported. Please use withObservationRegistry.");
+            "setObservationRegistry not supported. Please use withObservationRegistry.");
     }
 
     @Override
     public void setRequestFactory(ClientHttpRequestFactory requestFactory) {
         throw new UnsupportedOperationException(
-                "setRequestFactory not supported. Please use withRequestFactory.");
+            "setRequestFactory not supported. Please use withRequestFactory.");
     }
 
     @Override
     public void setUriTemplateHandler(UriTemplateHandler handler) {
         throw new UnsupportedOperationException(
-                "setUriTemplateHandler not supported. Please use withUriTemplateHandler.");
+            "setUriTemplateHandler not supported. Please use withUriTemplateHandler.");
     }
 
     public void destroy() {
@@ -167,20 +167,20 @@ public class ManagedRestTemplate extends RestTemplate {
 
     static ManagedRestTemplate with(ManagedRestConfig config) {
         ConnectionConfig connectionConfig = ConnectionConfig.custom()
-                .setTimeToLive(TimeValue.ofMinutes(config.getTimeToLive()))
-                .build();
+            .setTimeToLive(TimeValue.ofMinutes(config.getTimeToLive()))
+            .build();
 
         PoolingHttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
-                .setMaxConnTotal(config.getMaxConnTotal())
-                .setMaxConnPerRoute(config.getMaxConnPerRoute())
-                .setDefaultConnectionConfig(connectionConfig)
-                .build();
+            .setMaxConnTotal(config.getMaxConnTotal())
+            .setMaxConnPerRoute(config.getMaxConnPerRoute())
+            .setDefaultConnectionConfig(connectionConfig)
+            .build();
 
         CloseableHttpClient httpClient = HttpClients.custom()
-                .setConnectionManager(connectionManager)
-                .setConnectionReuseStrategy(DefaultConnectionReuseStrategy.INSTANCE)
-                .evictIdleConnections(TimeValue.ofMinutes(config.getEvictIdleConnections()))
-                .build();
+            .setConnectionManager(connectionManager)
+            .setConnectionReuseStrategy(DefaultConnectionReuseStrategy.INSTANCE)
+            .evictIdleConnections(TimeValue.ofMinutes(config.getEvictIdleConnections()))
+            .build();
 
         HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
         requestFactory.setConnectTimeout((int) Duration.ofSeconds(config.getConnectTimeout()).toMillis());
