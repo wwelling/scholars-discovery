@@ -223,7 +223,6 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         return uniqueValues;
     }
 
-    // TODO: reduce Cognitive Complexity from 17 to the 15 allowed
     private List<String> getValues(FieldSource source, Resource resource, Property property) {
         List<String> values = new ArrayList<>();
         StmtIterator statements = resource.listProperties(property);
@@ -245,11 +244,7 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
                 value = parse(value);
             }
 
-            value = value.replace("\\\"", "\"");
-
-            if (value.contains("^^")) {
-                value = value.substring(0, value.indexOf("^^"));
-            }
+            value = sanatizeValue(value);
 
             if (source.isUnique() && values.stream().anyMatch(value::equalsIgnoreCase)) {
                 log.debug("duplicate value {}", value);
@@ -265,6 +260,16 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         statements.close();
 
         return values;
+    }
+
+    private String sanatizeValue(String value) {
+        value = value.replace("\\\"", "\"");
+
+        if (value.contains("^^")) {
+            value = value.substring(0, value.indexOf("^^"));
+        }
+
+        return value;
     }
 
     private List<String> getCacheValuesOrQuery(FieldSource source, String subject) {
