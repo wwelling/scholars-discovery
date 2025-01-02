@@ -107,7 +107,7 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
         this.data.getFields()
             .stream()
             .map(DataField::getDescriptor)
-            .forEach(descriptor -> processFields(descriptor, addFields, addCopyFields));
+            .forEach(descriptor -> processFields(descriptor, addFields, addCopyFields, 1));
 
         if (addFieldTypes.isEmpty()) {
             log.debug("{} index field types already exist.", this.data.getName());
@@ -142,12 +142,12 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
         }
     }
 
-    private void processFields(DataFieldDescriptor descriptor, ArrayNode addFields, ArrayNode addCopyFields) {
-        if (descriptor.getNestedDescriptors().isEmpty()) {
+    private void processFields(DataFieldDescriptor descriptor, ArrayNode addFields, ArrayNode addCopyFields, int depth) {
+        if (descriptor.getNestedDescriptors().isEmpty() || (descriptor.isNested() && depth > 1)) {
             processField(descriptor, addFields, addCopyFields);
         }
         for (DataFieldDescriptor nestedDescriptor : descriptor.getNestedDescriptors()) {
-            processFields(nestedDescriptor, addFields, addCopyFields);
+            processFields(nestedDescriptor, addFields, addCopyFields, depth + 1);
         }
     }
 
