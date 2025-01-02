@@ -52,7 +52,9 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        threadPoolTaskScheduler.schedule(this::process, Instant.now());
+        if (config.isEnabled()) {
+            threadPoolTaskScheduler.schedule(this::process, Instant.now());
+        }
     }
 
     private <I, O> void process() {
@@ -106,7 +108,7 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
 
         context.extract()
             .map(context::transform)
-            .buffer(config.getBufferSize())
+            .buffer(config.getBatchSize())
             .subscribe(
                 context::load,
                 error -> {
@@ -148,7 +150,13 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
     private <P extends DataProcessor> P getTypedDataProcessor(
             ConfigurableProcessor<P, ? extends DataProcessorType<P>> processor,
             Data data) {
-        return processor.getType().getDataProcessor(data);
+
+        if (config.getOverrides().containsKey(processor.getName())) {
+            processor.getAttributes().putAll(config.getOverrides().get(processor.getName()));
+        }
+
+        return processor.getType()
+            .getDataProcessor(data);
     }
 
     @RequiredArgsConstructor

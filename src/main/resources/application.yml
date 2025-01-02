@@ -38,7 +38,14 @@ discovery:
     individualKey: individual
     individualBaseUri: ${ui.url}/display
   etl:
-    bufferSize: 10000
+    enabled: true
+    batchSize: 10000
+    overrides:
+      "[TDB Triplestore Extractor]": 
+        directory: triplestore
+      "[Solr Index Loader]": 
+        host: http://localhost:8983/solr
+        collection: scholars-discovery
   index:
     host: http://localhost:8983/solr
     operator: OR
