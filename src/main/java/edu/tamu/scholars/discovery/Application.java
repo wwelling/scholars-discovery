@@ -9,10 +9,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @SpringBootApplication(scanBasePackages = "edu.tamu.scholars")
-public class MiddlewareApplication {
+public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(MiddlewareApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
     @PostConstruct

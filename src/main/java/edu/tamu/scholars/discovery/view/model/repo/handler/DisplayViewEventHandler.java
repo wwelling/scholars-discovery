@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import edu.tamu.scholars.discovery.view.model.DisplayView;
 
-@Component("displayViewEventHandler")
+@Component
 @RepositoryEventHandler(DisplayView.class)
 public class DisplayViewEventHandler extends ViewEventHandler<DisplayView> {
 

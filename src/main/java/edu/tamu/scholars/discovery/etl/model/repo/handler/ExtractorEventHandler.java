@@ -7,7 +7,7 @@ import edu.tamu.scholars.discovery.etl.extract.DataExtractor;
 import edu.tamu.scholars.discovery.etl.model.Extractor;
 import edu.tamu.scholars.discovery.etl.model.type.DataExtractorType;
 
-@Component("extractorEventHandler")
+@Component
 @RepositoryEventHandler(Extractor.class)
 public class ExtractorEventHandler extends ConfigurableProcessorEventHandler<DataExtractor<?>, DataExtractorType, Extractor> {
 

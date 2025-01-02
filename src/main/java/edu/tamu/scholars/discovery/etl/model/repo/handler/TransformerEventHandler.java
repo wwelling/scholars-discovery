@@ -7,7 +7,7 @@ import edu.tamu.scholars.discovery.etl.model.Transformer;
 import edu.tamu.scholars.discovery.etl.model.type.DataTransformerType;
 import edu.tamu.scholars.discovery.etl.transform.DataTransformer;
 
-@Component("transformerEventHandler")
+@Component
 @RepositoryEventHandler(Transformer.class)
 public class TransformerEventHandler extends ConfigurableProcessorEventHandler<DataTransformer<?, ?>, DataTransformerType, Transformer> {
 

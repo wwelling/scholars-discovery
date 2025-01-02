@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import edu.tamu.scholars.discovery.view.model.DiscoveryView;
 
-@Component("discoveryViewEventHandler")
+@Component
 @RepositoryEventHandler(DiscoveryView.class)
 public class DiscoveryViewEventHandler extends ViewEventHandler<DiscoveryView> {
 

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import edu.tamu.scholars.discovery.view.model.DataAndAnalyticsView;
 
-@Component("dataAndAnalyticViewEventHandler")
+@Component
 @RepositoryEventHandler(DataAndAnalyticsView.class)
 public class DataAndAnalyticViewEventHandler extends ViewEventHandler<DataAndAnalyticsView> {
 
