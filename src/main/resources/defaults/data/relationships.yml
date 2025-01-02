@@ -70,9 +70,8 @@ fields:
           name: awardOrHonorForType
           nested: true
           destination:
-            type: strings
+            type: string
             indexed: false
-            multiValued: true
           source:
             template: defaults/data/relationship/awardOrHonorForType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -94,9 +93,8 @@ fields:
           name: awardConferredByType
           nested: true
           destination:
-            type: strings
+            type: string
             indexed: false
-            multiValued: true
           source:
             template: defaults/data/relationship/awardConferredByType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -106,10 +104,9 @@ fields:
           name: awardConferredByAbbreviation
           nested: true
           destination:
-            type: strings
+            type: string
             copyTo:
               - _text_
-            multiValued: true
           source:
             template: defaults/data/relationship/awardConferredByAbbreviation.sparql
             predicate: http://vivoweb.org/ontology/core#abbreviation
@@ -118,10 +115,9 @@ fields:
           name: awardConferredByPreferredLabel
           nested: true
           destination:
-            type: strings
+            type: string
             copyTo:
               - _text_
-            multiValued: true
           source:
             template: defaults/data/relationship/awardConferredByPreferredLabel.sparql
             predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardConferredBy_label
@@ -143,9 +139,8 @@ fields:
           name: awardedByType
           nested: true
           destination:
-            type: strings
+            type: string
             indexed: false
-            multiValued: true
           source:
             template: defaults/data/relationship/awardedByType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -155,10 +150,9 @@ fields:
           name: awardedByAbbreviation
           nested: true
           destination:
-            type: strings
+            type: string
             copyTo:
               - _text_
-            multiValued: true
           source:
             template: defaults/data/relationship/awardedByAbbreviation.sparql
             predicate: http://vivoweb.org/ontology/core#abbreviation
@@ -167,10 +161,9 @@ fields:
           name: awardedByPreferredLabel
           nested: true
           destination:
-            type: strings
+            type: string
             copyTo:
               - _text_
-            multiValued: true
           source:
             template: defaults/data/relationship/awardedByPreferredLabel.sparql
             predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardedBy_label
@@ -190,9 +183,8 @@ fields:
           name: grantSubcontractedThroughType
           nested: true
           destination:
-            type: strings
+            type: string
             indexed: false
-            multiValued: true
           source:
             template: defaults/data/relationship/grantSubcontractedThroughType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -476,7 +468,7 @@ fields:
         template: defaults/data/common/modTime.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime
   - descriptor:
-      name: type
+      name: types
       destination:
         type: strings
         multiValued: true

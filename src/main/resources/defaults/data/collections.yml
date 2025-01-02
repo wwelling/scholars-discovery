@@ -88,8 +88,7 @@ fields:
           name: publisherType
           nested: true
           destination:
-            type: strings
-            multiValued: true
+            type: string
           source:
             template: defaults/data/collection/publisherType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -278,7 +277,7 @@ fields:
         template: defaults/data/common/modTime.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime
   - descriptor:
-      name: type
+      name: types
       destination:
         type: strings
         multiValued: true

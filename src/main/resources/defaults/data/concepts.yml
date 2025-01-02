@@ -59,8 +59,7 @@ fields:
           name: awardOrHonorForType
           nested: true
           destination:
-            type: strings
-            multiValued: true
+            type: string
           source:
             template: defaults/data/concept/awardOrHonorForType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -83,8 +82,7 @@ fields:
           name: awardConferredByType
           nested: true
           destination:
-            type: strings
-            multiValued: true
+            type: string
           source:
             template: defaults/data/concept/awardConferredByType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -123,9 +121,8 @@ fields:
           name: receiptRecipientName
           nested: true
           destination:
-            type: strings
+            type: string
             indexed: false
-            multiValued: true
           source:
             template: defaults/data/concept/receiptRecipientName.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -292,7 +289,7 @@ fields:
         template: defaults/data/common/modTime.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime
   - descriptor:
-      name: type
+      name: types
       destination:
         type: strings
         multiValued: true

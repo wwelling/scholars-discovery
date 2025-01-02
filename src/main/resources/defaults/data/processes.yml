@@ -122,7 +122,7 @@ fields:
               name: dateTimePrecisionEnd
               nested: true
               destination:
-                type: strings
+                type: string
               source:
                 template: defaults/data/process/dateTimePrecisionEnd.sparql
                 predicate: http://vivoweb.org/ontology/core#dateTimePrecision
@@ -210,9 +210,8 @@ fields:
           name: participantId
           nested: true
           destination:
-            type: strings
+            type: string
             indexed: false
-            multiValued: true
           source:
             template: defaults/data/process/participantId.sparql
             predicate: http://purl.obolibrary.org/obo/RO_0000052
@@ -222,9 +221,8 @@ fields:
           name: participantRole
           nested: true
           destination:
-            type: strings
+            type: string
             indexed: false
-            multiValued: true
           source:
             template: defaults/data/process/participantRole.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -233,8 +231,7 @@ fields:
           name: participantDateTimeIntervalStart
           nested: true
           destination:
-            type: pdates
-            multiValued: true
+            type: pdate
           source:
             template: defaults/data/process/participantDateTimeIntervalStart.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
@@ -243,8 +240,7 @@ fields:
           name: participantDateTimeIntervalEnd
           nested: true
           destination:
-            type: pdates
-            multiValued: true
+            type: pdate
           source:
             template: defaults/data/process/participantDateTimeIntervalEnd.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
@@ -419,7 +415,7 @@ fields:
         template: defaults/data/common/modTime.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#modTime
   - descriptor:
-      name: type
+      name: types
       destination:
         type: strings
         multiValued: true
