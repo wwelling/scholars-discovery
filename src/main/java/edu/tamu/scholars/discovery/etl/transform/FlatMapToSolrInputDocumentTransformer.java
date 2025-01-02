@@ -21,12 +21,6 @@ import edu.tamu.scholars.discovery.utility.DateFormatUtility;
 @Slf4j
 public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Map<String, Object>, SolrInputDocument> {
 
-    private static final String ROOT_FIELD = "_root_";
-
-    private static final String NESTED_PATH_FIELD = "_nest_path_";
-
-    private static final String NESTED_PATH_PREFIX = "/";
-
     private static final String NESTED_ID_DELIMITER = "!";
 
     private final Data data;
@@ -66,6 +60,8 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             return;
         }
 
+        String name = getFieldName(descriptor);
+
         if (descriptor.getDestination().isMultiValued()) {
             @SuppressWarnings("unchecked")
             List<String> values = (List<String>) object;
@@ -77,12 +73,12 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
                 .toList();
 
             if (!documents.isEmpty()) {
-                document.addChildDocuments(documents);
+                document.setField(name, documents);
             }
         } else {
             String[] parts = NESTED_DELIMITER_PATTERN.split(object.toString());
             if (parts.length > 1) {
-                document.addChildDocument(processNestedValue(data, id, descriptor, parts, 1));
+                document.setField(name, processNestedValue(data, id, descriptor, parts, 1));
             }
         }
     }
@@ -115,9 +111,6 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
 
         childDocument.setField(ID, id);
         childDocument.setField(LABEL, parts[0]);
-
-        childDocument.setField(ROOT_FIELD, parentId);
-        childDocument.setField(NESTED_PATH_FIELD, NESTED_PATH_PREFIX + getFieldName(descriptor));
 
         processNestedReferences(data, id, descriptor, childDocument, parts, index + 1);
 
@@ -178,10 +171,12 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             return;
         }
 
+        String name = getFieldName(nestedDescriptor);
+
         if (isMultipleReference(nestedDescriptor)) {
-            childDocument.addChildDocuments(documents);
+            childDocument.setField(name, documents);
         } else {
-            childDocument.addChildDocument(documents.get(0));
+            childDocument.setField(name, documents.get(0));
         }
     }
 
@@ -196,10 +191,12 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             return;
         }
 
+        String name = getFieldName(nestedDescriptor);
+
         if (isMultipleReference(nestedDescriptor)) {
-            childDocument.setField(getFieldName(nestedDescriptor), collection);
+            childDocument.setField(name, collection);
         } else {
-            childDocument.setField(getFieldName(nestedDescriptor), collection.get(0));
+            childDocument.setField(name, collection.get(0));
         }
     }
 
@@ -210,15 +207,17 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             return;
         }
 
+        String name = getFieldName(nestedDescriptor);
+
         String[] nestedParts = NESTED_DELIMITER_PATTERN.split(nestedObject.toString());
 
         if (nestedParts.length > depth) {
-            childDocument.addChildDocument(processNestedValue(data, parentId, nestedDescriptor, nestedParts, depth));
+            childDocument.setField(name, processNestedValue(data, parentId, nestedDescriptor, nestedParts, depth));
         } else {
             if (nestedParts[0] != null) {
                 String type = nestedDescriptor.getDestination().getType();
 
-                childDocument.setField(getFieldName(nestedDescriptor), processValue(type, nestedParts[0]));
+                childDocument.setField(name, processValue(type, nestedParts[0]));
             }
         }
     }
