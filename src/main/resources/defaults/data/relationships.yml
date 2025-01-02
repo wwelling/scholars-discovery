@@ -22,7 +22,7 @@ fields:
   - descriptor:
       name: abstract
       destination:
-        type: string
+        type: text_general
         copyTo:
           - _text_
       source:
@@ -31,17 +31,19 @@ fields:
   - descriptor:
       name: description
       destination:
-        type: string
+        type: text_general
+        copyTo:
+          - _text_
       source:
         template: defaults/data/relationship/description.sparql
         predicate: http://vivoweb.org/ontology/core#description
   - descriptor:
-      name: organization
+      name: organizations
       nested: true
       destination:
         type: strings
-        indexed: false
         multiValued: true
+        docValues: true
       source:
         template: defaults/data/relationship/organization.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -60,7 +62,10 @@ fields:
       nested: true
       destination:
         type: strings
+        copyTo:
+          - _text_
         multiValued: true
+        docValues: true
       source:
         template: defaults/data/relationship/awardOrHonorFor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -71,7 +76,6 @@ fields:
           nested: true
           destination:
             type: string
-            indexed: false
           source:
             template: defaults/data/relationship/awardOrHonorForType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -80,9 +84,10 @@ fields:
       name: awardConferredBy
       nested: true
       destination:
-        type: strings
+        type: text_general
         copyTo:
           - _text_
+          - awardConferredBy_str
         multiValued: true
       source:
         template: defaults/data/relationship/awardConferredBy.sparql
@@ -94,7 +99,6 @@ fields:
           nested: true
           destination:
             type: string
-            indexed: false
           source:
             template: defaults/data/relationship/awardConferredByType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -140,7 +144,6 @@ fields:
           nested: true
           destination:
             type: string
-            indexed: false
           source:
             template: defaults/data/relationship/awardedByType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -184,7 +187,6 @@ fields:
           nested: true
           destination:
             type: string
-            indexed: false
           source:
             template: defaults/data/relationship/grantSubcontractedThroughType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -278,8 +280,8 @@ fields:
           name: contributorRole
           nested: true
           destination:
-            type: strings
-            multiValued: true
+            type: string
+            indexed: false
           source:
             template: defaults/data/relationship/contributorRole.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType

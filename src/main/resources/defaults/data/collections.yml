@@ -32,6 +32,8 @@ fields:
       name: abbreviation
       destination:
         type: string
+        copyTo:
+          - _text_
       source:
         template: defaults/data/collection/abbreviation.sparql
         predicate: http://vivoweb.org/ontology/core#abbreviation
@@ -78,6 +80,7 @@ fields:
       nested: true
       destination:
         type: string
+        docValues: true
       source:
         template: defaults/data/collection/publisher.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -98,7 +101,6 @@ fields:
       nested: true
       destination:
         type: strings
-        indexed: false
         multiValued: true
       source:
         template: defaults/data/collection/hasSubjectArea.sparql
@@ -130,6 +132,7 @@ fields:
         copyTo:
           - _text_
         multiValued: true
+        docValues: true
       source:
         template: defaults/data/collection/keyword.sparql
         predicate: http://vivoweb.org/ontology/core#freetextKeyword

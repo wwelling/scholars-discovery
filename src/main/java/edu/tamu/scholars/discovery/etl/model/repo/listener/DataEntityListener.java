@@ -27,13 +27,13 @@ public class DataEntityListener {
 
     @PrePersist
     public void validatePrePersist(Data data) {
-        log.info("Validating Data {} before persisting", data.getName());
+        log.debug("Validating Data {} before persisting", data.getName());
         validate(data);
     }
 
     @PreUpdate
     public void validatePreUpdate(Data data) {
-        log.info("Validating Data {} before updating", data.getName());
+        log.debug("Validating Data {} before updating", data.getName());
         validate(data);
     }
 
@@ -63,7 +63,7 @@ public class DataEntityListener {
         String currentDescriptorFieldName = getFieldName(currentDescriptor);
         String existingDescriptorFieldName = getFieldName(existingDescriptor);
         if (currentDescriptorFieldName.equals(existingDescriptorFieldName) && !currentDescriptor.getDestination().equals(existingDescriptor.getDestination())) {
-            log.error("Conflicting descriptors {} != {}", currentDescriptor, existingDescriptor);
+            log.error("Conflicting descriptor destinations \n{} {} \n{} {}", currentDescriptorFieldName, currentDescriptor.getDestination(), existingDescriptorFieldName, existingDescriptor.getDestination());
         }
     }
 

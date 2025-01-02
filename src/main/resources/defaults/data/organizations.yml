@@ -93,6 +93,7 @@ fields:
         copyTo:
           - _text_
         multiValued: true
+        docValues: true
       source:
         template: defaults/data/organization/keyword.sparql
         predicate: http://vivoweb.org/ontology/core#freetextKeyword
@@ -163,7 +164,6 @@ fields:
           nested: true
           destination:
             type: string
-            indexed: false
           source:
             template: defaults/data/organization/peopleType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -173,7 +173,10 @@ fields:
           name: peopleTitle
           nested: true
           destination:
-            type: string
+            type: text_general
+            copyTo:
+              - _text_
+              - title_t_sort
           source:
             template: defaults/data/organization/peopleTitle.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -194,7 +197,6 @@ fields:
           nested: true
           destination:
             type: string
-            indexed: false
           source:
             template: defaults/data/organization/hasSubOrganizationType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -356,7 +358,7 @@ fields:
           nested: true
           destination:
             type: pdate
-            indexed: false
+            docValues: true
           source:
             template: defaults/data/organization/awardsGrantDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
@@ -377,7 +379,7 @@ fields:
           nested: true
           destination:
             type: pdate
-            indexed: false
+            docValues: true
           source:
             template: defaults/data/organization/administersGrantDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
@@ -398,7 +400,7 @@ fields:
           nested: true
           destination:
             type: pdate
-            indexed: false
+            docValues: true
           source:
             template: defaults/data/organization/subcontractsGrantDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime

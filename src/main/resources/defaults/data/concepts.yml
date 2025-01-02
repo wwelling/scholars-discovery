@@ -181,7 +181,10 @@ fields:
           name: futureResearchIdeaOfTitle
           nested: true
           destination:
-            type: string
+            type: text_general
+            copyTo:
+              - _text_
+              - title_t_sort
           source:
             template: defaults/data/concept/futureResearchIdeaOfTitle.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -193,6 +196,7 @@ fields:
           destination:
             type: strings
             multiValued: true
+            docValues: true
           source:
             template: defaults/data/concept/futureResearchIdeaOfOrganization.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -203,6 +207,7 @@ fields:
         copyTo:
           - _text_
         multiValued: true
+        docValues: true
       source:
         template: defaults/data/concept/keyword.sparql
         predicate: http://vivoweb.org/ontology/core#freetextKeyword

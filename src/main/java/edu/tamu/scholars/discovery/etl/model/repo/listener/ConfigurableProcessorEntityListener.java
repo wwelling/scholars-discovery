@@ -13,12 +13,12 @@ public abstract class ConfigurableProcessorEntityListener<P extends DataProcesso
 
     @PrePersist
     public void validatePrePersist(C processor) {
-        log.info("Validating {} {} before persisting", processor.getClass().getSimpleName(), processor.getName());
+        log.debug("Validating {} {} before persisting", processor.getClass().getSimpleName(), processor.getName());
     }
 
     @PreUpdate
     public void validatePreUpdate(C processor) {
-        log.info("Validating {} {} before updating", processor.getClass().getSimpleName(), processor.getName());
+        log.debug("Validating {} {} before updating", processor.getClass().getSimpleName(), processor.getName());
     }
 
     public void validate(C processor) {

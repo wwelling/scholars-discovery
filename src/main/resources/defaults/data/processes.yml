@@ -36,6 +36,7 @@ fields:
         copyTo:
           - _text_
         multiValued: true
+        docValues: true
       source:
         template: defaults/data/process/author.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -48,6 +49,7 @@ fields:
           destination:
             type: strings
             multiValued: true
+            docValues: true
           source:
             template: defaults/data/process/authorOrganization.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -138,6 +140,7 @@ fields:
       name: venue
       destination:
         type: string
+        docValues: true
       source:
         template: defaults/data/process/venue.sparql
         predicate: http://vivo.library.tamu.edu/ontology/TAMU#venue
@@ -152,6 +155,7 @@ fields:
       name: url
       destination:
         type: string
+        indexed: false
       source:
         template: defaults/data/process/url.sparql
         predicate: http://www.w3.org/2006/vcard/ns#url
@@ -232,6 +236,7 @@ fields:
           nested: true
           destination:
             type: pdate
+            indexed: false
           source:
             template: defaults/data/process/participantDateTimeIntervalStart.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
@@ -241,6 +246,7 @@ fields:
           nested: true
           destination:
             type: pdate
+            indexed: false
           source:
             template: defaults/data/process/participantDateTimeIntervalEnd.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
