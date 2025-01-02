@@ -4,6 +4,7 @@ import static edu.tamu.scholars.discovery.etl.EtlConstants.NESTED_DELIMITER_PATT
 import static edu.tamu.scholars.discovery.index.IndexConstants.CLASS;
 import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
 import static edu.tamu.scholars.discovery.index.IndexConstants.LABEL;
+import static edu.tamu.scholars.discovery.index.IndexConstants.NESTED_DELIMITER;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.text.ParseException;
@@ -20,8 +21,6 @@ import edu.tamu.scholars.discovery.utility.DateFormatUtility;
 
 @Slf4j
 public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Map<String, Object>, SolrInputDocument> {
-
-    private static final String NESTED_ID_DELIMITER = "!";
 
     private final Data data;
 
@@ -107,7 +106,7 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
     private SolrInputDocument processNestedValue(Map<String, Object> data, String parentId, DataFieldDescriptor descriptor, String[] parts, int index) {
         SolrInputDocument childDocument = new SolrInputDocument();
 
-        String id = parentId + NESTED_ID_DELIMITER + parts[index];
+        String id = parentId + NESTED_DELIMITER + parts[index];
 
         childDocument.setField(ID, id);
         childDocument.setField(LABEL, parts[0]);
