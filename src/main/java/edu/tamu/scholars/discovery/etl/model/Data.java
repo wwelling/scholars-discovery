@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
@@ -20,11 +21,13 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import edu.tamu.scholars.discovery.etl.model.repo.listener.DataEntityListener;
 import edu.tamu.scholars.discovery.model.Named;
 
 @Getter
 @Setter
 @Entity
+@EntityListeners(DataEntityListener.class)
 @Table(
     name = "data",
     indexes = {

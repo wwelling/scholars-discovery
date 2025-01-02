@@ -1,14 +1,13 @@
-package edu.tamu.scholars.discovery.etl.model.repo.handler;
+package edu.tamu.scholars.discovery.etl.model.repo.listener;
 
-import static java.lang.String.format;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.util.List;
 
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
-import org.springframework.data.rest.core.annotation.HandleBeforeSave;
-import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import edu.tamu.scholars.discovery.etl.model.Data;
@@ -18,24 +17,23 @@ import edu.tamu.scholars.discovery.etl.model.repo.DataFieldDescriptorRepo;
 
 @Slf4j
 @Component
-@RepositoryEventHandler(Data.class)
-public class DataEventHandler {
+public class DataEntityListener {
 
     private final DataFieldDescriptorRepo descriptorRepo;
 
-    public DataEventHandler(DataFieldDescriptorRepo descriptorRepo) {
+    public DataEntityListener(@Lazy DataFieldDescriptorRepo descriptorRepo) {
         this.descriptorRepo = descriptorRepo;
     }
 
-    @HandleBeforeCreate
-    public void validateBeforeCreate(Data data) {
-        log.info("Validating {} data before create", data.getName());
+    @PrePersist
+    public void validatePrePersist(Data data) {
+        log.info("Validating Data {} before persisting", data.getName());
         validate(data);
     }
 
-    @HandleBeforeSave
-    public void validateBeforeSave(Data data) {
-        log.info("Validating {} data before save", data.getName());
+    @PreUpdate
+    public void validatePreUpdate(Data data) {
+        log.info("Validating Data {} before updating", data.getName());
         validate(data);
     }
 
@@ -53,7 +51,6 @@ public class DataEventHandler {
     }
 
     public void validateDescriptor(DataFieldDescriptor currentDescriptor, List<DataFieldDescriptor> existingDescriptors) {
-        log.info("Validating {} descriptor before save", currentDescriptor.getName());
         for (DataFieldDescriptor existingDescriptor : existingDescriptors) {
             validateDescriptor(currentDescriptor, existingDescriptor);
         }
@@ -66,10 +63,7 @@ public class DataEventHandler {
         String currentDescriptorFieldName = getFieldName(currentDescriptor);
         String existingDescriptorFieldName = getFieldName(existingDescriptor);
         if (currentDescriptorFieldName.equals(existingDescriptorFieldName) && !currentDescriptor.getDestination().equals(existingDescriptor.getDestination())) {
-            String message = format("Conflicting descriptors %s != %s", currentDescriptor, existingDescriptor);
             log.error("Conflicting descriptors {} != {}", currentDescriptor, existingDescriptor);
-
-            throw new RuntimeException(message);
         }
     }
 
