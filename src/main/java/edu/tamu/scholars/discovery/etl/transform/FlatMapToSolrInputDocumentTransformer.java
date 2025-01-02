@@ -50,20 +50,20 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
     }
 
     private void processField(Map<String, Object> data, String id, DataFieldDescriptor descriptor, SolrInputDocument document) {
+        if (descriptor.isNested()) {
+            processNestedField(data, id, descriptor, document);
+        } else {
+            processSimpleField(data, descriptor, document);
+        }
+    }
+
+    private void processNestedField(Map<String, Object> data, String id, DataFieldDescriptor descriptor, SolrInputDocument document) {
         Object object = data.remove(descriptor.getName());
 
         if (object == null) {
             return;
         }
 
-        if (descriptor.isNested()) {
-            processNestedField(data, id, descriptor, document, object);
-        } else {
-            processSimpleField(descriptor, document, object);
-        }
-    }
-
-    private void processNestedField(Map<String, Object> data, String id, DataFieldDescriptor descriptor, SolrInputDocument document, Object object) {
         if (descriptor.getDestination().isMultiValued()) {
             @SuppressWarnings("unchecked")
             List<String> values = (List<String>) object;
@@ -85,7 +85,13 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         }
     }
 
-    private void processSimpleField(DataFieldDescriptor descriptor, SolrInputDocument document, Object object) {
+    private void processSimpleField(Map<String, Object> data, DataFieldDescriptor descriptor, SolrInputDocument document) {
+        Object object = data.remove(descriptor.getName());
+
+        if (object == null) {
+            return;
+        }
+
         String type = descriptor.getDestination().getType();
 
         if (descriptor.getDestination().isMultiValued()) {
