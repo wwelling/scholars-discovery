@@ -22,6 +22,7 @@ public class DataHandler {
     public void validateRequiredAttribute(Data data) {
         // validate data before create or save
         // validate extractor, transformer, and loader are all compatible
+        // validate fields descriptor name/reference key do not have conflicting fields
     }
 
 }

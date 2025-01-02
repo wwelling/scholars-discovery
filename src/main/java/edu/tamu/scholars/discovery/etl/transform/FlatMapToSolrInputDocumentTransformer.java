@@ -203,6 +203,10 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
     private void processSingleValuedNestedReference(Map<String, Object> data, String parentId, DataFieldDescriptor nestedDescriptor, SolrInputDocument childDocument, int depth) {
         Object nestedObject = data.remove(nestedDescriptor.getName());
 
+        if (nestedObject == null) {
+            return;
+        }
+
         String[] nestedParts = NESTED_DELIMITER_PATTERN.split(nestedObject.toString());
 
         if (nestedParts.length > depth) {
