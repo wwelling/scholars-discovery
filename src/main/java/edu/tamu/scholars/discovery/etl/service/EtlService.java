@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -87,19 +88,13 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
 
     private <I, O> EtlContext<I, O> init(Data data) {
         EtlContext<I, O> context = new EtlContext<>(
-            data,
-            getExtractor(data),
-            getTransformer(data),
-            getLoader(data)
-        );
+            data, getExtractor(data), getTransformer(data), getLoader(data));
 
-        context.extractor.init();
-        context.transformer.init();
-        context.loader.init();
-
-        context.extractor.preprocess();
-        context.transformer.preprocess();
-        context.loader.preprocess();
+        Stream.of(context.extractor, context.transformer, context.loader)
+            .forEach(processor -> {
+                processor.init();
+                processor.preprocess();
+            });
 
         return context;
     }
@@ -128,13 +123,11 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     private <I, O> void destroy(EtlContext<I, O> context) {
-        context.extractor.postprocess();
-        context.transformer.postprocess();
-        context.loader.postprocess();
-
-        context.extractor.destroy();
-        context.transformer.destroy();
-        context.loader.destroy();
+        Stream.of(context.extractor, context.transformer, context.loader)
+            .forEach(processor -> {
+                processor.postprocess();
+                processor.destroy();
+            });
     }
 
     @SuppressWarnings("unchecked")
@@ -153,9 +146,8 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     private <P extends DataProcessor> P getTypedDataProcessor(
-        ConfigurableProcessor<P, ? extends DataProcessorType<P>> processor,
-        Data data
-    ) {
+            ConfigurableProcessor<P, ? extends DataProcessorType<P>> processor,
+            Data data) {
         return processor.getType().getDataProcessor(data);
     }
 

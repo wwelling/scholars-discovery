@@ -2,6 +2,7 @@ package edu.tamu.scholars.discovery.etl.extract;
 
 import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.PROPERTY_CACHE;
 import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.VALUES_CACHE;
+import static edu.tamu.scholars.discovery.etl.EtlConstants.NESTED_DELIMITER_PATTERN;
 import static edu.tamu.scholars.discovery.index.IndexConstants.CLASS;
 import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
 import static edu.tamu.scholars.discovery.index.IndexConstants.NESTED_DELIMITER;
@@ -16,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.jena.graph.Node;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
@@ -38,8 +40,8 @@ import edu.tamu.scholars.discovery.etl.model.FieldSource;
 public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<String, Object>> {
 
     private static final String FORWARD_SLASH = "/";
-
     private static final String HASH_TAG = "#";
+    private static final String URI_TEMPLATE_KEY = "{{uri}}";
 
     protected final Data data;
 
@@ -59,14 +61,15 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         String predicate = collectionSource.getPredicate();
 
         try {
-            String query = getQuery(template, predicate);
+            String query = buildQuery(template, predicate);
 
             Iterator<Triple> tripleIterator = queryCollection(query);
 
             return Flux.fromIterable(() -> tripleIterator)
                 .parallel()
                 .runOn(Schedulers.parallel())
-                .map(this::subject)
+                .map(Triple::getSubject)
+                .map(Node::toString)
                 .map(this::harvest)
                 .sequential();
 
@@ -83,47 +86,42 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         return harvest(subject);
     }
 
-    private String subject(Triple triple) {
-        return triple.getSubject()
-            .toString();
-    }
-
     private Map<String, Object> harvest(String subject) {
-        return createIndividual(subject);
-    }
-
-    private Map<String, Object> createIndividual(String subject) {
         Map<String, Object> document = new HashMap<>();
 
         document.put(ID, parse(subject));
         document.put(CLASS, data.getName());
 
-        lookupProperties(document, subject);
+        extractProperties(document, subject);
 
         return document;
     }
 
-    private void lookupProperties(Map<String, Object> document, String subject) {
+    private void extractProperties(Map<String, Object> document, String subject) {
         for (DataField field : data.getFields()) {
-            lookupProperties(document, subject, field.getDescriptor());
+            extractProperties(document, subject, field.getDescriptor());
         }
     }
 
-    private void lookupProperties(Map<String, Object> document, String subject, DataFieldDescriptor descriptor) {
-        lookupProperty(document, subject, descriptor);
+    private void extractProperties(Map<String, Object> document, String subject, DataFieldDescriptor descriptor) {
+        extractProperty(document, subject, descriptor);
         for (DataFieldDescriptor nestedDescriptor : descriptor.getNestedDescriptors()) {
-            lookupProperties(document, subject, nestedDescriptor);
+            extractProperties(document, subject, nestedDescriptor);
         }
     }
 
-    private void lookupProperty(Map<String, Object> document, String subject, DataFieldDescriptor descriptor) {
+    private void extractProperty(Map<String, Object> document, String subject, DataFieldDescriptor descriptor) {
         try {
-            List<String> values = getValues(descriptor, subject);
+            List<String> values = extractValues(descriptor, subject);
 
             if (values.isEmpty()) {
                 log.debug("Could not find values for {}", descriptor.getName());
             } else {
-                populate(document, descriptor, values);
+                if (descriptor.getDestination().isMultiValued()) {
+                    document.put(descriptor.getName(), values);
+                } else {
+                    document.put(descriptor.getName(), values.get(0));
+                }
             }
         } catch (Exception e) {
             log.error("Unable to extracting individual {} {} ({}): {}",
@@ -135,10 +133,12 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         }
     }
 
-    private List<String> getValues(DataFieldDescriptor descriptor, String subject) {
+    private List<String> extractValues(DataFieldDescriptor descriptor, String subject) {
         FieldSource source = descriptor.getSource();
 
-        List<String> values = getValues(source, subject);
+        String query = buildQuery(source.getTemplate(), subject);
+
+        List<String> values = querySourceValues(source, query);
 
         if (!values.isEmpty() && !source.getCacheableSources().isEmpty()) {
             values = getCacheableValues(descriptor, values, subject);
@@ -147,21 +147,7 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         return values;
     }
 
-    private List<String> getValues(FieldSource source, String subject) {
-        String query = getQuery(source.getTemplate(), subject);
-
-        return queryValues(source, query);
-    }
-
-    private String getQuery(String template, String subject) {
-        String query = template.replace("{{uri}}", subject);
-
-        log.debug("{}", query);
-
-        return query;
-    }
-
-    private List<String> queryValues(FieldSource source, String query) {
+    private List<String> querySourceValues(FieldSource source, String query) {
         List<String> values = new ArrayList<>();
 
         Model model = null;
@@ -213,10 +199,10 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
 
     private Set<String> getNestedCacheableValues(FieldSource cacheableFieldSource, String value, String subject) {
         Set<String> uniqueValues = new HashSet<>();
-        String[] parts = value.split(NESTED_DELIMITER);
+        String[] parts = NESTED_DELIMITER_PATTERN.split(value);
         String nestedSubject = subject.replaceAll("[^/]+$", parts[parts.length - 1]);
         for (String cached : getCacheValuesOrQuery(cacheableFieldSource, nestedSubject)) {
-            String[] cachedParts = cached.split(NESTED_DELIMITER, 2);
+            String[] cachedParts = NESTED_DELIMITER_PATTERN.split(cached, 2);
             StringBuilder result = new StringBuilder(cachedParts[0]);
             if (parts.length - 2 > 0) {
                 result.append(NESTED_DELIMITER);
@@ -235,20 +221,6 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         }
 
         return uniqueValues;
-    }
-
-    private List<String> getCacheValuesOrQuery(FieldSource source, String subject) {
-        String query = getQuery(source.getTemplate(), subject);
-
-        return VALUES_CACHE.computeIfAbsent(query, q -> queryValues(source, q));
-    }
-
-    private void populate(Map<String, Object> document, DataFieldDescriptor descriptor, List<String> values) {
-        if (descriptor.getDestination().isMultiValued()) {
-            document.put(descriptor.getName(), values);
-        } else {
-            document.put(descriptor.getName(), values.get(0));
-        }
     }
 
     // TODO: reduce Cognitive Complexity from 17 to the 15 allowed
@@ -293,6 +265,20 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         statements.close();
 
         return values;
+    }
+
+    private List<String> getCacheValuesOrQuery(FieldSource source, String subject) {
+        String query = buildQuery(source.getTemplate(), subject);
+
+        return VALUES_CACHE.computeIfAbsent(query, q -> querySourceValues(source, q));
+    }
+
+    private String buildQuery(String template, String subject) {
+        String query = template.replace(URI_TEMPLATE_KEY, subject);
+
+        log.debug("{}", query);
+
+        return query;
     }
 
     private String parse(String uri) {
