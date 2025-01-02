@@ -52,14 +52,14 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
     @Override
     public void init() {
         Map<String, JsonNode> fields = this.index.fields()
-                .collect(Collectors.toMap(node -> node.get("name").asText(), node -> node));
+            .collect(Collectors.toMap(node -> node.get("name").asText(), node -> node));
 
         this.existingFields.putAll(fields);
 
         Map<Pair<String, String>, JsonNode> copyFields = this.index.copyFields()
-                .collect(Collectors.toMap(
-                        node -> Pair.of(node.get("source").asText(), node.get("dest").asText()),
-                        node -> node));
+            .collect(Collectors.toMap(
+                node -> Pair.of(node.get("source").asText(), node.get("dest").asText()),
+                node -> node));
 
         this.existingCopyFields.putAll(copyFields);
     }
@@ -94,9 +94,9 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
         processField(getDescriptor("class"), addFields, addCopyFields);
 
         this.data.getFields()
-                .stream()
-                .map(DataField::getDescriptor)
-                .forEach(descriptor -> processFields(descriptor, addFields, addCopyFields));
+            .stream()
+            .map(DataField::getDescriptor)
+            .forEach(descriptor -> processFields(descriptor, addFields, addCopyFields));
 
         if (addFields.isEmpty()) {
             log.debug("{} index fields already exist.", this.data.getName());
@@ -139,8 +139,8 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
         }
 
         Set<String> copyTo = descriptor
-                .getDestination()
-                .getCopyTo();
+            .getDestination()
+            .getCopyTo();
 
         for (String dest : copyTo) {
             log.debug("Processing {} => {} copy field", name, dest);
@@ -188,9 +188,9 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
 
     private String getFieldName(DataFieldDescriptor descriptor) {
         return Objects.nonNull(descriptor.getNestedReference())
-                && StringUtils.isNotEmpty(descriptor.getNestedReference().getKey())
-                        ? descriptor.getNestedReference().getKey()
-                        : descriptor.getName();
+            && StringUtils.isNotEmpty(descriptor.getNestedReference().getKey())
+                ? descriptor.getNestedReference().getKey()
+                : descriptor.getName();
     }
 
     private DataFieldDescriptor getDescriptor(String name) {
