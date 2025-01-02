@@ -30,7 +30,7 @@ import edu.tamu.scholars.discovery.factory.rest.ManagedRestTemplate;
 import edu.tamu.scholars.discovery.factory.rest.ManagedRestTemplateFactory;
 
 @Slf4j
-public class SolrIndex implements Index<JsonNode, JsonNode, JsonNode, SolrInputDocument> {
+public class SolrIndex implements Index<SolrInputDocument> {
 
     private final String host;
 
@@ -52,6 +52,11 @@ public class SolrIndex implements Index<JsonNode, JsonNode, JsonNode, SolrInputD
             .withMaxConnectionsPerHost(10)
             .withRequestTimeout(5, TimeUnit.MINUTES)
             .build();
+    }
+
+    @Override
+    public Stream<JsonNode> fieldTypes() {
+        return fields("fieldTypes");
     }
 
     @Override

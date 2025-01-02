@@ -5,13 +5,15 @@ import java.util.stream.Stream;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public interface Index<I, C, R, D> {
+public interface Index<D> {
 
-    Stream<I> fields();
+    Stream<JsonNode> fieldTypes();
 
-    Stream<C> copyFields();
+    Stream<JsonNode> fields();
 
-    R schema(JsonNode schema);
+    Stream<JsonNode> copyFields();
+
+    JsonNode schema(JsonNode schema);
 
     void update(Collection<D> documents);
 

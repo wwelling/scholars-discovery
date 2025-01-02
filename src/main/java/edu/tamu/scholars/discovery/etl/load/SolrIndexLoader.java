@@ -31,6 +31,8 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
 
     private final ObjectMapper objectMapper;
 
+    private final Map<String, JsonNode> existingFieldTypes;
+
     private final Map<String, JsonNode> existingFields;
 
     private final Map<Pair<String, String>, JsonNode> existingCopyFields;
@@ -42,12 +44,18 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
 
         this.objectMapper = new ObjectMapper();
 
+        this.existingFieldTypes = new HashMap<>();
         this.existingFields = new HashMap<>();
         this.existingCopyFields = new HashMap<>();
     }
 
     @Override
     public void init() {
+        Map<String, JsonNode> fieldTypes = this.index.fields()
+            .collect(Collectors.toMap(node -> node.get("name").asText(), node -> node));
+
+        this.existingFieldTypes.putAll(fieldTypes);
+
         Map<String, JsonNode> fields = this.index.fields()
             .collect(Collectors.toMap(node -> node.get("name").asText(), node -> node));
 
@@ -84,7 +92,10 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
 
     private void preprocessFields() {
         log.info("Preprocessing fields for {} documents.", this.data.getName());
-        ObjectNode schemaRequest = objectMapper.createObjectNode();
+        ObjectNode schema = objectMapper.createObjectNode();
+
+        ArrayNode addFieldTypes = objectMapper.createArrayNode();
+        ArrayNode replaceFields = objectMapper.createArrayNode();
         ArrayNode addFields = objectMapper.createArrayNode();
         ArrayNode addCopyFields = objectMapper.createArrayNode();
 
@@ -96,20 +107,32 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
             .map(DataField::getDescriptor)
             .forEach(descriptor -> processFields(descriptor, addFields, addCopyFields));
 
+        if (addFieldTypes.isEmpty()) {
+            log.debug("{} index field types already exist.", this.data.getName());
+        } else {
+            schema.set("add-field-type", addFieldTypes);
+        }
+
+        if (replaceFields.isEmpty()) {
+            log.debug("{} index field does not exist or has already been replaced.", this.data.getName());
+        } else {
+            schema.set("replace-field", replaceFields);
+        }
+
         if (addFields.isEmpty()) {
             log.debug("{} index fields already exist.", this.data.getName());
         } else {
-            schemaRequest.set("add-field", addFields);
+            schema.set("add-field", addFields);
         }
 
         if (addCopyFields.isEmpty()) {
             log.debug("{} index copy fields already exist.", this.data.getName());
         } else {
-            schemaRequest.set("add-copy-field", addCopyFields);
+            schema.set("add-copy-field", addCopyFields);
         }
 
-        if (!schemaRequest.isEmpty()) {
-            JsonNode updateSchema = index.schema(schemaRequest);
+        if (!schema.isEmpty()) {
+            JsonNode updateSchema = index.schema(schema);
 
             if (!updateSchema.isEmpty()) {
                 log.debug("{} index fields exist.", this.data.getName());
@@ -129,7 +152,7 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
         log.debug("Processing {} field", name);
 
         if (!existingFields.containsKey(name)) {
-            JsonNode field = buildAddFieldNode(descriptor);
+            JsonNode field = buildAddField(descriptor);
             addFields.add(field);
             existingFields.put(name, field);
         } else {
@@ -143,7 +166,7 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
         for (String dest : copyTo) {
             log.debug("Processing {} => {} copy field", name, dest);
             if (!existingCopyFields.containsKey(Pair.of(name, dest))) {
-                JsonNode copyField = buildAddCopyFieldNode(name, dest);
+                JsonNode copyField = buildAddCopyField(name, dest);
                 addCopyFields.add(copyField);
                 existingCopyFields.put(Pair.of(name, dest), copyField);
             } else {
@@ -152,36 +175,36 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
         }
     }
 
-    private JsonNode buildAddFieldNode(DataFieldDescriptor descriptor) {
+    private JsonNode buildAddField(DataFieldDescriptor descriptor) {
         FieldDestination destination = descriptor.getDestination();
         String name = getFieldName(descriptor);
 
-        ObjectNode addFieldNode = objectMapper.createObjectNode();
-        addFieldNode.put("name", name);
-        addFieldNode.put("type", destination.getType());
-        addFieldNode.put("required", destination.isRequired());
-        addFieldNode.put("stored", destination.isStored());
-        addFieldNode.put("indexed", destination.isIndexed());
-        addFieldNode.put("docValues", destination.isDocValues());
-        addFieldNode.put("multiValued", destination.isMultiValued());
+        ObjectNode addField = objectMapper.createObjectNode();
+        addField.put("name", name);
+        addField.put("type", destination.getType());
+        addField.put("required", destination.isRequired());
+        addField.put("stored", destination.isStored());
+        addField.put("indexed", destination.isIndexed());
+        addField.put("docValues", destination.isDocValues());
+        addField.put("multiValued", destination.isMultiValued());
 
         if (StringUtils.isNotEmpty(destination.getDefaultValue())) {
-            addFieldNode.put("defaultValue", destination.getDefaultValue());
+            addField.put("defaultValue", destination.getDefaultValue());
         }
 
-        return addFieldNode;
+        return addField;
     }
 
-    private JsonNode buildAddCopyFieldNode(String source, String destination) {
-        ObjectNode addCopyFieldNode = objectMapper.createObjectNode();
-        addCopyFieldNode.put("source", source);
+    private JsonNode buildAddCopyField(String source, String destination) {
+        ObjectNode addCopyField = objectMapper.createObjectNode();
+        addCopyField.put("source", source);
 
         ArrayNode destinationFields = objectMapper.createArrayNode();
         destinationFields.add(destination);
 
-        addCopyFieldNode.set("dest", destinationFields);
+        addCopyField.set("dest", destinationFields);
 
-        return addCopyFieldNode;
+        return addCopyField;
     }
 
     private String getFieldName(DataFieldDescriptor descriptor) {
