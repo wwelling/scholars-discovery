@@ -100,7 +100,7 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     private <I, O> CompletableFuture<EtlContext<I, O>> process(EtlContext<I, O> context) {
-        log.info("Starting {} ETL", context.data.getName());
+        log.info("Starting {} ETL process.", context.data.getName());
 
         CompletableFuture<EtlContext<I, O>> future = new CompletableFuture<>();
 
@@ -115,7 +115,7 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
                     future.completeExceptionally(error);
                 },
                 () -> {
-                    log.info("Completed {} ETL", context.data.getName());
+                    log.info("Completed {} ETL process.", context.data.getName());
                     future.complete(context);
                 });
 

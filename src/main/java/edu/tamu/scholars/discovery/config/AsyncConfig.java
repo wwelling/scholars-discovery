@@ -9,8 +9,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
-@EnableAsync
 @Configuration
+@EnableAsync
 public class AsyncConfig implements AsyncConfigurer {
 
     @Bean(name = "taskScheduler")

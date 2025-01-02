@@ -1,6 +1,5 @@
 package edu.tamu.scholars.discovery.etl.load;
 
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,8 +42,6 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
 
         this.objectMapper = new ObjectMapper();
 
-        this.objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
-
         this.existingFields = new HashMap<>();
         this.existingCopyFields = new HashMap<>();
     }
@@ -77,7 +74,7 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
     @Override
     public void load(Collection<SolrInputDocument> documents) {
         this.index.update(documents);
-        log.info("{} {} documents loaded", documents.size(), this.data.getName());
+        log.info("{} {} documents loaded.", documents.size(), this.data.getName());
     }
 
     @Override
@@ -86,6 +83,7 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
     }
 
     private void preprocessFields() {
+        log.info("Preprocessing fields for {} documents.", this.data.getName());
         ObjectNode schemaRequest = objectMapper.createObjectNode();
         ArrayNode addFields = objectMapper.createArrayNode();
         ArrayNode addCopyFields = objectMapper.createArrayNode();

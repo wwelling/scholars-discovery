@@ -8,6 +8,7 @@ import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.tamu.scholars.discovery.messaging.CreateEntityMessage;
@@ -18,6 +19,7 @@ import edu.tamu.scholars.discovery.theme.exception.DeleteActiveThemeException;
 import edu.tamu.scholars.discovery.theme.model.Theme;
 import edu.tamu.scholars.discovery.theme.model.repo.ThemeRepo;
 
+@Component
 @RepositoryEventHandler(Theme.class)
 public class ThemeEventHandler {
 

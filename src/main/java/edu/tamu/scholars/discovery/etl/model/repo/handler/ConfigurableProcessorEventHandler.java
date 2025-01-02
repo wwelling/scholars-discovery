@@ -7,7 +7,7 @@ import edu.tamu.scholars.discovery.etl.DataProcessor;
 import edu.tamu.scholars.discovery.etl.model.ConfigurableProcessor;
 import edu.tamu.scholars.discovery.etl.model.type.DataProcessorType;
 
-public abstract class ConfigurableProcessorHandler<P extends DataProcessor, T extends DataProcessorType<P>, C extends ConfigurableProcessor<P, T>> {
+public abstract class ConfigurableProcessorEventHandler<P extends DataProcessor, T extends DataProcessorType<P>, C extends ConfigurableProcessor<P, T>> {
 
     @HandleBeforeCreate
     public void validateBeforeCreate(C processor) {
