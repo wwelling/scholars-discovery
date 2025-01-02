@@ -145,7 +145,7 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             System.out.println("\n");
         }
 
-        String id = parentId + "::" + parts[index];
+        String id = parentId + "!" + parts[index];
 
         childDocument.setField(ID, id);
         childDocument.setField(LABEL, parts[0]);
