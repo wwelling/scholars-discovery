@@ -10,7 +10,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.hateoas.server.RepresentationModelProcessor;
 import org.springframework.http.ResponseEntity;
@@ -27,21 +26,23 @@ import edu.tamu.scholars.discovery.export.exception.UnauthorizedExportException;
 import edu.tamu.scholars.discovery.export.exception.UnknownExporterTypeException;
 import edu.tamu.scholars.discovery.export.service.Exporter;
 import edu.tamu.scholars.discovery.export.service.ExporterRegistry;
-import edu.tamu.scholars.discovery.index.model.Individual;
-import edu.tamu.scholars.discovery.index.model.Organization;
-import edu.tamu.scholars.discovery.index.model.Person;
-import edu.tamu.scholars.discovery.index.model.repo.IndividualRepo;
+import edu.tamu.scholars.discovery.model.Individual;
+import edu.tamu.scholars.discovery.model.repo.IndividualRepo;
 
 @RestController
 public class IndividualExportController implements RepresentationModelProcessor<IndividualModel> {
 
-    @Lazy
-    @Autowired
-    private IndividualRepo repo;
+    private final IndividualRepo repo;
 
-    @Lazy
-    @Autowired
-    private ExporterRegistry exporterRegistry;
+    private final ExporterRegistry exporterRegistry;
+
+    IndividualExportController(
+        @Lazy IndividualRepo repo,
+        @Lazy ExporterRegistry exporterRegistry
+    ) {
+        this.repo = repo;
+        this.exporterRegistry = exporterRegistry;
+    }
 
     @GetMapping("/individual/{id}/export")
     public ResponseEntity<StreamingResponseBody> export(
@@ -73,7 +74,7 @@ public class IndividualExportController implements RepresentationModelProcessor<
     public IndividualModel process(IndividualModel resource) {
         Individual individual = resource.getContent();
         if (individual != null) {
-            if (individual.getProxy().equals(Person.class.getSimpleName())) {
+            if (individual.getProxy().equals("Person")) {
                 addResource(resource, new ResourceLink(
                     individual,
                     "docx",
@@ -94,7 +95,7 @@ public class IndividualExportController implements RepresentationModelProcessor<
                     "zip", 
                     "Last 8 Years", 
                     "Individual 8 year publications export"));
-            } else if (individual.getProxy().equals(Organization.class.getSimpleName())) {
+            } else if (individual.getProxy().equals("Oragnization")) {
                 addResource(resource, new ResourceLink(
                     individual,
                     "zip",

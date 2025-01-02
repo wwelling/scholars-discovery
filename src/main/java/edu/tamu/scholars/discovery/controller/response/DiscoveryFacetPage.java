@@ -1,20 +1,14 @@
 package edu.tamu.scholars.discovery.controller.response;
 
-import static edu.tamu.scholars.discovery.utility.DiscoveryUtility.findPath;
-
 import java.text.ParseException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
 import edu.tamu.scholars.discovery.controller.argument.FacetArg;
@@ -49,46 +43,8 @@ public class DiscoveryFacetPage<T> extends DiscoveryPage<T> {
 
     public static <T> List<Facet> buildFacets(JsonNode response, List<FacetArg> facetArguments) {
         List<Facet> facets = new ArrayList<Facet>();
+        // TODO
 
-        facetArguments.forEach(facetArgument -> {
-            String name = facetArgument.getField();
-
-            // JsonNode facetField = response.getFacetField(name);
-
-            // if (Objects.nonNull(facetField) && !facetField.getValues().isEmpty()) {
-
-            //     List<FacetEntry> entries = facetField.getValues().parallelStream()
-            //         .map(entry -> new FacetEntry(entry.getName(), entry.getCount()))
-            //         .collect(Collectors.toMap(FacetEntry::getValueKey, fe -> fe, FacetEntry::merge))
-            //             .values()
-            //             .parallelStream()
-            //         .sorted(FacetEntryComparator.of(facetArgument.getSort()))
-            //         .collect(Collectors.toList());
-
-            //     int pageSize = facetArgument.getPageSize();
-            //     // convert to zero-based numbering page number
-            //     int pageNumber = facetArgument.getPageNumber() - 1;
-            //     int offset = pageSize * pageNumber;
-
-            //     int totalElements = (int) entries.size();
-
-            //     int start = offset;
-
-            //     int end = offset + (pageSize > totalElements ? totalElements : offset + pageSize);
-
-            //     Sort sort = Sort.by(
-            //         facetArgument.getSort().getDirection(),
-            //         facetArgument.getSort().getProperty().toString()
-            //     );
-
-            //     Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
-
-            //     facets.add(
-            //         new Facet(findPath(name),
-            //         DiscoveryPage.from(entries.subList(start, end), pageable, totalElements))
-            //     );
-            // }
-        });
         return facets;
     }
 

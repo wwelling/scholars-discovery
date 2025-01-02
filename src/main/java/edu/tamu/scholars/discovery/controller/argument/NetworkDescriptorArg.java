@@ -1,14 +1,12 @@
 package edu.tamu.scholars.discovery.controller.argument;
 
-import static edu.tamu.scholars.discovery.index.IndexConstants.DEFAULT_QUERY;
-import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
+import static edu.tamu.scholars.discovery.AppConstants.DEFAULT_QUERY;
+import static edu.tamu.scholars.discovery.AppConstants.ID;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import edu.tamu.scholars.discovery.utility.DiscoveryUtility;
 
 public class NetworkDescriptorArg {
 
@@ -23,8 +21,8 @@ public class NetworkDescriptorArg {
     private NetworkDescriptorArg(String id, String dateField, List<String> dataFields, String typeFilter) {
         super();
         this.id = id;
-        this.dateField = DiscoveryUtility.findProperty(dateField);
-        this.dataFields = DiscoveryUtility.processFields(dataFields);
+        this.dateField = dateField;
+        this.dataFields = dataFields;
         this.typeFilter = typeFilter;
     }
 

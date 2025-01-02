@@ -11,7 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import edu.tamu.scholars.discovery.controller.argument.QueryArg;
-import edu.tamu.scholars.discovery.index.IndexConstants;
+import edu.tamu.scholars.discovery.AppConstants;
 
 @ExtendWith(MockitoExtension.class)
 public class QueryArgTest {
@@ -51,7 +51,7 @@ public class QueryArgTest {
     public void testOfDefaultQueryParameter() {
         QueryArg queryArg = QueryArg.of(Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
         assertNotNull(queryArg);
-        assertEquals(IndexConstants.DEFAULT_QUERY, queryArg.getExpression());
+        assertEquals(AppConstants.DEFAULT_QUERY, queryArg.getExpression());
         assertEquals(StringUtils.EMPTY, queryArg.getDefaultField());
         assertEquals(StringUtils.EMPTY, queryArg.getMinimumShouldMatch());
         assertEquals(StringUtils.EMPTY, queryArg.getQueryField());

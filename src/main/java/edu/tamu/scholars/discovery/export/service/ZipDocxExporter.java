@@ -1,7 +1,5 @@
 package edu.tamu.scholars.discovery.export.service;
 
-import jakarta.xml.bind.JAXBException;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,7 +9,10 @@ import java.util.Optional;
 import java.util.zip.ZipOutputStream;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import jakarta.servlet.ServletContext;
+import jakarta.xml.bind.JAXBException;
 import org.docx4j.Docx4J;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
@@ -21,11 +22,13 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 import edu.tamu.scholars.discovery.export.exception.ExportException;
 import edu.tamu.scholars.discovery.export.utility.FilenameUtility;
 import edu.tamu.scholars.discovery.export.utility.ZipUtility;
-import edu.tamu.scholars.discovery.index.model.AbstractIndexDocument;
-import edu.tamu.scholars.discovery.index.model.Individual;
+import edu.tamu.scholars.discovery.model.Individual;
+import edu.tamu.scholars.discovery.model.repo.IndividualRepo;
+import edu.tamu.scholars.discovery.service.TemplateService;
 import edu.tamu.scholars.discovery.view.model.DisplayView;
 import edu.tamu.scholars.discovery.view.model.ExportFieldView;
 import edu.tamu.scholars.discovery.view.model.ExportView;
+import edu.tamu.scholars.discovery.view.model.repo.DisplayViewRepo;
 
 @Service
 public class ZipDocxExporter extends AbstractDocxExporter {
@@ -35,6 +38,15 @@ public class ZipDocxExporter extends AbstractDocxExporter {
     private static final String CONTENT_TYPE = "application/zip";
 
     private static final String CONTENT_DISPOSITION_TEMPLATE = "attachment; filename=%s.zip";
+
+    ZipDocxExporter(
+            DisplayViewRepo displayViewRepo,
+            IndividualRepo individualRepo,
+            TemplateService handlebarsService,
+            ObjectMapper mapper,
+            ServletContext context) {
+        super(displayViewRepo, individualRepo, handlebarsService, mapper, context);
+    }
 
     @Override
     public String type() {
@@ -53,13 +65,13 @@ public class ZipDocxExporter extends AbstractDocxExporter {
 
     @Override
     public StreamingResponseBody streamIndividual(Individual individual, String name) {
-        final List<String> type = individual.getType();
+        final List<String> types = individual.getTypes();
 
-        Optional<DisplayView> displayView = displayViewRepo.findByTypesIn(type);
+        Optional<DisplayView> displayView = displayViewRepo.findByTypesIn(types);
 
         if (!displayView.isPresent()) {
             throw new ExportException(String.format(
-                "Could not find a display view for types: %s", String.join(", ", type))
+                "Could not find a display view for types: %s", String.join(", ", types))
             );
         }
 
@@ -97,7 +109,7 @@ public class ZipDocxExporter extends AbstractDocxExporter {
                 FileOutputStream fos = new FileOutputStream(zipFile.getAbsolutePath());
                 ZipOutputStream zos = new ZipOutputStream(outputStream)
             ) {
-                for (AbstractIndexDocument refDoc : referenceDocuments) {
+                for (Individual refDoc : referenceDocuments) {
                     final ObjectNode refNode = mapper.valueToTree(refDoc);
 
                     String filename = FilenameUtility.normalizeExportFilename(refDoc);

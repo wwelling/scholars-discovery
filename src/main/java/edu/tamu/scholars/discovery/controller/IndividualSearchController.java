@@ -1,7 +1,7 @@
 package edu.tamu.scholars.discovery.controller;
 
-import static edu.tamu.scholars.discovery.index.IndexConstants.DEFAULT_QUERY;
-import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
+import static edu.tamu.scholars.discovery.AppConstants.DEFAULT_QUERY;
+import static edu.tamu.scholars.discovery.AppConstants.ID;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,24 +32,28 @@ import edu.tamu.scholars.discovery.controller.argument.QueryArg;
 import edu.tamu.scholars.discovery.controller.assembler.DiscoveryPagedResourcesAssembler;
 import edu.tamu.scholars.discovery.controller.assembler.IndividualResourceAssembler;
 import edu.tamu.scholars.discovery.controller.assembler.model.IndividualModel;
-import edu.tamu.scholars.discovery.index.model.Individual;
-import edu.tamu.scholars.discovery.index.model.repo.IndividualRepo;
+import edu.tamu.scholars.discovery.model.Individual;
+import edu.tamu.scholars.discovery.model.repo.IndividualRepo;
 
 @RestController
 @RequestMapping("/individual")
 public class IndividualSearchController implements RepresentationModelProcessor<RepositorySearchesResource> {
+ 
+    private final IndividualRepo repo;
 
-    @Lazy
-    @Autowired
-    private IndividualRepo repo;
+    private final IndividualResourceAssembler assembler;
 
-    @Lazy
-    @Autowired
-    private IndividualResourceAssembler assembler;
+    private final DiscoveryPagedResourcesAssembler<Individual> pagedAssembler;
 
-    @Lazy
-    @Autowired
-    private DiscoveryPagedResourcesAssembler<Individual> pagedAssembler;
+    IndividualSearchController(
+        @Lazy IndividualRepo repo,
+        @Lazy IndividualResourceAssembler assembler,
+        @Lazy DiscoveryPagedResourcesAssembler<Individual> pagedAssembler
+    ) {
+        this.repo = repo;
+        this.assembler = assembler;
+        this.pagedAssembler = pagedAssembler;
+    }
 
     @GetMapping("/search/findByIdIn")
     public ResponseEntity<CollectionModel<IndividualModel>> findByIdIn(

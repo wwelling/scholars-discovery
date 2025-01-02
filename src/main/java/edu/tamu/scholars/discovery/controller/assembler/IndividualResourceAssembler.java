@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import edu.tamu.scholars.discovery.controller.IndividualSearchController;
 import edu.tamu.scholars.discovery.controller.assembler.model.IndividualCollectionModel;
 import edu.tamu.scholars.discovery.controller.assembler.model.IndividualModel;
-import edu.tamu.scholars.discovery.index.model.Individual;
+import edu.tamu.scholars.discovery.model.Individual;
 
 
 @Component
@@ -31,7 +31,7 @@ public class IndividualResourceAssembler extends RepresentationModelAssemblerSup
     public CollectionModel<IndividualModel> toCollectionModel(Iterable<? extends Individual> entities) {
         List<IndividualModel> content = StreamUtils.createStreamFromIterator(entities.iterator())
             .map(this::toModel)
-            .collect(Collectors.toList());
+            .toList();
 
         return new IndividualCollectionModel(content, Arrays.asList(), null);
     }

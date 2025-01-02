@@ -2,8 +2,6 @@ package edu.tamu.scholars.discovery.export.argument;
 
 import java.util.Map;
 
-import edu.tamu.scholars.discovery.utility.DiscoveryUtility;
-
 public class ExportArg {
 
     private final String field;
@@ -11,7 +9,7 @@ public class ExportArg {
     private final String label;
 
     public ExportArg(String field, String label) {
-        this.field = DiscoveryUtility.findProperty(field);
+        this.field = field;
         this.label = label;
     }
 

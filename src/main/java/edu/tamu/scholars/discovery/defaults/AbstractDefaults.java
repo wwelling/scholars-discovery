@@ -1,7 +1,7 @@
 package edu.tamu.scholars.discovery.defaults;
 
-import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
-import static edu.tamu.scholars.discovery.index.IndexConstants.VERSION;
+import static edu.tamu.scholars.discovery.AppConstants.ID;
+import static edu.tamu.scholars.discovery.AppConstants.VERSION;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

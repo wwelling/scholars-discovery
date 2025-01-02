@@ -1,10 +1,9 @@
 package edu.tamu.scholars.discovery.controller;
 
-import static edu.tamu.scholars.discovery.index.IndexConstants.DEFAULT_QUERY;
+import static edu.tamu.scholars.discovery.AppConstants.DEFAULT_QUERY;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +12,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.tamu.scholars.discovery.controller.argument.FilterArg;
-import edu.tamu.scholars.discovery.index.model.repo.IndividualRepo;
+import edu.tamu.scholars.discovery.model.repo.IndividualRepo;
 
 @RestController
 public class IndividualSearchCountController {
 
-    @Lazy
-    @Autowired
-    private IndividualRepo repo;
+    private final IndividualRepo repo;
+
+    IndividualSearchCountController(@Lazy IndividualRepo repo) {
+        this.repo = repo;
+    }
 
     @GetMapping(value = "/individual/search/count", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Count> count(

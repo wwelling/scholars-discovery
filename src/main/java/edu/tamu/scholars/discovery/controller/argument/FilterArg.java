@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.tamu.scholars.discovery.model.OpKey;
-import edu.tamu.scholars.discovery.utility.DiscoveryUtility;
 
 public class FilterArg {
 
@@ -18,7 +17,7 @@ public class FilterArg {
     private final String tag;
 
     FilterArg(String field, String value, OpKey opKey, String tag) {
-        this.field = DiscoveryUtility.findProperty(field);
+        this.field = field;
         this.value = value;
         this.opKey = opKey;
         this.tag = tag;

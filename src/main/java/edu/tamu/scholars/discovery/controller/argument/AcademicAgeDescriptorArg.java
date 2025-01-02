@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.tamu.scholars.discovery.utility.DiscoveryUtility;
-
 public class AcademicAgeDescriptorArg {
 
     private final String label;
@@ -29,7 +27,7 @@ public class AcademicAgeDescriptorArg {
             Integer groupingIntervalInYears) {
         super();
         this.label = label;
-        this.dateField = DiscoveryUtility.findProperty(dateField);
+        this.dateField = dateField;
         this.accumulateMultivaluedDate = accumulateMultivaluedDate;
         this.averageOverInterval = averageOverInterval;
         this.upperLimitInYears = upperLimitInYears;

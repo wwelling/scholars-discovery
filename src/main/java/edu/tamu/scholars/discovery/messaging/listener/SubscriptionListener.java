@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.messaging.listener;
 
+import static edu.tamu.scholars.discovery.AppConstants.EMPTY_BYTE_ARRAY;
+import static edu.tamu.scholars.discovery.AppConstants.ID;
 import static org.springframework.messaging.simp.stomp.StompCommand.RECEIPT;
 
 import org.springframework.context.ApplicationListener;
@@ -12,8 +14,6 @@ import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
 @Component
 public class SubscriptionListener implements ApplicationListener<SessionSubscribeEvent> {
-
-    private static final byte[] EMPTY_PAYLOAD = new byte[0];
 
     private final AbstractSubscribableChannel clientOutboundChannel;
 
@@ -32,8 +32,8 @@ public class SubscriptionListener implements ApplicationListener<SessionSubscrib
             receipt.setDestination(accessor.getDestination());
             receipt.setSessionId(accessor.getSessionId());
             receipt.setUser(accessor.getUser());
-            receipt.addNativeHeader("id", accessor.getFirstNativeHeader("id"));
-            clientOutboundChannel.send(MessageBuilder.createMessage(EMPTY_PAYLOAD, receipt.getMessageHeaders()));
+            receipt.addNativeHeader(ID, accessor.getFirstNativeHeader(ID));
+            clientOutboundChannel.send(MessageBuilder.createMessage(EMPTY_BYTE_ARRAY, receipt.getMessageHeaders()));
         }
     }
 

@@ -4,8 +4,6 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.tamu.scholars.discovery.utility.DiscoveryUtility;
-
 public class HighlightArg {
 
     private final String[] fields;
@@ -15,7 +13,7 @@ public class HighlightArg {
     private final String postfix;
 
     HighlightArg(String[] fields, String prefix, String postfix) {
-        this.fields = DiscoveryUtility.processFields(fields);
+        this.fields = fields;
         this.prefix = prefix;
         this.postfix = postfix;
     }

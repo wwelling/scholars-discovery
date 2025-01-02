@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.tamu.scholars.discovery.utility.DiscoveryUtility;
 import edu.tamu.scholars.discovery.view.model.FacetType;
 
 public class FacetArg {
@@ -38,7 +37,7 @@ public class FacetArg {
         String rangeEnd,
         String rangeGap
     ) {
-        this.field = DiscoveryUtility.findProperty(field);
+        this.field = field;
         this.sort = FacetSortArg.of(sort);
         this.pageSize = pageSize;
         this.pageNumber = pageNumber;

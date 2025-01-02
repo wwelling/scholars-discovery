@@ -1,10 +1,10 @@
 package edu.tamu.scholars.discovery.etl.transform.solr;
 
 import static edu.tamu.scholars.discovery.etl.EtlConstants.NESTED_DELIMITER_PATTERN;
-import static edu.tamu.scholars.discovery.index.IndexConstants.CLASS;
-import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
-import static edu.tamu.scholars.discovery.index.IndexConstants.LABEL;
-import static edu.tamu.scholars.discovery.index.IndexConstants.NESTED_DELIMITER;
+import static edu.tamu.scholars.discovery.AppConstants.CLASS;
+import static edu.tamu.scholars.discovery.AppConstants.ID;
+import static edu.tamu.scholars.discovery.AppConstants.LABEL;
+import static edu.tamu.scholars.discovery.AppConstants.NESTED_DELIMITER;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.text.ParseException;

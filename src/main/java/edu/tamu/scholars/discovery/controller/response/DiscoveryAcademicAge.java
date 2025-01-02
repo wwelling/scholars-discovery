@@ -1,19 +1,14 @@
 package edu.tamu.scholars.discovery.controller.response;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
 import edu.tamu.scholars.discovery.controller.argument.AcademicAgeDescriptorArg;
-import edu.tamu.scholars.discovery.controller.argument.AcademicAgeDescriptorArg.LabeledRange;
-import edu.tamu.scholars.discovery.utility.DateUtility;
 
 public class DiscoveryAcademicAge {
 
@@ -44,60 +39,7 @@ public class DiscoveryAcademicAge {
     }
 
     public void from(AcademicAgeDescriptorArg academicAgeDescriptor, JsonNode results) {
-        String dateField = academicAgeDescriptor.getDateField();
-        String ageField = academicAgeDescriptor.getAgeField();
-
-        List<LabeledRange> labeledRanges = academicAgeDescriptor.getLabeledRanges();
-
-        int sum = 0;
-
-        for (LabeledRange lr : labeledRanges) {
-
-            int subtotal = 0;
-
-            List<Integer> set = new ArrayList<>();
-
-            for (JsonNode solrDoc : results) {
-                // long dateFromEpochInSeconds = (long) solrDoc.getFieldValue(ageField);
-
-                // int age = DateUtility.ageInYearsFromEpochSecond(dateFromEpochInSeconds);
-
-                // boolean inRange = false;
-
-                // if (lr.isFirst) {
-                //     sum += age;
-                //     inRange = age < lr.to;
-                // } else if (lr.isLast) {
-                //     inRange = age >= lr.from;
-                // } else {
-                //     inRange = age >= lr.from && age < lr.to;
-                // }
-
-                // if (inRange) {
-                //     if (academicAgeDescriptor.getAccumulateMultivaluedDate() && solrDoc.containsKey(dateField)) {
-                //         Collection<Object> docs = solrDoc.getFieldValues(dateField);
-                //         subtotal += docs.size();
-
-                //         set.add(docs.size());
-                //     } else {
-                //         subtotal++;
-                //     }
-                // }
-            }
-
-            Integer value = academicAgeDescriptor.getAverageOverInterval() && set.size() > 0
-                ? subtotal / set.size()
-                : subtotal;
-
-            add(lr.index, lr.range, lr.label, value);
-        }
-
-        Collections.sort(groups, new AgeGroupComparator());
-
-        this.mean = results.size() > 0 ? sum / results.size() : 0;
-        // this.median = results.size() > 0
-        //     ? DateUtility.ageInYearsFromEpochSecond((long) results.get(results.size() / 2).getFieldValue(ageField))
-        //     : 0;
+        // TODO
     }
 
     public String getLabel() {

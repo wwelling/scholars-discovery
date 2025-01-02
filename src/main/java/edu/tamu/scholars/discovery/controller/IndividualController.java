@@ -1,17 +1,15 @@
 package edu.tamu.scholars.discovery.controller;
 
-import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
+import static edu.tamu.scholars.discovery.AppConstants.ID;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
-import jakarta.persistence.EntityNotFoundException;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -33,23 +31,27 @@ import edu.tamu.scholars.discovery.controller.assembler.DiscoveryPagedResourcesA
 import edu.tamu.scholars.discovery.controller.assembler.IndividualResourceAssembler;
 import edu.tamu.scholars.discovery.controller.assembler.model.IndividualModel;
 import edu.tamu.scholars.discovery.controller.response.DiscoveryNetwork;
-import edu.tamu.scholars.discovery.index.model.Individual;
-import edu.tamu.scholars.discovery.index.model.repo.IndividualRepo;
+import edu.tamu.scholars.discovery.model.Individual;
+import edu.tamu.scholars.discovery.model.repo.IndividualRepo;
 
 @RestController
 public class IndividualController implements RepresentationModelProcessor<IndividualModel> {
 
-    @Lazy
-    @Autowired
-    private IndividualRepo repo;
+    private final IndividualRepo repo;
 
-    @Lazy
-    @Autowired
-    private IndividualResourceAssembler assembler;
+    private final IndividualResourceAssembler assembler;
 
-    @Lazy
-    @Autowired
-    private DiscoveryPagedResourcesAssembler<Individual> pagedAssembler;
+    private final DiscoveryPagedResourcesAssembler<Individual> pagedAssembler;
+
+    IndividualController(
+        @Lazy IndividualRepo repo,
+        @Lazy IndividualResourceAssembler assembler,
+        @Lazy DiscoveryPagedResourcesAssembler<Individual> pagedAssembler
+    ) {
+        this.repo = repo;
+        this.assembler = assembler;
+        this.pagedAssembler = pagedAssembler;
+    }
 
     @PostMapping("/individual")
     public ResponseEntity<Void> create() {

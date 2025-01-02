@@ -7,7 +7,7 @@ import reactor.core.publisher.Flux;
 
 import edu.tamu.scholars.discovery.export.argument.ExportArg;
 import edu.tamu.scholars.discovery.export.exception.UnsupportedExporterTypeException;
-import edu.tamu.scholars.discovery.index.model.Individual;
+import edu.tamu.scholars.discovery.model.Individual;
 
 public interface Exporter {
 

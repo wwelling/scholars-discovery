@@ -1,6 +1,6 @@
 package edu.tamu.scholars.discovery.export.controller;
 
-import static edu.tamu.scholars.discovery.index.IndexConstants.DEFAULT_QUERY;
+import static edu.tamu.scholars.discovery.AppConstants.DEFAULT_QUERY;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.RepositorySearchesResource;
@@ -32,21 +30,24 @@ import edu.tamu.scholars.discovery.export.exception.UnknownExporterTypeException
 import edu.tamu.scholars.discovery.export.service.Exporter;
 import edu.tamu.scholars.discovery.export.service.ExporterRegistry;
 import edu.tamu.scholars.discovery.export.utility.FilenameUtility;
-import edu.tamu.scholars.discovery.index.model.Individual;
-import edu.tamu.scholars.discovery.index.model.repo.IndividualRepo;
+import edu.tamu.scholars.discovery.model.Individual;
+import edu.tamu.scholars.discovery.model.repo.IndividualRepo;
 
+@Slf4j
 @RestController
 public class IndividualSearchExportController implements RepresentationModelProcessor<RepositorySearchesResource> {
 
-    private static final Logger logger = LoggerFactory.getLogger(IndividualSearchExportController.class);
+    private final IndividualRepo repo;
 
-    @Lazy
-    @Autowired
-    private IndividualRepo repo;
+    private final ExporterRegistry exporterRegistry;
 
-    @Lazy
-    @Autowired
-    private ExporterRegistry exporterRegistry;
+    IndividualSearchExportController(
+        @Lazy IndividualRepo repo,
+        @Lazy ExporterRegistry exporterRegistry
+    ) {
+        this.repo = repo;
+        this.exporterRegistry = exporterRegistry;
+    }
 
     @GetMapping("/individual/search/export")
     public ResponseEntity<StreamingResponseBody> export(
@@ -58,7 +59,7 @@ public class IndividualSearchExportController implements RepresentationModelProc
         List<BoostArg> boosts,
         List<ExportArg> export
     ) throws UnknownExporterTypeException {
-        logger.info("/individual/search/export {} {} {} {} {} {} {}", view, type, query, sort, filters, boosts, export);
+        log.info("/individual/search/export {} {} {} {} {} {} {}", view, type, query, sort, filters, boosts, export);
         Exporter exporter = exporterRegistry.getExporter(type);
 
         return ResponseEntity.ok()

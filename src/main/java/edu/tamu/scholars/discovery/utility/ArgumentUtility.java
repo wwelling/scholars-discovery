@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.utility;
 
+import static edu.tamu.scholars.discovery.AppConstants.COMMA;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -59,7 +61,7 @@ public class ArgumentUtility {
             .map(request::getParameterValues)
             .map(Arrays::asList)
             .flatMap(Collection::stream)
-            .map(s -> s.split(","))
+            .map(s -> s.split(COMMA))
             .map(Arrays::asList)
             .flatMap(Collection::stream)
             .toList();
@@ -116,7 +118,7 @@ public class ArgumentUtility {
             .map(request::getParameterValues)
             .map(Arrays::asList)
             .flatMap(Collection::stream)
-            .map(s -> s.split(","))
+            .map(s -> s.split(COMMA))
             .map(Arrays::asList)
             .flatMap(Collection::stream)
             .toList();
@@ -163,7 +165,7 @@ public class ArgumentUtility {
         Optional<String> prefix = Optional.ofNullable(request.getParameter(HIGHLIGHT_PRE_QUERY_PARAM_KEY));
         Optional<String> postfix = Optional.ofNullable(request.getParameter(HIGHLIGHT_POST_QUERY_PARAM_KEY));
 
-        return HighlightArg.of(StringUtils.isNotEmpty(fields) ? fields.split(",") : new String[] {}, prefix, postfix);
+        return HighlightArg.of(StringUtils.isNotEmpty(fields) ? fields.split(COMMA) : new String[] {}, prefix, postfix);
     }
 
     public static QueryArg getQueryArgument(HttpServletRequest request) {

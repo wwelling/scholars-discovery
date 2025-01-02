@@ -1,7 +1,5 @@
 package edu.tamu.scholars.discovery.controller.argument;
 
-import edu.tamu.scholars.discovery.utility.DiscoveryUtility;
-
 public class BoostArg {
 
     private final String field;
@@ -9,7 +7,7 @@ public class BoostArg {
     private final float value;
 
     BoostArg(String field, float value) {
-        this.field = DiscoveryUtility.findProperty(field);
+        this.field = field;
         this.value = value;
     }
 

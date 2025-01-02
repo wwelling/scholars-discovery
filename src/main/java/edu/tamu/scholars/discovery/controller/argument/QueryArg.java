@@ -4,8 +4,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
-import edu.tamu.scholars.discovery.index.IndexConstants;
-import edu.tamu.scholars.discovery.utility.DiscoveryUtility;
+import edu.tamu.scholars.discovery.AppConstants;
 
 public class QueryArg {
 
@@ -30,11 +29,11 @@ public class QueryArg {
         String fields
     ) {
         this.expression = expression;
-        this.defaultField = DiscoveryUtility.processFields(defaultField);
+        this.defaultField = defaultField;
         this.minimumShouldMatch = minimumShouldMatch;
-        this.queryField = DiscoveryUtility.processFields(queryField);
+        this.queryField = queryField;
         this.boostQuery = boostQuery;
-        this.fields = DiscoveryUtility.processFields(fields);
+        this.fields = fields;
     }
 
     public String getExpression() {
@@ -69,7 +68,7 @@ public class QueryArg {
         Optional<String> bq,
         Optional<String> fl
     ) {
-        String expression = q.isPresent() ? q.get() : IndexConstants.DEFAULT_QUERY;
+        String expression = q.isPresent() ? q.get() : AppConstants.DEFAULT_QUERY;
         String defaultField = df.isPresent() ? df.get() : StringUtils.EMPTY;
         String minimumShouldMatch = mm.isPresent() ? mm.get() : StringUtils.EMPTY;
         String queryField = qf.isPresent() ? qf.get() : StringUtils.EMPTY;

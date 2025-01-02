@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.etl.load.solr;
 
+import static edu.tamu.scholars.discovery.AppConstants.CLASS;
+import static edu.tamu.scholars.discovery.AppConstants.LABEL;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.util.Collection;
@@ -102,8 +104,8 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
         ArrayNode addFields = objectMapper.createArrayNode();
         ArrayNode addCopyFields = objectMapper.createArrayNode();
 
-        processField(getDescriptor("label"), addFields, addCopyFields);
-        processField(getDescriptor("class"), addFields, addCopyFields);
+        processField(getDescriptor(LABEL), addFields, addCopyFields);
+        processField(getDescriptor(CLASS), addFields, addCopyFields);
 
         this.data.getFields()
             .stream()

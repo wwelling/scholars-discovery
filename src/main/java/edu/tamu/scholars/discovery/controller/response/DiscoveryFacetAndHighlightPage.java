@@ -1,23 +1,16 @@
 package edu.tamu.scholars.discovery.controller.response;
 
-import static edu.tamu.scholars.discovery.utility.DiscoveryUtility.findPath;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.data.domain.Pageable;
 
 import edu.tamu.scholars.discovery.controller.argument.FacetArg;
 import edu.tamu.scholars.discovery.controller.argument.HighlightArg;
-import edu.tamu.scholars.discovery.index.IndexConstants;
 
 public class DiscoveryFacetAndHighlightPage<T> extends DiscoveryFacetPage<T> {
 
@@ -56,37 +49,6 @@ public class DiscoveryFacetAndHighlightPage<T> extends DiscoveryFacetPage<T> {
 
     public static <T> List<Highlight> buildHighlights(JsonNode response, HighlightArg highlightArg) {
         List<Highlight> highlights = new ArrayList<>();
-        // Map<String, Map<String, List<String>>> highlighting = response.getHighlighting();
-        // if (Objects.nonNull(highlighting)) {
-        //     highlighting.entrySet()
-        //         .stream()
-        //         .filter(DiscoveryFacetAndHighlightPage::hasHighlights)
-        //             .forEach(highlightEntry -> {
-
-        //                 String id = highlightEntry.getKey();
-        //                 Map<String, List<Object>> snippets = new HashMap<>();
-
-        //                 highlightEntry.getValue().entrySet()
-        //                     .stream()
-        //                     .filter(DiscoveryFacetAndHighlightPage::hasSnippets)
-        //                         .forEach(se -> {
-
-        //                             snippets.put(findPath(se.getKey()), se.getValue().stream().map(s -> {
-        //                                 Matcher matcher = REFERENCE_PATTERN.matcher(s);
-        //                                 if (matcher.find()) {
-        //                                     Map<String, String> value = new HashMap<>();
-        //                                     value.put(DiscoveryConstants.ID, matcher.group(2));
-        //                                     value.put(DiscoveryConstants.SNIPPET, matcher.group(1) + matcher.group(3));
-        //                                     return value;
-        //                                 }
-
-        //                                 return s;
-        //                             }).collect(Collectors.toList()));
-        //                         });
-
-        //                 highlights.add(new Highlight(id, snippets));
-        //             });
-        // }
 
         return highlights;
     }

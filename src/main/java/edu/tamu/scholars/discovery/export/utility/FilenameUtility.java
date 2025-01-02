@@ -7,10 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import edu.tamu.scholars.discovery.index.model.AbstractIndexDocument;
-import edu.tamu.scholars.discovery.index.model.Individual;
-import edu.tamu.scholars.discovery.index.model.Organization;
-import edu.tamu.scholars.discovery.index.model.Person;
+import edu.tamu.scholars.discovery.model.Individual;
 
 public class FilenameUtility {
 
@@ -27,20 +24,16 @@ public class FilenameUtility {
         return prefixWithTimestampAfterUnderscore(localizeWhileUnderscoreReplaceSpaceWithUnderscore(label));
     }
 
-    public static String normalizeExportFilename(AbstractIndexDocument refDoc) {
-        return normalizeExportFilename((Individual) refDoc);
-    }
-
     public static String normalizeExportFilename(Individual individual) {
         Map<String, Object> content = individual.getContent();
         StringBuilder label = new StringBuilder();
 
         String proxy = individual.getProxy();
 
-        if (proxy.equals(Organization.class.getSimpleName()) && content.containsKey(NAME)) {
+        if (proxy.equals("Organization") && content.containsKey(NAME)) {
             label.append((String) content.get(NAME))
                 .append(UNDERSCORE);
-        } else if (proxy.equals(Person.class.getSimpleName()) && content.containsKey(LAST_NAME)) {
+        } else if (proxy.equals("Person") && content.containsKey(LAST_NAME)) {
             label.append((String) content.get(LAST_NAME))
                 .append(UNDERSCORE);
 

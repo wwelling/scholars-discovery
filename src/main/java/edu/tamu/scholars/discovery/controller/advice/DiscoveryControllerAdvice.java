@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import edu.tamu.scholars.discovery.exception.InvalidValuePathException;
-import edu.tamu.scholars.discovery.index.component.solr.exception.SolrRequestException;
 
 @ControllerAdvice
 public class DiscoveryControllerAdvice {
@@ -22,13 +21,6 @@ public class DiscoveryControllerAdvice {
     @ExceptionHandler(value = InvalidValuePathException.class)
     public @ResponseBody String handleInvalidValuePathException(InvalidValuePathException exception) {
         logger.warn(exception.getMessage(), exception);
-        return exception.getMessage();
-    }
-
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(value = SolrRequestException.class)
-    public @ResponseBody String handleSolrRequestException(SolrRequestException exception) {
-        logger.error(exception.getMessage(), exception);
         return exception.getMessage();
     }
 

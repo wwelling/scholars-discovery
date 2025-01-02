@@ -1,6 +1,6 @@
 package edu.tamu.scholars.discovery.export.service;
 
-import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
+import static edu.tamu.scholars.discovery.AppConstants.ID;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 import java.math.BigInteger;
@@ -38,15 +38,14 @@ import org.docx4j.wml.HeaderReference;
 import org.docx4j.wml.ObjectFactory;
 import org.docx4j.wml.SectPr;
 import org.docx4j.wml.SectPr.PgMar;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.web.util.UriComponents;
 
 import edu.tamu.scholars.discovery.controller.argument.FilterArg;
-import edu.tamu.scholars.discovery.index.model.Individual;
-import edu.tamu.scholars.discovery.index.model.repo.IndividualRepo;
+import edu.tamu.scholars.discovery.model.Individual;
+import edu.tamu.scholars.discovery.model.repo.IndividualRepo;
 import edu.tamu.scholars.discovery.service.TemplateService;
 import edu.tamu.scholars.discovery.view.model.ExportFieldView;
 import edu.tamu.scholars.discovery.view.model.ExportView;
@@ -58,20 +57,29 @@ public abstract class AbstractDocxExporter implements Exporter {
 
     private static final ObjectFactory WML_OBJECT_FACTORY = Context.getWmlObjectFactory();
 
-    @Autowired
-    protected DisplayViewRepo displayViewRepo;
+    protected final DisplayViewRepo displayViewRepo;
 
-    @Autowired
-    protected IndividualRepo individualRepo;
+    protected final IndividualRepo individualRepo;
 
-    @Autowired
-    protected TemplateService handlebarsService;
+    protected final TemplateService handlebarsService;
 
-    @Autowired
-    protected ObjectMapper mapper;
+    protected final ObjectMapper mapper;
 
-    @Autowired
-    private ServletContext context;
+    private final ServletContext context;
+
+    AbstractDocxExporter(
+        DisplayViewRepo displayViewRepo,
+        IndividualRepo individualRepo,
+        TemplateService handlebarsService,
+        ObjectMapper mapper,
+        ServletContext context
+    ) {
+        this.displayViewRepo = displayViewRepo;
+        this.individualRepo = individualRepo;
+        this.handlebarsService = handlebarsService;
+        this.mapper = mapper;
+        this.context = context;
+    }
 
     @Value("${vivo.base-url:http://localhost:8080/vivo}")
     protected String vivoUrl;

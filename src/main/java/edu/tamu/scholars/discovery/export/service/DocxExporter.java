@@ -3,7 +3,9 @@ package edu.tamu.scholars.discovery.export.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import jakarta.servlet.ServletContext;
 import jakarta.xml.bind.JAXBException;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
@@ -11,9 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import edu.tamu.scholars.discovery.export.exception.ExportException;
-import edu.tamu.scholars.discovery.index.model.Individual;
+import edu.tamu.scholars.discovery.model.Individual;
+import edu.tamu.scholars.discovery.model.repo.IndividualRepo;
+import edu.tamu.scholars.discovery.service.TemplateService;
 import edu.tamu.scholars.discovery.view.model.DisplayView;
 import edu.tamu.scholars.discovery.view.model.ExportView;
+import edu.tamu.scholars.discovery.view.model.repo.DisplayViewRepo;
 
 @Service
 public class DocxExporter extends AbstractDocxExporter {
@@ -24,6 +29,15 @@ public class DocxExporter extends AbstractDocxExporter {
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
     private static final String CONTENT_DISPOSITION_TEMPLATE = "attachment; filename=%s.docx";
+
+    DocxExporter(
+            DisplayViewRepo displayViewRepo,
+            IndividualRepo individualRepo,
+            TemplateService handlebarsService,
+            ObjectMapper mapper,
+            ServletContext context) {
+        super(displayViewRepo, individualRepo, handlebarsService, mapper, context);
+    }
 
     @Override
     public String type() {
@@ -42,13 +56,13 @@ public class DocxExporter extends AbstractDocxExporter {
 
     @Override
     public StreamingResponseBody streamIndividual(Individual individual, String name) {
-        final List<String> type = individual.getType();
+        final List<String> types = individual.getTypes();
 
-        Optional<DisplayView> displayView = displayViewRepo.findByTypesIn(type);
+        Optional<DisplayView> displayView = displayViewRepo.findByTypesIn(types);
 
         if (!displayView.isPresent()) {
             throw new ExportException(String.format(
-                "Could not find a display view for types: %s", String.join(", ", type)));
+                "Could not find a display view for types: %s", String.join(", ", types)));
         }
 
         Optional<ExportView> exportView = displayView.get()

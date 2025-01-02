@@ -2,7 +2,6 @@ package edu.tamu.scholars.discovery.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,20 +11,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.tamu.scholars.discovery.controller.argument.AcademicAgeDescriptorArg;
-import edu.tamu.scholars.discovery.controller.argument.QuantityDistributionDescriptorArg;
 import edu.tamu.scholars.discovery.controller.argument.FilterArg;
+import edu.tamu.scholars.discovery.controller.argument.QuantityDistributionDescriptorArg;
 import edu.tamu.scholars.discovery.controller.argument.QueryArg;
 import edu.tamu.scholars.discovery.controller.response.DiscoveryAcademicAge;
 import edu.tamu.scholars.discovery.controller.response.DiscoveryQuantityDistribution;
-import edu.tamu.scholars.discovery.index.model.repo.IndividualRepo;
+import edu.tamu.scholars.discovery.model.repo.IndividualRepo;
 
 @RestController
 @RequestMapping("/individual/analytics")
 public class IndividualAnalyticsController {
 
-    @Lazy
-    @Autowired
-    private IndividualRepo repo;
+    private final IndividualRepo repo;
+
+    IndividualAnalyticsController(@Lazy IndividualRepo repo) {
+        this.repo = repo;
+    }
 
     @GetMapping("/academicAge")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
