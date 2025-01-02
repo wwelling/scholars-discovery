@@ -9,11 +9,13 @@ import jakarta.persistence.Enumerated;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.domain.Sort.Direction;
 
 @Getter
 @Setter
 @EqualsAndHashCode
+@ToString
 @Embeddable
 public class Sort implements Serializable {
 

@@ -11,6 +11,7 @@ import jakarta.persistence.Enumerated;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.domain.Sort.Direction;
 
 import edu.tamu.scholars.discovery.model.OpKey;
@@ -18,6 +19,7 @@ import edu.tamu.scholars.discovery.model.OpKey;
 @Getter
 @Setter
 @EqualsAndHashCode
+@ToString
 @Embeddable
 @JsonInclude(Include.NON_NULL)
 public class Facet implements Serializable {

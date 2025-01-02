@@ -16,12 +16,14 @@ import jakarta.persistence.FetchType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import edu.tamu.scholars.discovery.model.OpKey;
 
 @Getter
 @Setter
 @EqualsAndHashCode
+@ToString
 @Embeddable
 @JsonInclude(Include.NON_NULL)
 public class Grouping implements Serializable {
