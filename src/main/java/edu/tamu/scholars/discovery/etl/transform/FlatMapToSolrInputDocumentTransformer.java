@@ -33,10 +33,10 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
     public SolrInputDocument transform(Map<String, Object> data) {
         SolrInputDocument document = new SolrInputDocument();
 
-        String id = data.remove(ID).toString();
+        String id = data.get(ID).toString();
 
         document.setField(ID, id);
-        document.setField(CLASS, data.remove(CLASS));
+        document.setField(CLASS, data.get(CLASS));
 
         for (DataField field : this.data.getFields()) {
             processField(data, id, field.getDescriptor(), document);
@@ -54,7 +54,7 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
     }
 
     private void processNestedField(Map<String, Object> data, String id, DataFieldDescriptor descriptor, SolrInputDocument document) {
-        Object object = data.remove(descriptor.getName());
+        Object object = data.get(descriptor.getName());
 
         if (object == null) {
             return;
@@ -84,7 +84,7 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
     }
 
     private void processSimpleField(Map<String, Object> data, DataFieldDescriptor descriptor, SolrInputDocument document) {
-        Object object = data.remove(descriptor.getName());
+        Object object = data.get(descriptor.getName());
 
         if (object == null) {
             return;
@@ -134,7 +134,7 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
     }
 
     private void processMultiValuedNestedReference(Map<String, Object> data, String parentId, DataFieldDescriptor nestedDescriptor, SolrInputDocument childDocument, String[] parts, int depth) {
-        Object nestedObject = data.remove(nestedDescriptor.getName());
+        Object nestedObject = data.get(nestedDescriptor.getName());
 
         if (nestedObject == null) {
             return;
@@ -201,7 +201,7 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
     }
 
     private void processSingleValuedNestedReference(Map<String, Object> data, String parentId, DataFieldDescriptor nestedDescriptor, SolrInputDocument childDocument, int depth) {
-        Object nestedObject = data.remove(nestedDescriptor.getName());
+        Object nestedObject = data.get(nestedDescriptor.getName());
 
         if (nestedObject == null) {
             return;
