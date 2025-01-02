@@ -1,18 +1,20 @@
 package edu.tamu.scholars.discovery.etl.load;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.BooleanNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.solr.common.SolrInputDocument;
 
@@ -141,7 +143,9 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
     }
 
     private void processFields(DataFieldDescriptor descriptor, ArrayNode addFields, ArrayNode addCopyFields) {
-        processField(descriptor, addFields, addCopyFields);
+        if (descriptor.getNestedDescriptors().isEmpty()) {
+            processField(descriptor, addFields, addCopyFields);
+        }
         for (DataFieldDescriptor nestedDescriptor : descriptor.getNestedDescriptors()) {
             processFields(nestedDescriptor, addFields, addCopyFields);
         }
@@ -180,16 +184,16 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
         String name = getFieldName(descriptor);
 
         ObjectNode addField = objectMapper.createObjectNode();
-        addField.put("name", name);
-        addField.put("type", destination.getType());
-        addField.put("required", destination.isRequired());
-        addField.put("stored", destination.isStored());
-        addField.put("indexed", destination.isIndexed());
-        addField.put("docValues", destination.isDocValues());
-        addField.put("multiValued", destination.isMultiValued());
+        addField.set("name", TextNode.valueOf(name));
+        addField.set("type", TextNode.valueOf(destination.getType()));
+        addField.set("required", BooleanNode.valueOf(destination.isRequired()));
+        addField.set("stored", BooleanNode.valueOf(destination.isStored()));
+        addField.set("indexed", BooleanNode.valueOf(destination.isIndexed()));
+        addField.set("docValues", BooleanNode.valueOf(destination.isDocValues()));
+        addField.set("multiValued", BooleanNode.valueOf(destination.isMultiValued()));
 
-        if (StringUtils.isNotEmpty(destination.getDefaultValue())) {
-            addField.put("defaultValue", destination.getDefaultValue());
+        if (isNotEmpty(destination.getDefaultValue())) {
+            addField.set("defaultValue", TextNode.valueOf(destination.getDefaultValue()));
         }
 
         return addField;
@@ -208,10 +212,14 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
     }
 
     private String getFieldName(DataFieldDescriptor descriptor) {
-        return Objects.nonNull(descriptor.getNestedReference())
-            && StringUtils.isNotEmpty(descriptor.getNestedReference().getKey())
-                ? descriptor.getNestedReference().getKey()
-                : descriptor.getName();
+        return isNestedReference(descriptor)
+            ? descriptor.getNestedReference().getKey()
+            : descriptor.getName();
+    }
+
+    private boolean isNestedReference(DataFieldDescriptor descriptor) {
+        return descriptor.getNestedReference() != null
+            && isNotEmpty(descriptor.getNestedReference().getKey());
     }
 
     private DataFieldDescriptor getDescriptor(String name) {
