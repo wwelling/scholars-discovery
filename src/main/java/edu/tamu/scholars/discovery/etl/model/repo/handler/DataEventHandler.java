@@ -17,7 +17,7 @@ import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
 import edu.tamu.scholars.discovery.etl.model.repo.DataFieldDescriptorRepo;
 
 @Slf4j
-@Component
+@Component("dataEventHandler")
 @RepositoryEventHandler(Data.class)
 public class DataEventHandler {
 

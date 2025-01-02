@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import edu.tamu.scholars.discovery.view.model.DirectoryView;
 
-@Component
+@Component("directoryViewEventHandler")
 @RepositoryEventHandler(DirectoryView.class)
 public class DirectoryViewEventHandler extends ViewEventHandler<DirectoryView> {
 

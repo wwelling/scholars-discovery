@@ -7,7 +7,7 @@ import edu.tamu.scholars.discovery.etl.load.DataLoader;
 import edu.tamu.scholars.discovery.etl.model.Loader;
 import edu.tamu.scholars.discovery.etl.model.type.DataLoaderType;
 
-@Component
+@Component("loaderEventHandler")
 @RepositoryEventHandler(Loader.class)
 public class LoaderEventHandler extends ConfigurableProcessorEventHandler<DataLoader<?>, DataLoaderType, Loader> {
 
