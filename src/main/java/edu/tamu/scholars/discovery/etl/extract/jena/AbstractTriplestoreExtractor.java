@@ -1,7 +1,7 @@
-package edu.tamu.scholars.discovery.etl.extract;
+package edu.tamu.scholars.discovery.etl.extract.jena;
 
-import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.PROPERTY_CACHE;
-import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.VALUES_CACHE;
+import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.computePropertyIfAbsent;
+import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.computeValuesIfAbsent;
 import static edu.tamu.scholars.discovery.etl.EtlConstants.NESTED_DELIMITER_PATTERN;
 import static edu.tamu.scholars.discovery.index.IndexConstants.CLASS;
 import static edu.tamu.scholars.discovery.index.IndexConstants.ID;
@@ -29,6 +29,7 @@ import org.apache.jena.rdf.model.StmtIterator;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
+import edu.tamu.scholars.discovery.etl.extract.DataExtractor;
 import edu.tamu.scholars.discovery.etl.model.CacheableSource;
 import edu.tamu.scholars.discovery.etl.model.CollectionSource;
 import edu.tamu.scholars.discovery.etl.model.Data;
@@ -175,7 +176,7 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
     }
 
     private Property getCachePropertyOrCreate(Model model, String predicate) {
-        return PROPERTY_CACHE.computeIfAbsent(predicate, model::createProperty);
+        return computePropertyIfAbsent(predicate, model::createProperty);
     }
 
     private List<String> getCacheableValues(DataFieldDescriptor descriptor, List<String> values, String subject) {
@@ -275,7 +276,7 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
     private List<String> getCacheValuesOrQuery(FieldSource source, String subject) {
         String query = buildQuery(source.getTemplate(), subject);
 
-        return VALUES_CACHE.computeIfAbsent(query, q -> querySourceValues(source, q));
+        return computeValuesIfAbsent(query, q -> querySourceValues(source, q));
     }
 
     private String buildQuery(String template, String subject) {

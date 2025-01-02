@@ -2,14 +2,11 @@ package edu.tamu.scholars.discovery.factory.triplestore;
 
 import java.util.Iterator;
 
-import org.apache.jena.graph.Triple;
-import org.apache.jena.rdf.model.Model;
+public interface Triplestore<T, M> {
 
-public interface Triplestore {
+    Iterator<T> collection(String query);
 
-    Iterator<Triple> collection(String query);
-
-    Model individual(String query);
+    M individual(String query);
 
     default void close() {
 

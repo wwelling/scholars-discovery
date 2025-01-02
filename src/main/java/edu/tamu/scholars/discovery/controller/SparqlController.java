@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.tamu.scholars.discovery.config.model.TriplestoreConfig;
-import edu.tamu.scholars.discovery.factory.triplestore.TdbTriplestore;
+import edu.tamu.scholars.discovery.factory.triplestore.jena.TdbTriplestore;
 
 @Slf4j
 @RestController

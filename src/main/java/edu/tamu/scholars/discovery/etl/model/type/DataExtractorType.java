@@ -1,7 +1,7 @@
 package edu.tamu.scholars.discovery.etl.model.type;
 
 import edu.tamu.scholars.discovery.etl.extract.DataExtractor;
-import edu.tamu.scholars.discovery.etl.extract.TdbTriplestoreExtractor;
+import edu.tamu.scholars.discovery.etl.extract.jena.TdbTriplestoreExtractor;
 import edu.tamu.scholars.discovery.etl.model.Data;
 
 public enum DataExtractorType implements DataProcessorType<DataExtractor<?>> {

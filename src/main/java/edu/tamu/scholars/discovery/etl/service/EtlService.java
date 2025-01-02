@@ -1,7 +1,6 @@
 package edu.tamu.scholars.discovery.etl.service;
 
-import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.PROPERTY_CACHE;
-import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.VALUES_CACHE;
+import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.clearCache;
 import static java.lang.String.format;
 
 import java.time.Duration;
@@ -76,13 +75,11 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
                 log.info("All ETL processes finished. {} seconds",
                     Duration.between(start, Instant.now()).toMillis() / 1000.0);
                 contexts.stream().forEach(this::destroy);
-                PROPERTY_CACHE.clear();
-                VALUES_CACHE.clear();
+                clearCache();
             })
             .exceptionally(throwable -> {
                 log.error("Error during ETL processes", throwable);
-                PROPERTY_CACHE.clear();
-                VALUES_CACHE.clear();
+                clearCache();
 
                 return null;
             });

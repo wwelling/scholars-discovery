@@ -1,4 +1,4 @@
-package edu.tamu.scholars.discovery.factory.triplestore;
+package edu.tamu.scholars.discovery.factory.triplestore.jena;
 
 import java.util.Iterator;
 
@@ -7,8 +7,10 @@ import org.apache.jena.graph.Triple;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.rdf.model.Model;
 
+import edu.tamu.scholars.discovery.factory.triplestore.Triplestore;
+
 @Slf4j
-public abstract class AbstractTriplestore implements Triplestore {
+public abstract class AbstractTriplestore implements Triplestore<Triple, Model> {
 
     @Override
     public Iterator<Triple> collection(String query) {

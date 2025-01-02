@@ -1,4 +1,4 @@
-package edu.tamu.scholars.discovery.factory.triplestore;
+package edu.tamu.scholars.discovery.factory.triplestore.jena;
 
 import java.util.Map;
 

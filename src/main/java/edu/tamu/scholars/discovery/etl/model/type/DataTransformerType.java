@@ -2,7 +2,7 @@ package edu.tamu.scholars.discovery.etl.model.type;
 
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.transform.DataTransformer;
-import edu.tamu.scholars.discovery.etl.transform.FlatMapToSolrInputDocumentTransformer;
+import edu.tamu.scholars.discovery.etl.transform.solr.FlatMapToSolrInputDocumentTransformer;
 
 public enum DataTransformerType implements DataProcessorType<DataTransformer<?, ?>> {
 

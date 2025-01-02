@@ -1,4 +1,4 @@
-package edu.tamu.scholars.discovery.etl.load;
+package edu.tamu.scholars.discovery.etl.load.solr;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -18,11 +18,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.solr.common.SolrInputDocument;
 
+import edu.tamu.scholars.discovery.etl.load.DataLoader;
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
 import edu.tamu.scholars.discovery.etl.model.FieldDestination;
-import edu.tamu.scholars.discovery.factory.index.SolrIndex;
+import edu.tamu.scholars.discovery.factory.index.solr.SolrIndex;
 
 @Slf4j
 public class SolrIndexLoader implements DataLoader<SolrInputDocument> {

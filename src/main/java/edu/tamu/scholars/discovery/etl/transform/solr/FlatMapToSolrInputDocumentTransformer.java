@@ -1,4 +1,4 @@
-package edu.tamu.scholars.discovery.etl.transform;
+package edu.tamu.scholars.discovery.etl.transform.solr;
 
 import static edu.tamu.scholars.discovery.etl.EtlConstants.NESTED_DELIMITER_PATTERN;
 import static edu.tamu.scholars.discovery.index.IndexConstants.CLASS;
@@ -17,6 +17,7 @@ import org.apache.solr.common.SolrInputDocument;
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
+import edu.tamu.scholars.discovery.etl.transform.DataTransformer;
 import edu.tamu.scholars.discovery.utility.DateFormatUtility;
 
 @Slf4j

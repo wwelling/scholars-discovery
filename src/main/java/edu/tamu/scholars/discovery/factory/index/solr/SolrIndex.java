@@ -1,4 +1,4 @@
-package edu.tamu.scholars.discovery.factory.index;
+package edu.tamu.scholars.discovery.factory.index.solr;
 
 import static java.lang.String.format;
 import static java.lang.String.join;
@@ -26,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
 
+import edu.tamu.scholars.discovery.factory.index.Index;
 import edu.tamu.scholars.discovery.factory.rest.ManagedRestTemplate;
 import edu.tamu.scholars.discovery.factory.rest.ManagedRestTemplateFactory;
 
