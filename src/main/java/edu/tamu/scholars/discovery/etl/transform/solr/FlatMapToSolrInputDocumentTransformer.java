@@ -1,11 +1,11 @@
 package edu.tamu.scholars.discovery.etl.transform.solr;
 
-import static edu.tamu.scholars.discovery.etl.EtlConstants.NESTED_DELIMITER_PATTERN;
 import static edu.tamu.scholars.discovery.AppConstants.CLASS;
 import static edu.tamu.scholars.discovery.AppConstants.ID;
 import static edu.tamu.scholars.discovery.AppConstants.LABEL;
 import static edu.tamu.scholars.discovery.AppConstants.NESTED_DELIMITER;
 import static edu.tamu.scholars.discovery.AppConstants.SYNC_IDS;
+import static edu.tamu.scholars.discovery.etl.EtlConstants.NESTED_DELIMITER_PATTERN;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.text.ParseException;
@@ -42,22 +42,22 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         document.setField(SYNC_IDS, id);
 
         for (DataField field : this.data.getFields()) {
-            processField(data, id, field.getDescriptor(), document);
+            processField(new RootContext(data, document, id), field.getDescriptor());
         }
 
         return document;
     }
 
-    private void processField(Map<String, Object> data, String id, DataFieldDescriptor descriptor, SolrInputDocument document) {
+    private void processField(RootContext rootContext, DataFieldDescriptor descriptor) {
         if (descriptor.isNested()) {
-            processNestedField(data, id, descriptor, document);
+            processNestedField(rootContext, descriptor);
         } else {
-            processSimpleField(data, descriptor, document);
+            processSimpleField(rootContext, descriptor);
         }
     }
 
-    private void processNestedField(Map<String, Object> data, String id, DataFieldDescriptor descriptor, SolrInputDocument document) {
-        Object object = data.get(descriptor.getName());
+    private void processNestedField(RootContext rootContext, DataFieldDescriptor descriptor) {
+        Object object = rootContext.data.get(descriptor.getName());
 
         if (object == null) {
             return;
@@ -72,22 +72,22 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             List<SolrInputDocument> documents = values.stream()
                 .map(NESTED_DELIMITER_PATTERN::split)
                 .filter(parts -> parts.length > 1)
-                .map(parts -> processNestedValue(data, document, id, descriptor, parts, 1))
+                .map(parts -> processNestedValue(rootContext, rootContext.id, descriptor, parts, 1))
                 .toList();
 
             if (!documents.isEmpty()) {
-                document.setField(name, documents);
+                rootContext.document.setField(name, documents);
             }
         } else {
             String[] parts = NESTED_DELIMITER_PATTERN.split(object.toString());
             if (parts.length > 1) {
-                document.setField(name, processNestedValue(data, document, id, descriptor, parts, 1));
+                rootContext.document.setField(name, processNestedValue(rootContext, rootContext.id, descriptor, parts, 1));
             }
         }
     }
 
-    private void processSimpleField(Map<String, Object> data, DataFieldDescriptor descriptor, SolrInputDocument document) {
-        Object object = data.get(descriptor.getName());
+    private void processSimpleField(RootContext rootContext, DataFieldDescriptor descriptor) {
+        Object object = rootContext.data.get(descriptor.getName());
 
         if (object == null) {
             return;
@@ -101,45 +101,48 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
                 .map(value -> processValue(type, value))
                 .toList();
 
-            document.setField(descriptor.getName(), values);
+            rootContext.document.setField(descriptor.getName(), values);
         } else {
-            document.setField(descriptor.getName(), processValue(type, object.toString()));
+            rootContext.document.setField(descriptor.getName(), processValue(type, object.toString()));
         }
     }
 
-    private SolrInputDocument processNestedValue(Map<String, Object> data, SolrInputDocument rootDocument, String parentId, DataFieldDescriptor descriptor, String[] parts, int index) {
-        SolrInputDocument childDocument = new SolrInputDocument();
+    private SolrInputDocument processNestedValue(RootContext rootContext, String rootDocumentId, DataFieldDescriptor descriptor, String[] parts, int index) {
+        SolrInputDocument nestedDocument = new SolrInputDocument();
 
-        String id = parentId + NESTED_DELIMITER + parts[index];
+        String id = parts[index];
 
-        childDocument.setField(ID, id);
-        childDocument.setField(LABEL, parts[0]);
+        String nestedDocumentId = rootDocumentId + NESTED_DELIMITER + parts[index];
+        String nestedDocumentLabel = parts[0];
 
-        rootDocument.addField(SYNC_IDS, parts[index]);
+        nestedDocument.setField(ID, nestedDocumentId);
+        nestedDocument.setField(LABEL, nestedDocumentLabel);
 
-        processNestedReferences(data, rootDocument, id, descriptor, childDocument, parts, index + 1);
+        rootContext.document.addField(SYNC_IDS, id);
 
-        return childDocument;
+        processNestedReferences(rootContext, id, descriptor, nestedDocument, parts, index + 1);
+
+        return nestedDocument;
     }
 
-    public void processNestedReferences(Map<String, Object> data, SolrInputDocument rootDocument, String parentId, DataFieldDescriptor descriptor, SolrInputDocument childDocument, String[] parts, int depth) {
+    public void processNestedReferences(RootContext rootContext, String rootDocumentId, DataFieldDescriptor descriptor, SolrInputDocument nestedDocument, String[] parts, int depth) {
         for (DataFieldDescriptor nestedDescriptor : descriptor.getNestedDescriptors()) {
-            processNestedReference(data, rootDocument, parentId, nestedDescriptor, childDocument, parts, depth);
+            processNestedReference(rootContext, rootDocumentId, nestedDescriptor, nestedDocument, parts, depth);
         }
     }
 
-    public void processNestedReference(Map<String, Object> data, SolrInputDocument rootDocument, String parentId, DataFieldDescriptor nestedDescriptor, SolrInputDocument childDocument, String[] parts, int depth) {
+    public void processNestedReference(RootContext rootContext, String rootDocumentId, DataFieldDescriptor nestedDescriptor, SolrInputDocument nestedDocument, String[] parts, int depth) {
         boolean isMultiValued = nestedDescriptor.getDestination().isMultiValued();
 
         if (isMultiValued) {
-            processMultiValuedNestedReference(data, rootDocument, parentId, nestedDescriptor, childDocument, parts, depth);
+            processMultiValuedNestedReference(rootContext, rootDocumentId, nestedDescriptor, nestedDocument, parts, depth);
         } else {
-            processSingleValuedNestedReference(data, rootDocument, parentId, nestedDescriptor, childDocument, depth);
+            processSingleValuedNestedReference(rootContext, rootDocumentId, nestedDescriptor, nestedDocument, depth);
         }
     }
 
-    private void processMultiValuedNestedReference(Map<String, Object> data, SolrInputDocument rootDocument, String parentId, DataFieldDescriptor nestedDescriptor, SolrInputDocument childDocument, String[] parts, int depth) {
-        Object nestedObject = data.get(nestedDescriptor.getName());
+    private void processMultiValuedNestedReference(RootContext rootContext, String rootDocumentId, DataFieldDescriptor nestedDescriptor, SolrInputDocument nestedDocument, String[] parts, int depth) {
+        Object nestedObject = rootContext.data.get(nestedDescriptor.getName());
 
         if (nestedObject == null) {
             return;
@@ -153,16 +156,16 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         }
 
         if (hasNestedStructure(nestedValues, depth)) {
-            processNestedStructure(data, rootDocument, parentId, nestedDescriptor, childDocument, nestedValues, parts, depth);
+            processNestedStructure(rootContext, rootDocumentId, nestedDescriptor, nestedDocument, nestedValues, parts, depth);
         } else {
             String type = nestedDescriptor.getDestination().getType();
 
-            processSimpleStructure(nestedDescriptor, childDocument, nestedValues, parts, type);
+            processSimpleStructure(nestedDescriptor, nestedDocument, nestedValues, parts, type);
         }
     }
 
-    private void processSingleValuedNestedReference(Map<String, Object> data, SolrInputDocument rootDocument, String parentId, DataFieldDescriptor nestedDescriptor, SolrInputDocument childDocument, int depth) {
-        Object nestedObject = data.get(nestedDescriptor.getName());
+    private void processSingleValuedNestedReference(RootContext rootContext, String rootDocumentId, DataFieldDescriptor nestedDescriptor, SolrInputDocument nestedDocument, int depth) {
+        Object nestedObject = rootContext.data.get(nestedDescriptor.getName());
 
         if (nestedObject == null) {
             return;
@@ -173,21 +176,21 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         String[] nestedParts = NESTED_DELIMITER_PATTERN.split(nestedObject.toString());
 
         if (nestedParts.length > depth) {
-            childDocument.setField(name, processNestedValue(data, rootDocument, parentId, nestedDescriptor, nestedParts, depth));
+            nestedDocument.setField(name, processNestedValue(rootContext, rootDocumentId, nestedDescriptor, nestedParts, depth));
         } else {
             if (nestedParts[0] != null) {
                 String type = nestedDescriptor.getDestination().getType();
 
-                childDocument.setField(name, processValue(type, nestedParts[0]));
+                nestedDocument.setField(name, processValue(type, nestedParts[0]));
             }
         }
     }
 
-    private void processNestedStructure(Map<String, Object> data, SolrInputDocument rootDocument, String parentId, DataFieldDescriptor nestedDescriptor, SolrInputDocument childDocument, List<String> nestedValues, String[] parts, int depth) {
+    private void processNestedStructure(RootContext rootContext, String rootDocumentId, DataFieldDescriptor nestedDescriptor, SolrInputDocument nestedDocument, List<String> nestedValues, String[] parts, int depth) {
         List<SolrInputDocument> documents = nestedValues.stream()
             .filter(nv -> isProperty(parts, nv))
             .map(NESTED_DELIMITER_PATTERN::split)
-            .map(nvParts -> processNestedValue(data, rootDocument, parentId, nestedDescriptor, nvParts, depth))
+            .map(nvParts -> processNestedValue(rootContext, rootDocumentId, nestedDescriptor, nvParts, depth))
             .toList();
 
         if (documents.isEmpty()) {
@@ -197,13 +200,13 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         String name = getFieldName(nestedDescriptor);
 
         if (isMultipleReference(nestedDescriptor)) {
-            childDocument.setField(name, documents);
+            nestedDocument.setField(name, documents);
         } else {
-            childDocument.setField(name, documents.get(0));
+            nestedDocument.setField(name, documents.get(0));
         }
     }
 
-    private void processSimpleStructure(DataFieldDescriptor nestedDescriptor, SolrInputDocument childDocument, List<String> nestedValues, String[] parts, String type) {
+    private void processSimpleStructure(DataFieldDescriptor nestedDescriptor, SolrInputDocument nestedDocument, List<String> nestedValues, String[] parts, String type) {
         List<String> collection = nestedValues.stream()
             .filter(nv -> isProperty(parts, nv))
             .map(nv -> NESTED_DELIMITER_PATTERN.split(nv)[0])
@@ -217,9 +220,9 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         String name = getFieldName(nestedDescriptor);
 
         if (isMultipleReference(nestedDescriptor)) {
-            childDocument.setField(name, collection);
+            nestedDocument.setField(name, collection);
         } else {
-            childDocument.setField(name, collection.get(0));
+            nestedDocument.setField(name, collection.get(0));
         }
     }
 
@@ -260,6 +263,10 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         return descriptor.getNestedReference() != null
             && descriptor.getNestedReference().getMultiple() != null
             && descriptor.getNestedReference().getMultiple();
+    }
+
+    private record RootContext(Map<String, Object> data, SolrInputDocument document, String id) {
+
     }
 
 }
