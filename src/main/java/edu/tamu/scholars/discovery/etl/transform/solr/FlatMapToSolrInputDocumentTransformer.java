@@ -161,8 +161,26 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         }
     }
 
-    private boolean hasNestedStructure(List<String> values, int depth) {
-        return NESTED_DELIMITER_PATTERN.split(values.get(0)).length > depth;
+    private void processSingleValuedNestedReference(Map<String, Object> data, SolrInputDocument rootDocument, String parentId, DataFieldDescriptor nestedDescriptor, SolrInputDocument childDocument, int depth) {
+        Object nestedObject = data.get(nestedDescriptor.getName());
+
+        if (nestedObject == null) {
+            return;
+        }
+
+        String name = getFieldName(nestedDescriptor);
+
+        String[] nestedParts = NESTED_DELIMITER_PATTERN.split(nestedObject.toString());
+
+        if (nestedParts.length > depth) {
+            childDocument.setField(name, processNestedValue(data, rootDocument, parentId, nestedDescriptor, nestedParts, depth));
+        } else {
+            if (nestedParts[0] != null) {
+                String type = nestedDescriptor.getDestination().getType();
+
+                childDocument.setField(name, processValue(type, nestedParts[0]));
+            }
+        }
     }
 
     private void processNestedStructure(Map<String, Object> data, SolrInputDocument rootDocument, String parentId, DataFieldDescriptor nestedDescriptor, SolrInputDocument childDocument, List<String> nestedValues, String[] parts, int depth) {
@@ -205,42 +223,11 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         }
     }
 
-    private void processSingleValuedNestedReference(Map<String, Object> data, SolrInputDocument rootDocument, String parentId, DataFieldDescriptor nestedDescriptor, SolrInputDocument childDocument, int depth) {
-        Object nestedObject = data.get(nestedDescriptor.getName());
-
-        if (nestedObject == null) {
-            return;
-        }
-
-        String name = getFieldName(nestedDescriptor);
-
-        String[] nestedParts = NESTED_DELIMITER_PATTERN.split(nestedObject.toString());
-
-        if (nestedParts.length > depth) {
-            childDocument.setField(name, processNestedValue(data, rootDocument, parentId, nestedDescriptor, nestedParts, depth));
-        } else {
-            if (nestedParts[0] != null) {
-                String type = nestedDescriptor.getDestination().getType();
-
-                childDocument.setField(name, processValue(type, nestedParts[0]));
-            }
-        }
-    }
-
-    private boolean isMultipleReference(DataFieldDescriptor descriptor) {
+    private String getFieldName(DataFieldDescriptor descriptor) {
         return descriptor.getNestedReference() != null
-            && descriptor.getNestedReference().getMultiple() != null
-            && descriptor.getNestedReference().getMultiple();
-    }
-
-    private boolean isProperty(String[] parts, String value) {
-        for (int i = parts.length - 1; i > 0; i--) {
-            if (!value.contains(parts[i])) {
-                return false;
-            }
-        }
-
-        return true;
+            && isNotEmpty(descriptor.getNestedReference().getKey())
+                ? descriptor.getNestedReference().getKey()
+                : descriptor.getName();
     }
 
     private String processValue(String type, String value) {
@@ -255,11 +242,24 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         return value;
     }
 
-    private String getFieldName(DataFieldDescriptor descriptor) {
+    private boolean hasNestedStructure(List<String> values, int depth) {
+        return NESTED_DELIMITER_PATTERN.split(values.get(0)).length > depth;
+    }
+
+    private boolean isProperty(String[] parts, String value) {
+        for (int i = parts.length - 1; i > 0; i--) {
+            if (!value.contains(parts[i])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isMultipleReference(DataFieldDescriptor descriptor) {
         return descriptor.getNestedReference() != null
-            && isNotEmpty(descriptor.getNestedReference().getKey())
-                ? descriptor.getNestedReference().getKey()
-                : descriptor.getName();
+            && descriptor.getNestedReference().getMultiple() != null
+            && descriptor.getNestedReference().getMultiple();
     }
 
 }
