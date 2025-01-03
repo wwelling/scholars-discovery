@@ -19,6 +19,8 @@ public interface Index<D> {
 
     void update(D document);
 
+    void optimize();
+
     default void close() {
 
     }

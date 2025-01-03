@@ -80,6 +80,11 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
     }
 
     @Override
+    public void postprocess() {
+        this.index.optimize();
+    }
+
+    @Override
     public void destroy() {
         this.index.close();
     }

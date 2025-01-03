@@ -110,6 +110,15 @@ public class SolrIndex implements Index<SolrInputDocument> {
     }
 
     @Override
+    public void optimize() {
+        try {
+            this.solrClient.optimize();
+        } catch (SolrServerException | IOException e) {
+            log.error("Error optimizing Solr collection", e);
+        }
+    }
+
+    @Override
     public void close() {
         this.restTemplate.destroy();
         this.solrClient.close();
