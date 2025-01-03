@@ -3,9 +3,9 @@ package edu.tamu.scholars.discovery.etl.extract.jena;
 import static edu.tamu.scholars.discovery.AppConstants.CLASS;
 import static edu.tamu.scholars.discovery.AppConstants.ID;
 import static edu.tamu.scholars.discovery.AppConstants.NESTED_DELIMITER;
-import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.computePropertyIfAbsent;
-import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.computeValuesIfAbsent;
 import static edu.tamu.scholars.discovery.etl.EtlConstants.NESTED_DELIMITER_PATTERN;
+import static edu.tamu.scholars.discovery.etl.extract.jena.TriplestoreCacheUtility.computePropertyIfAbsent;
+import static edu.tamu.scholars.discovery.etl.extract.jena.TriplestoreCacheUtility.computeValuesIfAbsent;
 
 import java.util.ArrayList;
 import java.util.Arrays;

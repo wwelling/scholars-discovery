@@ -1,4 +1,4 @@
-package edu.tamu.scholars.discovery.controller;
+package edu.tamu.scholars.discovery.controller.jena;
 
 import java.io.IOException;
 

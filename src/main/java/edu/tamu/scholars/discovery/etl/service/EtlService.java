@@ -1,6 +1,6 @@
 package edu.tamu.scholars.discovery.etl.service;
 
-import static edu.tamu.scholars.discovery.etl.EtlCacheUtility.clearCache;
+import static edu.tamu.scholars.discovery.etl.extract.jena.TriplestoreCacheUtility.clearCache;
 import static java.lang.String.format;
 
 import java.time.Duration;
