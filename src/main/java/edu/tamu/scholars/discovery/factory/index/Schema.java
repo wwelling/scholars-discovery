@@ -2,8 +2,8 @@ package edu.tamu.scholars.discovery.factory.index;
 
 import java.util.List;
 
-import edu.tamu.scholars.discovery.factory.index.model.CopyField;
-import edu.tamu.scholars.discovery.factory.index.model.Field;
+import edu.tamu.scholars.discovery.factory.index.dto.CopyField;
+import edu.tamu.scholars.discovery.factory.index.dto.Field;
 
 public interface Schema {
 

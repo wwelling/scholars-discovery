@@ -1,4 +1,4 @@
-package edu.tamu.scholars.discovery.factory.index.model;
+package edu.tamu.scholars.discovery.factory.index.dto;
 
 import static edu.tamu.scholars.discovery.etl.EtlUtility.getFieldName;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;

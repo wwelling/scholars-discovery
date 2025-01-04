@@ -38,22 +38,30 @@ discovery:
     enabled: true
     batchSize: 10000
     overrides:
-      "[TDB Triplestore Extractor]":
-        directory: triplestore
+      # configuration for the Extract Transform Load processes
       "[Solr Index Loader]":
         host: http://localhost:8983/solr
         collection: scholars-discovery
+        zone: America/Chicago
+        connectionTimeout: 1
+        idleTimeout: 5
+        maxConnectionPerHost: 10
+        requestTimeout: 5
+      "[TDB Triplestore Extractor]":
+        directory: triplestore
+  # configuration for the application index (search engine)
   index:
     type: solr
     host: http://localhost:8983/solr
+    collection: scholars-discovery
     operator: OR
     parser: edismax
-    collection: scholars-discovery
     zone: America/Chicago
-    connectionTimeout: 1
+    connectionTimeout: 2
     idleTimeout: 5
-    maxConnectionPerHost: 10
+    maxConnectionPerHost: 20
     requestTimeout: 5
+  # configuration for the application triplestore (sparql endpoint)
   triplestore:
     directory: triplestore
 

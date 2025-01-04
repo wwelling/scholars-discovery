@@ -22,8 +22,8 @@ import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
 import edu.tamu.scholars.discovery.etl.model.FieldDestination;
-import edu.tamu.scholars.discovery.factory.index.model.CopyField;
-import edu.tamu.scholars.discovery.factory.index.model.Field;
+import edu.tamu.scholars.discovery.factory.index.dto.CopyField;
+import edu.tamu.scholars.discovery.factory.index.dto.Field;
 import edu.tamu.scholars.discovery.factory.index.solr.ManagedSolrIndex;
 import edu.tamu.scholars.discovery.factory.index.solr.ManagedSolrIndexFactory;
 

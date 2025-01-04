@@ -1,4 +1,4 @@
-package edu.tamu.scholars.discovery.factory.index.model;
+package edu.tamu.scholars.discovery.factory.index.dto;
 
 import java.util.List;
 import java.util.Map;

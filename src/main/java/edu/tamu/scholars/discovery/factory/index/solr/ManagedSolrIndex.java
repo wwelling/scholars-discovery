@@ -14,8 +14,8 @@ import org.apache.solr.client.solrj.response.schema.SchemaResponse;
 import org.apache.solr.common.SolrInputDocument;
 
 import edu.tamu.scholars.discovery.factory.index.Index;
-import edu.tamu.scholars.discovery.factory.index.model.CopyField;
-import edu.tamu.scholars.discovery.factory.index.model.Field;
+import edu.tamu.scholars.discovery.factory.index.dto.CopyField;
+import edu.tamu.scholars.discovery.factory.index.dto.Field;
 
 @Slf4j
 public class ManagedSolrIndex implements Index<SolrInputDocument> {

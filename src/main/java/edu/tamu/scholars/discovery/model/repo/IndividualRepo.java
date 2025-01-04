@@ -22,10 +22,17 @@ import edu.tamu.scholars.discovery.controller.response.DiscoveryAcademicAge;
 import edu.tamu.scholars.discovery.controller.response.DiscoveryFacetAndHighlightPage;
 import edu.tamu.scholars.discovery.controller.response.DiscoveryNetwork;
 import edu.tamu.scholars.discovery.controller.response.DiscoveryQuantityDistribution;
+import edu.tamu.scholars.discovery.factory.index.Index;
 import edu.tamu.scholars.discovery.model.Individual;
 
 @Service
 public class IndividualRepo {
+
+    private final Index<?> index;
+
+    IndividualRepo(Index<?> index) {
+        this.index = index;
+    }
 
     public Page<Individual> findAll(Pageable pageable) {
         throw new UnsupportedOperationException();
@@ -39,7 +46,11 @@ public class IndividualRepo {
         return findByIdIn(ids, new ArrayList<>(), Sort.unsorted(), Integer.MAX_VALUE);
     }
 
-    public List<Individual> findByIdIn(List<String> ids, List<FilterArg> filters, Sort sort, int limit) {
+    public List<Individual> findByIdIn(
+            List<String> ids,
+            List<FilterArg> filters,
+            Sort sort,
+            int limit) {
         throw new UnsupportedOperationException();
     }
 
@@ -56,17 +67,20 @@ public class IndividualRepo {
     }
 
     public DiscoveryFacetAndHighlightPage<Individual> search(
-        QueryArg query,
-        List<FacetArg> facets,
-        List<FilterArg> filters,
-        List<BoostArg> boosts,
-        HighlightArg highlight,
-        Pageable page
-    ) {
+            QueryArg query,
+            List<FacetArg> facets,
+            List<FilterArg> filters,
+            List<BoostArg> boosts,
+            HighlightArg highlight,
+            Pageable page) {
         throw new UnsupportedOperationException();
     }
 
-    public Flux<Individual> export(QueryArg query, List<FilterArg> filters, List<BoostArg> boosts, Sort sort) {
+    public Flux<Individual> export(
+            QueryArg query,
+            List<FilterArg> filters,
+            List<BoostArg> boosts,
+            Sort sort) {
         throw new UnsupportedOperationException();
     }
 
