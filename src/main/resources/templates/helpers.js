@@ -148,7 +148,6 @@ Handlebars.registerHelper('toSubsectionTypeLabel', function (value) {
             case "Webpage": return "Internet Publications";
             case "Report": return "Reports";
             case "Review": return "Reviews";
-            case "Review": return "Reviews";
             case "Patent": return "Patents";
         }
     }
