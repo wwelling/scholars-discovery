@@ -82,7 +82,7 @@ server:
   max-http-request-header-size: 16384
   port: 9001
   servlet:
-    contextPath:
+    contextPath: /
   tomcat:
     connection-timeout: 900000
 
@@ -128,6 +128,16 @@ spring:
   sql:
     init:
       platform: h2
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  show-actuator: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui
+  writer-with-default-pretty-printer: true
 
 management:
   endpoints:

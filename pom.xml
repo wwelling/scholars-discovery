@@ -49,6 +49,7 @@
     <jena.version>5.2.0</jena.version>
     <solrj.version>9.7.0</solrj.version>
     <springdoc.version>2.7.0</springdoc.version>
+    <swagger.version>2.2.27</swagger.version>
   </properties>
 
   <packaging>jar</packaging>
@@ -129,6 +130,12 @@
     </dependency>
 
     <dependency>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>${swagger.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.36</version>
@@ -144,6 +151,10 @@
         <exclusion>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>*</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
         </exclusion>
       </exclusions>
     </dependency>

@@ -156,7 +156,26 @@ public class WebSecurityConfig {
         httpSecurity
             .authorizeHttpRequests(authorize -> authorize
 
+                .requestMatchers(DELETE,
+                    "/extractors/{id}",
+                    "/transformers/{id}",
+                    "/loaders/{id}",
+                    "/datas/{id}",
+                    "/dataAndAnalyticsViews/{id}",
+                    "/directoryViews/{id}",
+                    "/discoveryViews/{id}",
+                    "/displayViews/{id}",
+                    "/themes/{id}")
+                    .hasRole("ADMIN")
+
+                .requestMatchers(DELETE, "/users/{id}")
+                    .hasRole("SUPER_ADMIN")
+
                 .requestMatchers(PATCH,
+                    "/extractors/{id}",
+                    "/transformers/{id}",
+                    "/loaders/{id}",
+                    "/datas/{id}",
                     "/dataAndAnalyticsViews/{id}",
                     "/directoryViews/{id}",
                     "/discoveryViews/{id}",
@@ -169,11 +188,15 @@ public class WebSecurityConfig {
                     .permitAll()
 
                 .requestMatchers(POST,
-                    "/dataAndAnalyticsViews/{id}",
-                    "/directoryViews/{id}",
-                    "/discoveryViews/{id}",
-                    "/displayViews/{id}",
-                    "/themes/{id}")
+                    "/extractors",
+                    "/transformers",
+                    "/loaders",
+                    "/datas",
+                    "/dataAndAnalyticsViews",
+                    "/directoryViews",
+                    "/discoveryViews",
+                    "/displayViews",
+                    "/themes")
                     .hasRole("ADMIN")
 
                 .requestMatchers(POST, "/users/{id}")
@@ -183,6 +206,10 @@ public class WebSecurityConfig {
                     .permitAll()
 
                 .requestMatchers(PUT,
+                    "/extractors/{id}",
+                    "/transformers/{id}",
+                    "/loaders/{id}",
+                    "/datas/{id}",
                     "/dataAndAnalyticsViews/{id}",
                     "/directoryViews/{id}",
                     "/discoveryViews/{id}",
@@ -197,22 +224,19 @@ public class WebSecurityConfig {
                     .hasRole("USER")
 
                 .requestMatchers(GET,
+                    "/extractors",
+                    "/extractors/{id}",
+                    "/transformers",
+                    "/transformers/{id}",
+                    "/loaders",
+                    "/loaders/{id}",
+                    "/datas",
+                    "/datas/{id}",
                     "/users",
                     "/users/{id}",
                     "/themes",
                     "/themes/{id}")
                     .hasRole("ADMIN")
-
-                .requestMatchers(DELETE,
-                    "/dataAndAnalyticsViews/{id}",
-                    "/directoryViews/{id}",
-                    "/discoveryViews/{id}",
-                    "/displayViews/{id}",
-                    "/themes/{id}")
-                    .hasRole("ADMIN")
-
-                .requestMatchers(DELETE, "/users/{id}")
-                    .hasRole("SUPER_ADMIN")
 
                 .anyRequest()
                     .permitAll())
