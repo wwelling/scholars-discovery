@@ -96,17 +96,17 @@ public class WebSecurityConfig {
         primaryConfig.setAllowCredentials(true);
         primaryConfig.setAllowedOrigins(config.getAllowedOrigins());
         primaryConfig.setAllowedMethods(Arrays.asList(
-                "GET",
-                "DELETE",
-                "PUT",
-                "POST",
-                "PATCH",
-                "OPTIONS"));
+            "GET",
+            "DELETE",
+            "OPTIONS",
+            "PATCH",
+            "PUT",
+            "POST"));
         primaryConfig.setAllowedHeaders(Arrays.asList(
-                "Authorization",
-                "Origin",
-                "Content-Type",
-                "Content-Disposition"));
+            "Authorization",
+            "Content-Disposition",
+            "Content-Type",
+            "Origin"));
         primaryConfig.setExposedHeaders(Arrays.asList("Content-Disposition"));
 
         // NOTE: most general path must be last
@@ -154,95 +154,95 @@ public class WebSecurityConfig {
         }
 
         httpSecurity
-                .authorizeHttpRequests(authorize -> authorize
+            .authorizeHttpRequests(authorize -> authorize
 
-                        .requestMatchers(PATCH,
-                                "/dataAndAnalyticsViews/{id}",
-                                "/directoryViews/{id}",
-                                "/discoveryViews/{id}",
-                                "/displayViews/{id}",
-                                "/themes/{id}",
-                                "/users/{id}")
-                        .hasRole("ADMIN")
+                .requestMatchers(PATCH,
+                    "/dataAndAnalyticsViews/{id}",
+                    "/directoryViews/{id}",
+                    "/discoveryViews/{id}",
+                    "/displayViews/{id}",
+                    "/themes/{id}",
+                    "/users/{id}")
+                    .hasRole("ADMIN")
 
-                        .requestMatchers(POST, "/registration")
-                        .permitAll()
+                .requestMatchers(POST, "/registration")
+                    .permitAll()
 
-                        .requestMatchers(POST,
-                                "/dataAndAnalyticsViews/{id}",
-                                "/directoryViews/{id}",
-                                "/discoveryViews/{id}",
-                                "/displayViews/{id}",
-                                "/themes/{id}")
-                        .hasRole("ADMIN")
+                .requestMatchers(POST,
+                    "/dataAndAnalyticsViews/{id}",
+                    "/directoryViews/{id}",
+                    "/discoveryViews/{id}",
+                    "/displayViews/{id}",
+                    "/themes/{id}")
+                    .hasRole("ADMIN")
 
-                        .requestMatchers(POST, "/users/{id}")
-                        .denyAll()
+                .requestMatchers(POST, "/users/{id}")
+                    .denyAll()
 
-                        .requestMatchers(PUT, "/registration")
-                        .permitAll()
+                .requestMatchers(PUT, "/registration")
+                    .permitAll()
 
-                        .requestMatchers(PUT,
-                                "/dataAndAnalyticsViews/{id}",
-                                "/directoryViews/{id}",
-                                "/discoveryViews/{id}",
-                                "/displayViews/{id}",
-                                "/themes/{id}")
-                        .hasRole("ADMIN")
+                .requestMatchers(PUT,
+                    "/dataAndAnalyticsViews/{id}",
+                    "/directoryViews/{id}",
+                    "/discoveryViews/{id}",
+                    "/displayViews/{id}",
+                    "/themes/{id}")
+                    .hasRole("ADMIN")
 
-                        .requestMatchers(PUT, "/users/{id}")
-                        .denyAll()
+                .requestMatchers(PUT, "/users/{id}")
+                    .denyAll()
 
-                        .requestMatchers(GET, "/user")
-                        .hasRole("USER")
+                .requestMatchers(GET, "/user")
+                    .hasRole("USER")
 
-                        .requestMatchers(GET,
-                                "/users",
-                                "/users/{id}",
-                                "/themes",
-                                "/themes/{id}")
-                        .hasRole("ADMIN")
+                .requestMatchers(GET,
+                    "/users",
+                    "/users/{id}",
+                    "/themes",
+                    "/themes/{id}")
+                    .hasRole("ADMIN")
 
-                        .requestMatchers(DELETE,
-                                "/dataAndAnalyticsViews/{id}",
-                                "/directoryViews/{id}",
-                                "/discoveryViews/{id}",
-                                "/displayViews/{id}",
-                                "/themes/{id}")
-                        .hasRole("ADMIN")
+                .requestMatchers(DELETE,
+                    "/dataAndAnalyticsViews/{id}",
+                    "/directoryViews/{id}",
+                    "/discoveryViews/{id}",
+                    "/displayViews/{id}",
+                    "/themes/{id}")
+                    .hasRole("ADMIN")
 
-                        .requestMatchers(DELETE, "/users/{id}")
-                        .hasRole("SUPER_ADMIN")
+                .requestMatchers(DELETE, "/users/{id}")
+                    .hasRole("SUPER_ADMIN")
 
-                        .anyRequest()
-                        .permitAll())
+                .anyRequest()
+                    .permitAll())
 
-                .formLogin(formLogin -> formLogin
-                        .successHandler(authenticationSuccessHandler(objectMapper))
-                        .failureHandler(authenticationFailureHandler())
-                        .permitAll())
+            .formLogin(formLogin -> formLogin
+                .successHandler(authenticationSuccessHandler(objectMapper))
+                .failureHandler(authenticationFailureHandler())
+                    .permitAll())
 
-                .logout(logout -> logout
-                        .deleteCookies("SESSION")
-                        .invalidateHttpSession(true)
-                        .logoutSuccessHandler(logoutSuccessHandler(messageSource))
-                        .permitAll())
+            .logout(logout -> logout
+                .deleteCookies("SESSION")
+                .invalidateHttpSession(true)
+                .logoutSuccessHandler(logoutSuccessHandler(messageSource))
+                    .permitAll())
 
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(authenticationEntryPoint())
-                        .accessDeniedHandler(accessDeniedHandler()))
+            .exceptionHandling(exceptionHandling -> exceptionHandling
+                .authenticationEntryPoint(authenticationEntryPoint())
+                .accessDeniedHandler(accessDeniedHandler()))
 
-                .requestCache(requestCache -> requestCache
-                        .requestCache(nullRequestCache()))
+            .requestCache(requestCache -> requestCache
+                .requestCache(nullRequestCache()))
 
-                .cors(withDefaults())
+            .cors(withDefaults())
 
-                .csrf(csrf -> csrf.disable());
+            .csrf(csrf -> csrf.disable());
 
         httpSecurity
-                .sessionManagement(sessionManagement -> sessionManagement
-                        .sessionFixation(SessionFixationConfigurer::migrateSession)
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+            .sessionManagement(sessionManagement -> sessionManagement
+                .sessionFixation(SessionFixationConfigurer::migrateSession)
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
 
         return httpSecurity.build();
     }

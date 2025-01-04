@@ -22,16 +22,17 @@ import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
 import edu.tamu.scholars.discovery.etl.model.FieldDestination;
-import edu.tamu.scholars.discovery.factory.index.CopyField;
-import edu.tamu.scholars.discovery.factory.index.Field;
-import edu.tamu.scholars.discovery.factory.index.solr.SolrIndex;
+import edu.tamu.scholars.discovery.factory.index.model.CopyField;
+import edu.tamu.scholars.discovery.factory.index.model.Field;
+import edu.tamu.scholars.discovery.factory.index.solr.ManagedSolrIndex;
+import edu.tamu.scholars.discovery.factory.index.solr.ManagedSolrIndexFactory;
 
 @Slf4j
 public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
 
     private final Data data;
 
-    private final SolrIndex index;
+    private final ManagedSolrIndex index;
 
     private final Map<String, Field> existingFields;
 
@@ -40,7 +41,7 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
     public SolrIndexLoader(Data data) {
         this.data = data;
 
-        this.index = SolrIndex.of(data.getLoader().getAttributes());
+        this.index = ManagedSolrIndexFactory.of(data.getLoader().getAttributes());
 
         this.existingFields = new HashMap<>();
         this.existingCopyFields = new HashMap<>();

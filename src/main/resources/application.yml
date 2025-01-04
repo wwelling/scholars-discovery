@@ -41,23 +41,22 @@ discovery:
     enabled: true
     batchSize: 10000
     overrides:
-      "[TDB Triplestore Extractor]": 
+      "[TDB Triplestore Extractor]":
         directory: triplestore
-      "[Solr Index Loader]": 
+      "[Solr Index Loader]":
         host: http://localhost:8983/solr
         collection: scholars-discovery
   index:
+    type: solr
     host: http://localhost:8983/solr
     operator: OR
     parser: edismax
-    name: scholars-discovery
-    cron: 0 0 0 * * SUN
+    collection: scholars-discovery
     zone: America/Chicago
-    schematize: false
-    onStartup: false
-    enableIndividualOnBatchFail: true
-    onStartupDelay: 1000
-    batchSize: 10000
+    connectionTimeout: 1
+    idleTimeout: 5
+    maxConnectionPerHost: 10
+    requestTimeout: 5
   triplestore:
     directory: triplestore
 

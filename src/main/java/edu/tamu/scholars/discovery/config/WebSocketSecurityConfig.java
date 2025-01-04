@@ -32,21 +32,20 @@ public class WebSocketSecurityConfig {
             .simpTypeMatchers(CONNECT, UNSUBSCRIBE, DISCONNECT)
                 .permitAll()
             .simpSubscribeDestMatchers(
-                    "/queue/public",
-                    "/queue/themes",
-                    "/queue/dataAndAnalyticsViews",
-                    "/queue/directoryViews",
-                    "/queue/discoveryViews",
-                    "/queue/displayViews",
-                    "/queue/collections",
-                    "/queue/concepts",
-                    "/queue/documents",
-                    "/queue/organizations",
-                    "/queue/persons",
-                    "/queue/processes",
-                    "/queue/relationships",
-                    "/queue/individual"
-                )
+                "/queue/public",
+                "/queue/themes",
+                "/queue/dataAndAnalyticsViews",
+                "/queue/directoryViews",
+                "/queue/discoveryViews",
+                "/queue/displayViews",
+                "/queue/collections",
+                "/queue/concepts",
+                "/queue/documents",
+                "/queue/organizations",
+                "/queue/persons",
+                "/queue/processes",
+                "/queue/relationships",
+                "/queue/individual")
                 .permitAll()
             .simpSubscribeDestMatchers("/user/queue/users")
                 .hasRole("USER")

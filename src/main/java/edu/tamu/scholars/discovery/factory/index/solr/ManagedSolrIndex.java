@@ -3,7 +3,6 @@ package edu.tamu.scholars.discovery.factory.index.solr;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import lombok.extern.slf4j.Slf4j;
@@ -14,23 +13,17 @@ import org.apache.solr.client.solrj.request.schema.SchemaRequest;
 import org.apache.solr.client.solrj.response.schema.SchemaResponse;
 import org.apache.solr.common.SolrInputDocument;
 
-import edu.tamu.scholars.discovery.factory.index.CopyField;
-import edu.tamu.scholars.discovery.factory.index.Field;
 import edu.tamu.scholars.discovery.factory.index.Index;
+import edu.tamu.scholars.discovery.factory.index.model.CopyField;
+import edu.tamu.scholars.discovery.factory.index.model.Field;
 
 @Slf4j
-public class SolrIndex implements Index<SolrInputDocument> {
+public class ManagedSolrIndex implements Index<SolrInputDocument> {
 
     private final Http2SolrClient solrClient;
 
-    private SolrIndex(String host, String collection) {
-        this.solrClient = new Http2SolrClient.Builder(host)
-            .withConnectionTimeout(1, TimeUnit.MINUTES)
-            .withIdleTimeout(5, TimeUnit.MINUTES)
-            .withMaxConnectionsPerHost(10)
-            .withRequestTimeout(5, TimeUnit.MINUTES)
-            .withDefaultCollection(collection)
-            .build();
+    private ManagedSolrIndex(Http2SolrClient solrClient) {
+        this.solrClient = solrClient; 
     }
 
     @Override
@@ -140,11 +133,16 @@ public class SolrIndex implements Index<SolrInputDocument> {
         return false;
     }
 
-    public static SolrIndex of(Map<String, String> attributes) {
-        String host = attributes.getOrDefault("host", "http://localhost:8983/solr");
-        String collection = attributes.getOrDefault("collection", "scholars-discovery");
+    static ManagedSolrIndex with(ManagedSolrIndexConfig config) {
+        Http2SolrClient solrClient = new Http2SolrClient.Builder(config.getHost())
+            .withConnectionTimeout(config.getConnectionTimeout(), TimeUnit.MINUTES)
+            .withIdleTimeout(config.getIdleTimeout(), TimeUnit.MINUTES)
+            .withMaxConnectionsPerHost(config.getMaxConnectionPerHost())
+            .withRequestTimeout(config.getRequestTimeout(), TimeUnit.MINUTES)
+            .withDefaultCollection(config.getCollection())
+            .build();
 
-        return new SolrIndex(host, collection);
+        return new ManagedSolrIndex(solrClient);
     }
 
 }

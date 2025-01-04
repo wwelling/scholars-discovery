@@ -20,22 +20,34 @@ public class ManagedRestConfig {
     private int maxConnTotal = 5;
 
     @Builder.Default
-    private int maxConnPerRoute = 1;
+    private int maxConnPerRoute = 10;
 
     @Builder.Default
     private int timeToLive = 5;
 
     @Builder.Default
-    private int evictIdleConnections = 1;
+    private int evictIdleConnections = 2;
 
     @Builder.Default
-    private int connectTimeout = 5;
+    private int connectTimeout = 1;
 
     @Builder.Default
-    private int readTimeout = 30;
+    private int readTimeout = 5;
+
+    public ManagedRestConfig withMaxConnTotal(int maxConnTotal) {
+        this.maxConnTotal = maxConnTotal;
+
+        return this;
+    }
 
     public ManagedRestConfig withMaxConnTotal(String value) {
         this.maxConnTotal = as(value, this.maxConnTotal);
+
+        return this;
+    }
+
+    public ManagedRestConfig withMaxConnPerRoute(int maxConnPerRoute) {
+        this.maxConnPerRoute = maxConnPerRoute;
 
         return this;
     }
@@ -46,8 +58,20 @@ public class ManagedRestConfig {
         return this;
     }
 
+    public ManagedRestConfig withTimeToLive(int timeToLive) {
+        this.timeToLive = timeToLive;
+
+        return this;
+    }
+
     public ManagedRestConfig withTimeToLive(String value) {
         this.timeToLive = as(value, this.timeToLive);
+
+        return this;
+    }
+
+    public ManagedRestConfig withEvictIdleConnections(int evictIdleConnections) {
+        this.evictIdleConnections = evictIdleConnections;
 
         return this;
     }
@@ -58,8 +82,20 @@ public class ManagedRestConfig {
         return this;
     }
 
+    public ManagedRestConfig withConnectTimeout(int connectTimeout) {
+        this.connectTimeout = connectTimeout;
+
+        return this;
+    }
+
     public ManagedRestConfig withConnectTimeout(String value) {
         this.connectTimeout = as(value, this.connectTimeout);
+
+        return this;
+    }
+
+    public ManagedRestConfig withReadTimeout(int readTimeout) {
+        this.readTimeout = readTimeout;
 
         return this;
     }

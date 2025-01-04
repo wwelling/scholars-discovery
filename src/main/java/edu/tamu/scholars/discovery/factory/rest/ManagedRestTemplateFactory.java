@@ -9,6 +9,8 @@ import static edu.tamu.scholars.discovery.factory.rest.ManagedRestConfig.TIME_TO
 
 import java.util.Map;
 
+import edu.tamu.scholars.discovery.config.model.HttpConfig;
+
 public class ManagedRestTemplateFactory {
 
     private ManagedRestTemplateFactory() {
@@ -19,8 +21,22 @@ public class ManagedRestTemplateFactory {
         return ManagedRestTemplate.with(ManagedRestConfig.builder().build());
     }
 
+    public static ManagedRestTemplate of(HttpConfig httpConfig) {
+        ManagedRestConfig config = ManagedRestConfig.builder()
+            .build()
+            .withMaxConnTotal(httpConfig.getMaxTotalConnections())
+            .withMaxConnPerRoute(httpConfig.getMaxConnectionsPerRoute())
+            .withTimeToLive(httpConfig.getTimeToLive())
+            .withEvictIdleConnections(httpConfig.getEvictIdleConnections())
+            .withConnectTimeout(httpConfig.getConnectTimeout())
+            .withReadTimeout(httpConfig.getReadTimeout());
+
+        return ManagedRestTemplate.with(config);
+    }
+
     public static ManagedRestTemplate of(Map<String, String> properties) {
-        ManagedRestConfig config = ManagedRestConfig.builder().build()
+        ManagedRestConfig config = ManagedRestConfig.builder()
+            .build()
             .withMaxConnTotal(properties.get(MAX_CONN_TOTAL_PROPERTY_NAME))
             .withMaxConnPerRoute(properties.get(MAX_CONN_PER_ROUTE_PROPERTY_NAME))
             .withTimeToLive(properties.get(TIME_TO_LIVE_PROPERTY_NAME))

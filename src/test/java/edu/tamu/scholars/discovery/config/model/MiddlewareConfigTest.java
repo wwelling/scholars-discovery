@@ -44,11 +44,15 @@ public class MiddlewareConfigTest {
         assertEquals("http://localhost:4200/display", exportConfig.getIndividualBaseUri());
         IndexConfig indexConfig = middlewareConfig.getIndex();
         assertNotNull(indexConfig);
-        assertEquals("0 0 0 * * SUN", indexConfig.getCron());
+        assertEquals("http://localhost:8983/solr", indexConfig.getHost());
+        assertEquals("scholars-discovery", indexConfig.getCollection());
+        assertEquals("OR", indexConfig.getOperator());
+        assertEquals("edismax", indexConfig.getParser());
         assertEquals("America/Chicago", indexConfig.getZone());
-        assertEquals(true, indexConfig.isOnStartup());
-        assertEquals(10000, indexConfig.getOnStartupDelay());
-        assertEquals(10000, indexConfig.getBatchSize());
+        assertEquals(1, indexConfig.getConnectionTimeout());
+        assertEquals(5, indexConfig.getIdleTimeout());
+        assertEquals(10, indexConfig.getMaxConnectionPerHost());
+        assertEquals(5, indexConfig.getRequestTimeout());
     }
 
     @Test
@@ -107,18 +111,26 @@ public class MiddlewareConfigTest {
     public void testIndexGetterSetter() {
         MiddlewareConfig middlewareConfig = new MiddlewareConfig();
         IndexConfig newIndexConfig = new IndexConfig();
-        newIndexConfig.setCron("0 0 0 * * MON");
+        newIndexConfig.setHost("http://localhost:8984/solr");
+        newIndexConfig.setCollection("discovery");
+        newIndexConfig.setOperator("AND");
+        newIndexConfig.setParser("desimax");
         newIndexConfig.setZone("America/Chicago");
-        newIndexConfig.setOnStartup(false);
-        newIndexConfig.setOnStartupDelay(1000);
-        newIndexConfig.setBatchSize(25000);
+        newIndexConfig.setConnectionTimeout(2);
+        newIndexConfig.setIdleTimeout(10);
+        newIndexConfig.setMaxConnectionPerHost(20);
+        newIndexConfig.setRequestTimeout(10);
         middlewareConfig.setIndex(newIndexConfig);
         IndexConfig indexConfig = middlewareConfig.getIndex();
-        assertEquals("0 0 0 * * MON", indexConfig.getCron());
+        assertEquals("http://localhost:8984/solr", indexConfig.getHost());
+        assertEquals("discovery", indexConfig.getCollection());
+        assertEquals("AND", indexConfig.getOperator());
+        assertEquals("desimax", indexConfig.getParser());
         assertEquals("America/Chicago", indexConfig.getZone());
-        assertEquals(false, indexConfig.isOnStartup());
-        assertEquals(1000, indexConfig.getOnStartupDelay());
-        assertEquals(25000, indexConfig.getBatchSize());
+        assertEquals(2, indexConfig.getConnectionTimeout());
+        assertEquals(10, indexConfig.getIdleTimeout());
+        assertEquals(20, indexConfig.getMaxConnectionPerHost());
+        assertEquals(10, indexConfig.getRequestTimeout());
     }
 
     @Test
