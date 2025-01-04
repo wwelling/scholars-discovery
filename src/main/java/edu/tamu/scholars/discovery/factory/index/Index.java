@@ -1,19 +1,8 @@
 package edu.tamu.scholars.discovery.factory.index;
 
 import java.util.Collection;
-import java.util.stream.Stream;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
-public interface Index<D> {
-
-    Stream<JsonNode> fieldTypes();
-
-    Stream<JsonNode> fields();
-
-    Stream<JsonNode> copyFields();
-
-    JsonNode schema(JsonNode schema);
+public interface Index<D> extends Schema {
 
     void update(Collection<D> documents);
 
