@@ -4,41 +4,6 @@
       "name": "ui.url",
       "type": "java.lang.String",
       "description": "A description for 'ui.url'"
-    },
-    {
-      "name": "discovery.index.cron",
-      "type": "java.lang.String",
-      "description": "A description for 'discovery.index.cron'"
-    },
-    {
-      "name": "discovery.index.zone",
-      "type": "java.lang.String",
-      "description": "A description for 'discovery.index.zone'"
-    },
-    {
-      "name": "discovery.index.onStartup",
-      "type": "java.lang.Boolean",
-      "description": "A description for 'discovery.index.onStartup'"
-    },
-    {
-      "name": "discovery.index.batchSize",
-      "type": "java.lang.Integer",
-      "description": "A description for 'discovery.index.batchSize'"
-    },
-    {
-      "name": "spring.data.rest.authorize-hal-browser",
-      "type": "java.lang.Boolean",
-      "description": "A description for 'spring.data.rest.authorize-hal-browser'"
-    },
-    {
-      "name": "spring.data.solr.operator",
-      "type": "org.springframework.data.solr.core.query.Query.Operator",
-      "description": "A description for 'spring.data.solr.operator'"
-    },
-    {
-      "name": "spring.data.solr.parser",
-      "type": "java.lang.String",
-      "description": "A description for 'spring.data.solr.parser'"
     }
   ]
 }
