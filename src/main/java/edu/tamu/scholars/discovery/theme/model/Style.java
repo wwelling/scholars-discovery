@@ -20,10 +20,10 @@ public class Style implements Serializable {
 
     private static final long serialVersionUID = 832756923563947852L;
 
-    @Column
+    @Column(name = "\"key\"", nullable = false)
     private String key;
 
-    @Column
+    @Column(name = "\"value\"", nullable = false)
     private String value;
 
 }

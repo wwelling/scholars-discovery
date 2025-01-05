@@ -16,7 +16,7 @@ public class NestedReference implements Serializable {
 
     private static final long serialVersionUID = 234598273529387456L;
 
-    @Column(nullable = true)
+    @Column(name = "\"key\"", nullable = true)
     private String key;
 
     @Column(nullable = true)

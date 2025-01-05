@@ -29,7 +29,7 @@ public abstract class CollectionView extends View {
     private Layout layout;
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @MapKeyColumn(name = "key")
+    @MapKeyColumn(name = "\"key\"")
     @Column(name = "template", columnDefinition = "TEXT")
     private Map<String, String> templates;
 

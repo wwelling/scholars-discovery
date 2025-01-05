@@ -23,7 +23,7 @@ public class Boost implements Serializable {
     @Column(nullable = false)
     private String field;
 
-    @Column(nullable = false)
+    @Column(name = "\"value\"", nullable = false)
     private float value;
 
 }

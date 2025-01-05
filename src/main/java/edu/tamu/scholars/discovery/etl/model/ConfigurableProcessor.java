@@ -23,7 +23,7 @@ import edu.tamu.scholars.discovery.model.Named;
 public abstract class ConfigurableProcessor<P extends DataProcessor, T extends DataProcessorType<P>> extends Named {
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @MapKeyColumn(name = "key")
+    @MapKeyColumn(name = "\"key\"")
     @Column(name = "attribute", columnDefinition = "TEXT")
     private Map<String, String> attributes;
 
