@@ -59,7 +59,7 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
     private <I, O> void process() {
         final Instant start = Instant.now();
 
-        List<CompletableFuture<EtlContext<I, O>>> futures = dataRepo.findAll()
+        List<CompletableFuture<EtlContext<I, O>>> futures = dataRepo.findAllByNameIn(config.getData())
             .stream()
             .<EtlContext<I, O>>map(this::init)
             .toList()

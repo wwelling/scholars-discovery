@@ -37,6 +37,14 @@ discovery:
   etl:
     enabled: true
     batchSize: 10000
+    data:
+      - Collection
+      - Concept
+      - Document
+      - Organization
+      - Person
+      - Process
+      - Relationship
     overrides:
       # configuration for the Extract Transform Load processes
       "[Solr Index Loader]":
