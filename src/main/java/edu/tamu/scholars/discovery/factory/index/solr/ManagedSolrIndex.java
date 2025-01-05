@@ -10,6 +10,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.BaseHttpSolrClient.RemoteSolrException;
 import org.apache.solr.client.solrj.impl.Http2SolrClient;
 import org.apache.solr.client.solrj.request.schema.SchemaRequest;
+import org.apache.solr.client.solrj.response.SolrPingResponse;
 import org.apache.solr.client.solrj.response.schema.SchemaResponse;
 import org.apache.solr.common.SolrInputDocument;
 
@@ -103,6 +104,24 @@ public class ManagedSolrIndex implements Index<SolrInputDocument> {
         } catch (RemoteSolrException | SolrServerException | IOException e) {
             log.error("Error updating Solr document", e);
         }
+    }
+
+    @Override
+    public String collection() {
+        return this.solrClient.getDefaultCollection();
+    }
+
+    @Override
+    public int ping() {
+        try {
+            SolrPingResponse response = this.solrClient.ping();
+
+            return response.getStatus();
+        } catch (RemoteSolrException | SolrServerException | IOException e) {
+            log.error("Error pinging Solr collection", e);
+        }
+
+        return -1;
     }
 
     @Override

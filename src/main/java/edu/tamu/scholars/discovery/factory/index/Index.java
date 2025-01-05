@@ -8,6 +8,10 @@ public interface Index<D> extends Schema {
 
     void update(D document);
 
+    String collection();
+
+    int ping();
+
     void optimize();
 
     default void close() {
