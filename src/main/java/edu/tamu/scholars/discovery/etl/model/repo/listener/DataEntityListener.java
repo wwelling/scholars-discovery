@@ -1,6 +1,6 @@
 package edu.tamu.scholars.discovery.etl.model.repo.listener;
 
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static edu.tamu.scholars.discovery.etl.EtlUtility.getFieldName;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -19,6 +19,7 @@ import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
 import edu.tamu.scholars.discovery.etl.model.Extractor;
+import edu.tamu.scholars.discovery.etl.model.FieldDestination;
 import edu.tamu.scholars.discovery.etl.model.Loader;
 import edu.tamu.scholars.discovery.etl.model.Transformer;
 import edu.tamu.scholars.discovery.etl.model.repo.DataRepo;
@@ -68,6 +69,7 @@ public class DataEntityListener {
         } catch (SecurityException e) {
             log.error("Error validating processors", e);
         }
+        validateNestedDescriptors(data);
         validateDescriptors(data);
     }
 
@@ -100,6 +102,63 @@ public class DataEntityListener {
         }
     }
 
+    private void validateNestedDescriptors(Data data) {
+        for (DataField field : data.getFields()) {
+            validateNestedDescriptors(field.getDescriptor());
+        }
+    }
+
+    private void validateNestedDescriptors(DataFieldDescriptor descriptor) {
+        FieldDestination destination = descriptor.getDestination();
+        for (DataFieldDescriptor nestedDescriptor : descriptor.getNestedDescriptors()) {
+            FieldDestination nestedDestination = nestedDescriptor.getDestination();
+            if (destination.isMultiValued() && !nestedDestination.isMultiValued()) {
+                log.error("Nested descriptor must be multi-valued if root descriptor is \n{} {}\n{} {}",
+                    descriptor,
+                    destination,
+                    nestedDescriptor,
+                    nestedDestination);
+            }
+            validateNestedDescriptors(nestedDescriptor);
+        }
+    }
+
+    private void validateDescriptors(Data data) {
+        List<DataFieldDescriptor> existingDescriptors = dataRepo.findByLoaderId(data.getLoader().getId())
+            .stream()
+            .flatMap(datum -> datum.getFields().stream())
+            .map(DataField::getDescriptor)
+            .distinct()
+            .toList();
+
+        for (DataField field : data.getFields()) {
+            validateDescriptor(field.getDescriptor(), existingDescriptors);
+        }
+    }
+
+    private void validateDescriptor(DataFieldDescriptor currentDescriptor, List<DataFieldDescriptor> existingDescriptors) {
+        for (DataFieldDescriptor existingDescriptor : existingDescriptors) {
+            validateDescriptor(currentDescriptor, existingDescriptor);
+        }
+        for (DataFieldDescriptor currentNestedDescriptor : currentDescriptor.getNestedDescriptors()) {
+            validateDescriptor(currentNestedDescriptor, existingDescriptors);
+        }
+    }
+
+    private void validateDescriptor(DataFieldDescriptor currentDescriptor, DataFieldDescriptor existingDescriptor) {
+        String currentDescriptorFieldName = getFieldName(currentDescriptor);
+        String existingDescriptorFieldName = getFieldName(existingDescriptor);
+
+        if (currentDescriptorFieldName.equals(existingDescriptorFieldName)
+            && !currentDescriptor.getDestination().equals(existingDescriptor.getDestination())) {
+            log.error("Conflicting descriptor destinations \n{} {}\n{} {}",
+                currentDescriptorFieldName,
+                currentDescriptor.getDestination(),
+                existingDescriptorFieldName,
+                existingDescriptor.getDestination());
+        }
+    }
+
     private <C extends ConfigurableProcessor<?, ?>> Type[] getProcessorTypeArguments(C cp, Data data) {
         DataProcessor processor = cp.getType().getDataProcessor(data);
         Class<?> currentClass = processor.getClass();
@@ -116,50 +175,6 @@ public class DataEntityListener {
         processor.destroy();
 
         return new Type[0];
-    }
-
-    private void validateDescriptors(Data data) {
-        List<DataFieldDescriptor> existingDescriptors = dataRepo.findByLoaderId(data.getLoader().getId())
-            .stream()
-            .flatMap(datum -> datum.getFields().stream())
-            .map(DataField::getDescriptor)
-            .distinct()
-            .toList();
-
-        for (DataField field : data.getFields()) {
-            validateDescriptor(field.getDescriptor(), existingDescriptors);
-        }
-    }
-
-    private void validateDescriptor(DataFieldDescriptor currentDescriptor,
-        List<DataFieldDescriptor> existingDescriptors) {
-        for (DataFieldDescriptor existingDescriptor : existingDescriptors) {
-            validateDescriptor(currentDescriptor, existingDescriptor);
-        }
-        for (DataFieldDescriptor currentNestedDescriptor : currentDescriptor.getNestedDescriptors()) {
-            validateDescriptor(currentNestedDescriptor, existingDescriptors);
-        }
-    }
-
-    private void validateDescriptor(DataFieldDescriptor currentDescriptor, DataFieldDescriptor existingDescriptor) {
-        String currentDescriptorFieldName = getFieldName(currentDescriptor);
-        String existingDescriptorFieldName = getFieldName(existingDescriptor);
-
-        if (currentDescriptorFieldName.equals(existingDescriptorFieldName)
-            && !currentDescriptor.getDestination().equals(existingDescriptor.getDestination())) {
-            log.error("Conflicting descriptor destinations \n{} {} \n{} {}",
-                currentDescriptorFieldName,
-                currentDescriptor.getDestination(),
-                existingDescriptorFieldName,
-                existingDescriptor.getDestination());
-        }
-    }
-
-    private String getFieldName(DataFieldDescriptor descriptor) {
-        return descriptor.getNestedReference() != null
-            && isNotEmpty(descriptor.getNestedReference().getKey())
-                ? descriptor.getNestedReference().getKey()
-                : descriptor.getName();
     }
 
 }

@@ -113,8 +113,9 @@ fields:
           name: organizationForTrainingTrainee
           nested: true
           destination:
-            type: string
+            type: strings
             indexed: false
+            multiValued: true
           source:
             template: defaults/data/organization/organizationForTrainingTrainee.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -123,8 +124,9 @@ fields:
           name: organizationForTrainingDegree
           nested: true
           destination:
-            type: string
+            type: strings
             indexed: false
+            multiValued: true
           source:
             template: defaults/data/organization/organizationForTrainingDegree.sparql
             predicate: http://vivoweb.org/ontology/core#abbreviation
@@ -133,8 +135,9 @@ fields:
           name: organizationForTrainingStartDate
           nested: true
           destination:
-            type: pdate
+            type: pdates
             indexed: false
+            multiValued: true
           source:
             template: defaults/data/organization/organizationForTrainingStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
@@ -143,8 +146,9 @@ fields:
           name: organizationForTrainingEndDate
           nested: true
           destination:
-            type: pdate
+            type: pdates
             indexed: false
+            multiValued: true
           source:
             template: defaults/data/organization/organizationForTrainingEndDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
@@ -163,7 +167,8 @@ fields:
           name: peopleType
           nested: true
           destination:
-            type: string
+            type: strings
+            multiValued: true
           source:
             template: defaults/data/organization/peopleType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -177,6 +182,7 @@ fields:
             copyTo:
               - _text_
               - title_t_sort
+            multiValued: true
           source:
             template: defaults/data/organization/peopleTitle.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
@@ -196,7 +202,8 @@ fields:
           name: hasSubOrganizationType
           nested: true
           destination:
-            type: string
+            type: strings
+            multiValued: true
           source:
             template: defaults/data/organization/hasSubOrganizationType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
@@ -357,8 +364,9 @@ fields:
           name: awardsGrantDate
           nested: true
           destination:
-            type: pdate
+            type: pdates
             docValues: true
+            multiValued: true
           source:
             template: defaults/data/organization/awardsGrantDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
@@ -378,8 +386,9 @@ fields:
           name: administersGrantDate
           nested: true
           destination:
-            type: pdate
+            type: pdates
             docValues: true
+            multiValued: true
           source:
             template: defaults/data/organization/administersGrantDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
@@ -399,8 +408,9 @@ fields:
           name: subcontractsGrantDate
           nested: true
           destination:
-            type: pdate
+            type: pdates
             docValues: true
+            multiValued: true
           source:
             template: defaults/data/organization/subcontractsGrantDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
@@ -616,8 +626,9 @@ fields:
           name: websiteUrl
           nested: true
           destination:
-            type: string
+            type: strings
             indexed: false
+            multiValued: true
           source:
             template: defaults/data/common/websiteUrl.sparql
             predicate: http://www.w3.org/2006/vcard/ns#url

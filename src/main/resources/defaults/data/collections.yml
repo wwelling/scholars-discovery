@@ -246,8 +246,9 @@ fields:
           name: websiteUrl
           nested: true
           destination:
-            type: string
+            type: strings
             indexed: false
+            multiValued: true
           source:
             template: defaults/data/common/websiteUrl.sparql
             predicate: http://www.w3.org/2006/vcard/ns#url
