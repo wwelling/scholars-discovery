@@ -18,6 +18,10 @@ public interface DataRepo extends NamedRepo<Data> {
     @EntityGraph(value = "Data.Graph", type = EntityGraph.EntityGraphType.LOAD)
     public Optional<Data> findByName(String name);
 
+    @RestResource(exported = false)
+    @EntityGraph(value = "Data.Graph", type = EntityGraph.EntityGraphType.LOAD)
+    public List<Data> findByLoaderId(Long loaderId);
+
     @Override
     @RestResource(exported = false)
     @EntityGraph(value = "Data.Graph", type = EntityGraph.EntityGraphType.LOAD)

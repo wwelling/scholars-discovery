@@ -10,19 +10,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import edu.tamu.scholars.discovery.exception.InvalidValuePathException;
-
 @ControllerAdvice
 public class DiscoveryControllerAdvice {
 
     private static final Logger logger = LoggerFactory.getLogger(DiscoveryControllerAdvice.class);
-
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(value = InvalidValuePathException.class)
-    public @ResponseBody String handleInvalidValuePathException(InvalidValuePathException exception) {
-        logger.warn(exception.getMessage(), exception);
-        return exception.getMessage();
-    }
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = FileNotFoundException.class)

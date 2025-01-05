@@ -44,7 +44,7 @@ import edu.tamu.scholars.discovery.model.Named;
             "parse",
             "split",
             "key",
-            "multiple",
+            "multiple"
         }
     )
 )

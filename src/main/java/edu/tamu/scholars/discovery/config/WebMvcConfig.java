@@ -29,10 +29,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private final AsyncTaskExecutor taskExecutor;
     private final MiddlewareConfig discovery;
 
-    WebMvcConfig(
-        AsyncTaskExecutor taskExecutor,
-        MiddlewareConfig discovery
-    ) {
+    WebMvcConfig(AsyncTaskExecutor taskExecutor, MiddlewareConfig discovery) {
         this.taskExecutor = taskExecutor;
         this.discovery = discovery;
     }
