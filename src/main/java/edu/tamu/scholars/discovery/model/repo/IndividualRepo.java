@@ -39,7 +39,7 @@ public class IndividualRepo {
     }
 
     public Optional<Individual> findById(String id) {
-        throw new UnsupportedOperationException();
+        return this.index.findById(id);
     }
 
     public List<Individual> findByIdIn(List<String> ids) {

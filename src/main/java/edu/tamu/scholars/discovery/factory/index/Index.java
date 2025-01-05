@@ -2,7 +2,7 @@ package edu.tamu.scholars.discovery.factory.index;
 
 import java.util.Collection;
 
-public interface Index<D> extends Schema {
+public interface Index<D> extends Schema, Search {
 
     void update(Collection<D> documents);
 

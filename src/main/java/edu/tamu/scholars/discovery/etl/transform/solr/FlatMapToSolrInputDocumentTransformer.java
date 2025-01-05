@@ -120,7 +120,7 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
 
         rootContext.document.addField(SYNC_IDS, id);
 
-        processNestedReferences(rootContext, id, descriptor, nestedDocument, parts, index + 1);
+        processNestedReferences(rootContext, nestedDocumentId, descriptor, nestedDocument, parts, index + 1);
 
         return nestedDocument;
     }

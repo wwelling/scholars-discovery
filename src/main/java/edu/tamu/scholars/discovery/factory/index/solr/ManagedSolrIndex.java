@@ -3,6 +3,7 @@ package edu.tamu.scholars.discovery.factory.index.solr;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import lombok.extern.slf4j.Slf4j;
@@ -12,11 +13,17 @@ import org.apache.solr.client.solrj.impl.Http2SolrClient;
 import org.apache.solr.client.solrj.request.schema.SchemaRequest;
 import org.apache.solr.client.solrj.response.SolrPingResponse;
 import org.apache.solr.client.solrj.response.schema.SchemaResponse;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.solr.common.params.ModifiableSolrParams;
+import org.apache.solr.common.params.SolrParams;
+import reactor.core.publisher.Flux;
 
 import edu.tamu.scholars.discovery.factory.index.Index;
 import edu.tamu.scholars.discovery.factory.index.dto.CopyField;
 import edu.tamu.scholars.discovery.factory.index.dto.Field;
+import edu.tamu.scholars.discovery.factory.index.dto.IndexQuery;
+import edu.tamu.scholars.discovery.model.Individual;
 
 @Slf4j
 public class ManagedSolrIndex implements Index<SolrInputDocument> {
@@ -82,6 +89,34 @@ public class ManagedSolrIndex implements Index<SolrInputDocument> {
             .toList();
 
         return updateSchema(addCopyFieldRequests);
+    }
+
+    @Override
+    public List<Individual> query(IndexQuery query) {
+        throw new UnsupportedOperationException("Unimplemented method 'query'");
+    }
+
+    @Override
+    public Flux<Individual> queryAndStreamResponse(IndexQuery query) {
+        throw new UnsupportedOperationException("Unimplemented method 'queryAndStreamResponse'");
+    }
+
+    @Override
+    public Optional<Individual> findById(String id) {
+        try {
+            SolrParams params = new ModifiableSolrParams()
+                .add("fl", "*,[child]");
+
+            SolrDocument document = this.solrClient.getById(id, params);
+
+            if (document != null) {
+                return Optional.of(Individual.of(document));
+            }
+        } catch (RemoteSolrException | SolrServerException | IOException e) {
+            log.error("Error pinging Solr collection", e);
+        }
+
+        return Optional.empty();
     }
 
     @Override
