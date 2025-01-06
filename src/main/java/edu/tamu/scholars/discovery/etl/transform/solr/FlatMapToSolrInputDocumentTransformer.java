@@ -66,6 +66,9 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         String name = getFieldName(descriptor);
 
         if (descriptor.getDestination().isMultiValued()) {
+
+            rootContext.document.addField("_collections_", name);
+
             @SuppressWarnings("unchecked")
             List<String> values = (List<String>) object;
 
@@ -87,7 +90,8 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
     }
 
     private void processSimpleField(RootContext rootContext, DataFieldDescriptor descriptor) {
-        Object object = rootContext.data.get(descriptor.getName());
+        String name = descriptor.getName();
+        Object object = rootContext.data.get(name);
 
         if (object == null) {
             return;
@@ -96,14 +100,17 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         String type = descriptor.getDestination().getType();
 
         if (descriptor.getDestination().isMultiValued()) {
+
+            rootContext.document.addField("_collections_", name);
+
             @SuppressWarnings("unchecked")
             List<String> values = ((List<String>) object).stream()
                 .map(value -> processValue(type, value))
                 .toList();
 
-            rootContext.document.setField(descriptor.getName(), values);
+            rootContext.document.setField(name, values);
         } else {
-            rootContext.document.setField(descriptor.getName(), processValue(type, object.toString()));
+            rootContext.document.setField(name, processValue(type, object.toString()));
         }
     }
 

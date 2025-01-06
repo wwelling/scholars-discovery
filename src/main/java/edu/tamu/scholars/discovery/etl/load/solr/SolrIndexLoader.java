@@ -99,8 +99,9 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
         List<Field> fields = new ArrayList<>();
         List<CopyField> copyFields = new ArrayList<>();
 
-        processField(getDescriptor(LABEL), fields, copyFields);
-        processField(getDescriptor(CLASS), fields, copyFields);
+        processField(getDescriptor(LABEL, false), fields, copyFields);
+        processField(getDescriptor(CLASS, false), fields, copyFields);
+        processField(getDescriptor("_collections_", true), fields, copyFields);
 
         this.data.getFields()
             .stream()
@@ -164,9 +165,10 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
         }
     }
 
-    private DataFieldDescriptor getDescriptor(String name) {
+    private DataFieldDescriptor getDescriptor(String name, boolean multiValued) {
         DataFieldDescriptor descriptor = new DataFieldDescriptor();
         FieldDestination destination = new FieldDestination();
+        destination.setMultiValued(multiValued);
 
         descriptor.setName(name);
         descriptor.setDestination(destination);

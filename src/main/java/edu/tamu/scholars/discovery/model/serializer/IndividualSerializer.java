@@ -4,6 +4,7 @@ import static edu.tamu.scholars.discovery.AppConstants.ID;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,7 +21,7 @@ public class IndividualSerializer extends StdSerializer<Individual> {
     private static final char DOT = '.';
     private static final char FORWARD_SLASH = '/';
 
-    private static final Set<String> EXCLUDED_FIELDS = Set.of("_root_", "_version_");
+    private static final Set<String> EXCLUDED_FIELDS = Set.of("_root_", "_version_", "_collections_");
 
     public IndividualSerializer() {
         super(Individual.class);
@@ -31,10 +32,15 @@ public class IndividualSerializer extends StdSerializer<Individual> {
         generator.setHighestNonEscapedChar(127);
         generator.disable(JsonGenerator.Feature.AUTO_CLOSE_JSON_CONTENT);
         generator.disable(JsonGenerator.Feature.FLUSH_PASSED_TO_STREAM);
-        serializeContent(individual.getContent(), generator, 0);
+
+        Map<?, ?> content = individual.getContent();
+
+        List<String> collections = (List<String>) content.remove("_collections_");
+
+        serializeContent(individual.getContent(), collections, generator, 0);
     }
 
-    private void serializeContent(Map<?, ?> content, JsonGenerator generator, int depth) throws IOException {
+    private void serializeContent(Map<?, ?> content, List<String> collections, JsonGenerator generator, int depth) throws IOException {
         depth++;
         for (Map.Entry<?, ?> entry : content.entrySet()) {
             String key = (String) entry.getKey();
@@ -54,12 +60,23 @@ public class IndividualSerializer extends StdSerializer<Individual> {
             if (value instanceof Map<?, ?> document) {
                 if (!document.isEmpty()) {
                     generator.writeFieldName(property);
-                    serializeNestedDocument(document, generator, depth);
+
+                    boolean isCollection = collections.contains(key);
+
+                    if (isCollection) {
+                        generator.writeStartArray();
+                    }
+
+                    serializeNestedDocument(document, collections, generator, depth);
+
+                    if (isCollection) {
+                        generator.writeEndArray();
+                    }
                 }
             } else if (value instanceof Collection<?> collection) {
                 if (!collection.isEmpty()) {
                     generator.writeFieldName(property);
-                    serializeCollection(collection, generator, depth);
+                    serializeCollection(collection, collections, generator, depth);
                 }
             } else {
                 generator.writeObjectField(property, value);
@@ -67,20 +84,20 @@ public class IndividualSerializer extends StdSerializer<Individual> {
         }
     }
 
-    private void serializeNestedDocument(Map<?, ?> document, JsonGenerator generator, int depth) throws IOException {
+    private void serializeNestedDocument(Map<?, ?> document, List<String> collections, JsonGenerator generator, int depth) throws IOException {
         generator.writeStartObject();
-        serializeContent(document, generator, depth);
+        serializeContent(document, collections, generator, depth);
         generator.writeEndObject();
     }
 
-    private void serializeCollection(Collection<?> collection, JsonGenerator generator, int depth) throws IOException {
+    private void serializeCollection(Collection<?> collection, List<String> collections, JsonGenerator generator, int depth) throws IOException {
         Object entry = collection.iterator().next();
         boolean isDocument = entry instanceof Map<?, ?>;
         if (depth == 1 || collection.size() > 1 || isDocument) {
             generator.writeStartArray();
             if (isDocument) {
                 for (Object document : collection) {
-                    serializeNestedDocument((Map<?, ?>) document, generator, depth);
+                    serializeNestedDocument((Map<?, ?>) document, collections, generator, depth);
                 }
             } else {
                 for (Object value : collection) {
