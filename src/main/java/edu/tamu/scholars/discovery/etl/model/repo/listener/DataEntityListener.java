@@ -52,13 +52,13 @@ public class DataEntityListener {
 
     @PrePersist
     public void validatePrePersist(Data data) {
-        log.info("Validating Data {} before persisting", data.getName());
+        log.debug("Validating Data {} before persisting", data.getName());
         validate(data);
     }
 
     @PreUpdate
     public void validatePreUpdate(Data data) {
-        log.info("Validating Data {} before updating", data.getName());
+        log.debug("Validating Data {} before updating", data.getName());
         validate(data);
     }
 

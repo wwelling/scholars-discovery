@@ -6,7 +6,7 @@ public class AppConstants {
 
     public static final String CLASS = "class";
 
-    public static final String TYPES = "types";
+    public static final String TYPE = "type";
 
     public static final String LABEL = "label";
 

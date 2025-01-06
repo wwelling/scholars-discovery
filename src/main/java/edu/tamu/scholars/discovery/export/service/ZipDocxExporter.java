@@ -65,7 +65,7 @@ public class ZipDocxExporter extends AbstractDocxExporter {
 
     @Override
     public StreamingResponseBody streamIndividual(Individual individual, String name) {
-        final List<String> types = individual.getTypes();
+        final List<String> types = individual.getType();
 
         Optional<DisplayView> displayView = displayViewRepo.findByTypesIn(types);
 

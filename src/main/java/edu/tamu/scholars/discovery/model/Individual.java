@@ -2,7 +2,7 @@ package edu.tamu.scholars.discovery.model;
 
 import static edu.tamu.scholars.discovery.AppConstants.CLASS;
 import static edu.tamu.scholars.discovery.AppConstants.ID;
-import static edu.tamu.scholars.discovery.AppConstants.TYPES;
+import static edu.tamu.scholars.discovery.AppConstants.TYPE;
 
 import java.util.List;
 import java.util.Map;
@@ -22,8 +22,8 @@ public class Individual {
         return (String) this.content.get(CLASS);
     }
 
-    public List<String> getTypes() {
-        return (List<String>) this.content.get(TYPES);
+    public List<String> getType() {
+        return (List<String>) this.content.get(TYPE);
     }
 
     public static Individual of(Map<String, Object> content) {
