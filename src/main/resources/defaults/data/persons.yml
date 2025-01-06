@@ -376,15 +376,15 @@ fields:
         parse: true
       nestedDescriptors:
         - nestedReference:
-            key: educationAndTraining.title
-          name: educationAndTrainingTitle
+            key: educationAndTraining.name
+          name: educationAndTrainingName
           nested: true
           destination:
             type: strings
             indexed: false
             multiValued: true
           source:
-            template: defaults/data/person/educationAndTrainingTitle.sparql
+            template: defaults/data/person/educationAndTrainingName.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
         - nestedReference:
             key: educationAndTraining.info
