@@ -1507,10 +1507,7 @@ fields:
         docValues: true
       source:
         template: defaults/data/person/organization.sparql
-        predicate: http://vivoweb.org/ontology/core#relates
-        cacheableSources:
-          - template: defaults/data/person/organizations.sparql
-            predicate: http://www.w3.org/2000/01/rdf-schema#label
+        predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: schools
       destination:

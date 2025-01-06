@@ -129,17 +129,14 @@ public class EtlService implements ApplicationListener<ContextRefreshedEvent> {
             });
     }
 
-    @SuppressWarnings("unchecked")
     private <I> DataExtractor<I> getExtractor(Data data) {
         return (DataExtractor<I>) getTypedDataProcessor(data.getExtractor(), data);
     }
 
-    @SuppressWarnings("unchecked")
     private <I, O> DataTransformer<I, O> getTransformer(Data data) {
         return (DataTransformer<I, O>) getTypedDataProcessor(data.getTransformer(), data);
     }
 
-    @SuppressWarnings("unchecked")
     private <O> DataLoader<O> getLoader(Data data) {
         return (DataLoader<O>) getTypedDataProcessor(data.getLoader(), data);
     }

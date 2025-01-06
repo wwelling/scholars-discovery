@@ -12,7 +12,9 @@ public class AppConstants {
 
     public static final String VERSION = "version";
 
-    public static final String SYNC_IDS = "syncIds";
+    public static final String SYNC_IDS = "_sync_ids_";
+
+    public static final String COLLECTIONS = "_collections_";
 
     public static final String WILDCARD = "*";
 

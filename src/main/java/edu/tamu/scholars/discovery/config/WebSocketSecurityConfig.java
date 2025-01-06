@@ -26,7 +26,6 @@ public class WebSocketSecurityConfig {
     }
 
     @Bean
-    @SuppressWarnings("java:S1452")
     AuthorizationManager<Message<?>> messageAuthorizationManager() {
         return MessageMatcherDelegatingAuthorizationManager.builder()
             .simpTypeMatchers(CONNECT, UNSUBSCRIBE, DISCONNECT)

@@ -2,19 +2,14 @@ package edu.tamu.scholars.discovery.etl.extract.jena;
 
 import static edu.tamu.scholars.discovery.AppConstants.CLASS;
 import static edu.tamu.scholars.discovery.AppConstants.ID;
-import static edu.tamu.scholars.discovery.AppConstants.NESTED_DELIMITER;
-import static edu.tamu.scholars.discovery.etl.EtlConstants.NESTED_DELIMITER_PATTERN;
 import static edu.tamu.scholars.discovery.etl.extract.jena.TriplestoreCacheUtility.computePropertyIfAbsent;
-import static edu.tamu.scholars.discovery.etl.extract.jena.TriplestoreCacheUtility.computeValuesIfAbsent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.jena.graph.Node;
@@ -30,7 +25,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
 import edu.tamu.scholars.discovery.etl.extract.DataExtractor;
-import edu.tamu.scholars.discovery.etl.model.CacheableSource;
 import edu.tamu.scholars.discovery.etl.model.CollectionSource;
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
@@ -139,13 +133,7 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
 
         String query = buildQuery(source.getTemplate(), subject);
 
-        List<String> values = querySourceValues(source, query);
-
-        if (!values.isEmpty() && !source.getCacheableSources().isEmpty()) {
-            values = getCacheableValues(descriptor, values, subject);
-        }
-
-        return values;
+        return querySourceValues(source, query);
     }
 
     private List<String> querySourceValues(FieldSource source, String query) {
@@ -177,51 +165,6 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
 
     private Property getCachePropertyOrCreate(Model model, String predicate) {
         return computePropertyIfAbsent(predicate, model::createProperty);
-    }
-
-    private List<String> getCacheableValues(DataFieldDescriptor descriptor, List<String> values, String subject) {
-        Set<String> uniqueValues = new HashSet<>();
-        FieldSource source = descriptor.getSource();
-        for (CacheableSource cacheableSource : source.getCacheableSources()) {
-            FieldSource cacheableFieldSource = getCacheableSource(source, cacheableSource);
-            for (String value : values) {
-                if (descriptor.getNestedDescriptors().isEmpty()) {
-                    for (String cached : getCacheValuesOrQuery(cacheableFieldSource, subject)) {
-                        uniqueValues.add(cached);
-                    }
-                } else {
-                    uniqueValues.addAll(getNestedCacheableValues(cacheableFieldSource, value, subject));
-                }
-            }
-        }
-
-        return List.copyOf(uniqueValues);
-    }
-
-    private Set<String> getNestedCacheableValues(FieldSource cacheableFieldSource, String value, String subject) {
-        Set<String> uniqueValues = new HashSet<>();
-        String[] parts = NESTED_DELIMITER_PATTERN.split(value);
-        String nestedSubject = subject.replaceAll("[^/]+$", parts[parts.length - 1]);
-        for (String cached : getCacheValuesOrQuery(cacheableFieldSource, nestedSubject)) {
-            String[] cachedParts = NESTED_DELIMITER_PATTERN.split(cached, 2);
-            StringBuilder result = new StringBuilder(cachedParts[0]);
-            if (parts.length - 2 > 0) {
-                result.append(NESTED_DELIMITER);
-                for (int i = 1; i < parts.length - 1; i++) {
-                    result.append(parts[i]);
-                    if (i < parts.length - 2) {
-                        result.append(NESTED_DELIMITER);
-                    }
-                }
-            }
-            if (cachedParts.length > 1) {
-                result.append(NESTED_DELIMITER);
-                result.append(cachedParts[1]);
-            }
-            uniqueValues.add(result.toString());
-        }
-
-        return uniqueValues;
     }
 
     private List<String> getValues(FieldSource source, Resource resource, Property property) {
@@ -273,12 +216,6 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
         return value;
     }
 
-    private List<String> getCacheValuesOrQuery(FieldSource source, String subject) {
-        String query = buildQuery(source.getTemplate(), subject);
-
-        return computeValuesIfAbsent(query, q -> querySourceValues(source, q));
-    }
-
     private String buildQuery(String template, String subject) {
         String query = template.replace(URI_TEMPLATE_KEY, subject);
 
@@ -289,40 +226,6 @@ public abstract class AbstractTriplestoreExtractor implements DataExtractor<Map<
 
     private String parse(String uri) {
         return uri.substring(uri.lastIndexOf(uri.contains(HASH_TAG) ? HASH_TAG : FORWARD_SLASH) + 1);
-    }
-
-    private FieldSource getCacheableSource(FieldSource source, CacheableSource cacheableSource) {
-        return new FieldSource() {
-            @Override
-            public String getTemplate() {
-                return cacheableSource.getTemplate();
-            }
-
-            @Override
-            public String getPredicate() {
-                return cacheableSource.getPredicate();
-            }
-
-            @Override
-            public boolean isParse() {
-                return source.isParse();
-            }
-
-            @Override
-            public boolean isUnique() {
-                return source.isUnique();
-            }
-
-            @Override
-            public boolean isSplit() {
-                return source.isSplit();
-            }
-
-            @Override
-            public Set<CacheableSource> getCacheableSources() {
-                return Set.of();
-            }
-        };
     }
 
     protected abstract Iterator<Triple> queryCollection(String query);

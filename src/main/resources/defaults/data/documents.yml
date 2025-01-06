@@ -104,9 +104,6 @@ fields:
           source:
             template: defaults/data/document/authorOrganization.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
-            cacheableSources:
-              - template: defaults/data/document/authorOrganizations.sparql
-                predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
       name: editors
       nested: true

@@ -1,5 +1,6 @@
 package edu.tamu.scholars.discovery.model.serializer;
 
+import static edu.tamu.scholars.discovery.AppConstants.COLLECTIONS;
 import static edu.tamu.scholars.discovery.AppConstants.ID;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class IndividualSerializer extends StdSerializer<Individual> {
     private static final char DOT = '.';
     private static final char FORWARD_SLASH = '/';
 
-    private static final Set<String> EXCLUDED_FIELDS = Set.of("_root_", "_version_", "_collections_");
+    private static final Set<String> EXCLUDED_FIELDS = Set.of("_root_", "_version_", "_collections_", "_sync_ids_");
 
     public IndividualSerializer() {
         super(Individual.class);
@@ -35,7 +36,7 @@ public class IndividualSerializer extends StdSerializer<Individual> {
 
         Map<?, ?> content = individual.getContent();
 
-        List<String> collections = (List<String>) content.remove("_collections_");
+        List<String> collections = (List<String>) content.remove(COLLECTIONS);
 
         serializeContent(individual.getContent(), collections, generator, 0);
     }
@@ -61,7 +62,7 @@ public class IndividualSerializer extends StdSerializer<Individual> {
                 if (!document.isEmpty()) {
                     generator.writeFieldName(property);
 
-                    boolean isCollection = collections.contains(key);
+                    boolean isCollection = collections.contains(property);
 
                     if (isCollection) {
                         generator.writeStartArray();

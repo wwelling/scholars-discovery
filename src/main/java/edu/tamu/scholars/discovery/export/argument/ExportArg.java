@@ -21,7 +21,6 @@ public class ExportArg {
         return label;
     }
 
-    @SuppressWarnings("unchecked")
     public static ExportArg of(Object input) {
         Map<String, Object> export = (Map<String, Object>) input;
         String field = (String) export.get("field");

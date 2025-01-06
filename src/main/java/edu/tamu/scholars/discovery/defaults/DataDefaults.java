@@ -128,10 +128,6 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
             ? descriptor.getNestedReference().getKey()
             : null;
 
-        Boolean multiple = Objects.nonNull(descriptor.getNestedReference())
-            ? descriptor.getNestedReference().getMultiple()
-            : null;
-
         Specification<DataFieldDescriptor> specification = (root, query, cb) -> cb.and(
             cb.equal(root.get("name"), descriptor.getName()),
             cb.equal(root.get("nested"), descriptor.isNested()),
@@ -147,8 +143,7 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
             cb.equal(root.get("source").get("unique"), descriptor.getSource().isUnique()),
             cb.equal(root.get("source").get("parse"), descriptor.getSource().isParse()),
             cb.equal(root.get("source").get("split"), descriptor.getSource().isSplit()),
-            cb.equal(root.get("nestedReference").get("key"), key),
-            cb.equal(root.get("nestedReference").get("multiple"), multiple));
+            cb.equal(root.get("nestedReference").get("key"), key));
 
         return descriptorRepo.findOne(specification)
             .map(entity -> descriptorRepo.findById(entity.getId()).orElse(entity))

@@ -122,7 +122,6 @@ public class CsvExporter implements Exporter {
 
                 if (List.class.isAssignableFrom(value.getClass())) {
 
-                    @SuppressWarnings("unchecked")
                     List<String> values = (List<String>) value;
 
                     if (!values.isEmpty()) {

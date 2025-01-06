@@ -17,7 +17,6 @@ public class TypeUtility {
 
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> T as(@Nullable String value, @NonNull T defaultValue) {
         if (Objects.isNull(defaultValue)) {
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE);

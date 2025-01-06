@@ -1,6 +1,7 @@
 package edu.tamu.scholars.discovery.etl.transform.solr;
 
 import static edu.tamu.scholars.discovery.AppConstants.CLASS;
+import static edu.tamu.scholars.discovery.AppConstants.COLLECTIONS;
 import static edu.tamu.scholars.discovery.AppConstants.ID;
 import static edu.tamu.scholars.discovery.AppConstants.ID_PATH_DELIMITER;
 import static edu.tamu.scholars.discovery.AppConstants.LABEL;
@@ -9,8 +10,10 @@ import static edu.tamu.scholars.discovery.etl.EtlConstants.NESTED_DELIMITER_PATT
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.text.ParseException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.solr.common.SolrInputDocument;
@@ -32,6 +35,7 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
 
     @Override
     public SolrInputDocument transform(Map<String, Object> data) {
+        Set<String> syncIds = new HashSet<>();
         SolrInputDocument document = new SolrInputDocument();
 
         String id = data.get(ID).toString();
@@ -39,10 +43,10 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         document.setField(ID, id);
         document.setField(CLASS, data.get(CLASS));
 
-        document.setField(SYNC_IDS, id);
+        document.setField(SYNC_IDS, syncIds);
 
         for (DataField field : this.data.getFields()) {
-            processField(new RootContext(data, document, id), field.getDescriptor());
+            processField(new RootContext(data, syncIds, document, id), field.getDescriptor());
         }
 
         return document;
@@ -67,9 +71,8 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
 
         if (descriptor.getDestination().isMultiValued()) {
 
-            rootContext.document.addField("_collections_", name);
+            rootContext.document.addField(COLLECTIONS, name);
 
-            @SuppressWarnings("unchecked")
             List<String> values = (List<String>) object;
 
             List<SolrInputDocument> documents = values.stream()
@@ -101,9 +104,8 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
 
         if (descriptor.getDestination().isMultiValued()) {
 
-            rootContext.document.addField("_collections_", name);
+            rootContext.document.addField(COLLECTIONS, name);
 
-            @SuppressWarnings("unchecked")
             List<String> values = ((List<String>) object).stream()
                 .map(value -> processValue(type, value))
                 .toList();
@@ -125,7 +127,7 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         nestedDocument.setField(ID, nestedDocumentId);
         nestedDocument.setField(LABEL, nestedDocumentLabel);
 
-        rootContext.document.addField(SYNC_IDS, id);
+        rootContext.syncIds.add(id);
 
         processNestedReferences(rootContext, nestedDocumentId, descriptor, nestedDocument, parts, index + 1);
 
@@ -155,7 +157,6 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             return;
         }
 
-        @SuppressWarnings("unchecked")
         List<String> nestedValues = (List<String>) nestedObject;
 
         if (nestedValues.isEmpty()) {
@@ -272,7 +273,7 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             && descriptor.getNestedReference().getMultiple();
     }
 
-    private record RootContext(Map<String, Object> data, SolrInputDocument document, String id) {
+    private record RootContext(Map<String, Object> data, Set<String> syncIds, SolrInputDocument document, String id) {
 
     }
 
