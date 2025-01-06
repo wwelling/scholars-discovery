@@ -31,10 +31,11 @@ public class IndividualSerializer extends StdSerializer<Individual> {
         generator.setHighestNonEscapedChar(127);
         generator.disable(JsonGenerator.Feature.AUTO_CLOSE_JSON_CONTENT);
         generator.disable(JsonGenerator.Feature.FLUSH_PASSED_TO_STREAM);
-        serializeContent(individual.getContent(), generator);
+        serializeContent(individual.getContent(), generator, 0);
     }
 
-    private void serializeContent(Map<?, ?> content, JsonGenerator generator) throws IOException {
+    private void serializeContent(Map<?, ?> content, JsonGenerator generator, int depth) throws IOException {
+        depth++;
         for (Map.Entry<?, ?> entry : content.entrySet()) {
             String key = (String) entry.getKey();
 
@@ -53,12 +54,12 @@ public class IndividualSerializer extends StdSerializer<Individual> {
             if (value instanceof Map<?, ?> document) {
                 if (!document.isEmpty()) {
                     generator.writeFieldName(property);
-                    serializeNestedDocument(document, generator);
+                    serializeNestedDocument(document, generator, depth);
                 }
             } else if (value instanceof Collection<?> collection) {
                 if (!collection.isEmpty()) {
                     generator.writeFieldName(property);
-                    serializeCollection(collection, generator);
+                    serializeCollection(collection, generator, depth);
                 }
             } else {
                 generator.writeObjectField(property, value);
@@ -66,29 +67,29 @@ public class IndividualSerializer extends StdSerializer<Individual> {
         }
     }
 
-    private void serializeNestedDocument(Map<?, ?> nestedDoc, JsonGenerator generator) throws IOException {
+    private void serializeNestedDocument(Map<?, ?> document, JsonGenerator generator, int depth) throws IOException {
         generator.writeStartObject();
-        serializeContent(nestedDoc, generator);
+        serializeContent(document, generator, depth);
         generator.writeEndObject();
     }
 
-    private void serializeCollection(Collection<?> collection, JsonGenerator generator) throws IOException {
-        Object item = collection.iterator().next();
-        boolean isDocument = item instanceof Map<?, ?>;
-        if (collection.size() > 1 || isDocument) {
+    private void serializeCollection(Collection<?> collection, JsonGenerator generator, int depth) throws IOException {
+        Object entry = collection.iterator().next();
+        boolean isDocument = entry instanceof Map<?, ?>;
+        if (depth == 1 || collection.size() > 1 || isDocument) {
             generator.writeStartArray();
             if (isDocument) {
-                for (Object entry : collection) {
-                    serializeNestedDocument((Map<?, ?>) entry, generator);
+                for (Object document : collection) {
+                    serializeNestedDocument((Map<?, ?>) document, generator, depth);
                 }
             } else {
-                for (Object entry : collection) {
-                    generator.writeObject(entry);
+                for (Object value : collection) {
+                    generator.writeObject(value);
                 }
             }
             generator.writeEndArray();
         } else {
-            generator.writeObject(item);
+            generator.writeObject(entry);
         }
     }
 
