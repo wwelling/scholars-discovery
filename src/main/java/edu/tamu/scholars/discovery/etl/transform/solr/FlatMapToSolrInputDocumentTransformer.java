@@ -2,8 +2,8 @@ package edu.tamu.scholars.discovery.etl.transform.solr;
 
 import static edu.tamu.scholars.discovery.AppConstants.CLASS;
 import static edu.tamu.scholars.discovery.AppConstants.ID;
+import static edu.tamu.scholars.discovery.AppConstants.ID_PATH_DELIMITER;
 import static edu.tamu.scholars.discovery.AppConstants.LABEL;
-import static edu.tamu.scholars.discovery.AppConstants.NESTED_DELIMITER;
 import static edu.tamu.scholars.discovery.AppConstants.SYNC_IDS;
 import static edu.tamu.scholars.discovery.etl.EtlConstants.NESTED_DELIMITER_PATTERN;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -112,7 +112,7 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
 
         String id = parts[index];
 
-        String nestedDocumentId = rootDocumentId + NESTED_DELIMITER + parts[index];
+        String nestedDocumentId = rootDocumentId + ID_PATH_DELIMITER + parts[index];
         String nestedDocumentLabel = parts[0];
 
         nestedDocument.setField(ID, nestedDocumentId);

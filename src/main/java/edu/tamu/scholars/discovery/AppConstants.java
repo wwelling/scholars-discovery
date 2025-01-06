@@ -14,8 +14,6 @@ public class AppConstants {
 
     public static final String SYNC_IDS = "syncIds";
 
-    public static final String COMMA = ",";
-
     public static final String WILDCARD = "*";
 
     public static final String QUERY_DELIMETER = ":";
@@ -23,6 +21,8 @@ public class AppConstants {
     public static final String DEFAULT_QUERY = WILDCARD + QUERY_DELIMETER + WILDCARD;
 
     public static final String NESTED_DELIMITER = "::";
+
+    public static final String ID_PATH_DELIMITER = "/";
 
     public static final String REQUEST_PARAM_DELIMETER = ",";
 
