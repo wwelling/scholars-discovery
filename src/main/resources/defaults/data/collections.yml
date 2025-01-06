@@ -87,7 +87,7 @@ fields:
         unique: true
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: publisher.type
           name: publisherType
           nested: true
           destination:
@@ -242,7 +242,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: url
+            key: website.url
           name: websiteUrl
           nested: true
           destination:

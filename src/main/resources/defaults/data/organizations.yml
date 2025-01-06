@@ -109,7 +109,7 @@ fields:
         predicate: http://vivoweb.org/ontology/core#majorField
       nestedDescriptors:
         - nestedReference:
-            key: trainee
+            key: organizationForTraining.trainee
           name: organizationForTrainingTrainee
           nested: true
           destination:
@@ -120,7 +120,7 @@ fields:
             template: defaults/data/organization/organizationForTrainingTrainee.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
         - nestedReference:
-            key: degree
+            key: organizationForTraining.degree
           name: organizationForTrainingDegree
           nested: true
           destination:
@@ -131,7 +131,7 @@ fields:
             template: defaults/data/organization/organizationForTrainingDegree.sparql
             predicate: http://vivoweb.org/ontology/core#abbreviation
         - nestedReference:
-            key: startDate
+            key: organizationForTraining.startDate
           name: organizationForTrainingStartDate
           nested: true
           destination:
@@ -142,7 +142,7 @@ fields:
             template: defaults/data/organization/organizationForTrainingStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: organizationForTraining.endDate
           name: organizationForTrainingEndDate
           nested: true
           destination:
@@ -163,7 +163,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: person.type
           name: peopleType
           nested: true
           destination:
@@ -174,14 +174,11 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: title
+            key: person.title
           name: peopleTitle
           nested: true
           destination:
             type: text_general
-            copyTo:
-              - _text_
-              - title_t_sort
             multiValued: true
           source:
             template: defaults/data/organization/peopleTitle.sparql
@@ -198,7 +195,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: hasSubOrganization.type
           name: hasSubOrganizationType
           nested: true
           destination:
@@ -360,7 +357,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: date
+            key: awardsGrant.date
           name: awardsGrantDate
           nested: true
           destination:
@@ -382,7 +379,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: date
+            key: administersGrant.date
           name: administersGrantDate
           nested: true
           destination:
@@ -404,7 +401,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: date
+            key: subcontractsGrant.date
           name: subcontractsGrantDate
           nested: true
           destination:
@@ -622,7 +619,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: url
+            key: website.url
           name: websiteUrl
           nested: true
           destination:

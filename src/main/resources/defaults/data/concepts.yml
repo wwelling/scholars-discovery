@@ -55,7 +55,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: awardOrHonorFor.type
           name: awardOrHonorForType
           nested: true
           destination:
@@ -79,7 +79,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: awardConferredBy.type
           name: awardConferredByType
           nested: true
           destination:
@@ -119,7 +119,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: recipientName
+            key: receipt.recipientName
           name: receiptRecipientName
           nested: true
           destination:
@@ -171,7 +171,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: email
+            key: futureResearchIdeaOf.email
           name: futureResearchIdeaOfEmail
           nested: true
           destination:
@@ -180,7 +180,7 @@ fields:
             template: defaults/data/concept/futureResearchIdeaOfEmail.sparql
             predicate: http://www.w3.org/2006/vcard/ns#email
         - nestedReference:
-            key: title
+            key: futureResearchIdeaOf.title
           name: futureResearchIdeaOfTitle
           nested: true
           destination:
@@ -192,7 +192,7 @@ fields:
             template: defaults/data/concept/futureResearchIdeaOfTitle.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
         - nestedReference:
-            key: organizations
+            key: futureResearchIdeaOf.organization
             multiple: true
           name: futureResearchIdeaOfOrganization
           nested: true
@@ -259,7 +259,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: url
+            key: website.url
           name: websiteUrl
           nested: true
           destination:

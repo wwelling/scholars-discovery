@@ -71,7 +71,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: awardOrHonorFor.type
           name: awardOrHonorForType
           nested: true
           destination:
@@ -95,7 +95,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: awardConferredBy.type
           name: awardConferredByType
           nested: true
           destination:
@@ -106,7 +106,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: abbreviation
+            key: awardConferredBy.abbreviation
           name: awardConferredByAbbreviation
           nested: true
           destination:
@@ -118,7 +118,7 @@ fields:
             template: defaults/data/relationship/awardConferredByAbbreviation.sparql
             predicate: http://vivoweb.org/ontology/core#abbreviation
         - nestedReference:
-            key: preferredLabel
+            key: awardConferredBy.preferredLabel
           name: awardConferredByPreferredLabel
           nested: true
           destination:
@@ -143,7 +143,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: awardedBy.type
           name: awardedByType
           nested: true
           destination:
@@ -154,7 +154,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: abbreviation
+            key: awardedBy.abbreviation
           name: awardedByAbbreviation
           nested: true
           destination:
@@ -166,7 +166,7 @@ fields:
             template: defaults/data/relationship/awardedByAbbreviation.sparql
             predicate: http://vivoweb.org/ontology/core#abbreviation
         - nestedReference:
-            key: preferredLabel
+            key: awardedBy.preferredLabel
           name: awardedByPreferredLabel
           nested: true
           destination:
@@ -189,7 +189,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: grantSubcontractedThrough.type
           name: grantSubcontractedThroughType
           nested: true
           destination:
@@ -284,7 +284,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: role
+            key: contributor.role
           name: contributorRole
           nested: true
           destination:
@@ -296,7 +296,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: organizations
+            key: contributor.organizations
           name: contributorOrganization
           nested: true
           destination:
@@ -441,7 +441,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: url
+            key: website.url
           name: websiteUrl
           nested: true
           destination:

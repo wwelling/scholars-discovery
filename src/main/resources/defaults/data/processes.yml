@@ -42,7 +42,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: organizations
+            key: author.organizations
             multiple: true
           name: authorOrganization
           nested: true
@@ -90,7 +90,7 @@ fields:
         predicate: http://vivoweb.org/ontology/core#dateTimeInterval
       nestedDescriptors:
         - nestedReference:
-            key: start
+            key: dateTimeInterval.start
           name: dateTimeIntervalStart
           nested: true
           destination:
@@ -100,7 +100,7 @@ fields:
             predicate: http://vivoweb.org/ontology/core#dateTime
           nestedDescriptors:
             - nestedReference:
-                key: precision
+                key: dateTimeInterval.start.precision
               name: dateTimePrecisionStart
               nested: true
               destination:
@@ -110,7 +110,7 @@ fields:
                 predicate: http://vivoweb.org/ontology/core#dateTimePrecision
                 parse: true
         - nestedReference:
-            key: end
+            key: dateTimeInterval.end
           name: dateTimeIntervalEnd
           nested: true
           destination:
@@ -120,7 +120,7 @@ fields:
             predicate: http://vivoweb.org/ontology/core#dateTime
           nestedDescriptors:
             - nestedReference:
-                key: precision
+                key: dateTimeInterval.end.precision
               name: dateTimePrecisionEnd
               nested: true
               destination:
@@ -210,7 +210,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: personId
+            key: participant.id
           name: participantId
           nested: true
           destination:
@@ -222,7 +222,7 @@ fields:
             predicate: http://purl.obolibrary.org/obo/RO_0000052
             parse: true
         - nestedReference:
-            key: role
+            key: participant.role
           name: participantRole
           nested: true
           destination:
@@ -233,7 +233,7 @@ fields:
             template: defaults/data/process/participantRole.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
         - nestedReference:
-            key: startDate
+            key: participant.startDate
           name: participantDateTimeIntervalStart
           nested: true
           destination:
@@ -244,7 +244,7 @@ fields:
             template: defaults/data/process/participantDateTimeIntervalStart.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: participant.endDate
           name: participantDateTimeIntervalEnd
           nested: true
           destination:
@@ -387,7 +387,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: url
+            key: website.url
           name: websiteUrl
           nested: true
           destination:

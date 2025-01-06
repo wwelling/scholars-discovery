@@ -70,7 +70,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: position.type
           name: positionType
           nested: true
           destination:
@@ -81,7 +81,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: organizations
+            key: position.organizations
             multiple: true
           name: positionOrganization
           nested: true
@@ -95,7 +95,7 @@ fields:
             unique: true
           nestedDescriptors:
             - nestedReference:
-                key: parent
+                key: position.organization.parent
                 multiple: true
               name: positionOrganizationParent
               nested: true
@@ -156,7 +156,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: headOf.type
           name: headOfType
           nested: true
           destination:
@@ -167,7 +167,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: organization
+            key: headOf.organization
           name: headOfOrganization
           nested: true
           destination:
@@ -178,7 +178,7 @@ fields:
             template: defaults/data/person/headOfOrganization.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
         - nestedReference:
-            key: startDate
+            key: headOf.startDate
           name: headOfStartDate
           nested: true
           destination:
@@ -189,7 +189,7 @@ fields:
             template: defaults/data/person/headOfStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: headOf.endDate
           name: headOfEndDate
           nested: true
           destination:
@@ -211,7 +211,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: memberOf.type
           name: memberOfType
           nested: true
           destination:
@@ -222,7 +222,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: organization
+            key: memberOf.organization
           name: memberOfOrganization
           nested: true
           destination:
@@ -233,7 +233,7 @@ fields:
             template: defaults/data/person/memberOfOrganization.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
         - nestedReference:
-            key: startDate
+            key: memberOf.startDate
           name: memberOfStartDate
           nested: true
           destination:
@@ -244,7 +244,7 @@ fields:
             template: defaults/data/person/memberOfStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: memberOf.endDate
           name: memberOfEndDate
           nested: true
           destination:
@@ -276,7 +276,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: clinicalActivity.type
           name: clinicalActivityType
           nested: true
           destination:
@@ -287,7 +287,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: role
+            key: clinicalActivity.role
           name: clinicalActivityRole
           nested: true
           destination:
@@ -298,7 +298,7 @@ fields:
             template: defaults/data/person/clinicalActivityRole.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
         - nestedReference:
-            key: startDate
+            key: clinicalActivity.startDate
           name: clinicalActivityStartDate
           nested: true
           destination:
@@ -309,7 +309,7 @@ fields:
             template: defaults/data/person/clinicalActivityStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: clinicalActivity.endDate
           name: clinicalActivityEndDate
           nested: true
           destination:
@@ -331,7 +331,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: attendedEvent.type
           name: attendedEventType
           nested: true
           destination:
@@ -342,7 +342,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: startDate
+            key: attendedEvent.startDate
           name: attendedEventStartDate
           nested: true
           destination:
@@ -353,7 +353,7 @@ fields:
             template: defaults/data/person/attendedEventStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: attendedEvent.endDate
           name: attendedEventEndDate
           nested: true
           destination:
@@ -376,18 +376,18 @@ fields:
         parse: true
       nestedDescriptors:
         - nestedReference:
-            key: label
-          name: educationAndTrainingLabel
+            key: educationAndTraining.title
+          name: educationAndTrainingTitle
           nested: true
           destination:
             type: strings
             indexed: false
             multiValued: true
           source:
-            template: defaults/data/person/educationAndTrainingLabel.sparql
+            template: defaults/data/person/educationAndTrainingTitle.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
         - nestedReference:
-            key: info
+            key: educationAndTraining.info
           name: educationAndTrainingInfo
           nested: true
           destination:
@@ -398,7 +398,7 @@ fields:
             template: defaults/data/person/educationAndTrainingInfo.sparql
             predicate: http://vivoweb.org/ontology/core#supplementalInformation
         - nestedReference:
-            key: organization
+            key: educationAndTraining.organization
           name: educationAndTrainingOrganization
           nested: true
           destination:
@@ -409,7 +409,7 @@ fields:
             template: defaults/data/person/educationAndTrainingOrganization.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
         - nestedReference:
-            key: field
+            key: educationAndTraining.field
           name: educationAndTrainingMajorField
           nested: true
           destination:
@@ -420,19 +420,17 @@ fields:
             template: defaults/data/person/educationAndTrainingMajorField.sparql
             predicate: http://vivoweb.org/ontology/core#majorField
         - nestedReference:
-            key: abbreviation
+            key: educationAndTraining.abbreviation
           name: educationAndTrainingDegreeAbbreviation
           nested: true
           destination:
             type: strings
-            copyTo:
-              - _text_
             multiValued: true
           source:
             template: defaults/data/person/educationAndTrainingDegreeAbbreviation.sparql
             predicate: http://vivoweb.org/ontology/core#abbreviation
         - nestedReference:
-            key: startDate
+            key: educationAndTraining.startDate
           name: educationAndTrainingStartDate
           nested: true
           destination:
@@ -443,21 +441,22 @@ fields:
             template: defaults/data/person/educationAndTrainingStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: educationAndTraining.endDate
           name: educationAndTrainingEndDate
           nested: true
           destination:
-            type: pdate
+            type: pdates
             indexed: false
+            multiValued: true
           source:
             template: defaults/data/person/educationAndTrainingEndDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: isDateSuppressed
+            key: educationAndTraining.isDateSuppressed
           name: educationAndTrainingIsDateSuppressed
           nested: true
           destination:
-            type: string
+            type: strings
             indexed: false
             multiValued: true
           source:
@@ -485,7 +484,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: credentialEligibilityAttained.type
           name: credentialEligibilityAttainedType
           nested: true
           destination:
@@ -517,7 +516,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: adviseeOf.type
           name: adviseeOfType
           nested: true
           destination:
@@ -528,7 +527,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: candidacy
+            key: adviseeOf.candidacy
           name: adviseeOfCandidacy
           nested: true
           destination:
@@ -539,7 +538,7 @@ fields:
             template: defaults/data/person/adviseeOfCandidacy.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
         - nestedReference:
-            key: startDate
+            key: adviseeOf.startDate
           name: adviseeOfStartDate
           nested: true
           destination:
@@ -550,7 +549,7 @@ fields:
             template: defaults/data/person/adviseeOfStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: adviseeOf.endDate
           name: adviseeOfEndDate
           nested: true
           destination:
@@ -573,7 +572,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: publication.type
           name: selectedPublicationType
           nested: true
           destination:
@@ -584,7 +583,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: publicationDate
+            key: publication.date
           name: selectedPublicationDate
           nested: true
           destination:
@@ -595,7 +594,7 @@ fields:
             template: defaults/data/person/selectedPublicationDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: publisher
+            key: publication.publisher
           name: selectedPublicationPublisher
           nested: true
           destination:
@@ -607,7 +606,7 @@ fields:
             predicate: http://www.w3.org/2000/01/rdf-schema#label
             unique: true
         - nestedReference:
-            key: venue
+            key: publication.venue
           name: selectedPublicationVenue
           nested: true
           destination:
@@ -619,7 +618,7 @@ fields:
             predicate: http://www.w3.org/2000/01/rdf-schema#label
             unique: true
         - nestedReference:
-            key: tags
+            key: publication.tags
           name: selectedPublicationTag
           nested: true
           destination:
@@ -650,7 +649,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: creativeWork.type
           name: creativeWorkType
           nested: true
           destination:
@@ -671,7 +670,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: collectionOrSeriesEditorFor.type
           name: collectionOrSeriesEditorForType
           nested: true
           destination:
@@ -682,7 +681,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: role
+            key: collectionOrSeriesEditorFor.role
           name: collectionOrSeriesEditorForRole
           nested: true
           destination:
@@ -693,7 +692,7 @@ fields:
             template: defaults/data/person/collectionOrSeriesEditorForRole.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
         - nestedReference:
-            key: startDate
+            key: collectionOrSeriesEditorFor.startDate
           name: collectionOrSeriesEditorForStartDate
           nested: true
           destination:
@@ -704,7 +703,7 @@ fields:
             template: defaults/data/person/collectionOrSeriesEditorForStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: collectionOrSeriesEditorFor.endDate
           name: collectionOrSeriesEditorForEndDate
           nested: true
           destination:
@@ -726,7 +725,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: editorOf.type
           name: editorOfType
           nested: true
           destination:
@@ -737,7 +736,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: publisher
+            key: editorOf.publisher
           name: editorOfPublisher
           nested: true
           destination:
@@ -749,7 +748,7 @@ fields:
             predicate: http://www.w3.org/2000/01/rdf-schema#label
             unique: true
         - nestedReference:
-            key: pageStart
+            key: editorOf.pageStart
           name: editorOfPageStart
           nested: true
           destination:
@@ -760,7 +759,7 @@ fields:
             template: defaults/data/person/editorOfPageStart.sparql
             predicate: http://purl.org/ontology/bibo/pageStart
         - nestedReference:
-            key: pageEnd
+            key: editorOf.pageEnd
           name: editorOfPageEnd
           nested: true
           destination:
@@ -771,7 +770,7 @@ fields:
             template: defaults/data/person/editorOfPageEnd.sparql
             predicate: http://purl.org/ontology/bibo/pageEnd
         - nestedReference:
-            key: date
+            key: editorOf.date
           name: editorOfDate
           nested: true
           destination:
@@ -793,7 +792,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: presentation.type
           name: presentationType
           nested: true
           destination:
@@ -804,7 +803,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: role
+            key: presentation.role
           name: presentationRole
           nested: true
           destination:
@@ -815,7 +814,7 @@ fields:
             template: defaults/data/person/presentationRole.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
         - nestedReference:
-            key: event
+            key: presentation.event
           name: presentationEvent
           nested: true
           destination:
@@ -827,7 +826,7 @@ fields:
             predicate: http://www.w3.org/2000/01/rdf-schema#label
             parse: true
         - nestedReference:
-            key: startDate
+            key: presentation.startDate
           name: presentationStartDate
           nested: true
           destination:
@@ -838,7 +837,7 @@ fields:
             template: defaults/data/person/presentationStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: presentation.endDate
           name: presentationEndDate
           nested: true
           destination:
@@ -917,33 +916,28 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: awardedBy
+            key: researcherOn.awardedBy
           name: researcherOnAwardedBy
           nested: true
           destination:
             type: text_general
-            copyTo:
-              - _text_
-              - awardedBy_str
             multiValued: true
           source:
             template: defaults/data/person/researcherOnAwardedBy.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
           nestedDescriptors:
             - nestedReference:
-                key: preferredLabel
+                key: researcherOn.awardedBy.preferredLabel
               name: researcherOnAwardedByPreferredLabel
               nested: true
               destination:
                 type: strings
-                copyTo:
-                  - _text_
                 multiValued: true
               source:
                 template: defaults/data/person/researcherOnAwardedByPreferredLabel.sparql
                 predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardedBy_label
         - nestedReference:
-            key: role
+            key: researcherOn.role
           name: researcherOnRole
           nested: true
           destination:
@@ -955,7 +949,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: startDate
+            key: researcherOn.startDate
           name: researcherOnStartDate
           nested: true
           destination:
@@ -966,7 +960,7 @@ fields:
             template: defaults/data/person/researcherOnStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: researcherOn.endDate
           name: researcherOnEndDate
           nested: true
           destination:
@@ -988,7 +982,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: role
+            key: otherResearchActivity.role
           name: otherResearchActivityRole
           nested: true
           destination:
@@ -999,7 +993,7 @@ fields:
             template: defaults/data/person/otherResearchActivityRole.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
         - nestedReference:
-            key: startDate
+            key: otherResearchActivity.startDate
           name: otherResearchActivityStartDate
           nested: true
           destination:
@@ -1010,7 +1004,7 @@ fields:
             template: defaults/data/person/otherResearchActivityStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: otherResearchActivity.endDate
           name: otherResearchActivityEndDate
           nested: true
           destination:
@@ -1039,7 +1033,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: role
+            key: teachingActivity.role
           name: teachingActivityRole
           nested: true
           destination:
@@ -1070,7 +1064,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: advisee.type
           name: adviseeType
           nested: true
           destination:
@@ -1081,7 +1075,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: candidacy
+            key: advisee.candidacy
           name: adviseeCandidacy
           nested: true
           destination:
@@ -1092,7 +1086,7 @@ fields:
             template: defaults/data/person/adviseeCandidacy.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
         - nestedReference:
-            key: startDate
+            key: advisee.startDate
           name: adviseeStartDate
           nested: true
           destination:
@@ -1103,7 +1097,7 @@ fields:
             template: defaults/data/person/adviseeStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: advisee.endDate
           name: adviseeEndDate
           nested: true
           destination:
@@ -1132,7 +1126,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: reviewerOf.type
           name: reviewerOfType
           nested: true
           destination:
@@ -1143,7 +1137,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: startDate
+            key: reviewerOf.startDate
           name: reviewerOfStartDate
           nested: true
           destination:
@@ -1154,7 +1148,7 @@ fields:
             template: defaults/data/person/reviewerOfStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: reviewerOf.endDate
           name: reviewerOfEndDate
           nested: true
           destination:
@@ -1176,7 +1170,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: contactOrProvidorForService.type
           name: contactOrProvidorForServiceType
           nested: true
           destination:
@@ -1198,7 +1192,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: organizerOfEvent.type
           name: organizerOfEventType
           nested: true
           destination:
@@ -1209,7 +1203,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: startDate
+            key: organizerOfEvent.startDate
           name: organizerOfEventStartDate
           nested: true
           destination:
@@ -1220,7 +1214,7 @@ fields:
             template: defaults/data/person/organizerOfEventStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: organizerOfEvent.endDate
           name: organizerOfEventEndDate
           nested: true
           destination:
@@ -1242,7 +1236,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: professionalServiceActivity.type
           name: professionalServiceActivityType
           nested: true
           destination:
@@ -1253,7 +1247,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: role
+            key: professionalServiceActivity.role
           name: professionalServiceActivityRole
           nested: true
           destination:
@@ -1264,7 +1258,7 @@ fields:
             template: defaults/data/person/professionalServiceActivityRole.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
         - nestedReference:
-            key: startDate
+            key: professionalServiceActivity.startDate
           name: professionalServiceActivityStartDate
           nested: true
           destination:
@@ -1275,7 +1269,7 @@ fields:
             template: defaults/data/person/professionalServiceActivityStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: professionalServiceActivity.endDate
           name: professionalServiceActivityEndDate
           nested: true
           destination:
@@ -1297,7 +1291,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: outreachAndCommunityServiceActivity.type
           name: outreachAndCommunityServiceActivityType
           nested: true
           destination:
@@ -1308,7 +1302,7 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
         - nestedReference:
-            key: role
+            key: outreachAndCommunityServiceActivity.role
           name: outreachAndCommunityServiceActivityRole
           nested: true
           destination:
@@ -1319,7 +1313,7 @@ fields:
             template: defaults/data/person/professionalServiceActivityRole.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
         - nestedReference:
-            key: startDate
+            key: outreachAndCommunityServiceActivity.startDate
           name: outreachAndCommunityServiceActivityStartDate
           nested: true
           destination:
@@ -1330,7 +1324,7 @@ fields:
             template: defaults/data/person/professionalServiceActivityStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
         - nestedReference:
-            key: endDate
+            key: outreachAndCommunityServiceActivity.endDate
           name: outreachAndCommunityServiceActivityEndDate
           nested: true
           destination:
@@ -1352,7 +1346,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: performsTechnique.type
           name: performsTechniqueType
           nested: true
           destination:
@@ -1374,7 +1368,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: type
+            key: hasExpertiseInTechnique.type
           name: hasExpertiseInTechniqueType
           nested: true
           destination:
@@ -1611,7 +1605,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: url
+            key: etdChairOf.url
           name: etdChairOfUrl
           nested: true
           destination:
@@ -1622,7 +1616,7 @@ fields:
             template: defaults/data/person/etdChairOfUrl.sparql
             predicate: http://www.w3.org/2006/vcard/ns#url
         - nestedReference:
-            key: publicationDate
+            key: etdChairOf.publicationDate
           name: etdChairOfPublicationDate
           nested: true
           destination:
@@ -1643,7 +1637,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: url
+            key: capstoneAdvisedOf.url
           name: capstoneAdvisedOfUrl
           nested: true
           destination:
@@ -1654,7 +1648,7 @@ fields:
             template: defaults/data/person/capstoneAdvisedOfUrl.sparql
             predicate: http://www.w3.org/2006/vcard/ns#url
         - nestedReference:
-            key: publicationDate
+            key: capstoneAdvisedOf.publicationDate
           name: capstoneAdvisedOfPublicationDate
           nested: true
           destination:
@@ -1706,7 +1700,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
         - nestedReference:
-            key: url
+            key: website.url
           name: websiteUrl
           nested: true
           destination:
