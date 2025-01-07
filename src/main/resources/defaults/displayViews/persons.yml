@@ -19,7 +19,7 @@ exportViews:
         - field: publicationDate
           direction: DESC
           date: true
-        - field: title
+        - field: title_t_sort
           direction: ASC
       filters:
         - field: type
@@ -42,7 +42,7 @@ exportViews:
         - field: publicationDate
           direction: DESC
           date: true
-        - field: title
+        - field: title_t_sort
           direction: ASC
       filters:
         - field: type
@@ -62,7 +62,7 @@ exportViews:
           date: true
       filters:
         - field: class
-          value: Relationship AND type:Grant
+          value: Relationship OR type:Grant
           opKey: EXPRESSION
 - name: Last 5 Years
   contentTemplate: "defaults/displayViews/persons/5YearPublicationsContentTemplate.html"
@@ -75,7 +75,7 @@ exportViews:
       - field: publicationDate
         direction: DESC
         date: true
-      - field: title
+      - field: title_t_sort
         direction: ASC
     filters:
       - field: type
@@ -112,7 +112,7 @@ exportViews:
         date: true
     filters:
       - field: class
-        value: Relationship AND type:Grant
+        value: Relationship OR type:Grant
         opKey: EXPRESSION
 - name: Last 8 Years
   contentTemplate: "defaults/displayViews/persons/8YearPublicationsContentTemplate.html"
@@ -125,7 +125,7 @@ exportViews:
       - field: publicationDate
         direction: DESC
         date: true
-      - field: title
+      - field: title_t_sort
         direction: ASC
     filters:
       - field: type
@@ -162,7 +162,7 @@ exportViews:
         date: true
     filters:
       - field: class
-        value: Relationship AND type:Grant
+        value: Relationship OR type:Grant
         opKey: EXPRESSION
 metaTemplates:
   title: "defaults/displayViews/persons/meta/title.txt"

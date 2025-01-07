@@ -35,7 +35,7 @@ public class DisplayTabView extends View {
 
     @OrderBy("order")
     @JoinColumn(name = "display_tab_view_id")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<DisplaySectionView> sections; // NOSONAR
 
     public DisplayTabView() {

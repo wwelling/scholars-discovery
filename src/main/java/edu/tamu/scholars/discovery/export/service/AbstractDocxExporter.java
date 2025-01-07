@@ -8,6 +8,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -126,7 +127,7 @@ public abstract class AbstractDocxExporter implements Exporter {
         return node;
     }
 
-    protected void fetchAndAttachLazyReferences(ObjectNode node, List<ExportFieldView> lazyReferences) {
+    protected void fetchAndAttachLazyReferences(ObjectNode node, Set<ExportFieldView> lazyReferences) {
         lazyReferences
             .stream()
             .filter(lazyReference -> node.hasNonNull(lazyReference.getField()))
@@ -165,9 +166,10 @@ public abstract class AbstractDocxExporter implements Exporter {
                     .toList();
 
         Sort sort = Sort.by(
-            exportFieldView.getSort().stream().map(s -> {
-                return Order.by(s.getField()).with(s.getDirection());
-            }).toList()
+            exportFieldView.getSort()
+                .stream()
+                .map(s -> Order.by(s.getField()).with(s.getDirection()))
+                .toList()
         );
 
         int limit = exportFieldView.getLimit();

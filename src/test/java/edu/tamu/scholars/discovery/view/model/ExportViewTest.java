@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +35,7 @@ public class ExportViewTest {
         export.setHeaderTemplate("<html><body><span>Hello, Header!</span></body></html>");
         assertEquals("<html><body><span>Hello, Header!</span></body></html>", export.getHeaderTemplate());
 
-        List<ExportFieldView> fieldViews = new ArrayList<ExportFieldView>();
+        Set<ExportFieldView> fieldViews = new HashSet<ExportFieldView>();
 
         ExportFieldView exportField = new ExportFieldView();
 
@@ -46,7 +46,7 @@ public class ExportViewTest {
         filter.setField("type");
         filter.setValue("Test");
 
-        List<Filter> filters = new ArrayList<Filter>();
+        Set<Filter> filters = new HashSet<Filter>();
         filters.add(filter);
 
         exportField.setFilters(filters);
@@ -56,7 +56,7 @@ public class ExportViewTest {
         sort.setDirection(Direction.DESC);
         sort.setDate(true);
 
-        List<Sort> sorting = new ArrayList<Sort>();
+        Set<Sort> sorting = new HashSet<Sort>();
         sorting.add(sort);
 
         exportField.setSort(sorting);
@@ -69,19 +69,19 @@ public class ExportViewTest {
 
         assertEquals(1, export.getLazyReferences().size());
 
-        assertEquals("Test", export.getLazyReferences().get(0).getName());
-        assertEquals("publications", export.getLazyReferences().get(0).getField());
+        assertEquals("Test", export.getLazyReferences().iterator().next().getName());
+        assertEquals("publications", export.getLazyReferences().iterator().next().getField());
 
-        assertEquals(1, export.getLazyReferences().get(0).getFilters().size());
-        assertEquals("type", export.getLazyReferences().get(0).getFilters().get(0).getField());
-        assertEquals("Test", export.getLazyReferences().get(0).getFilters().get(0).getValue());
+        assertEquals(1, export.getLazyReferences().iterator().next().getFilters().size());
+        assertEquals("type", export.getLazyReferences().iterator().next().getFilters().iterator().next().getField());
+        assertEquals("Test", export.getLazyReferences().iterator().next().getFilters().iterator().next().getValue());
 
-        assertEquals(1, export.getLazyReferences().get(0).getSort().size());
-        assertEquals("date", export.getLazyReferences().get(0).getSort().get(0).getField());
-        assertEquals(Direction.DESC, export.getLazyReferences().get(0).getSort().get(0).getDirection());
-        assertTrue(export.getLazyReferences().get(0).getSort().get(0).isDate());
+        assertEquals(1, export.getLazyReferences().iterator().next().getSort().size());
+        assertEquals("date", export.getLazyReferences().iterator().next().getSort().iterator().next().getField());
+        assertEquals(Direction.DESC, export.getLazyReferences().iterator().next().getSort().iterator().next().getDirection());
+        assertTrue(export.getLazyReferences().iterator().next().getSort().iterator().next().isDate());
 
-        assertEquals(10, export.getLazyReferences().get(0).getLimit());
+        assertEquals(10, export.getLazyReferences().iterator().next().getLimit());
     }
 
 }

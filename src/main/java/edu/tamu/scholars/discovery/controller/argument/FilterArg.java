@@ -40,7 +40,9 @@ public class FilterArg {
     }
 
     public String getCommand() {
-        return StringUtils.isEmpty(tag) ? field : String.format("{!tag=%s}%s", tag, field);
+        return StringUtils.isNotEmpty(tag)
+            ? String.format("{!tag=%s}%s", tag, field)
+            : field;
     }
 
     public static FilterArg of(String field, Optional<String> value, Optional<String> opKey, Optional<String> tag) {

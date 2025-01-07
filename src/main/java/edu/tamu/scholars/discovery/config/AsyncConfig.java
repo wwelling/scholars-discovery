@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.config;
 
+import java.util.concurrent.Executor;
+
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Bean;
@@ -17,9 +19,18 @@ public class AsyncConfig implements AsyncConfigurer {
     ThreadPoolTaskScheduler threadPoolTaskScheduler() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
         scheduler.setPoolSize(16);
-        scheduler.setThreadNamePrefix("thread-pool-task-scheduler");
+        scheduler.setThreadNamePrefix("task-scheduler-");
 
         return scheduler;
+    }
+
+    @Override
+    public Executor getAsyncExecutor() {
+        ThreadPoolTaskScheduler executor = new ThreadPoolTaskScheduler();
+        executor.setPoolSize(16);
+        executor.setThreadNamePrefix("async-executor-");
+        executor.initialize();
+        return executor;
     }
 
     @Override
@@ -29,7 +40,7 @@ public class AsyncConfig implements AsyncConfigurer {
 
     @Bean
     protected ConcurrentTaskExecutor taskExecutor() {
-        return new ConcurrentTaskExecutor(this.getAsyncExecutor());
+        return new ConcurrentTaskExecutor(getAsyncExecutor());
     }
 
 }

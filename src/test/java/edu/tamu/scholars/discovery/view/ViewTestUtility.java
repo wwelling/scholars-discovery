@@ -2,8 +2,10 @@ package edu.tamu.scholars.discovery.view;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.data.domain.Sort.Direction;
 
@@ -378,7 +380,7 @@ public class ViewTestUtility {
         sectionFilter.setField("type");
         sectionFilter.setValue("Test");
 
-        List<Filter> sectionFilters = new ArrayList<Filter>();
+        Set<Filter> sectionFilters = new HashSet<Filter>();
         sectionFilters.add(sectionFilter);
 
         section.setFilters(sectionFilters);
@@ -387,7 +389,7 @@ public class ViewTestUtility {
         sectionSort.setField("name");
         sectionSort.setDirection(Direction.ASC);
 
-        List<Sort> sectionSorting = new ArrayList<Sort>();
+        Set<Sort> sectionSorting = new HashSet<Sort>();
         sectionSorting.add(sectionSort);
 
         section.setSort(sectionSorting);
@@ -412,7 +414,7 @@ public class ViewTestUtility {
         subsectionFilter.setField("type");
         subsectionFilter.setValue("Test");
 
-        List<Filter> subsectionFilters = new ArrayList<Filter>();
+        Set<Filter> subsectionFilters = new HashSet<Filter>();
         subsectionFilters.add(subsectionFilter);
 
         subsection.setFilters(subsectionFilters);
@@ -421,7 +423,7 @@ public class ViewTestUtility {
         subsectionSort.setField("date");
         subsectionSort.setDirection(Direction.DESC);
 
-        List<Sort> subsectionSorting = new ArrayList<Sort>();
+        Set<Sort> subsectionSorting = new HashSet<Sort>();
         subsectionSorting.add(subsectionSort);
 
         subsection.setSort(subsectionSorting);
@@ -449,7 +451,7 @@ public class ViewTestUtility {
         exportView.setContentTemplate("<html><body><span>Hello, Content!</span></body></html>");
         exportView.setHeaderTemplate("<html><body><span>Hello, Header!</span></body></html>");
 
-        List<ExportFieldView> fieldViews = new ArrayList<ExportFieldView>();
+        Set<ExportFieldView> fieldViews = new HashSet<ExportFieldView>();
 
         ExportFieldView exportField = new ExportFieldView();
 
@@ -461,7 +463,7 @@ public class ViewTestUtility {
         filter.setField("type");
         filter.setValue("Test");
 
-        List<Filter> filters = new ArrayList<Filter>();
+        Set<Filter> filters = new HashSet<Filter>();
         filters.add(filter);
 
         exportField.setFilters(filters);
@@ -471,7 +473,7 @@ public class ViewTestUtility {
         sort.setDirection(Direction.DESC);
         sort.setDate(true);
 
-        List<Sort> sorting = new ArrayList<Sort>();
+        Set<Sort> sorting = new HashSet<Sort>();
         sorting.add(sort);
 
         exportField.setSort(sorting);

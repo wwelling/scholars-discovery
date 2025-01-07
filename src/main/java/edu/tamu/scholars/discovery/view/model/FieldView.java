@@ -1,7 +1,7 @@
 package edu.tamu.scholars.discovery.view.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -16,17 +16,17 @@ import lombok.Setter;
 public abstract class FieldView extends OrderedView {
 
     @Column(nullable = false)
-    public String field;
+    private String field;
 
     @ElementCollection(fetch = FetchType.LAZY)
-    private List<Filter> filters;
+    private Set<Filter> filters;
 
     @ElementCollection(fetch = FetchType.LAZY)
-    private List<Sort> sort;
+    private Set<Sort> sort;
 
     protected FieldView() {
-        this.filters = new ArrayList<>();
-        this.sort = new ArrayList<>();
+        this.filters = new HashSet<>();
+        this.sort = new HashSet<>();
     }
 
 }

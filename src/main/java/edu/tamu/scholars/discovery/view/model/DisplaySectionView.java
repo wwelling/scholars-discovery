@@ -58,7 +58,7 @@ public class DisplaySectionView extends FieldView {
 
     @OrderBy("order")
     @JoinColumn(name = "display_tab_section_id")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DisplaySubsectionView> subsections;
 
     public DisplaySectionView() {

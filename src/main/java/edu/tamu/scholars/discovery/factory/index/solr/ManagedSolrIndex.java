@@ -1,29 +1,41 @@
 package edu.tamu.scholars.discovery.factory.index.solr;
 
+import static edu.tamu.scholars.discovery.AppConstants.DEFAULT_QUERY;
+
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.BaseHttpSolrClient.RemoteSolrException;
 import org.apache.solr.client.solrj.impl.Http2SolrClient;
+import org.apache.solr.client.solrj.request.json.JsonQueryRequest;
 import org.apache.solr.client.solrj.request.schema.SchemaRequest;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.SolrPingResponse;
 import org.apache.solr.client.solrj.response.schema.SchemaResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.solr.common.params.SolrParams;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import reactor.core.publisher.Flux;
 
+import edu.tamu.scholars.discovery.controller.argument.FilterArg;
 import edu.tamu.scholars.discovery.factory.index.Index;
 import edu.tamu.scholars.discovery.factory.index.dto.CopyField;
 import edu.tamu.scholars.discovery.factory.index.dto.Field;
 import edu.tamu.scholars.discovery.factory.index.dto.IndexQuery;
 import edu.tamu.scholars.discovery.model.Individual;
+import edu.tamu.scholars.discovery.model.repo.builder.FilterQueryBuilder;
 
 @Slf4j
 public class ManagedSolrIndex implements Index<SolrInputDocument> {
@@ -117,6 +129,77 @@ public class ManagedSolrIndex implements Index<SolrInputDocument> {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public List<Individual> findByIdIn(
+        List<String> ids,
+        List<FilterArg> filters,
+        Sort sort,
+        int limit
+    ) {
+        try {
+            ModifiableSolrParams params = new ModifiableSolrParams()
+                .add("fl", "*,[child]");
+
+            JsonQueryRequest request = new JsonQueryRequest(params)
+                .setQuery(DEFAULT_QUERY)
+                .setLimit(limit);
+
+            if (ids.size() == 1) {
+                request.withFilter(String.format("id:%s", ids.get(0)));
+            } else if (ids.size() > 1) {
+                request.withFilter(String.format("{!terms f=id}:%s", String.join(",", ids)));
+            }
+
+            StringBuilder filtering = new StringBuilder();
+            Map<String, List<FilterArg>> filtersByField = filters.stream()
+                .collect(Collectors.groupingBy(FilterArg::getField));
+
+            filtersByField.forEach((field, filterList) -> {
+                FilterArg filter = filterList.get(0);
+
+                filtering.append(FilterQueryBuilder.of(filter, false).build());
+
+                if (filterList.size() > 1) {
+                    // NOTE: filters grouped by field are AND together
+                    for (FilterArg arg : filterList.subList(1, filterList.size())) {
+                        filtering.append(" OR ")
+                            .append(FilterQueryBuilder.of(arg, true).build());
+                    }
+                }
+            });
+
+            request.withFilter(filtering.toString());
+
+            StringBuilder sorting = new StringBuilder();
+            Iterator<Order> orders = sort.iterator();
+
+            while (orders.hasNext()) {
+                if (!sorting.isEmpty()) {
+                    sorting.append(", ");
+                }
+                Order order = orders.next();
+                sorting.append(order.getProperty())
+                    .append(StringUtils.SPACE)
+                    .append(order.getDirection().isAscending() ? "asc" : "desc");
+            }
+
+            if (!sorting.isEmpty()) {
+                request.setSort(sorting.toString());
+            }
+
+            QueryResponse response = request.process(this.solrClient);
+
+            return response.getResults()
+                .stream()
+                .map(Individual::of)
+                .toList();
+        } catch (RemoteSolrException | SolrServerException | IOException e) {
+            log.error("Error pinging Solr collection", e);
+        }
+
+        return List.of();
     }
 
     @Override

@@ -47,11 +47,17 @@ public class IndividualRepo {
     }
 
     public List<Individual> findByIdIn(
-            List<String> ids,
-            List<FilterArg> filters,
-            Sort sort,
-            int limit) {
-        throw new UnsupportedOperationException();
+        List<String> ids,
+        List<FilterArg> filters,
+        Sort sort,
+        int limit
+    ) {
+        return this.index.findByIdIn(
+            ids,
+            filters,
+            sort,
+            limit
+        );
     }
 
     public List<Individual> findByType(String type) {

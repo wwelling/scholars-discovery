@@ -17,6 +17,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapKeyColumn;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.NamedSubgraph;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -29,6 +32,27 @@ import lombok.Setter;
     name = "display_views",
     indexes = {
         @Index(name = "idx_display_view_name", columnList = "name")
+    }
+)
+@NamedEntityGraph(
+    name = "DisplayView.Graph.Export",
+    attributeNodes = {
+        @NamedAttributeNode(value = "exportViews", subgraph = "exportViews"),
+    },
+    subgraphs = {
+        @NamedSubgraph(
+            name = "exportViews",
+            attributeNodes = {
+                @NamedAttributeNode(value = "lazyReferences", subgraph = "lazyReferences")
+            }
+        ),
+        @NamedSubgraph(
+            name = "lazyReferences",
+            attributeNodes = {
+                @NamedAttributeNode("filters"),
+                @NamedAttributeNode("sort")
+            }
+        )
     }
 )
 public class DisplayView extends View {
@@ -56,7 +80,7 @@ public class DisplayView extends View {
     private Side asideLocation;
 
     @JoinColumn(name = "export_view_id")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ExportView> exportViews;
 
     @ElementCollection(fetch = FetchType.LAZY)
@@ -70,7 +94,7 @@ public class DisplayView extends View {
     private Map<String, String> embedTemplates;
 
     @JoinColumn(name = "display_view_id")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DisplayTabView> tabs;
 
     public DisplayView() {

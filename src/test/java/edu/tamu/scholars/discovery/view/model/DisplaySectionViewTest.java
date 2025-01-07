@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,7 +45,7 @@ public class DisplaySectionViewTest {
         filter.setField("type");
         filter.setValue("Test");
 
-        List<Filter> filters = new ArrayList<Filter>();
+        Set<Filter> filters = new HashSet<Filter>();
         filters.add(filter);
 
         section.setFilters(filters);
@@ -53,7 +55,7 @@ public class DisplaySectionViewTest {
         sort.setDirection(Direction.DESC);
         sort.setDate(true);
 
-        List<Sort> sorting = new ArrayList<Sort>();
+        Set<Sort> sorting = new HashSet<Sort>();
         sorting.add(sort);
 
         section.setSort(sorting);
@@ -67,13 +69,13 @@ public class DisplaySectionViewTest {
         assertTrue(section.isShared());
 
         assertEquals(1, section.getFilters().size());
-        assertEquals("type", section.getFilters().get(0).getField());
-        assertEquals("Test", section.getFilters().get(0).getValue());
+        assertEquals("type", section.getFilters().iterator().next().getField());
+        assertEquals("Test", section.getFilters().iterator().next().getValue());
 
         assertEquals(1, section.getSort().size());
-        assertEquals("date", section.getSort().get(0).getField());
-        assertEquals(Direction.DESC, section.getSort().get(0).getDirection());
-        assertTrue(section.getSort().get(0).isDate());
+        assertEquals("date", section.getSort().iterator().next().getField());
+        assertEquals(Direction.DESC, section.getSort().iterator().next().getDirection());
+        assertTrue(section.getSort().iterator().next().isDate());
 
         assertEquals(10, section.getPageSize());
 

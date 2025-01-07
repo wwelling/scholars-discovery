@@ -1,7 +1,7 @@
 package edu.tamu.scholars.discovery.view.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.CascadeType;
@@ -42,12 +42,12 @@ public class ExportView extends View {
 
     @OrderBy("order")
     @JoinColumn(name = "export_field_id")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<ExportFieldView> lazyReferences;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ExportFieldView> lazyReferences;
 
     public ExportView() {
         super();
-        this.lazyReferences = new ArrayList<>();
+        this.lazyReferences = new HashSet<>();
     }
 
 }
