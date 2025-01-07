@@ -1,8 +1,6 @@
 package edu.tamu.scholars.discovery.controller.assembler;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.data.util.StreamUtils;
 import org.springframework.hateoas.CollectionModel;
@@ -24,7 +22,7 @@ public class IndividualResourceAssembler extends RepresentationModelAssemblerSup
 
     @Override
     public IndividualModel toModel(Individual document) {
-        return new IndividualModel(document, Arrays.asList());
+        return new IndividualModel(document, List.of());
     }
 
     @Override
@@ -33,7 +31,7 @@ public class IndividualResourceAssembler extends RepresentationModelAssemblerSup
             .map(this::toModel)
             .toList();
 
-        return new IndividualCollectionModel(content, Arrays.asList(), null);
+        return new IndividualCollectionModel(content, List.of(), null);
     }
 
 }

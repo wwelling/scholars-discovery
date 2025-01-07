@@ -1,6 +1,5 @@
 package edu.tamu.scholars.discovery.model.repo;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,8 +33,8 @@ public class IndividualRepo {
         this.index = index;
     }
 
-    public Page<Individual> findAll(Pageable pageable) {
-        throw new UnsupportedOperationException();
+    public Page<Individual> findAll(Pageable page) {
+        return this.index.findAll(page);
     }
 
     public Optional<Individual> findById(String id) {
@@ -43,7 +42,12 @@ public class IndividualRepo {
     }
 
     public List<Individual> findByIdIn(List<String> ids) {
-        return findByIdIn(ids, new ArrayList<>(), Sort.unsorted(), Integer.MAX_VALUE);
+        return findByIdIn(
+            ids,
+            List.of(),
+            Sort.unsorted(),
+            Integer.MAX_VALUE
+        );
     }
 
     public List<Individual> findByIdIn(
@@ -61,15 +65,15 @@ public class IndividualRepo {
     }
 
     public List<Individual> findByType(String type) {
-        throw new UnsupportedOperationException();
+        return this.index.findByType(type);
     }
 
     public List<Individual> findMostRecentlyUpdate(Integer limit, List<FilterArg> filters) {
-        throw new UnsupportedOperationException();
+        return this.index.findMostRecentlyUpdate(limit, filters);
     }
 
     public long count(String query, List<FilterArg> filters) {
-        throw new UnsupportedOperationException();
+        return this.index.count(query, filters);
     }
 
     public DiscoveryFacetAndHighlightPage<Individual> search(
@@ -79,7 +83,14 @@ public class IndividualRepo {
             List<BoostArg> boosts,
             HighlightArg highlight,
             Pageable page) {
-        throw new UnsupportedOperationException();
+        return this.index.search(
+            query,
+            facets,
+            filters,
+            boosts,
+            highlight,
+            page
+        );
     }
 
     public Flux<Individual> export(
@@ -87,25 +98,38 @@ public class IndividualRepo {
             List<FilterArg> filters,
             List<BoostArg> boosts,
             Sort sort) {
-        throw new UnsupportedOperationException();
+        return this.index.export(
+            query,
+            filters,
+            boosts,
+            sort
+        );
     }
 
-    public DiscoveryNetwork network(NetworkDescriptorArg dataNetworkDescriptor) {
-        throw new UnsupportedOperationException();
+    public DiscoveryNetwork network(NetworkDescriptorArg networkDescriptorArg) {
+        return this.index.network(networkDescriptorArg);
     }
 
     public DiscoveryAcademicAge academicAge(
             AcademicAgeDescriptorArg academicAgeDescriptorArg,
             QueryArg query,
             List<FilterArg> filters) {
-        throw new UnsupportedOperationException();
+        return this.index.academicAge(
+            academicAgeDescriptorArg,
+            query,
+            filters
+        );
     }
 
     public DiscoveryQuantityDistribution quantityDistribution(
             QuantityDistributionDescriptorArg quantityDistributionDescriptor,
             QueryArg query,
             List<FilterArg> filters) {
-        throw new UnsupportedOperationException();
+        return this.index.quantityDistribution(
+            quantityDistributionDescriptor,
+            query,
+            filters
+        );
     }
 
 }

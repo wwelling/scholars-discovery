@@ -30,7 +30,7 @@ public class DiscoveryPage<T> extends PageImpl<T> {
     }
 
     public static <T> DiscoveryPage<T> from(List<T> content, Pageable pageable, long total) {
-        return new DiscoveryPage<T>(content, pageable, total);
+        return new DiscoveryPage<>(content, pageable, total);
     }
 
     public static class PageInfo {

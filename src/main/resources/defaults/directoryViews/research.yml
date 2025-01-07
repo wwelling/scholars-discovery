@@ -8,7 +8,7 @@ fields:
   - title
   - publicationDate
   - authors
-  - authors.organizations
+  - author.organizations
   - doi
   - pmcid
   - uri
@@ -32,7 +32,7 @@ facets:
     collapsed: true
     hidden: false
   - name: Author Organization
-    field: authorOrganization
+    field: author.organizations
     type: STRING
     sort: COUNT
     direction: DESC
@@ -71,7 +71,7 @@ export:
   - columnHeader: Author
     valuePath: authors
   - columnHeader: Author's department
-    valuePath: authors.organizations
+    valuePath: author.organizations
   - columnHeader: DOI
     valuePath: doi
   - columnHeader: PubMed ID

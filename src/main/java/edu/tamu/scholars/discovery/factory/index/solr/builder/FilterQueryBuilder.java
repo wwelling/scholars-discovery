@@ -1,4 +1,4 @@
-package edu.tamu.scholars.discovery.model.repo.builder;
+package edu.tamu.scholars.discovery.factory.index.solr.builder;
 
 import static edu.tamu.scholars.discovery.AppConstants.QUERY_DELIMETER;
 

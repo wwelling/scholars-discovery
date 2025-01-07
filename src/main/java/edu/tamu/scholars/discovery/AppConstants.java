@@ -12,6 +12,8 @@ public class AppConstants {
 
     public static final String VERSION = "version";
 
+    public static final String SNIPPET = "snippet";
+
     public static final String SYNC_IDS = "_sync_ids_";
 
     public static final String COLLECTIONS = "_collections_";

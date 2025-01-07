@@ -9,7 +9,7 @@ fields:
   - preferredTitle
   - researchAreas
   - positions
-  - positions.organizations
+  - position.organizations
   - thumbnail
 facets:
   - name: People
@@ -21,7 +21,7 @@ facets:
     collapsed: true
     hidden: false
   - name: Organization
-    field: positionOrganization
+    field: position.organizations
     type: STRING
     sort: INDEX
     direction: ASC
@@ -37,7 +37,7 @@ facets:
     collapsed: true
     hidden: false
   - name: UN Sustainable Development Goals
-    field: selectedPublicationTag
+    field: publication.tags
     type: STRING
     sort: COUNT
     direction: DESC

@@ -35,10 +35,10 @@ public class DiscoveryPagedResourcesAssembler<T> extends PagedResourcesAssembler
     ) {
         PagedModel<R> pagedResource = super.createPagedModel(resources, metadata, page);
         if (page instanceof DiscoveryFacetAndHighlightPage) {
-            return new FacetAndHightlightPagedResource<R, S>(pagedResource, (DiscoveryFacetAndHighlightPage<S>) page);
+            return new FacetAndHightlightPagedResource<>(pagedResource, (DiscoveryFacetAndHighlightPage<S>) page);
         }
         if (page instanceof DiscoveryFacetPage) {
-            return new FacetPagedResource<R, S>(pagedResource, (DiscoveryFacetPage<S>) page);
+            return new FacetPagedResource<>(pagedResource, (DiscoveryFacetPage<S>) page);
         }
         return pagedResource;
     }
