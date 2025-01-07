@@ -137,18 +137,16 @@ public class SolrQueryBuilder {
 
     public SolrQueryBuilder withBoosts(List<BoostArg> boosts) {
         StringBuilder boostedQuery = new StringBuilder(this.query.getQuery());
-        boosts.forEach(boost -> {
-            boostedQuery.append(" OR ")
-                .append("(")
-                .append(boost.getField())
-                .append(":")
-                .append("(")
-                .append(query)
-                .append(")")
-                .append("^")
-                .append(boost.getValue())
-                .append(")");
-        });
+        boosts.forEach(boost -> boostedQuery.append(" OR ")
+            .append("(")
+            .append(boost.getField())
+            .append(":")
+            .append("(")
+            .append(query)
+            .append(")")
+            .append("^")
+            .append(boost.getValue())
+            .append(")"));
 
         this.query.setQuery(boostedQuery.toString());
 

@@ -1,7 +1,10 @@
 package edu.tamu.scholars.discovery.model.serializer;
 
 import static edu.tamu.scholars.discovery.AppConstants.COLLECTIONS;
+import static edu.tamu.scholars.discovery.AppConstants.DOT;
+import static edu.tamu.scholars.discovery.AppConstants.FORWARD_SLASH;
 import static edu.tamu.scholars.discovery.AppConstants.ID;
+import static edu.tamu.scholars.discovery.AppUtility.getAfter;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -17,14 +20,12 @@ import edu.tamu.scholars.discovery.model.Individual;
 
 public class UnwrappingIndividualSerializer extends JsonSerializer<Individual> {
 
-    private static final char DOT = '.';
-    private static final char FORWARD_SLASH = '/';
-
     private static final Set<String> EXCLUDED_FIELDS = Set.of(
         "_root_",
         "_version_",
         "_collections_",
-        "_sync_ids_"
+        "_sync_ids_",
+        "type_s"
     );
 
     @Override
@@ -141,12 +142,6 @@ public class UnwrappingIndividualSerializer extends JsonSerializer<Individual> {
 
     private String getProperty(String key) {
         return getAfter(key, DOT);
-    }
-
-    private String getAfter(String value, char delimiter) {
-        int index = value.lastIndexOf(delimiter);
-
-        return index < 0 ? value : value.substring(index + 1);
     }
 
 }
