@@ -32,7 +32,9 @@ facets:
     collapsed: true
     hidden: false
   - name: Author Organization
-    field: author.organizations
+    field: label
+    domain:
+      blockParent: type_s:organizations
     type: STRING
     sort: COUNT
     direction: DESC

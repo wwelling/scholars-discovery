@@ -18,9 +18,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @MappedSuperclass
-// @ValidCollectionFacets(message = "{CollectionView.validCollectionFacets}")
-// @ValidCollectionFilters(message = "{CollectionView.validCollectionFilters}")
-// @ValidCollectionExport(message = "{CollectionView.validCollectionExport}")
 // TODO: validate in handler before create and save
 public abstract class CollectionView extends View {
 

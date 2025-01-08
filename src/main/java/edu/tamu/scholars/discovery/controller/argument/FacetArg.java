@@ -10,6 +10,8 @@ public class FacetArg {
 
     private final String field;
 
+    private final String domain;
+
     private final FacetSortArg sort;
 
     private final int pageSize;
@@ -28,6 +30,7 @@ public class FacetArg {
 
     FacetArg(
         String field,
+        String domain,
         String sort,
         int pageSize,
         int pageNumber,
@@ -38,6 +41,7 @@ public class FacetArg {
         String rangeGap
     ) {
         this.field = field;
+        this.domain = domain;
         this.sort = FacetSortArg.of(sort);
         this.pageSize = pageSize;
         this.pageNumber = pageNumber;
@@ -50,6 +54,10 @@ public class FacetArg {
 
     public String getField() {
         return field;
+    }
+
+    public String getDomain() {
+        return domain;
     }
 
     public FacetSortArg getSort() {
@@ -90,6 +98,7 @@ public class FacetArg {
 
     public static FacetArg of(
         String field,
+        Optional<String> domain,
         Optional<String> sort,
         Optional<String> pageSize,
         Optional<String> pageNumber,
@@ -99,6 +108,7 @@ public class FacetArg {
         Optional<String> rangeEnd,
         Optional<String> rangeGap
     ) {
+        String domainParam = domain.isPresent() ? domain.get() : "{}";
         String sortParam = sort.isPresent() ? sort.get() : "COUNT,DESC";
         int pageSizeParam = pageSize.isPresent() ? Integer.valueOf(pageSize.get()) : 10;
         int pageNumberParam = pageNumber.isPresent() ? Integer.valueOf(pageNumber.get()) : 1;
@@ -109,6 +119,7 @@ public class FacetArg {
         String rangeGapParam = rangeGap.isPresent() ? rangeGap.get() : "100";
         return new FacetArg(
             field,
+            domainParam,
             sortParam,
             pageSizeParam,
             pageNumberParam,

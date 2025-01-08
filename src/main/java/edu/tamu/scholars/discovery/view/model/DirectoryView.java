@@ -14,7 +14,6 @@ import lombok.Setter;
         @Index(name = "idx_directory_view_name", columnList = "name")
     }
 )
-// @ValidIndexField(message = "{DirectoryView.validIndexField}")
 // TODO: validate in handler before create and save
 public class DirectoryView extends CollectionView {
 

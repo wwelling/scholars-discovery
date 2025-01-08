@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.util.RawValue;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -117,20 +120,37 @@ public class SolrQueryBuilder {
         return this;
     }
 
-    public SolrQueryBuilder withFacets(List<FacetArg> facets) {
-        facets.forEach(facet -> {
-            String name = facet.getCommand();
-            if (facet.getType() == FacetType.NUMBER_RANGE) {
-                Integer rangeStart = Integer.parseInt(facet.getRangeStart());
-                Integer rangeEnd = Integer.parseInt(facet.getRangeEnd());
-                Integer rangeGap = Integer.parseInt(facet.getRangeGap());
-                this.query.addNumericRangeFacet(name, rangeStart, rangeEnd, rangeGap);
+    public SolrQueryBuilder withFacets(List<FacetArg> facetArgs) {
+        ObjectNode jsonFacet = JsonNodeFactory.instance.objectNode();
+
+        facetArgs.forEach(facetArg -> {
+            String field = facetArg.getField();
+            String command = facetArg.getCommand();
+
+            ObjectNode facet = JsonNodeFactory.instance.objectNode();
+            ObjectNode sort = JsonNodeFactory.instance.objectNode();
+
+            if (facetArg.getType() == FacetType.NUMBER_RANGE) {
+                facet.put("type", "range");
+                facet.put("start", Integer.parseInt(facetArg.getRangeStart()));
+                facet.put("end", Integer.parseInt(facetArg.getRangeEnd()));
+                facet.put("gap", Integer.parseInt(facetArg.getRangeGap()));
             } else {
-                this.query.addFacetField(name);
+                facet.put("type", "terms");
             }
+
+            facet.put("field", command);
+
+            facet.set("sort", sort);
+
+            facet.putRawValue("domain", new RawValue(facetArg.getDomain()));
+
+            jsonFacet.set(field, facet);
         });
 
-        if (!facets.isEmpty()) {
+        if (!jsonFacet.isEmpty()) {
+            this.query.setParam("json.facet", jsonFacet.toString());
+
             // NOTE: other possible; method, minCount, missing, and prefix
             this.query.setFacet(true);
             this.query.setFacetLimit(-1);

@@ -1,10 +1,13 @@
 package edu.tamu.scholars.discovery.view.model;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,6 +18,7 @@ import lombok.ToString;
 import org.springframework.data.domain.Sort.Direction;
 
 import edu.tamu.scholars.discovery.model.OpKey;
+import edu.tamu.scholars.discovery.view.model.converter.DomainConverter;
 
 @Getter
 @Setter
@@ -31,6 +35,10 @@ public class Facet implements Serializable {
 
     @Column(nullable = false)
     private String field;
+
+    @Convert(converter = DomainConverter.class)
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private JsonNode domain;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

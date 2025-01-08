@@ -7,6 +7,7 @@ import static edu.tamu.scholars.discovery.factory.index.solr.utility.SolrFilterU
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -26,9 +27,9 @@ import org.apache.solr.client.solrj.impl.BaseHttpSolrClient.RemoteSolrException;
 import org.apache.solr.client.solrj.impl.Http2SolrClient;
 import org.apache.solr.client.solrj.request.json.JsonQueryRequest;
 import org.apache.solr.client.solrj.request.schema.SchemaRequest;
-import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.SolrPingResponse;
+import org.apache.solr.client.solrj.response.json.NestableJsonFacet;
 import org.apache.solr.client.solrj.response.schema.SchemaResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
@@ -317,16 +318,22 @@ public class ManagedSolrIndex implements Index<SolrInputDocument> {
         try {
             QueryResponse response = solrClient.query(builder.query());
 
-            SolrDocumentList results = response.getResults();
+            NestableJsonFacet nestableJsonFacet = response.getJsonFacetingResponse();
 
-            Map<String, List<Pair<String, Long>>> faceting = response.getFacetFields()
-                .stream()
-                .collect(Collectors.toMap(
-                    FacetField::getName,
-                    facetField -> facetField.getValues().stream()
-                        .map(count -> Pair.of(count.getName(), count.getCount()))
-                    .toList()
-            ));
+            Map<String, List<Pair<String, Long>>> faceting = new HashMap<>();
+            if (nestableJsonFacet != null) {
+                for (String name : nestableJsonFacet.getBucketBasedFacetNames()) {
+                    List<Pair<String, Long>> facetValues = nestableJsonFacet.getBucketBasedFacets(name)
+                        .getBuckets()
+                        .stream()
+                        .map(bucket -> Pair.of(String.valueOf(bucket.getVal()), bucket.getCount()))
+                        .toList();
+
+                    faceting.put(name, facetValues);
+                }
+            }
+
+            SolrDocumentList results = response.getResults();
 
             List<Individual> individuals = results.stream()
                 .map(Individual::of)
