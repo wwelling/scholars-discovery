@@ -203,7 +203,6 @@ fields:
         type: text_general
         copyTo:
           - _text_
-          - participants_str
         multiValued: true
       source:
         template: defaults/data/process/participant.sparql

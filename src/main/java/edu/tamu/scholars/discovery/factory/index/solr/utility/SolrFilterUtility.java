@@ -1,4 +1,4 @@
-package edu.tamu.scholars.discovery.factory.index.solr.builder;
+package edu.tamu.scholars.discovery.factory.index.solr.utility;
 
 import static edu.tamu.scholars.discovery.AppConstants.QUERY_DELIMETER;
 
@@ -7,25 +7,15 @@ import java.util.regex.Pattern;
 
 import edu.tamu.scholars.discovery.controller.argument.FilterArg;
 
-public class FilterQueryBuilder {
+public class SolrFilterUtility {
 
     private static final Pattern RANGE_PATTERN = Pattern.compile("^\\[(.*?) TO (.*?)\\]$");
 
-    private final FilterArg filter;
+    private SolrFilterUtility() {
 
-    private final boolean skipTag;
-
-    private FilterQueryBuilder(FilterArg filter) {
-        this.filter = filter;
-        this.skipTag = false;
     }
 
-    public FilterQueryBuilder(FilterArg filter, boolean skipTag) {
-        this.filter = filter;
-        this.skipTag = skipTag;
-    }
-
-    public String build() {
+    public static String buildFilter(FilterArg filter, boolean skipTag) {
         String field = skipTag ? filter.getField() : filter.getCommand();
         String value = filter.getValue();
 
@@ -101,13 +91,5 @@ public class FilterQueryBuilder {
 
         return filterQuery.toString();
     }
-
-    public static FilterQueryBuilder of(FilterArg filter) {
-        return new FilterQueryBuilder(filter);
-    }
-
-    public static FilterQueryBuilder of(FilterArg filter, boolean skipTag) {
-        return new FilterQueryBuilder(filter, skipTag);
-    }
-
+    
 }

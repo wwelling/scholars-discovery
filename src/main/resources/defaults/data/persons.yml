@@ -121,7 +121,6 @@ fields:
         type: text_general
         copyTo:
           - _text_
-          - researchAreas_str
         multiValued: true
       source:
         template: defaults/data/person/researchArea.sparql

@@ -6,8 +6,10 @@ import static edu.tamu.scholars.discovery.AppConstants.DEFAULT_QUERY;
 import static edu.tamu.scholars.discovery.AppConstants.ID;
 import static edu.tamu.scholars.discovery.AppConstants.LABEL;
 import static edu.tamu.scholars.discovery.AppConstants.REQUEST_PARAM_DELIMETER;
+import static edu.tamu.scholars.discovery.factory.index.solr.utility.SolrFilterUtility.buildFilter;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,8 @@ import edu.tamu.scholars.discovery.view.model.FacetType;
 @Slf4j
 public class SolrQueryBuilder {
 
+    private final UUID id;
+
     private final SolrQuery query;
 
     private SolrQueryBuilder() {
@@ -35,6 +39,7 @@ public class SolrQueryBuilder {
     }
 
     private SolrQueryBuilder(String query) {
+        this.id = UUID.randomUUID();
         this.query = new SolrQuery()
             .setQuery(query)
             .addField("*,[child]");
@@ -97,13 +102,13 @@ public class SolrQueryBuilder {
             FilterArg firstOne = filterList.get(0);
 
             StringBuilder filterQuery = new StringBuilder()
-                .append(new FilterQueryBuilder(firstOne, false).build());
+                .append(buildFilter(firstOne, false));
 
             if (filterList.size() > 1) {
                 // NOTE: filters grouped by field are AND together
                 for (FilterArg arg : filterList.subList(1, filterList.size())) {
                     filterQuery.append(" AND ")
-                        .append(new FilterQueryBuilder(arg, true).build());
+                        .append(buildFilter(arg, true));
                 }
             }
             this.query.addFilterQuery(filterQuery.toString());
@@ -176,6 +181,10 @@ public class SolrQueryBuilder {
     public SolrQuery query() {
         log.debug(this.query.toString());
         return this.query;
+    }
+
+    public UUID getId() {
+        return this.id;
     }
 
     private ORDER getOrder(Direction direction) {

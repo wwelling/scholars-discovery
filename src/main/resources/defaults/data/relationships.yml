@@ -88,7 +88,6 @@ fields:
         type: text_general
         copyTo:
           - _text_
-          - awardConferredBy_str
         multiValued: true
       source:
         template: defaults/data/relationship/awardConferredBy.sparql
@@ -136,7 +135,6 @@ fields:
         type: text_general
         copyTo:
           - _text_
-          - awardedBy_str
         multiValued: true
       source:
         template: defaults/data/relationship/awardedBy.sparql

@@ -72,7 +72,6 @@ fields:
         type: text_general
         copyTo:
           - _text_
-          - awardConferredBy_str
         multiValued: true
       source:
         template: defaults/data/concept/awardConferredBy.sparql

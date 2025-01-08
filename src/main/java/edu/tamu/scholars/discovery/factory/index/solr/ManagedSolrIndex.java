@@ -2,6 +2,7 @@ package edu.tamu.scholars.discovery.factory.index.solr;
 
 import static edu.tamu.scholars.discovery.AppConstants.DEFAULT_QUERY;
 import static edu.tamu.scholars.discovery.AppConstants.TYPE;
+import static edu.tamu.scholars.discovery.factory.index.solr.utility.SolrFilterUtility.buildFilter;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.StreamingResponseCallback;
 import org.apache.solr.client.solrj.impl.BaseHttpSolrClient.RemoteSolrException;
 import org.apache.solr.client.solrj.impl.Http2SolrClient;
 import org.apache.solr.client.solrj.request.json.JsonQueryRequest;
@@ -54,7 +58,6 @@ import edu.tamu.scholars.discovery.factory.index.Index;
 import edu.tamu.scholars.discovery.factory.index.dto.CopyField;
 import edu.tamu.scholars.discovery.factory.index.dto.Field;
 import edu.tamu.scholars.discovery.factory.index.dto.SearchResponse;
-import edu.tamu.scholars.discovery.factory.index.solr.builder.FilterQueryBuilder;
 import edu.tamu.scholars.discovery.factory.index.solr.builder.SolrQueryBuilder;
 import edu.tamu.scholars.discovery.model.Individual;
 
@@ -215,12 +218,12 @@ public class ManagedSolrIndex implements Index<SolrInputDocument> {
             filtersByField.forEach((field, filterList) -> {
                 FilterArg filter = filterList.get(0);
 
-                filtering.append(FilterQueryBuilder.of(filter, false).build());
+                filtering.append(buildFilter(filter, false));
 
                 if (filterList.size() > 1) {
                     for (FilterArg arg : filterList.subList(1, filterList.size())) {
                         filtering.append(" OR ")
-                            .append(FilterQueryBuilder.of(arg, true).build());
+                            .append(buildFilter(arg, true));
                     }
                 }
             });
@@ -354,7 +357,54 @@ public class ManagedSolrIndex implements Index<SolrInputDocument> {
         List<BoostArg> boosts,
         Sort sort
     ) {
-        return Flux.empty();
+        SolrQueryBuilder builder = SolrQueryBuilder.of()
+            .withQuery(query)
+            .withFilters(filters)
+            .withBoosts(boosts)
+            .withSort(sort)
+            .withRows(Integer.MAX_VALUE);
+
+        log.info("{}: Exporting {} {} {} {}", builder.getId(), query, filters, boosts, sort);
+
+        return Flux.create(emitter -> {
+            try {
+                this.solrClient.queryAndStreamResponse(builder.query(), new StreamingResponseCallback() {
+                    private final AtomicLong remaining = new AtomicLong(0);
+                    private final AtomicBoolean docListInfoReceived  = new AtomicBoolean(false);
+
+                    @Override
+                    public void streamSolrDocument(SolrDocument document) {
+                        Individual individual = Individual.of(document);
+                        log.debug("{}: streamSolrDocument: {}", builder.getId(), individual);
+                        emitter.next(individual);
+
+                        long numRemaining = remaining.decrementAndGet();
+                        log.debug("{}: streamSolrDocument remaining: {}", builder.getId(), numRemaining);
+                        if (numRemaining == 0 && docListInfoReceived.get()) {
+                            log.info("{}: streamSolrDocument COMPLETE", builder.getId());
+                            emitter.complete();
+                        }
+                    }
+
+                    @Override
+                    public void streamDocListInfo(long numFound, long start, Float maxScore) {
+                        log.debug("{}: streamDocListInfo {} {} {}", builder.getId(), numFound, start, maxScore);
+
+                        remaining.set(numFound);
+                        docListInfoReceived.set(true);
+
+                        if (numFound == 0) {
+                            log.info("{}: streamDocListInfo COMPLETE", builder.getId());
+                            emitter.complete();
+                        }
+                    }
+
+                });
+            } catch (RemoteSolrException | SolrServerException | IOException e) {
+                emitter.complete();
+                log.error("Error querying Solr collection", e);
+            }
+        });
     }
 
     @Override
