@@ -1,5 +1,7 @@
 package edu.tamu.scholars.discovery.etl.model;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -87,6 +89,12 @@ public class DataFieldDescriptor extends Named {
         this.destination = new FieldDestination();
         this.source = new FieldSource();
         this.nestedDescriptors = new HashSet<>();
+    }
+
+    public String getKey() {
+        return isNotEmpty(this.nestPath)
+            ? this.nestPath
+            : this.name;
     }
 
 }

@@ -16,12 +16,12 @@ import java.util.Map;
 import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrInputDocument;
 
 import edu.tamu.scholars.discovery.etl.model.Data;
 import edu.tamu.scholars.discovery.etl.model.DataField;
 import edu.tamu.scholars.discovery.etl.model.DataFieldDescriptor;
+import edu.tamu.scholars.discovery.etl.model.FieldDestination;
 import edu.tamu.scholars.discovery.etl.transform.DataTransformer;
 import edu.tamu.scholars.discovery.utility.DateFormatUtility;
 
@@ -69,9 +69,7 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             return;
         }
 
-        String key = StringUtils.isNotEmpty(descriptor.getNestPath())
-            ? descriptor.getNestPath()
-            : descriptor.getName();
+        String key = descriptor.getKey();
 
         if (descriptor.getDestination().isMultiValued()) {
 
@@ -119,9 +117,10 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             return;
         }
 
-        String type = descriptor.getDestination().getType();
+        FieldDestination destination = descriptor.getDestination();
+        String type = destination.getType();
 
-        if (descriptor.getDestination().isMultiValued()) {
+        if (destination.isMultiValued()) {
 
             rootContext.document.addField(COLLECTIONS, name);
 
@@ -273,7 +272,9 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         SolrInputDocument nestedDocument,
         int depth
     ) {
-        Object nestedObject = rootContext.data.get(nestedDescriptor.getName());
+        String name = nestedDescriptor.getName();
+
+        Object nestedObject = rootContext.data.get(name);
 
         if (nestedObject == null) {
             return;
@@ -282,9 +283,7 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         String[] nestedParts = NESTED_DELIMITER_PATTERN.split(nestedObject.toString());
 
         if (nestedParts.length > depth) {
-            String key = StringUtils.isNotEmpty(nestedDescriptor.getNestPath())
-                ? nestedDescriptor.getNestPath()
-                : nestedDescriptor.getName();
+            String key = nestedDescriptor.getKey();
 
             nestedDocument.setField(
                 key,
@@ -298,8 +297,6 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             );
         } else {
             if (nestedParts[0] != null) {
-                String name = nestedDescriptor.getName();
-
                 String type = nestedDescriptor.getDestination().getType();
 
                 nestedDocument.setField(name, processValue(type, nestedParts[0]));
@@ -332,9 +329,7 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             return;
         }
 
-        String key = StringUtils.isNotEmpty(nestedDescriptor.getNestPath())
-            ? nestedDescriptor.getNestPath()
-            : nestedDescriptor.getName();
+        String key = nestedDescriptor.getKey();
 
         if (nestedDescriptor.isMultiple()) {
             nestedDocument.setField(key, documents);
