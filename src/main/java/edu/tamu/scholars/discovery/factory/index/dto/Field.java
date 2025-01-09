@@ -1,6 +1,5 @@
 package edu.tamu.scholars.discovery.factory.index.dto;
 
-import static edu.tamu.scholars.discovery.etl.EtlUtility.getFieldName;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.util.HashMap;
@@ -74,7 +73,7 @@ public class Field {
         FieldDestination destination = descriptor.getDestination();
 
         Field field = new Field();
-        field.setName(getFieldName(descriptor));
+        field.setName(descriptor.getName());
         field.setType(destination.getType());
         field.setRequired(destination.isRequired());
         field.setStored(destination.isStored());

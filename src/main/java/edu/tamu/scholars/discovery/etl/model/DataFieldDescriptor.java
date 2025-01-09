@@ -31,6 +31,7 @@ import edu.tamu.scholars.discovery.model.Named;
         columnNames = {
             "name",
             "nested",
+            "multiple",
             "type",
             "default_value",
             "required",
@@ -42,9 +43,7 @@ import edu.tamu.scholars.discovery.model.Named;
             "predicate",
             "unique",
             "parse",
-            "split",
-            "key",
-            "multiple"
+            "split"
         }
     )
 )
@@ -54,16 +53,19 @@ public class DataFieldDescriptor extends Named {
     private static final long serialVersionUID = 875973459875978634L;
 
     @Column(nullable = false)
-    public boolean nested;
+    private boolean nested;
+
+    @Column(nullable = true)
+    private String nestPath;
+
+    @Column(nullable = false)
+    private boolean multiple;
 
     @Embedded
     private FieldDestination destination;
 
     @Embedded
     private FieldSource source;
-
-    @Embedded
-    private NestedReference nestedReference;
 
     @OneToMany(
         cascade = {
@@ -81,9 +83,9 @@ public class DataFieldDescriptor extends Named {
     public DataFieldDescriptor() {
         super();
         this.nested = false;
+        this.multiple = false;
         this.destination = new FieldDestination();
         this.source = new FieldSource();
-        this.nestedReference = new NestedReference();
         this.nestedDescriptors = new HashSet<>();
     }
 

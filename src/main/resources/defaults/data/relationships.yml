@@ -38,8 +38,9 @@ fields:
         template: defaults/data/relationship/description.sparql
         predicate: http://vivoweb.org/ontology/core#description
   - descriptor:
-      name: organizations
+      name: organization.name
       nested: true
+      nestPath: organizations
       destination:
         type: strings
         multiValued: true
@@ -48,8 +49,9 @@ fields:
         template: defaults/data/relationship/organization.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: receiptOf
+      name: receiptOf.name
       nested: true
+      nestPath: receiptOf
       destination:
         type: strings
         indexed: false
@@ -58,8 +60,9 @@ fields:
         template: defaults/data/relationship/receiptOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: awardOrHonorFor
+      name: awardOrHonorFor.name
       nested: true
+      nestPath: awardOrHonorFor
       destination:
         type: strings
         copyTo:
@@ -70,9 +73,7 @@ fields:
         template: defaults/data/relationship/awardOrHonorFor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: awardOrHonorFor.type
-          name: awardOrHonorForType
+        - name: awardOrHonorFor.type
           nested: true
           destination:
             type: strings
@@ -82,8 +83,9 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
   - descriptor:
-      name: awardConferredBy
+      name: awardConferredBy.name
       nested: true
+      nestPath: awardConferredBy
       destination:
         type: text_general
         copyTo:
@@ -93,9 +95,7 @@ fields:
         template: defaults/data/relationship/awardConferredBy.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: awardConferredBy.type
-          name: awardConferredByType
+        - name: awardConferredBy.type
           nested: true
           destination:
             type: strings
@@ -104,9 +104,7 @@ fields:
             template: defaults/data/relationship/awardConferredByType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
-        - nestedReference:
-            key: awardConferredBy.abbreviation
-          name: awardConferredByAbbreviation
+        - name: awardConferredBy.abbreviation
           nested: true
           destination:
             type: strings
@@ -116,9 +114,7 @@ fields:
           source:
             template: defaults/data/relationship/awardConferredByAbbreviation.sparql
             predicate: http://vivoweb.org/ontology/core#abbreviation
-        - nestedReference:
-            key: awardConferredBy.preferredLabel
-          name: awardConferredByPreferredLabel
+        - name: awardConferredBy.preferredLabel
           nested: true
           destination:
             type: strings
@@ -129,8 +125,9 @@ fields:
             template: defaults/data/relationship/awardConferredByPreferredLabel.sparql
             predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardConferredBy_label
   - descriptor:
-      name: awardedBy
+      name: awardedBy.name
       nested: true
+      nestPath: awardedBy
       destination:
         type: text_general
         copyTo:
@@ -140,9 +137,7 @@ fields:
         template: defaults/data/relationship/awardedBy.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: awardedBy.type
-          name: awardedByType
+        - name: awardedBy.type
           nested: true
           destination:
             type: strings
@@ -151,9 +146,7 @@ fields:
             template: defaults/data/relationship/awardedByType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
-        - nestedReference:
-            key: awardedBy.abbreviation
-          name: awardedByAbbreviation
+        - name: awardedBy.abbreviation
           nested: true
           destination:
             type: strings
@@ -163,9 +156,7 @@ fields:
           source:
             template: defaults/data/relationship/awardedByAbbreviation.sparql
             predicate: http://vivoweb.org/ontology/core#abbreviation
-        - nestedReference:
-            key: awardedBy.preferredLabel
-          name: awardedByPreferredLabel
+        - name: awardedBy.preferredLabel
           nested: true
           destination:
             type: strings
@@ -176,8 +167,9 @@ fields:
             template: defaults/data/relationship/awardedByPreferredLabel.sparql
             predicate: http://vivo.library.tamu.edu/ontology/TAMU#awardedBy_label
   - descriptor:
-      name: grantSubcontractedThrough
+      name: grantSubcontractedThrough.name
       nested: true
+      nestPath: grantSubcontractedThrough
       destination:
         type: strings
         indexed: false
@@ -186,9 +178,7 @@ fields:
         template: defaults/data/relationship/grantSubcontractedThrough.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: grantSubcontractedThrough.type
-          name: grantSubcontractedThroughType
+        - name: grantSubcontractedThrough.type
           nested: true
           destination:
             type: strings
@@ -198,8 +188,9 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
   - descriptor:
-      name: administeredBy
+      name: administeredBy.name
       nested: true
+      nestPath: administeredBy
       destination:
         type: strings
         multiValued: true
@@ -208,8 +199,9 @@ fields:
         template: defaults/data/relationship/administeredBy.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: subGrant
+      name: subGrant.label
       nested: true
+      nestPath: subGrant
       destination:
         type: strings
         indexed: false
@@ -218,8 +210,9 @@ fields:
         template: defaults/data/relationship/subGrant.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: subGrantOf
+      name: subGrantOf.label
       nested: true
+      nestPath: subGrantOf
       destination:
         type: strings
         indexed: false
@@ -228,8 +221,9 @@ fields:
         template: defaults/data/relationship/subGrantOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: providesFundingFor
+      name: providesFundingFor.label
       nested: true
+      nestPath: providesFundingFor
       destination:
         type: strings
         indexed: false
@@ -270,8 +264,9 @@ fields:
         template: defaults/data/relationship/localAwardId.sparql
         predicate: http://vivoweb.org/ontology/core#localAwardId
   - descriptor:
-      name: contributors
+      name: contributor.name
       nested: true
+      nestPath: contributors
       destination:
         type: text_general
         copyTo:
@@ -281,9 +276,7 @@ fields:
         template: defaults/data/relationship/contributor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: contributor.role
-          name: contributorRole
+        - name: contributor.role
           nested: true
           destination:
             type: strings
@@ -293,9 +286,7 @@ fields:
             template: defaults/data/relationship/contributorRole.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
-        - nestedReference:
-            key: contributor.organizations
-          name: contributorOrganization
+        - name: contributor.organizations
           nested: true
           destination:
             type: strings
@@ -305,8 +296,9 @@ fields:
             template: defaults/data/relationship/contributorOrganization.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: principalInvestigators
+      name: principalInvestigator.name
       nested: true
+      nestPath: principalInvestigators
       destination:
         type: strings
         copyTo:
@@ -317,8 +309,9 @@ fields:
         template: defaults/data/relationship/principalInvestigator.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: coPrincipalInvestigators
+      name: coPrincipalInvestigator.name
       nested: true
+      nestPath: coPrincipalInvestigators
       destination:
         type: strings
         copyTo:
@@ -329,8 +322,9 @@ fields:
         template: defaults/data/relationship/coPrincipalInvestigator.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: supportedPublicationOrOtherWork
+      name: supportedPublicationOrOtherWork.label
       nested: true
+      nestPath: supportedPublicationOrOtherWork
       destination:
         type: strings
         indexed: false
@@ -355,8 +349,9 @@ fields:
         template: defaults/data/relationship/endDateTime.sparql
         predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
-      name: subjectAreas
+      name: subjectArea.label
       nested: true
+      nestPath: subjectAreas
       destination:
         type: strings
         multiValued: true
@@ -372,8 +367,9 @@ fields:
         template: defaults/data/relationship/yearAwarded.sparql
         predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
-      name: inheresIn
+      name: inheresIn.label
       nested: true
+      nestPath: inheresIn
       destination:
         type: strings
         indexed: false
@@ -382,8 +378,9 @@ fields:
         template: defaults/data/relationship/inheresIn.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: specifiedOutputOf
+      name: specifiedOutputOf.label
       nested: true
+      nestPath: specifiedOutputOf
       destination:
         type: strings
         indexed: false
@@ -392,8 +389,9 @@ fields:
         template: defaults/data/relationship/isSpecifiedOutputOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: outputOf
+      name: outputOf.label
       nested: true
+      nestPath: outputOf
       destination:
         type: strings
         indexed: false
@@ -402,8 +400,9 @@ fields:
         template: defaults/data/relationship/outputOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: participatesIn
+      name: participatesIn.label
       nested: true
+      nestPath: participatesIn
       destination:
         type: strings
         indexed: false
@@ -428,8 +427,9 @@ fields:
         template: defaults/data/common/thumbnail.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
   - descriptor:
-      name: websites
+      name: website.label
       nested: true
+      nestPath: websites
       destination:
         type: strings
         indexed: false
@@ -438,9 +438,7 @@ fields:
         template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: website.url
-          name: websiteUrl
+        - name: website.url
           nested: true
           destination:
             type: strings
@@ -450,8 +448,9 @@ fields:
             template: defaults/data/common/websiteUrl.sparql
             predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
-      name: geographicFocus
+      name: geographicFocus.label
       nested: true
+      nestPath: geographicFocus
       destination:
         type: strings
         indexed: false
@@ -460,8 +459,9 @@ fields:
         template: defaults/data/common/geographicFocus.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: sameAs
+      name: sameAs.label
       nested: true
+      nestPath: sameAs
       destination:
         type: strings
         indexed: false

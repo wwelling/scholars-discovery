@@ -4,12 +4,10 @@ import static edu.tamu.scholars.discovery.AppConstants.CLASS;
 import static edu.tamu.scholars.discovery.AppConstants.COLLECTIONS;
 import static edu.tamu.scholars.discovery.AppConstants.ID;
 import static edu.tamu.scholars.discovery.AppConstants.ID_PATH_DELIMITER;
-import static edu.tamu.scholars.discovery.AppConstants.LABEL;
 import static edu.tamu.scholars.discovery.AppConstants.SYNC_IDS;
 import static edu.tamu.scholars.discovery.AppConstants.TYPE_S;
 import static edu.tamu.scholars.discovery.etl.EtlConstants.NESTED_DELIMITER_PATTERN;
 import static edu.tamu.scholars.discovery.etl.EtlUtility.getFieldPrefix;
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.text.ParseException;
 import java.util.HashSet;
@@ -18,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrInputDocument;
 
 import edu.tamu.scholars.discovery.etl.model.Data;
@@ -43,6 +42,7 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         String id = data.get(ID).toString();
 
         document.setField(ID, id);
+
         document.setField(CLASS, data.get(CLASS));
 
         document.setField(SYNC_IDS, syncIds);
@@ -69,11 +69,13 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             return;
         }
 
-        String name = getFieldName(descriptor);
+        String key = StringUtils.isNotEmpty(descriptor.getNestPath())
+            ? descriptor.getNestPath()
+            : descriptor.getName();
 
         if (descriptor.getDestination().isMultiValued()) {
 
-            rootContext.document.addField(COLLECTIONS, name);
+            rootContext.document.addField(COLLECTIONS, key);
 
             List<String> values = (List<String>) object;
 
@@ -90,13 +92,13 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
                 ).toList();
 
             if (!documents.isEmpty()) {
-                rootContext.document.setField(name, documents);
+                rootContext.document.setField(key, documents);
             }
         } else {
             String[] parts = NESTED_DELIMITER_PATTERN.split(object.toString());
             if (parts.length > 1) {
                 rootContext.document.setField(
-                    name,
+                    key,
                     processNestedValue(
                         rootContext,
                         rootContext.id,
@@ -142,13 +144,18 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
     ) {
         SolrInputDocument nestedDocument = new SolrInputDocument();
 
+        String name = descriptor.getName();
+        String type = descriptor.getDestination().getType();
+
         String id = parts[index];
 
         String nestedDocumentId = rootDocumentId + ID_PATH_DELIMITER + parts[index];
-        String nestedDocumentLabel = parts[0];
+
+        String nestedDocumentValue = processValue(type, parts[0]);
 
         nestedDocument.setField(ID, nestedDocumentId);
-        nestedDocument.setField(LABEL, nestedDocumentLabel);
+
+        nestedDocument.setField(name, nestedDocumentValue);
 
         nestedDocument.setField(TYPE_S, getFieldPrefix(descriptor));
 
@@ -272,13 +279,15 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             return;
         }
 
-        String name = getFieldName(nestedDescriptor);
-
         String[] nestedParts = NESTED_DELIMITER_PATTERN.split(nestedObject.toString());
 
         if (nestedParts.length > depth) {
+            String key = StringUtils.isNotEmpty(nestedDescriptor.getNestPath())
+                ? nestedDescriptor.getNestPath()
+                : nestedDescriptor.getName();
+
             nestedDocument.setField(
-                name,
+                key,
                 processNestedValue(
                     rootContext,
                     rootDocumentId,
@@ -289,6 +298,8 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             );
         } else {
             if (nestedParts[0] != null) {
+                String name = nestedDescriptor.getName();
+
                 String type = nestedDescriptor.getDestination().getType();
 
                 nestedDocument.setField(name, processValue(type, nestedParts[0]));
@@ -321,12 +332,14 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             return;
         }
 
-        String name = getFieldName(nestedDescriptor);
+        String key = StringUtils.isNotEmpty(nestedDescriptor.getNestPath())
+            ? nestedDescriptor.getNestPath()
+            : nestedDescriptor.getName();
 
-        if (isMultipleReference(nestedDescriptor)) {
-            nestedDocument.setField(name, documents);
+        if (nestedDescriptor.isMultiple()) {
+            nestedDocument.setField(key, documents);
         } else {
-            nestedDocument.setField(name, documents.get(0));
+            nestedDocument.setField(key, documents.get(0));
         }
     }
 
@@ -347,20 +360,13 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
             return;
         }
 
-        String name = getFieldName(nestedDescriptor);
+        String name = nestedDescriptor.getName();
 
-        if (isMultipleReference(nestedDescriptor)) {
+        if (nestedDescriptor.isMultiple()) {
             nestedDocument.setField(name, collection);
         } else {
             nestedDocument.setField(name, collection.get(0));
         }
-    }
-
-    private String getFieldName(DataFieldDescriptor descriptor) {
-        return descriptor.getNestedReference() != null
-            && isNotEmpty(descriptor.getNestedReference().getKey())
-                ? descriptor.getNestedReference().getKey()
-                : descriptor.getName();
     }
 
     private String processValue(String type, String value) {
@@ -387,12 +393,6 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         }
 
         return true;
-    }
-
-    private boolean isMultipleReference(DataFieldDescriptor descriptor) {
-        return descriptor.getNestedReference() != null
-            && descriptor.getNestedReference().getMultiple() != null
-            && descriptor.getNestedReference().getMultiple();
     }
 
     private record RootContext(

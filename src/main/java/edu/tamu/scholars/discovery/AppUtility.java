@@ -12,4 +12,10 @@ public class AppUtility {
         return index < 0 ? value : value.substring(index + 1);
     }
 
+    public static String getBefore(String value, char delimiter) {
+        int index = value.indexOf(delimiter);
+
+        return index < 0 ? value : value.substring(0, index);
+    }
+
 }

@@ -4,7 +4,6 @@ import static edu.tamu.scholars.discovery.AppConstants.CLASS;
 import static edu.tamu.scholars.discovery.AppConstants.COLLECTIONS;
 import static edu.tamu.scholars.discovery.AppConstants.DEFAULT_QUERY;
 import static edu.tamu.scholars.discovery.AppConstants.ID;
-import static edu.tamu.scholars.discovery.AppConstants.LABEL;
 import static edu.tamu.scholars.discovery.AppConstants.REQUEST_PARAM_DELIMETER;
 import static edu.tamu.scholars.discovery.factory.index.solr.utility.SolrFilterUtility.buildFilter;
 
@@ -25,6 +24,7 @@ import org.springframework.data.domain.Sort.Direction;
 
 import edu.tamu.scholars.discovery.controller.argument.BoostArg;
 import edu.tamu.scholars.discovery.controller.argument.FacetArg;
+import edu.tamu.scholars.discovery.controller.argument.FacetSortArg;
 import edu.tamu.scholars.discovery.controller.argument.FilterArg;
 import edu.tamu.scholars.discovery.controller.argument.HighlightArg;
 import edu.tamu.scholars.discovery.controller.argument.QueryArg;
@@ -66,7 +66,7 @@ public class SolrQueryBuilder {
         }
 
         if (StringUtils.isNotEmpty(query.getFields())) {
-            String fields = String.join(REQUEST_PARAM_DELIMETER,"[child]", COLLECTIONS, ID, CLASS, LABEL, query.getFields());
+            String fields = String.join(REQUEST_PARAM_DELIMETER,"[child]", COLLECTIONS, ID, CLASS, query.getFields());
             this.query.setParam("fl", fields);
         }
 
@@ -139,7 +139,13 @@ public class SolrQueryBuilder {
                 facet.put("type", "terms");
             }
 
+            FacetSortArg facetSortArg = facetArg.getSort();
+
+            sort.put(facetSortArg.getProperty().toString().toLowerCase(), facetSortArg.getDirection().toString().toLowerCase());
+
             facet.put("field", command);
+            facet.put("limit", -1);
+            facet.put("mincount", 1);
 
             facet.set("sort", sort);
 
@@ -150,11 +156,6 @@ public class SolrQueryBuilder {
 
         if (!jsonFacet.isEmpty()) {
             this.query.setParam("json.facet", jsonFacet.toString());
-
-            // NOTE: other possible; method, minCount, missing, and prefix
-            this.query.setFacet(true);
-            this.query.setFacetLimit(-1);
-            this.query.setFacetMinCount(1);
         }
 
         return this;

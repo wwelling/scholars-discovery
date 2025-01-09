@@ -1,7 +1,5 @@
 package edu.tamu.scholars.discovery.etl.model.repo.listener;
 
-import static edu.tamu.scholars.discovery.etl.EtlUtility.getFieldName;
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -146,8 +144,8 @@ public class DataEntityListener {
     }
 
     private void validateDescriptor(DataFieldDescriptor currentDescriptor, DataFieldDescriptor existingDescriptor) {
-        String currentDescriptorFieldName = getFieldName(currentDescriptor);
-        String existingDescriptorFieldName = getFieldName(existingDescriptor);
+        String currentDescriptorFieldName = currentDescriptor.getName();
+        String existingDescriptorFieldName = existingDescriptor.getName();
 
         if (currentDescriptorFieldName.equals(existingDescriptorFieldName)
             && !currentDescriptor.getDestination().equals(existingDescriptor.getDestination())) {

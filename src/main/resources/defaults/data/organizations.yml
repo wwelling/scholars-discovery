@@ -29,8 +29,9 @@ fields:
         template: defaults/data/organization/overview.sparql
         predicate: http://vivoweb.org/ontology/core#overview
   - descriptor:
-      name: degrees
+      name: degree.name
       nested: true
+      nestPath: degrees
       destination:
         type: strings
         copyTo:
@@ -57,8 +58,9 @@ fields:
         template: defaults/data/organization/date.sparql
         predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
-      name: sponsorsAwardOrHonor
+      name: sponsorsAwardOrHonor.name
       nested: true
+      nestPath: sponsorsAwardOrHonor
       destination:
         type: strings
         indexed: false
@@ -67,8 +69,9 @@ fields:
         template: defaults/data/organization/sponsorsAwardOrHonor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: awardOrHonorGiven
+      name: awardOrHonorGiven.name
       nested: true
+      nestPath: awardOrHonorGiven
       destination:
         type: strings
         indexed: false
@@ -77,8 +80,9 @@ fields:
         template: defaults/data/organization/awardOrHonorGiven.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: awardOrHonorReceived
+      name: awardOrHonorReceived.name
       nested: true
+      nestPath: awardOrHonorReceived
       destination:
         type: strings
         indexed: false
@@ -98,8 +102,9 @@ fields:
         template: defaults/data/organization/keyword.sparql
         predicate: http://vivoweb.org/ontology/core#freetextKeyword
   - descriptor:
-      name: organizationForTraining
+      name: organizationForTraining.name
       nested: true
+      nestPath: organizationForTraining
       destination:
         type: strings
         indexed: false
@@ -108,9 +113,7 @@ fields:
         template: defaults/data/organization/organizationForTraining.sparql
         predicate: http://vivoweb.org/ontology/core#majorField
       nestedDescriptors:
-        - nestedReference:
-            key: organizationForTraining.trainee
-          name: organizationForTrainingTrainee
+        - name: organizationForTraining.trainee
           nested: true
           destination:
             type: strings
@@ -119,9 +122,7 @@ fields:
           source:
             template: defaults/data/organization/organizationForTrainingTrainee.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
-        - nestedReference:
-            key: organizationForTraining.degree
-          name: organizationForTrainingDegree
+        - name: organizationForTraining.degree
           nested: true
           destination:
             type: strings
@@ -130,9 +131,7 @@ fields:
           source:
             template: defaults/data/organization/organizationForTrainingDegree.sparql
             predicate: http://vivoweb.org/ontology/core#abbreviation
-        - nestedReference:
-            key: organizationForTraining.startDate
-          name: organizationForTrainingStartDate
+        - name: organizationForTraining.startDate
           nested: true
           destination:
             type: pdates
@@ -141,9 +140,7 @@ fields:
           source:
             template: defaults/data/organization/organizationForTrainingStartDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
-        - nestedReference:
-            key: organizationForTraining.endDate
-          name: organizationForTrainingEndDate
+        - name: organizationForTraining.endDate
           nested: true
           destination:
             type: pdates
@@ -153,8 +150,9 @@ fields:
             template: defaults/data/organization/organizationForTrainingEndDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
-      name: people
+      name: person.name
       nested: true
+      nestPath: people
       destination:
         type: strings
         multiValued: true
@@ -162,9 +160,7 @@ fields:
         template: defaults/data/organization/people.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: person.type
-          name: peopleType
+        - name: person.type
           nested: true
           destination:
             type: strings
@@ -173,9 +169,7 @@ fields:
             template: defaults/data/organization/peopleType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
-        - nestedReference:
-            key: person.title
-          name: peopleTitle
+        - name: person.title
           nested: true
           destination:
             type: text_general
@@ -184,8 +178,9 @@ fields:
             template: defaults/data/organization/peopleTitle.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: hasSubOrganizations
+      name: hasSubOrganization.name
       nested: true
+      nestPath: hasSubOrganizations
       destination:
         type: strings
         indexed: false
@@ -194,9 +189,7 @@ fields:
         template: defaults/data/organization/hasSubOrganization.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: hasSubOrganization.type
-          name: hasSubOrganizationType
+        - name: hasSubOrganization.type
           nested: true
           destination:
             type: strings
@@ -206,8 +199,9 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
   - descriptor:
-      name: organizationWithin
+      name: organizationWithin.name
       nested: true
+      nestPath: organizationWithin
       destination:
         type: strings
         multiValued: true
@@ -216,8 +210,9 @@ fields:
         template: defaults/data/organization/organizationWithin.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: leadOrganizationOf
+      name: leadOrganizationOf.name
       nested: true
+      nestPath: leadOrganizationOf
       destination:
         type: strings
         indexed: false
@@ -226,8 +221,9 @@ fields:
         template: defaults/data/organization/leadOrganizationOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: hasCollaboratingOrganizationOrGroup
+      name: hasCollaboratingOrganizationOrGroup.name
       nested: true
+      nestPath: hasCollaboratingOrganizationOrGroup
       destination:
         type: strings
         indexed: false
@@ -236,8 +232,9 @@ fields:
         template: defaults/data/organization/hasCollaboratingOrganizationOrGroup.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: hasAffiliatedOrganizations
+      name: hasAffiliatedOrganization.name
       nested: true
+      nestPath: hasAffiliatedOrganizations
       destination:
         type: strings
         indexed: false
@@ -246,8 +243,9 @@ fields:
         template: defaults/data/organization/hasAffiliatedOrganization.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: memberOf
+      name: memberOf.name
       nested: true
+      nestPath: memberOf
       destination:
         type: strings
         indexed: false
@@ -256,8 +254,9 @@ fields:
         template: defaults/data/organization/memberOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: clinicalActivities
+      name: clinicalActivity.name
       nested: true
+      nestPath: clinicalActivities
       destination:
         type: strings
         indexed: false
@@ -266,8 +265,9 @@ fields:
         template: defaults/data/organization/clinicalActivity.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: convenerOfEvents
+      name: convenerOfEvent.name
       nested: true
+      nestPath: convenerOfEvents
       destination:
         type: strings
         indexed: false
@@ -276,8 +276,9 @@ fields:
         template: defaults/data/organization/convenerOfEvent.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: attendedEvents
+      name: attendedEvent.name
       nested: true
+      nestPath: attendedEvents
       destination:
         type: strings
         indexed: false
@@ -286,8 +287,9 @@ fields:
         template: defaults/data/organization/attendedEvent.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: publications
+      name: publication.title
       nested: true
+      nestPath: publications
       destination:
         type: text_general
         copyTo:
@@ -297,8 +299,9 @@ fields:
         template: defaults/data/organization/publication.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: publisherOf
+      name: publisherOf.name
       nested: true
+      nestPath: publisherOf
       destination:
         type: strings
         multiValued: true
@@ -307,8 +310,9 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
         unique: true
   - descriptor:
-      name: presentations
+      name: presentation.title
       nested: true
+      nestPath: presentations
       destination:
         type: strings
         indexed: false
@@ -317,8 +321,9 @@ fields:
         template: defaults/data/organization/presentation.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: featuredIn
+      name: featuredIn.name
       nested: true
+      nestPath: featuredIn
       destination:
         type: strings
         indexed: false
@@ -327,8 +332,9 @@ fields:
         template: defaults/data/organization/featuredIn.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: assigneeForPatent
+      name: assigneeForPatent.name
       nested: true
+      nestPath: assigneeForPatent
       destination:
         type: strings
         indexed: false
@@ -337,8 +343,9 @@ fields:
         template: defaults/data/organization/assigneeForPatent.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: translatorOf
+      name: translatorOf.title
       nested: true
+      nestPath: translatorOf
       destination:
         type: strings
         indexed: false
@@ -347,8 +354,9 @@ fields:
         template: defaults/data/organization/translatorOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: awardsGrant
+      name: awardsGrant.name
       nested: true
+      nestPath: awardsGrant
       destination:
         type: strings
         multiValued: true
@@ -356,9 +364,7 @@ fields:
         template: defaults/data/organization/awardsGrant.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: awardsGrant.date
-          name: awardsGrantDate
+        - name: awardsGrant.date
           nested: true
           destination:
             type: pdates
@@ -368,8 +374,9 @@ fields:
             template: defaults/data/organization/awardsGrantDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
-      name: administersGrant
+      name: administersGrant.name
       nested: true
+      nestPath: administersGrant
       destination:
         type: strings
         indexed: false
@@ -378,9 +385,7 @@ fields:
         template: defaults/data/organization/administersGrant.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: administersGrant.date
-          name: administersGrantDate
+        - name: administersGrant.date
           nested: true
           destination:
             type: pdates
@@ -390,8 +395,9 @@ fields:
             template: defaults/data/organization/administersGrantDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
-      name: subcontractsGrant
+      name: subcontractsGrant.name
       nested: true
+      nestPath: subcontractsGrant
       destination:
         type: strings
         indexed: false
@@ -400,9 +406,7 @@ fields:
         template: defaults/data/organization/subcontractsGrant.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: subcontractsGrant.date
-          name: subcontractsGrantDate
+        - name: subcontractsGrant.date
           nested: true
           destination:
             type: pdates
@@ -412,8 +416,9 @@ fields:
             template: defaults/data/organization/subcontractsGrantDate.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
-      name: performsHumanStudy
+      name: performsHumanStudy.name
       nested: true
+      nestPath: performsHumanStudy
       destination:
         type: strings
         indexed: false
@@ -422,8 +427,9 @@ fields:
         template: defaults/data/organization/performsHumanStudy.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: contractOrProviderForService
+      name: contractOrProviderForService.label
       nested: true
+      nestPath: contractOrProviderForService
       destination:
         type: strings
         indexed: false
@@ -432,8 +438,9 @@ fields:
         template: defaults/data/organization/contractOrProviderForService.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: outreachAndCommunityServiceActivities
+      name: outreachAndCommunityServiceActivity.label
       nested: true
+      nestPath: outreachAndCommunityServiceActivities
       destination:
         type: strings
         indexed: false
@@ -442,8 +449,9 @@ fields:
         template: defaults/data/organization/outreachAndCommunityServiceActivity.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: hasEquipment
+      name: hasEquipment.label
       nested: true
+      nestPath: hasEquipment
       destination:
         type: strings
         indexed: false
@@ -452,8 +460,9 @@ fields:
         template: defaults/data/organization/hasEquipment.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: courses
+      name: course.name
       nested: true
+      nestPath: courses
       destination:
         type: strings
         multiValued: true
@@ -533,8 +542,9 @@ fields:
         template: defaults/data/organization/geographicLocation.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: locatedAtFacilities
+      name: locatedAtFacility.name
       nested: true
+      nestPath: locatedAtFacilities
       destination:
         type: strings
         indexed: false
@@ -543,8 +553,9 @@ fields:
         template: defaults/data/organization/locatedAtFacility.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: predecessorOrganizations
+      name: predecessorOrganization.name
       nested: true
+      nestPath: predecessorOrganizations
       destination:
         type: strings
         indexed: false
@@ -553,8 +564,9 @@ fields:
         template: defaults/data/organization/predecessorOrganization.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: successorOrganizations
+      name: successorOrganization.name
       nested: true
+      nestPath: successorOrganizations
       destination:
         type: strings
         indexed: false
@@ -563,8 +575,9 @@ fields:
         template: defaults/data/organization/successorOrganization.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: governingAuthorityFor
+      name: governingAuthorityFor.label
       nested: true
+      nestPath: governingAuthorityFor
       destination:
         type: strings
         indexed: false
@@ -573,8 +586,9 @@ fields:
         template: defaults/data/organization/governingAuthorityFor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: affiliatedResearchAreas
+      name: affiliatedResearchArea.label
       nested: true
+      nestPath: affiliatedResearchAreas
       destination:
         type: strings
         multiValued: true
@@ -608,8 +622,9 @@ fields:
         template: defaults/data/common/thumbnail.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
   - descriptor:
-      name: websites
+      name: website.label
       nested: true
+      nestPath: websites
       destination:
         type: strings
         indexed: false
@@ -618,9 +633,7 @@ fields:
         template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: website.url
-          name: websiteUrl
+        - name: website.url
           nested: true
           destination:
             type: strings
@@ -630,8 +643,9 @@ fields:
             template: defaults/data/common/websiteUrl.sparql
             predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
-      name: geographicFocus
+      name: geographicFocus.label
       nested: true
+      nestPath: geographicFocus
       destination:
         type: strings
         indexed: false
@@ -640,8 +654,9 @@ fields:
         template: defaults/data/common/geographicFocus.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: sameAs
+      name: sameAs.label
       nested: true
+      nestPath: sameAs
       destination:
         type: strings
         indexed: false

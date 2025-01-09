@@ -3,7 +3,6 @@ package edu.tamu.scholars.discovery.defaults;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -123,14 +122,11 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
     }
 
     private DataFieldDescriptor resolveDescriptor(DataFieldDescriptor descriptor) {
-
-        String key = Objects.nonNull(descriptor.getNestedReference())
-            ? descriptor.getNestedReference().getKey()
-            : null;
-
         Specification<DataFieldDescriptor> specification = (root, query, cb) -> cb.and(
             cb.equal(root.get("name"), descriptor.getName()),
             cb.equal(root.get("nested"), descriptor.isNested()),
+            cb.equal(root.get("multiple"), descriptor.isMultiple()),
+            cb.equal(root.get("nestPath"), descriptor.getNestPath()),
             cb.equal(root.get("destination").get("type"), descriptor.getDestination().getType()),
             cb.equal(root.get("destination").get("defaultValue"), descriptor.getDestination().getDefaultValue()),
             cb.equal(root.get("destination").get("required"), descriptor.getDestination().isRequired()),
@@ -142,8 +138,7 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
             cb.equal(root.get("source").get("template"), descriptor.getSource().getTemplate()),
             cb.equal(root.get("source").get("unique"), descriptor.getSource().isUnique()),
             cb.equal(root.get("source").get("parse"), descriptor.getSource().isParse()),
-            cb.equal(root.get("source").get("split"), descriptor.getSource().isSplit()),
-            cb.equal(root.get("nestedReference").get("key"), key));
+            cb.equal(root.get("source").get("split"), descriptor.getSource().isSplit()));
 
         return descriptorRepo.findOne(specification)
             .map(entity -> descriptorRepo.findById(entity.getId()).orElse(entity))
@@ -154,7 +149,6 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
     private boolean isEquivalent(DataFieldDescriptor existing, DataFieldDescriptor descriptor) {
         return existing.getDestination().equals(descriptor.getDestination())
             && existing.getSource().equals(descriptor.getSource())
-            && existing.getNestedReference().equals(descriptor.getNestedReference())
             && existing.getNestedDescriptors().equals(descriptor.getNestedDescriptors());
      }
 

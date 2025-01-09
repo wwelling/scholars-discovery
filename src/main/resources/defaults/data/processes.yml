@@ -29,8 +29,9 @@ fields:
         template: defaults/data/process/abstract.sparql
         predicate: http://purl.org/ontology/bibo/abstract
   - descriptor:
-      name: authors
+      name: author.name
       nested: true
+      nestPath: authors
       destination:
         type: strings
         copyTo:
@@ -41,11 +42,9 @@ fields:
         template: defaults/data/process/author.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: author.organizations
-            multiple: true
-          name: authorOrganization
+        - name: author.organizations
           nested: true
+          multiple: true
           destination:
             type: strings
             multiValued: true
@@ -71,8 +70,9 @@ fields:
         template: defaults/data/process/description.sparql
         predicate: http://vivoweb.org/ontology/core#description
   - descriptor:
-      name: offeredBy
+      name: offeredBy.label
       nested: true
+      nestPath: offeredBy
       destination:
         type: strings
         multiValued: true
@@ -81,27 +81,25 @@ fields:
         template: defaults/data/process/offeredBy.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: dateTimeInterval
+      name: dateTimeInterval.label
       nested: true
+      nestPath: dateTimeInterval
       destination:
         type: string
       source:
         template: defaults/data/process/dateTimeInterval.sparql
         predicate: http://vivoweb.org/ontology/core#dateTimeInterval
       nestedDescriptors:
-        - nestedReference:
-            key: dateTimeInterval.start
-          name: dateTimeIntervalStart
+        - name: dateTimeInterval.start
           nested: true
+          nestPath: start
           destination:
             type: pdate
           source:
             template: defaults/data/process/dateTimeIntervalStart.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
           nestedDescriptors:
-            - nestedReference:
-                key: dateTimeInterval.start.precision
-              name: dateTimePrecisionStart
+            - name: dateTimeInterval.start.precision
               nested: true
               destination:
                 type: string
@@ -109,19 +107,16 @@ fields:
                 template: defaults/data/process/dateTimePrecisionStart.sparql
                 predicate: http://vivoweb.org/ontology/core#dateTimePrecision
                 parse: true
-        - nestedReference:
-            key: dateTimeInterval.end
-          name: dateTimeIntervalEnd
+        - name: dateTimeInterval.end
           nested: true
+          nestPath: end
           destination:
             type: pdate
           source:
             template: defaults/data/process/dateTimeIntervalEnd.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
           nestedDescriptors:
-            - nestedReference:
-                key: dateTimeInterval.end.precision
-              name: dateTimePrecisionEnd
+            - name: dateTimeInterval.end.precision
               nested: true
               destination:
                 type: string
@@ -167,8 +162,9 @@ fields:
         template: defaults/data/process/note.sparql
         predicate: http://www.w3.org/2006/vcard/ns#note
   - descriptor:
-      name: occursWithinEvent
+      name: occursWithinEvent.name
       nested: true
+      nestPath: occursWithinEvent
       destination:
         type: strings
         indexed: false
@@ -177,8 +173,9 @@ fields:
         template: defaults/data/process/occursWithinEvent.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: includesEvent
+      name: includesEvent.name
       nested: true
+      nestPath: includesEvent
       destination:
         type: strings
         indexed: false
@@ -187,8 +184,9 @@ fields:
         template: defaults/data/process/includesEvent.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: inEventSeries
+      name: inEventSeries.name
       nested: true
+      nestPath: inEventSeries
       destination:
         type: strings
         indexed: false
@@ -197,8 +195,9 @@ fields:
         template: defaults/data/process/inEventSeries.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: participants
+      name: participant.name
       nested: true
+      nestPath: participants
       destination:
         type: text_general
         copyTo:
@@ -208,9 +207,7 @@ fields:
         template: defaults/data/process/participant.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: participant.id
-          name: participantId
+        - name: participant.id
           nested: true
           destination:
             type: strings
@@ -220,9 +217,7 @@ fields:
             template: defaults/data/process/participantId.sparql
             predicate: http://purl.obolibrary.org/obo/RO_0000052
             parse: true
-        - nestedReference:
-            key: participant.role
-          name: participantRole
+        - name: participant.role
           nested: true
           destination:
             type: strings
@@ -231,9 +226,7 @@ fields:
           source:
             template: defaults/data/process/participantRole.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
-        - nestedReference:
-            key: participant.startDate
-          name: participantDateTimeIntervalStart
+        - name: participant.startDate
           nested: true
           destination:
             type: pdates
@@ -242,9 +235,7 @@ fields:
           source:
             template: defaults/data/process/participantDateTimeIntervalStart.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
-        - nestedReference:
-            key: participant.endDate
-          name: participantDateTimeIntervalEnd
+        - name: participant.endDate
           nested: true
           destination:
             type: pdates
@@ -254,8 +245,9 @@ fields:
             template: defaults/data/process/participantDateTimeIntervalEnd.sparql
             predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
-      name: subjectAreas
+      name: subjectArea.label
       nested: true
+      nestPath: subjectAreas
       destination:
         type: strings
         multiValued: true
@@ -263,8 +255,9 @@ fields:
         template: defaults/data/process/hasSubjectArea.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: hasPrerequisite
+      name: hasPrerequisite.label
       nested: true
+      nestPath: hasPrerequisite
       destination:
         type: strings
         indexed: false
@@ -273,8 +266,9 @@ fields:
         template: defaults/data/process/hasPrerequisite.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: prerequisiteFor
+      name: prerequisiteFor.label
       nested: true
+      nestPath: prerequisiteFor
       destination:
         type: strings
         indexed: false
@@ -291,8 +285,9 @@ fields:
         template: defaults/data/process/credits.sparql
         predicate: http://vivoweb.org/ontology/core#courseCredits
   - descriptor:
-      name: outputPublicationOrOtherWork
+      name: outputPublicationOrOtherWork.label
       nested: true
+      nestPath: outputPublicationOrOtherWork
       destination:
         type: strings
         indexed: false
@@ -301,8 +296,9 @@ fields:
         template: defaults/data/process/outputPublicationOrOtherWork.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: relatedDocuments
+      name: relatedDocument.label
       nested: true
+      nestPath: relatedDocuments
       destination:
         type: strings
         indexed: false
@@ -319,8 +315,9 @@ fields:
         template: defaults/data/process/contactInformation.sparql
         predicate: http://vivoweb.org/ontology/core#contactInformation
   - descriptor:
-      name: heldInFacility
+      name: heldInFacility.name
       nested: true
+      nestPath: heldInFacility
       destination:
         type: strings
         indexed: false
@@ -329,8 +326,9 @@ fields:
         template: defaults/data/process/heldInFacility.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: heldInGeographicLocation
+      name: heldInGeographicLocation.name
       nested: true
+      nestPath: heldInGeographicLocation
       destination:
         type: strings
         indexed: false
@@ -339,8 +337,9 @@ fields:
         template: defaults/data/process/heldInGeographicLocation.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: hasOutput
+      name: hasOutput.label
       nested: true
+      nestPath: hasOutput
       destination:
         type: strings
         indexed: false
@@ -349,8 +348,9 @@ fields:
         template: defaults/data/process/hasOutput.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: hasParticipant
+      name: hasParticipant.name
       nested: true
+      nestPath: hasParticipant
       destination:
         type: strings
         indexed: false
@@ -375,8 +375,9 @@ fields:
         template: defaults/data/common/thumbnail.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
   - descriptor:
-      name: websites
+      name: website.label
       nested: true
+      nestPath: websites
       destination:
         type: strings
         indexed: false
@@ -385,9 +386,7 @@ fields:
         template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: website.url
-          name: websiteUrl
+        - name: website.url
           nested: true
           destination:
             type: strings
@@ -397,8 +396,9 @@ fields:
             template: defaults/data/common/websiteUrl.sparql
             predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
-      name: geographicFocus
+      name: geographicFocus.label
       nested: true
+      nestPath: geographicFocus
       destination:
         type: strings
         indexed: false
@@ -407,8 +407,9 @@ fields:
         template: defaults/data/common/geographicFocus.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: sameAs
+      name: sameAs.label
       nested: true
+      nestPath: sameAs
       destination:
         type: strings
         indexed: false

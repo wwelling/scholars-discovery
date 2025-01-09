@@ -12,8 +12,6 @@ public class AppConstants {
 
     public static final String TYPE = "type";
 
-    public static final String LABEL = "label";
-
     public static final String VERSION = "version";
 
     public static final String SNIPPET = "snippet";

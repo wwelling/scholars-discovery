@@ -1,8 +1,6 @@
 package edu.tamu.scholars.discovery.etl.load.solr;
 
 import static edu.tamu.scholars.discovery.AppConstants.CLASS;
-import static edu.tamu.scholars.discovery.AppConstants.LABEL;
-import static edu.tamu.scholars.discovery.etl.EtlUtility.getFieldName;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -99,7 +97,6 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
         List<Field> fields = new ArrayList<>();
         List<CopyField> copyFields = new ArrayList<>();
 
-        processField(getDescriptor(LABEL, true, false), fields, copyFields);
         processField(getDescriptor(CLASS, false, false), fields, copyFields);
         processField(getDescriptor("_collections_", false, true), fields, copyFields);
 
@@ -122,16 +119,14 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
     }
 
     private void processFields(DataFieldDescriptor descriptor, List<Field> fields, List<CopyField> copyFields, int depth) {
-        if (descriptor.getNestedDescriptors().isEmpty() || (descriptor.isNested() && depth > 1)) {
-            processField(descriptor, fields, copyFields);
-        }
+        processField(descriptor, fields, copyFields);
         for (DataFieldDescriptor nestedDescriptor : descriptor.getNestedDescriptors()) {
             processFields(nestedDescriptor, fields, copyFields, depth + 1);
         }
     }
 
     private void processField(DataFieldDescriptor descriptor, List<Field> fields, List<CopyField> copyFields) {
-        String name = getFieldName(descriptor);
+        String name = descriptor.getName();
 
         Field field = Field.of(descriptor);
 

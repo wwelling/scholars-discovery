@@ -38,8 +38,9 @@ fields:
         template: defaults/data/collection/abbreviation.sparql
         predicate: http://vivoweb.org/ontology/core#abbreviation
   - descriptor:
-      name: publicationVenueFor
+      name: publicationVenueFor.name
       nested: true
+      nestPath: publicationVenueFor
       destination:
         type: strings
         indexed: false
@@ -48,8 +49,9 @@ fields:
         template: defaults/data/collection/publicationVenueFor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: editors
+      name: editor.name
       nested: true
+      nestPath: editors
       destination:
         type: strings
         indexed: false
@@ -58,8 +60,9 @@ fields:
         template: defaults/data/collection/editor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: translators
+      name: translator.name
       nested: true
+      nestPath: translators
       destination:
         type: strings
         indexed: false
@@ -76,8 +79,9 @@ fields:
         template: defaults/data/collection/publicationDate.sparql
         predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
-      name: publisher
+      name: publisher.name
       nested: true
+      nestPath: publishers
       destination:
         type: string
         docValues: true
@@ -86,9 +90,7 @@ fields:
         predicate: http://www.w3.org/2000/01/rdf-schema#label
         unique: true
       nestedDescriptors:
-        - nestedReference:
-            key: publisher.type
-          name: publisherType
+        - name: publisher.type
           nested: true
           destination:
             type: string
@@ -97,8 +99,9 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
   - descriptor:
-      name: subjectAreas
+      name: subjectArea.label
       nested: true
+      nestPath: subjectAreas
       destination:
         type: strings
         multiValued: true
@@ -106,8 +109,9 @@ fields:
         template: defaults/data/collection/hasSubjectArea.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: features
+      name: feature.name
       nested: true
+      nestPath: features
       destination:
         type: strings
         indexed: false
@@ -116,8 +120,9 @@ fields:
         template: defaults/data/collection/feature.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: outputOfProcessOrEvent
+      name: outputOfProcessOrEvent.name
       nested: true
+      nestPath: outputOfProcessOrEvent
       destination:
         type: strings
         indexed: false
@@ -165,8 +170,9 @@ fields:
         template: defaults/data/collection/oclcnum.sparql
         predicate: http://purl.org/ontology/bibo/oclcnum
   - descriptor:
-      name: isAbout
+      name: isAbout.label
       nested: true
+      nestPath: isAbout
       destination:
         type: strings
         indexed: false
@@ -175,8 +181,9 @@ fields:
         template: defaults/data/collection/isAbout.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: specifiedOutputOf
+      name: specifiedOutputOf.label
       nested: true
+      nestPath: specifiedOutputOf
       destination:
         type: strings
         indexed: false
@@ -185,8 +192,9 @@ fields:
         template: defaults/data/collection/specifiedOutputOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: mentions
+      name: mention.label
       nested: true
+      nestPath: mentions
       destination:
         type: strings
         indexed: false
@@ -195,8 +203,9 @@ fields:
         template: defaults/data/collection/mention.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: participatesIn
+      name: participatesIn.label
       nested: true
+      nestPath: participatesIn
       destination:
         type: strings
         indexed: false
@@ -205,8 +214,9 @@ fields:
         template: defaults/data/collection/participatesIn.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: supportedBy
+      name: supportedBy.label
       nested: true
+      nestPath: supportedBy
       destination:
         type: strings
         indexed: false
@@ -231,8 +241,9 @@ fields:
         template: defaults/data/common/thumbnail.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
   - descriptor:
-      name: websites
+      name: website.label
       nested: true
+      nestPath: websites
       destination:
         type: strings
         indexed: false
@@ -241,9 +252,7 @@ fields:
         template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: website.url
-          name: websiteUrl
+        - name: website.url
           nested: true
           destination:
             type: strings
@@ -253,8 +262,9 @@ fields:
             template: defaults/data/common/websiteUrl.sparql
             predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
-      name: geographicFocus
+      name: geographicFocus.label
       nested: true
+      nestPath: geographicFocus
       destination:
         type: strings
         indexed: false
@@ -263,8 +273,9 @@ fields:
         template: defaults/data/common/geographicFocus.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: sameAs
+      name: sameAs.label
       nested: true
+      nestPath: sameAs
       destination:
         type: strings
         indexed: false

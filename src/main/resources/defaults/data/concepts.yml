@@ -20,8 +20,9 @@ fields:
         template: defaults/data/concept/name.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: associatedDepartments
+      name: associatedDepartment.name
       nested: true
+      nestPath: associatedDepartments
       destination:
         type: strings
         multiValued: true
@@ -30,8 +31,9 @@ fields:
         template: defaults/data/concept/associatedDepartment.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: researchAreaOf
+      name: researchAreaOf.label
       nested: true
+      nestPath: researchAreaOf
       destination:
         type: strings
         copyTo:
@@ -42,8 +44,9 @@ fields:
         template: defaults/data/concept/researchAreaOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: awardOrHonorFor
+      name: awardOrHonorFor.name
       nested: true
+      nestPath: awardOrHonorFor
       destination:
         type: strings
         copyTo:
@@ -54,9 +57,7 @@ fields:
         template: defaults/data/concept/awardOrHonorFor.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: awardOrHonorFor.type
-          name: awardOrHonorForType
+        - name: awardOrHonorFor.type
           nested: true
           destination:
             type: strings
@@ -66,8 +67,9 @@ fields:
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
   - descriptor:
-      name: awardConferredBy
+      name: awardConferredBy.name
       nested: true
+      nestPath: awardConferredBy
       destination:
         type: text_general
         copyTo:
@@ -77,9 +79,7 @@ fields:
         template: defaults/data/concept/awardConferredBy.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: awardConferredBy.type
-          name: awardConferredByType
+        - name: awardConferredBy.type
           nested: true
           destination:
             type: strings
@@ -107,8 +107,9 @@ fields:
         template: defaults/data/concept/yearAwarded.sparql
         predicate: http://vivoweb.org/ontology/core#dateTime
   - descriptor:
-      name: receipts
+      name: receipt.name
       nested: true
+      nestPath: receipts
       destination:
         type: strings
         indexed: false
@@ -117,9 +118,7 @@ fields:
         template: defaults/data/concept/receipts.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: receipt.recipientName
-          name: receiptRecipientName
+        - name: receipt.recipientName
           nested: true
           destination:
             type: strings
@@ -129,8 +128,9 @@ fields:
             template: defaults/data/concept/receiptRecipientName.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: broaderConcepts
+      name: broaderConcept.label
       nested: true
+      nestPath: broaderConcepts
       destination:
         type: strings
         indexed: false
@@ -139,8 +139,9 @@ fields:
         template: defaults/data/concept/broaderConcept.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: narrowerConcepts
+      name: narrowerConcept.label
       nested: true
+      nestPath: narrowerConcepts
       destination:
         type: strings
         indexed: false
@@ -149,8 +150,9 @@ fields:
         template: defaults/data/concept/narrowerConcept.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: relatedConcepts
+      name: relatedConcept.label
       nested: true
+      nestPath: relatedConcepts
       destination:
         type: strings
         indexed: false
@@ -159,8 +161,9 @@ fields:
         template: defaults/data/concept/relatedConcept.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: futureResearchIdeaOf
+      name: futureResearchIdeaOf.label
       nested: true
+      nestPath: futureResearchIdeaOf
       destination:
         type: text_general
         copyTo:
@@ -169,18 +172,14 @@ fields:
         template: defaults/data/concept/futureResearchIdeaOf.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: futureResearchIdeaOf.email
-          name: futureResearchIdeaOfEmail
+        - name: futureResearchIdeaOf.email
           nested: true
           destination:
             type: string
           source:
             template: defaults/data/concept/futureResearchIdeaOfEmail.sparql
             predicate: http://www.w3.org/2006/vcard/ns#email
-        - nestedReference:
-            key: futureResearchIdeaOf.title
-          name: futureResearchIdeaOfTitle
+        - name: futureResearchIdeaOf.title
           nested: true
           destination:
             type: text_general
@@ -190,11 +189,9 @@ fields:
           source:
             template: defaults/data/concept/futureResearchIdeaOfTitle.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
-        - nestedReference:
-            key: futureResearchIdeaOf.organization
-            multiple: true
-          name: futureResearchIdeaOfOrganization
+        - name: futureResearchIdeaOf.organization
           nested: true
+          multiple: true
           destination:
             type: strings
             multiValued: true
@@ -247,8 +244,9 @@ fields:
         template: defaults/data/common/thumbnail.sparql
         predicate: http://vitro.mannlib.cornell.edu/ns/vitro/public#directDownloadUrl
   - descriptor:
-      name: websites
+      name: website.label
       nested: true
+      nestPath: websites
       destination:
         type: strings
         indexed: false
@@ -257,9 +255,7 @@ fields:
         template: defaults/data/common/website.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - nestedReference:
-            key: website.url
-          name: websiteUrl
+        - name: website.url
           nested: true
           destination:
             type: strings
@@ -269,8 +265,9 @@ fields:
             template: defaults/data/common/websiteUrl.sparql
             predicate: http://www.w3.org/2006/vcard/ns#url
   - descriptor:
-      name: geographicFocus
+      name: geographicFocus.label
       nested: true
+      nestPath: geographicFocus
       destination:
         type: strings
         indexed: false
@@ -279,8 +276,9 @@ fields:
         template: defaults/data/common/geographicFocus.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
   - descriptor:
-      name: sameAs
+      name: sameAs.label
       nested: true
+      nestPath: sameAs
       destination:
         type: strings
         indexed: false

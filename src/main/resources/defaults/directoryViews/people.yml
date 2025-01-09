@@ -21,9 +21,7 @@ facets:
     collapsed: true
     hidden: false
   - name: Organization
-    field: label
-    domain:
-      blockParent: type_s:organizations
+    field: organizations
     type: STRING
     sort: INDEX
     direction: ASC
@@ -31,7 +29,7 @@ facets:
     collapsed: true
     hidden: false
   - name: Research Area
-    field: label
+    field: researchArea.label
     domain:
       blockParent: type_s:researchAreas
     type: STRING
