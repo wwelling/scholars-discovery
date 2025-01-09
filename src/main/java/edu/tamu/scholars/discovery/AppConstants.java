@@ -20,8 +20,6 @@ public class AppConstants {
 
     public static final String COLLECTIONS = "_collections_";
 
-    public static final String TYPE_S = "type_s";
-
     public static final String WILDCARD = "*";
 
     public static final String QUERY_DELIMETER = ":";

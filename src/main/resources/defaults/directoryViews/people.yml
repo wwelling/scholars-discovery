@@ -30,6 +30,8 @@ facets:
     hidden: false
   - name: Research Area
     field: researchArea_ss
+    domain:
+      blockChildren: class:Person
     type: STRING
     sort: COUNT
     direction: DESC
@@ -39,7 +41,7 @@ facets:
   - name: UN Sustainable Development Goals
     field: publication.tags
     domain:
-      blockParent: type_s:publication
+      blockChildren: class:Person
     type: STRING
     sort: COUNT
     direction: DESC
