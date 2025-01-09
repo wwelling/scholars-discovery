@@ -32,7 +32,7 @@ facets:
     collapsed: true
     hidden: false
   - name: Author Organization
-    field: author.organizations
+    field: author.organization.name
     domain:
       blockParent: type_s:organizations
     type: STRING
