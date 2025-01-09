@@ -31,7 +31,7 @@ facets:
   - name: Research Area
     field: researchArea.label
     domain:
-      blockParent: type_s:researchAreas
+      blockParent: type_s:researchArea
     type: STRING
     sort: COUNT
     direction: DESC
@@ -41,7 +41,7 @@ facets:
   - name: UN Sustainable Development Goals
     field: publication.tags
     domain:
-      blockParent: type_s:publications
+      blockParent: type_s:publication
     type: STRING
     sort: COUNT
     direction: DESC

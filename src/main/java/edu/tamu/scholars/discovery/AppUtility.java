@@ -13,7 +13,7 @@ public class AppUtility {
     }
 
     public static String getBefore(String value, char delimiter) {
-        int index = value.indexOf(delimiter);
+        int index = value.lastIndexOf(delimiter);
 
         return index < 0 ? value : value.substring(0, index);
     }

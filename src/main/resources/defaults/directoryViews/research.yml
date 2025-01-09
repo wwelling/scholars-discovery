@@ -34,7 +34,7 @@ facets:
   - name: Author Organization
     field: author.organization.name
     domain:
-      blockParent: type_s:organizations
+      blockParent: type_s:author.organization
     type: STRING
     sort: COUNT
     direction: DESC
