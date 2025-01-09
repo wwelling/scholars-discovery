@@ -79,7 +79,7 @@ fields:
             template: defaults/data/person/positionType.sparql
             predicate: http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType
             parse: true
-        - name: position.organization
+        - name: position.organization.name
           nested: true
           nestPath: organizations
           multiple: true
@@ -94,6 +94,7 @@ fields:
           nestedDescriptors:
             - name: position.organization.parent
               nested: true
+              nestPath: parentOrganizations
               multiple: true
               destination:
                 type: strings
@@ -365,8 +366,9 @@ fields:
           source:
             template: defaults/data/person/educationAndTrainingInfo.sparql
             predicate: http://vivoweb.org/ontology/core#supplementalInformation
-        - name: educationAndTraining.organization
+        - name: educationAndTraining.name
           nested: true
+          nestPath: organization
           destination:
             type: strings
             indexed: false
@@ -550,8 +552,9 @@ fields:
             template: defaults/data/person/selectedPublicationPublisher.sparql
             predicate: http://www.w3.org/2000/01/rdf-schema#label
             unique: true
-        - name: publication.venue
+        - name: publication.venue.name
           nested: true
+          nestPath: venue
           destination:
             type: strings
             multiValued: true

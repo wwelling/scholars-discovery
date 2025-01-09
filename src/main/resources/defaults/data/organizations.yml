@@ -113,8 +113,9 @@ fields:
         template: defaults/data/organization/organizationForTraining.sparql
         predicate: http://vivoweb.org/ontology/core#majorField
       nestedDescriptors:
-        - name: organizationForTraining.trainee
+        - name: organizationForTraining.trainee.name
           nested: true
+          nestPath: trainee
           destination:
             type: strings
             indexed: false

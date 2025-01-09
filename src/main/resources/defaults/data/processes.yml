@@ -107,7 +107,7 @@ fields:
                 template: defaults/data/process/dateTimePrecisionStart.sparql
                 predicate: http://vivoweb.org/ontology/core#dateTimePrecision
                 parse: true
-        - name: dateTimeInterval.end
+        - name: dateTimeInterval.end.value
           nested: true
           nestPath: end
           destination:

@@ -95,8 +95,9 @@ fields:
         template: defaults/data/document/author.sparql
         predicate: http://www.w3.org/2000/01/rdf-schema#label
       nestedDescriptors:
-        - name: author.organizations
+        - name: author.organization.name
           nested: true
+          nestPath: organizations
           multiple: true
           destination:
             type: strings
