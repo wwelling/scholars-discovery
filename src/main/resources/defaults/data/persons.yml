@@ -119,7 +119,7 @@ fields:
         type: text_general
         copyTo:
           - _text_
-          - researchArea_str
+          - researchArea_ss
         multiValued: true
       source:
         template: defaults/data/person/researchArea.sparql

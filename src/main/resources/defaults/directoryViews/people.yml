@@ -29,7 +29,7 @@ facets:
     collapsed: true
     hidden: false
   - name: Research Area
-    field: researchArea_str
+    field: researchArea_ss
     type: STRING
     sort: COUNT
     direction: DESC
