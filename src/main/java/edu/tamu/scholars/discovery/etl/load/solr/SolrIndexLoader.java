@@ -99,7 +99,7 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
 
         processField(getDescriptor(CLASS, false, false), fields, copyFields);
         processField(getDescriptor("_collections_", false, true), fields, copyFields);
-        processField(getDescriptor("_nest_parent_", false, false), fields, copyFields);
+        processField(getDescriptor("_nest_parent_", true, false), fields, copyFields);
 
         this.data.getFields()
             .stream()
