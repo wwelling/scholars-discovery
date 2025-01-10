@@ -99,6 +99,7 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
 
         processField(getDescriptor(CLASS, false, false), fields, copyFields);
         processField(getDescriptor("_collections_", false, true), fields, copyFields);
+        processField(getDescriptor("_nest_parent_", false, false), fields, copyFields);
 
         this.data.getFields()
             .stream()
@@ -121,7 +122,7 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
     private void processFields(DataFieldDescriptor descriptor, List<Field> fields, List<CopyField> copyFields) {
         processField(descriptor, fields, copyFields);
         for (DataFieldDescriptor nestedDescriptor : descriptor.getNestedDescriptors()) {
-            processFields(nestedDescriptor, fields, copyFields);
+           processFields(nestedDescriptor, fields, copyFields);
         }
     }
 
