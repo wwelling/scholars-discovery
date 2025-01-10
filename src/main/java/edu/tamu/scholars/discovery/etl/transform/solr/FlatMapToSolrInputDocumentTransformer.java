@@ -2,9 +2,12 @@ package edu.tamu.scholars.discovery.etl.transform.solr;
 
 import static edu.tamu.scholars.discovery.AppConstants.CLASS;
 import static edu.tamu.scholars.discovery.AppConstants.COLLECTIONS;
+import static edu.tamu.scholars.discovery.AppConstants.DOT;
 import static edu.tamu.scholars.discovery.AppConstants.ID;
 import static edu.tamu.scholars.discovery.AppConstants.ID_PATH_DELIMITER;
 import static edu.tamu.scholars.discovery.AppConstants.SYNC_IDS;
+import static edu.tamu.scholars.discovery.AppConstants.TYPE;
+import static edu.tamu.scholars.discovery.AppUtility.getBefore;
 import static edu.tamu.scholars.discovery.etl.EtlConstants.NESTED_DELIMITER_PATTERN;
 
 import java.text.ParseException;
@@ -154,6 +157,8 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
 
         nestedDocument.setField(name, nestedDocumentValue);
 
+        nestedDocument.setField(TYPE, getNestedType(descriptor));
+
         rootContext.syncIds.add(id);
 
         processNestedReferences(
@@ -166,6 +171,13 @@ public class FlatMapToSolrInputDocumentTransformer implements DataTransformer<Ma
         );
 
         return nestedDocument;
+    }
+
+    private String getNestedType(DataFieldDescriptor descriptor) {
+        String name = descriptor.getName();
+        String suffex = getBefore(name, DOT);
+
+        return this.data.getName() + DOT + suffex;
     }
 
     public void processNestedReferences(

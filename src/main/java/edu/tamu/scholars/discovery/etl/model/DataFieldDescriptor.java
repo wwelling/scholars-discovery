@@ -33,6 +33,7 @@ import edu.tamu.scholars.discovery.model.Named;
         columnNames = {
             "name",
             "nested",
+            "nestPath",
             "multiple",
             "type",
             "default_value",

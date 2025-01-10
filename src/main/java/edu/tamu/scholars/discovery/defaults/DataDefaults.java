@@ -125,8 +125,8 @@ public class DataDefaults extends AbstractDefaults<Data, DataRepo> {
         Specification<DataFieldDescriptor> specification = (root, query, cb) -> cb.and(
             cb.equal(root.get("name"), descriptor.getName()),
             cb.equal(root.get("nested"), descriptor.isNested()),
-            cb.equal(root.get("multiple"), descriptor.isMultiple()),
             cb.equal(root.get("nestPath"), descriptor.getNestPath()),
+            cb.equal(root.get("multiple"), descriptor.isMultiple()),
             cb.equal(root.get("destination").get("type"), descriptor.getDestination().getType()),
             cb.equal(root.get("destination").get("defaultValue"), descriptor.getDestination().getDefaultValue()),
             cb.equal(root.get("destination").get("required"), descriptor.getDestination().isRequired()),

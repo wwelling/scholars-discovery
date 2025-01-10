@@ -20,6 +20,8 @@ public class AppConstants {
 
     public static final String COLLECTIONS = "_collections_";
 
+    public static final String NEST_PARENT = "_nest_parent_";
+
     public static final String WILDCARD = "*";
 
     public static final String QUERY_DELIMETER = ":";

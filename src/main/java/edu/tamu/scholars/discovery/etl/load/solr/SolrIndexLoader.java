@@ -1,6 +1,8 @@
 package edu.tamu.scholars.discovery.etl.load.solr;
 
 import static edu.tamu.scholars.discovery.AppConstants.CLASS;
+import static edu.tamu.scholars.discovery.AppConstants.COLLECTIONS;
+import static edu.tamu.scholars.discovery.AppConstants.NEST_PARENT;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -98,8 +100,8 @@ public class SolrIndexLoader implements DataLoader<SolrInputDocument> {
         List<CopyField> copyFields = new ArrayList<>();
 
         processField(getDescriptor(CLASS, false, false), fields, copyFields);
-        processField(getDescriptor("_collections_", false, true), fields, copyFields);
-        processField(getDescriptor("_nest_parent_", true, false), fields, copyFields);
+        processField(getDescriptor(COLLECTIONS, false, true), fields, copyFields);
+        processField(getDescriptor(NEST_PARENT, true, false), fields, copyFields);
 
         this.data.getFields()
             .stream()
